@@ -187,8 +187,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1262\Source\ARM\startup_NUC1262.s</PathWithFileName>
-      <FilenameWithoutPath>startup_NUC1262.s</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.s</PathWithFileName>
+      <FilenameWithoutPath>startup_NUC1263.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -199,8 +199,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1262\Source\system_NUC1262.c</PathWithFileName>
-      <FilenameWithoutPath>system_NUC1262.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\system_NUC1263.c</PathWithFileName>
+      <FilenameWithoutPath>system_NUC1263.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
