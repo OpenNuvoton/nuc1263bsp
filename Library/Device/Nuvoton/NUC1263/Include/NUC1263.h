@@ -3828,8 +3828,8 @@ typedef struct
      * |        |          |When LLSI transfer finish(FIFO empty & shift register empty) this bit is set to 1.
      * |        |          |User can use this flag to prepare data in advance.
      * |        |          |Software can write one to clear this bit.
-     * |[8]     |LADF      |Last Date Flag
-     * |        |          |Software should set LADF = 1 before write last data to LLSI_DATA
+     * |[8]     |LDT       |Last Date Transmit
+     * |        |          |Software should set LDT = 1 before write last data to LLSI_DATA
      * |        |          |This bit will auto clear by hardware after LLSI has finished data transmission.
      * @var LLSI_T::OCTL
      * Offset: 0x20  LLSI Output Control Register
@@ -3931,8 +3931,8 @@ typedef struct
 #define LLSI_STATUS_FENDIF_Pos           (5)                                               /*!< LLSI_T::STATUS: FENDIF Position        */
 #define LLSI_STATUS_FENDIF_Msk           (0x1ul << LLSI_STATUS_FENDIF_Pos)                 /*!< LLSI_T::STATUS: FENDIF Mask            */
 
-#define LLSI_STATUS_LADF_Pos             (8)                                               /*!< LLSI_T::STATUS: LADF Position          */
-#define LLSI_STATUS_LADF_Msk             (0x1ul << LLSI_STATUS_LADF_Pos)                   /*!< LLSI_T::STATUS: LADF Mask              */
+#define LLSI_STATUS_LDT_Pos              (8)                                               /*!< LLSI_T::STATUS: LDT Position           */
+#define LLSI_STATUS_LDT_Msk              (0x1ul << LLSI_STATUS_LDT_Pos)                    /*!< LLSI_T::STATUS: LDT Mask               */
 
 #define LLSI_OCTL_IDOS_Pos               (0)                                               /*!< LLSI_T::OCTL: IDOS Position            */
 #define LLSI_OCTL_IDOS_Msk               (0x1ul << LLSI_OCTL_IDOS_Pos)                     /*!< LLSI_T::OCTL: IDOS Mask                */
@@ -10610,7 +10610,7 @@ typedef struct
      * |[2]     |VBDETIEN  |VBUS Detection Interrupt Enable Bit
      * |        |          |0 = VBUS Detection Interrupt Disabled.
      * |        |          |1 = VBUS Detection Interrupt Enabled.
-     * |[3]     |WKIDLEIEN |USB Wake-up Idle Interrupt Enable Bit
+     * |[3]     |NEVWKIEN  |USB Wake-up Idle Interrupt Enable Bit
      * |        |          |0 = Wake-up Idle Interrupt Disabled.
      * |        |          |1 = Wake-up Idle Interrupt Enabled.
      * |[4]     |SOFIEN    |Start of Frame Interrupt Enable Bit
@@ -10638,8 +10638,8 @@ typedef struct
      * |[2]     |VBDETIF   |VBUS Detection Interrupt Status
      * |        |          |0 = There is not attached/detached event in the USB.
      * |        |          |1 = There is attached/detached event in the USB bus and it is cleared by write 1 to USBD_INTSTS[2].
-     * |[3]     |WKIDLEIF  |No-event-wake-up Interrupt Status
-     * |        |          |0 = WKIDLE event does not occur.
+     * |[3]     |NEVWKIF   |No-event-wake-up Interrupt Status
+     * |        |          |0 = NEVWK event does not occur.
      * |        |          |1 = No-event-wake-up event occurred, cleared by write 1 to USBD_INTSTS[3].
      * |[4]     |SOFIF     |Start of Frame Interrupt Status
      * |        |          |0 = SOF event does not occur.
@@ -10852,12 +10852,16 @@ typedef struct
     __IO uint32_t ATTR;                  /*!< [0x0010] USB Device Bus Status and Attribution Register                   */
     __I  uint32_t VBUSDET;               /*!< [0x0014] USB Device VBUS Detection Register                               */
     __IO uint32_t STBUFSEG;              /*!< [0x0018] Setup Token Buffer Segmentation Register                         */
-    __I  uint32_t RESERVE0[27];
+    __I  uint32_t RESERVE0[1];
+    __I  uint32_t EPSTS0;                /*!< [0x0020] USB Device Endpoint Status Register 0                            */
+    __I  uint32_t EPSTS1;                /*!< [0x0024] USB Device Endpoint Status Register 1                            */
+    __I  uint32_t RESERVE1[24];
     __I  uint32_t LPMATTR;               /*!< [0x0088] USB LPM Attribution Register                                     */
     __I  uint32_t FN;                    /*!< [0x008c] USB Frame number Register                                        */
     __IO uint32_t SE0;                   /*!< [0x0090] USB Device Drive SE0 Control Register                            */
-    __I  uint32_t RESERVE1[283];
-    USBD_EP_T EP[8];                     /*!< [0x0500~0x57C] USB Device Endpoints                                       */
+    __IO uint32_t BCDC;                  /*!< [0x0094] USB Device Battery Charge Detect Control Register                */
+    __I  uint32_t RESERVE2[282];
+    USBD_EP_T EP[12];                    /*!< [0x0500~0x5BC] USB Device Endpoints                                       */
 
 } USBD_T;
 
@@ -10876,11 +10880,14 @@ typedef struct
 #define USBD_INTEN_VBDETIEN_Pos          (2)                                               /*!< USBD_T::INTEN: VBDETIEN Position       */
 #define USBD_INTEN_VBDETIEN_Msk          (0x1ul << USBD_INTEN_VBDETIEN_Pos)                /*!< USBD_T::INTEN: VBDETIEN Mask           */
 
-#define USBD_INTEN_WKIDLEIEN_Pos         (3)                                               /*!< USBD_T::INTEN: WKIDLEIEN Position      */
-#define USBD_INTEN_WKIDLEIEN_Msk         (0x1ul << USBD_INTEN_WKIDLEIEN_Pos)               /*!< USBD_T::INTEN: WKIDLEIEN Mask          */
+#define USBD_INTEN_NEVWKIEN_Pos          (3)                                               /*!< USBD_T::INTEN: NEVWKIEN Position       */
+#define USBD_INTEN_NEVWKIEN_Msk          (0x1ul << USBD_INTEN_NEVWKIEN_Pos)                /*!< USBD_T::INTEN: NEVWKIEN Mask           */
 
 #define USBD_INTEN_SOFIEN_Pos            (4)                                               /*!< USBD_T::INTEN: SOFIEN Position         */
 #define USBD_INTEN_SOFIEN_Msk            (0x1ul << USBD_INTEN_SOFIEN_Pos)                  /*!< USBD_T::INTEN: SOFIEN Mask             */
+
+#define USBD_INTEN_BCDIEN_Pos            (5)                                               /*!< USBD_T::INTEN: BCDIEN Position         */
+#define USBD_INTEN_BCDIEN_Msk            (0x1ul << USBD_INTEN_BCDIEN_Pos)                  /*!< USBD_T::INTEN: BCDIEN Mask             */
 
 #define USBD_INTEN_WKEN_Pos              (8)                                               /*!< USBD_T::INTEN: WKEN Position           */
 #define USBD_INTEN_WKEN_Msk              (0x1ul << USBD_INTEN_WKEN_Pos)                    /*!< USBD_T::INTEN: WKEN Mask               */
@@ -10897,11 +10904,14 @@ typedef struct
 #define USBD_INTSTS_VBDETIF_Pos          (2)                                               /*!< USBD_T::INTSTS: VBDETIF Position       */
 #define USBD_INTSTS_VBDETIF_Msk          (0x1ul << USBD_INTSTS_VBDETIF_Pos)                /*!< USBD_T::INTSTS: VBDETIF Mask           */
 
-#define USBD_INTSTS_WKIDLEIF_Pos         (3)                                               /*!< USBD_T::INTSTS: WKIDLEIF Position      */
-#define USBD_INTSTS_WKIDLEIF_Msk         (0x1ul << USBD_INTSTS_WKIDLEIF_Pos)               /*!< USBD_T::INTSTS: WKIDLEIF Mask          */
+#define USBD_INTSTS_NEVWKIF_Pos          (3)                                               /*!< USBD_T::INTSTS: NEVWKIF Position       */
+#define USBD_INTSTS_NEVWKIF_Msk          (0x1ul << USBD_INTSTS_NEVWKIF_Pos)                /*!< USBD_T::INTSTS: NEVWKIF Mask           */
 
 #define USBD_INTSTS_SOFIF_Pos            (4)                                               /*!< USBD_T::INTSTS: SOFIF Position         */
 #define USBD_INTSTS_SOFIF_Msk            (0x1ul << USBD_INTSTS_SOFIF_Pos)                  /*!< USBD_T::INTSTS: SOFIF Mask             */
+
+#define USBD_INTSTS_BCDIF_Pos            (5)                                               /*!< USBD_T::INTSTS: BCDIF Position         */
+#define USBD_INTSTS_BCDIF_Msk            (0x1ul << USBD_INTSTS_BCDIF_Pos)                  /*!< USBD_T::INTSTS: BCDIF Mask             */
 
 #define USBD_INTSTS_EPEVT0_Pos           (16)                                              /*!< USBD_T::INTSTS: EPEVT0 Position        */
 #define USBD_INTSTS_EPEVT0_Msk           (0x1ul << USBD_INTSTS_EPEVT0_Pos)                 /*!< USBD_T::INTSTS: EPEVT0 Mask            */
@@ -10927,6 +10937,18 @@ typedef struct
 #define USBD_INTSTS_EPEVT7_Pos           (23)                                              /*!< USBD_T::INTSTS: EPEVT7 Position        */
 #define USBD_INTSTS_EPEVT7_Msk           (0x1ul << USBD_INTSTS_EPEVT7_Pos)                 /*!< USBD_T::INTSTS: EPEVT7 Mask            */
 
+#define USBD_INTSTS_EPEVT8_Pos           (24)                                              /*!< USBD_T::INTSTS: EPEVT8 Position        */
+#define USBD_INTSTS_EPEVT8_Msk           (0x1ul << USBD_INTSTS_EPEVT8_Pos)                 /*!< USBD_T::INTSTS: EPEVT8 Mask            */
+
+#define USBD_INTSTS_EPEVT9_Pos           (25)                                              /*!< USBD_T::INTSTS: EPEVT9 Position        */
+#define USBD_INTSTS_EPEVT9_Msk           (0x1ul << USBD_INTSTS_EPEVT9_Pos)                 /*!< USBD_T::INTSTS: EPEVT9 Mask            */
+
+#define USBD_INTSTS_EPEVT10_Pos          (26)                                              /*!< USBD_T::INTSTS: EPEVT10 Position       */
+#define USBD_INTSTS_EPEVT10_Msk          (0x1ul << USBD_INTSTS_EPEVT10_Pos)                /*!< USBD_T::INTSTS: EPEVT10 Mask           */
+
+#define USBD_INTSTS_EPEVT11_Pos          (27)                                              /*!< USBD_T::INTSTS: EPEVT11 Position       */
+#define USBD_INTSTS_EPEVT11_Msk          (0x1ul << USBD_INTSTS_EPEVT11_Pos)                /*!< USBD_T::INTSTS: EPEVT11 Mask           */
+
 #define USBD_INTSTS_SETUP_Pos            (31)                                              /*!< USBD_T::INTSTS: SETUP Position         */
 #define USBD_INTSTS_SETUP_Msk            (0x1ul << USBD_INTSTS_SETUP_Pos)                  /*!< USBD_T::INTSTS: SETUP Mask             */
 
@@ -10935,30 +10957,6 @@ typedef struct
 
 #define USBD_EPSTS_OV_Pos                (7)                                               /*!< USBD_T::EPSTS: OV Position             */
 #define USBD_EPSTS_OV_Msk                (0x1ul << USBD_EPSTS_OV_Pos)                      /*!< USBD_T::EPSTS: OV Mask                 */
-
-#define USBD_EPSTS_EPSTS0_Pos            (8)                                               /*!< USBD_T::EPSTS: EPSTS0 Position         */
-#define USBD_EPSTS_EPSTS0_Msk            (0x7ul << USBD_EPSTS_EPSTS0_Pos)                  /*!< USBD_T::EPSTS: EPSTS0 Mask             */
-
-#define USBD_EPSTS_EPSTS1_Pos            (11)                                              /*!< USBD_T::EPSTS: EPSTS1 Position         */
-#define USBD_EPSTS_EPSTS1_Msk            (0x7ul << USBD_EPSTS_EPSTS1_Pos)                  /*!< USBD_T::EPSTS: EPSTS1 Mask             */
-
-#define USBD_EPSTS_EPSTS2_Pos            (14)                                              /*!< USBD_T::EPSTS: EPSTS2 Position         */
-#define USBD_EPSTS_EPSTS2_Msk            (0x7ul << USBD_EPSTS_EPSTS2_Pos)                  /*!< USBD_T::EPSTS: EPSTS2 Mask             */
-
-#define USBD_EPSTS_EPSTS3_Pos            (17)                                              /*!< USBD_T::EPSTS: EPSTS3 Position         */
-#define USBD_EPSTS_EPSTS3_Msk            (0x7ul << USBD_EPSTS_EPSTS3_Pos)                  /*!< USBD_T::EPSTS: EPSTS3 Mask             */
-
-#define USBD_EPSTS_EPSTS4_Pos            (20)                                              /*!< USBD_T::EPSTS: EPSTS4 Position         */
-#define USBD_EPSTS_EPSTS4_Msk            (0x7ul << USBD_EPSTS_EPSTS4_Pos)                  /*!< USBD_T::EPSTS: EPSTS4 Mask             */
-
-#define USBD_EPSTS_EPSTS5_Pos            (23)                                              /*!< USBD_T::EPSTS: EPSTS5 Position         */
-#define USBD_EPSTS_EPSTS5_Msk            (0x7ul << USBD_EPSTS_EPSTS5_Pos)                  /*!< USBD_T::EPSTS: EPSTS5 Mask             */
-
-#define USBD_EPSTS_EPSTS6_Pos            (26)                                              /*!< USBD_T::EPSTS: EPSTS6 Position         */
-#define USBD_EPSTS_EPSTS6_Msk            (0x7ul << USBD_EPSTS_EPSTS6_Pos)                  /*!< USBD_T::EPSTS: EPSTS6 Mask             */
-
-#define USBD_EPSTS_EPSTS7_Pos            (29)                                              /*!< USBD_T::EPSTS: EPSTS7 Position         */
-#define USBD_EPSTS_EPSTS7_Msk            (0x7ul << USBD_EPSTS_EPSTS7_Pos)                  /*!< USBD_T::EPSTS: EPSTS7 Mask             */
 
 #define USBD_ATTR_USBRST_Pos             (0)                                               /*!< USBD_T::ATTR: USBRST Position          */
 #define USBD_ATTR_USBRST_Msk             (0x1ul << USBD_ATTR_USBRST_Pos)                   /*!< USBD_T::ATTR: USBRST Mask              */
@@ -10984,6 +10982,9 @@ typedef struct
 #define USBD_ATTR_DPPUEN_Pos             (8)                                               /*!< USBD_T::ATTR: DPPUEN Position          */
 #define USBD_ATTR_DPPUEN_Msk             (0x1ul << USBD_ATTR_DPPUEN_Pos)                   /*!< USBD_T::ATTR: DPPUEN Mask              */
 
+#define USBD_ATTR_PWRDN_Pos              (9)                                               /*!< USBD_T::ATTR: PWRDN Position           */
+#define USBD_ATTR_PWRDN_Msk              (0x1ul << USBD_ATTR_PWRDN_Pos)                    /*!< USBD_T::ATTR: PWRDN Mask               */
+
 #define USBD_ATTR_BYTEM_Pos              (10)                                              /*!< USBD_T::ATTR: BYTEM Position           */
 #define USBD_ATTR_BYTEM_Msk              (0x1ul << USBD_ATTR_BYTEM_Pos)                    /*!< USBD_T::ATTR: BYTEM Mask               */
 
@@ -11002,6 +11003,42 @@ typedef struct
 #define USBD_STBUFSEG_STBUFSEG_Pos       (3)                                               /*!< USBD_T::STBUFSEG: STBUFSEG Position    */
 #define USBD_STBUFSEG_STBUFSEG_Msk       (0x3ful << USBD_STBUFSEG_STBUFSEG_Pos)            /*!< USBD_T::STBUFSEG: STBUFSEG Mask        */
 
+#define USBD_EPSTS0_EPSTS0_Pos           (0)                                               /*!< USBD_T::EPSTS0: EPSTS0 Position        */
+#define USBD_EPSTS0_EPSTS0_Msk           (0xful << USBD_EPSTS0_EPSTS0_Pos)                 /*!< USBD_T::EPSTS0: EPSTS0 Mask            */
+
+#define USBD_EPSTS0_EPSTS1_Pos           (4)                                               /*!< USBD_T::EPSTS0: EPSTS1 Position        */
+#define USBD_EPSTS0_EPSTS1_Msk           (0xful << USBD_EPSTS0_EPSTS1_Pos)                 /*!< USBD_T::EPSTS0: EPSTS1 Mask            */
+
+#define USBD_EPSTS0_EPSTS2_Pos           (8)                                               /*!< USBD_T::EPSTS0: EPSTS2 Position        */
+#define USBD_EPSTS0_EPSTS2_Msk           (0xful << USBD_EPSTS0_EPSTS2_Pos)                 /*!< USBD_T::EPSTS0: EPSTS2 Mask            */
+
+#define USBD_EPSTS0_EPSTS3_Pos           (12)                                              /*!< USBD_T::EPSTS0: EPSTS3 Position        */
+#define USBD_EPSTS0_EPSTS3_Msk           (0xful << USBD_EPSTS0_EPSTS3_Pos)                 /*!< USBD_T::EPSTS0: EPSTS3 Mask            */
+
+#define USBD_EPSTS0_EPSTS4_Pos           (16)                                              /*!< USBD_T::EPSTS0: EPSTS4 Position        */
+#define USBD_EPSTS0_EPSTS4_Msk           (0xful << USBD_EPSTS0_EPSTS4_Pos)                 /*!< USBD_T::EPSTS0: EPSTS4 Mask            */
+
+#define USBD_EPSTS0_EPSTS5_Pos           (20)                                              /*!< USBD_T::EPSTS0: EPSTS5 Position        */
+#define USBD_EPSTS0_EPSTS5_Msk           (0xful << USBD_EPSTS0_EPSTS5_Pos)                 /*!< USBD_T::EPSTS0: EPSTS5 Mask            */
+
+#define USBD_EPSTS0_EPSTS6_Pos           (24)                                              /*!< USBD_T::EPSTS0: EPSTS6 Position        */
+#define USBD_EPSTS0_EPSTS6_Msk           (0xful << USBD_EPSTS0_EPSTS6_Pos)                 /*!< USBD_T::EPSTS0: EPSTS6 Mask            */
+
+#define USBD_EPSTS0_EPSTS7_Pos           (28)                                              /*!< USBD_T::EPSTS0: EPSTS7 Position        */
+#define USBD_EPSTS0_EPSTS7_Msk           (0xful << USBD_EPSTS0_EPSTS7_Pos)                 /*!< USBD_T::EPSTS0: EPSTS7 Mask            */
+
+#define USBD_EPSTS1_EPSTS8_Pos           (0)                                               /*!< USBD_T::EPSTS1: EPSTS8 Position        */
+#define USBD_EPSTS1_EPSTS8_Msk           (0xful << USBD_EPSTS1_EPSTS8_Pos)                 /*!< USBD_T::EPSTS1: EPSTS8 Mask            */
+
+#define USBD_EPSTS1_EPSTS9_Pos           (4)                                               /*!< USBD_T::EPSTS1: EPSTS9 Position        */
+#define USBD_EPSTS1_EPSTS9_Msk           (0xful << USBD_EPSTS1_EPSTS9_Pos)                 /*!< USBD_T::EPSTS1: EPSTS9 Mask            */
+
+#define USBD_EPSTS1_EPSTS10_Pos          (8)                                               /*!< USBD_T::EPSTS1: EPSTS10 Position       */
+#define USBD_EPSTS1_EPSTS10_Msk          (0xful << USBD_EPSTS1_EPSTS10_Pos)                /*!< USBD_T::EPSTS1: EPSTS10 Mask           */
+
+#define USBD_EPSTS1_EPSTS11_Pos          (12)                                              /*!< USBD_T::EPSTS1: EPSTS11 Position       */
+#define USBD_EPSTS1_EPSTS11_Msk          (0xful << USBD_EPSTS1_EPSTS11_Pos)                /*!< USBD_T::EPSTS1: EPSTS11 Mask           */
+
 #define USBD_LPMATTR_LPMLINKSTS_Pos      (0)                                               /*!< USBD_T::LPMATTR: LPMLINKSTS Position   */
 #define USBD_LPMATTR_LPMLINKSTS_Msk      (0xful << USBD_LPMATTR_LPMLINKSTS_Pos)            /*!< USBD_T::LPMATTR: LPMLINKSTS Mask       */
 
@@ -11017,32 +11054,44 @@ typedef struct
 #define USBD_SE0_SE0_Pos                 (0)                                               /*!< USBD_T::SE0: SE0 Position              */
 #define USBD_SE0_SE0_Msk                 (0x1ul << USBD_SE0_SE0_Pos)                       /*!< USBD_T::SE0: SE0 Mask                  */
 
-#define USBD_BUFSEG_BUFSEG_Pos          (3)                                                /*!< USBD_EP_T::BUFSEG: BUFSEG Position     */
-#define USBD_BUFSEG_BUFSEG_Msk          (0x3ful << USBD_BUFSEG_BUFSEG_Pos)                 /*!< USBD_EP_T::BUFSEG: BUFSEG Mask         */
+#define USBD_BCDC_BCDEN_Pos              (0)                                               /*!< USBD_T::BCDC: BCDEN Position           */
+#define USBD_BCDC_BCDEN_Msk              (0x1ul << USBD_BCDC_BCDEN_Pos)                    /*!< USBD_T::BCDC: BCDEN Mask               */
 
-#define USBD_MXPLD_MXPLD_Pos            (0)                                                /*!< USBD_EP_T::MXPLD: MXPLD Position       */
-#define USBD_MXPLD_MXPLD_Msk            (0x1fful << USBD_MXPLD_MXPLD_Pos)                  /*!< USBD_EP_T::MXPLD: MXPLD Mask           */
+#define USBD_BCDC_DETMOD_Pos             (1)                                               /*!< USBD_T::BCDC: DETMOD Position          */
+#define USBD_BCDC_DETMOD_Msk             (0x7ul << USBD_BCDC_DETMOD_Pos)                   /*!< USBD_T::BCDC: DETMOD Mask              */
 
-#define USBD_CFG_EPNUM_Pos              (0)                                                /*!< USBD_EP_T::CFG: EPNUM Position         */
-#define USBD_CFG_EPNUM_Msk              (0xful << USBD_CFG_EPNUM_Pos)                      /*!< USBD_EP_T::CFG: EPNUM Mask             */
+#define USBD_BCDC_DETSTS_Pos             (4)                                               /*!< USBD_T::BCDC: DETSTS Position          */
+#define USBD_BCDC_DETSTS_Msk             (0x1ul << USBD_BCDC_DETSTS_Pos)                   /*!< USBD_T::BCDC: DETSTS Mask              */
 
-#define USBD_CFG_ISOCH_Pos              (4)                                                /*!< USBD_EP_T::CFG: ISOCH Position         */
-#define USBD_CFG_ISOCH_Msk              (0x1ul << USBD_CFG_ISOCH_Pos)                      /*!< USBD_EP_T::CFG: ISOCH Mask             */
+#define USBD_BCDC_NUSP_Pos               (5)                                               /*!< USBD_T::BCDC: NUSP Position            */
+#define USBD_BCDC_NUSP_Msk               (0x1ul << USBD_BCDC_NUSP_Pos)                     /*!< USBD_T::BCDC: NUSP Mask                */
 
-#define USBD_CFG_STATE_Pos              (5)                                                /*!< USBD_EP_T::CFG: STATE Position         */
-#define USBD_CFG_STATE_Msk              (0x3ul << USBD_CFG_STATE_Pos)                      /*!< USBD_EP_T::CFG: STATE Mask             */
+#define USBD_BUFSEG_BUFSEG_Pos           (3)                                               /*!< USBD_EP_T::BUFSEG: BUFSEG Position     */
+#define USBD_BUFSEG_BUFSEG_Msk           (0x3ful << USBD_BUFSEG_BUFSEG_Pos)                /*!< USBD_EP_T::BUFSEG: BUFSEG Mask         */
 
-#define USBD_CFG_DSQSYNC_Pos            (7)                                                /*!< USBD_EP_T::CFG: DSQSYNC Position       */
-#define USBD_CFG_DSQSYNC_Msk            (0x1ul << USBD_CFG_DSQSYNC_Pos)                    /*!< USBD_EP_T::CFG: DSQSYNC Mask           */
+#define USBD_MXPLD_MXPLD_Pos             (0)                                               /*!< USBD_EP_T::MXPLD: MXPLD Position       */
+#define USBD_MXPLD_MXPLD_Msk             (0x1fful << USBD_MXPLD_MXPLD_Pos)                 /*!< USBD_EP_T::MXPLD: MXPLD Mask           */
 
-#define USBD_CFG_CSTALL_Pos             (9)                                                /*!< USBD_EP_T::CFG: CSTALL Position        */
-#define USBD_CFG_CSTALL_Msk             (0x1ul << USBD_CFG_CSTALL_Pos)                     /*!< USBD_EP_T::CFG: CSTALL Mask            */
+#define USBD_CFG_EPNUM_Pos               (0)                                               /*!< USBD_EP_T::CFG: EPNUM Position         */
+#define USBD_CFG_EPNUM_Msk               (0xful << USBD_CFG_EPNUM_Pos)                     /*!< USBD_EP_T::CFG: EPNUM Mask             */
 
-#define USBD_CFGP_CLRRDY_Pos            (0)                                                /*!< USBD_EP_T::CFGP: CLRRDY Position       */
-#define USBD_CFGP_CLRRDY_Msk            (0x1ul << USBD_CFGP_CLRRDY_Pos)                    /*!< USBD_EP_T::CFGP: CLRRDY Mask           */
+#define USBD_CFG_ISOCH_Pos               (4)                                               /*!< USBD_EP_T::CFG: ISOCH Position         */
+#define USBD_CFG_ISOCH_Msk               (0x1ul << USBD_CFG_ISOCH_Pos)                     /*!< USBD_EP_T::CFG: ISOCH Mask             */
 
-#define USBD_CFGP_SSTALL_Pos            (1)                                                /*!< USBD_EP_T::CFGP: SSTALL Position       */
-#define USBD_CFGP_SSTALL_Msk            (0x1ul << USBD_CFGP_SSTALL_Pos)                    /*!< USBD_EP_T::CFGP: SSTALL Mask           */
+#define USBD_CFG_STATE_Pos               (5)                                               /*!< USBD_EP_T::CFG: STATE Position         */
+#define USBD_CFG_STATE_Msk               (0x3ul << USBD_CFG_STATE_Pos)                     /*!< USBD_EP_T::CFG: STATE Mask             */
+
+#define USBD_CFG_DSQSYNC_Pos             (7)                                               /*!< USBD_EP_T::CFG: DSQSYNC Position       */
+#define USBD_CFG_DSQSYNC_Msk             (0x1ul << USBD_CFG_DSQSYNC_Pos)                   /*!< USBD_EP_T::CFG: DSQSYNC Mask           */
+
+#define USBD_CFG_CSTALL_Pos              (9)                                               /*!< USBD_EP_T::CFG: CSTALL Position        */
+#define USBD_CFG_CSTALL_Msk              (0x1ul << USBD_CFG_CSTALL_Pos)                    /*!< USBD_EP_T::CFG: CSTALL Mask            */
+
+#define USBD_CFGP_CLRRDY_Pos             (0)                                               /*!< USBD_EP_T::CFGP: CLRRDY Position       */
+#define USBD_CFGP_CLRRDY_Msk             (0x1ul << USBD_CFGP_CLRRDY_Pos)                   /*!< USBD_EP_T::CFGP: CLRRDY Mask           */
+
+#define USBD_CFGP_SSTALL_Pos             (1)                                               /*!< USBD_EP_T::CFGP: SSTALL Position       */
+#define USBD_CFGP_SSTALL_Msk             (0x1ul << USBD_CFGP_SSTALL_Pos)                   /*!< USBD_EP_T::CFGP: SSTALL Mask           */
 
 
 /**@}*/ /* USBD_CONST */
@@ -11407,10 +11456,6 @@ typedef struct
 #define LLSI3_BASE           (APB2_BASE      + 0x54200)                  /*!< LLSI3 Base Address                              */
 #define LLSI4_BASE           (APB1_BASE      + 0x54400)                  /*!< LLSI4 Base Address                              */
 #define LLSI5_BASE           (APB2_BASE      + 0x54400)                  /*!< LLSI5 Base Address                              */
-#define LLSI6_BASE           (APB1_BASE      + 0x54600)                  /*!< LLSI6 Base Address                              */
-#define LLSI7_BASE           (APB2_BASE      + 0x54600)                  /*!< LLSI7 Base Address                              */
-#define LLSI8_BASE           (APB1_BASE      + 0x54800)                  /*!< LLSI8 Base Address                              */
-#define LLSI9_BASE           (APB2_BASE      + 0x54800)                  /*!< LLSI9 Base Address                              */
 
 /**@}*/ /* PERIPHERAL_BASE */
 

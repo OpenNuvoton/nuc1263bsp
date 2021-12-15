@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     spi.h
  * @version  V3.00
- * @brief    NUC1262 series SPI driver header file
+ * @brief    NUC1263 series SPI driver header file
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0

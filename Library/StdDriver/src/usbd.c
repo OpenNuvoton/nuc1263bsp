@@ -1,7 +1,7 @@
 /**************************************************************************//**
  * @file     usbd.c
  * @version  V3.00
- * @brief    NUC1262 series USBD driver source file
+ * @brief    NUC1263 series USBD driver source file
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
@@ -51,7 +51,6 @@ static volatile uint32_t g_usbd_UsbAddr = 0;
 static volatile uint32_t g_usbd_UsbConfig = 0;
 static volatile uint32_t g_usbd_CtrlMaxPktSize = 8;
 static volatile uint32_t g_usbd_UsbAltInterface = 0;
-static volatile uint32_t g_usbd_CtrlOutToggle = 0;
 static volatile uint8_t  g_usbd_CtrlInZeroFlag = 0;
 /**
  * @endcond
@@ -107,15 +106,14 @@ void USBD_Open(const S_USBD_INFO_T *param, CLASS_REQ pfnClassReq, SET_INTERFACE_
   */
 void USBD_Start(void)
 {
-    CLK_SysTickDelay(100000);
     /* Disable software-disconnect function */
     USBD_CLR_SE0();
 
     /* Clear USB-related interrupts before enable interrupt */
-    USBD_CLR_INT_FLAG(USBD_INT_BUS | USBD_INT_USB | USBD_INT_FLDET | USBD_INT_WAKEUP_IDLE);
+    USBD_CLR_INT_FLAG(USBD_INT_BUS | USBD_INT_USB | USBD_INT_FLDET | USBD_INT_WAKEUP);
 
     /* Enable USB-related interrupts. */
-    USBD_ENABLE_INT(USBD_INT_BUS | USBD_INT_USB | USBD_INT_FLDET | USBD_INT_WAKEUP_IDLE);
+    USBD_ENABLE_INT(USBD_INT_BUS | USBD_INT_USB | USBD_INT_FLDET | USBD_INT_WAKEUP);
 }
 
 /**
@@ -145,8 +143,6 @@ void USBD_GetSetupPacket(uint8_t *buf)
   */
 void USBD_ProcessSetupPacket(void)
 {
-    g_usbd_CtrlOutToggle = 0;
-
     /* Get SETUP packet from USB buffer */
     USBD_MemCopy(g_usbd_SetupPacket, (uint8_t *)USBD_BUF_BASE, 8);
     /* Check the request type */
@@ -208,7 +204,7 @@ void USBD_GetDescriptor(void)
         // Get Device Descriptor
         case DESC_DEVICE:
         {
-            u32Len = Minimum(u32Len, LEN_DEVICE);
+            u32Len = USBD_Minimum(u32Len, LEN_DEVICE);
             DBG_PRINTF("Get device desc, %d\n", u32Len);
 
             USBD_PrepareCtrlIn((uint8_t *)g_usbd_sInfo->gu8DevDesc, u32Len);
@@ -241,7 +237,7 @@ void USBD_GetDescriptor(void)
             /* CV3.0 HID Class Descriptor Test,
                Need to indicate index of the HID Descriptor within gu8ConfigDescriptor, specifically HID Composite device. */
             uint32_t u32ConfigDescOffset;   // u32ConfigDescOffset is configuration descriptor offset (HID descriptor start index)
-            u32Len = Minimum(u32Len, LEN_HID);
+            u32Len = USBD_Minimum(u32Len, LEN_HID);
             DBG_PRINTF("Get HID desc, %d\n", u32Len);
 
             u32ConfigDescOffset = g_usbd_sInfo->gu32ConfigHidDescIdx[g_usbd_SetupPacket[4]];
@@ -303,7 +299,7 @@ void USBD_GetDescriptor(void)
             u32TotalLen = g_usbd_sInfo->gu8BosDesc[2] + (u32TotalLen << 8);
 
             DBG_PRINTF("Get BOS desc len %d, acture len %d\n", u32Len, u32TotalLen);
-            u32Len = Minimum(u32Len, u32TotalLen);
+            u32Len = USBD_Minimum(u32Len, u32TotalLen);
             DBG_PRINTF("Minimum len %d\n", u32Len);
 
             USBD_PrepareCtrlIn((uint8_t *)g_usbd_sInfo->gu8BosDesc, u32Len);
@@ -661,23 +657,15 @@ void USBD_CtrlOut(void)
 
     DBG_PRINTF("Ctrl Out Ack %d\n", g_usbd_CtrlOutSize);
 
-    if(g_usbd_CtrlOutToggle != (USBD->EPSTS & USBD_EPSTS_EPSTS1_Msk))
+    if(g_usbd_CtrlOutSize < g_usbd_CtrlOutSizeLimit)
     {
-        g_usbd_CtrlOutToggle = USBD->EPSTS & USBD_EPSTS_EPSTS1_Msk;
-        if(g_usbd_CtrlOutSize < g_usbd_CtrlOutSizeLimit)
-        {
-            u32Size = USBD_GET_PAYLOAD_LEN(EP1);
-            USBD_MemCopy((uint8_t *)g_usbd_CtrlOutPointer, (uint8_t *)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP1), u32Size);
-            g_usbd_CtrlOutPointer += u32Size;
-            g_usbd_CtrlOutSize += u32Size;
+        u32Size = USBD_GET_PAYLOAD_LEN(EP1);
+        USBD_MemCopy((uint8_t *)g_usbd_CtrlOutPointer, (uint8_t *)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP1), u32Size);
+        g_usbd_CtrlOutPointer += u32Size;
+        g_usbd_CtrlOutSize += u32Size;
 
-            if(g_usbd_CtrlOutSize < g_usbd_CtrlOutSizeLimit)
-                USBD_SET_PAYLOAD_LEN(EP1, g_usbd_CtrlMaxPktSize);
-        }
-    }
-    else
-    {
-        USBD_SET_PAYLOAD_LEN(EP1, g_usbd_CtrlMaxPktSize);
+        if(g_usbd_CtrlOutSize < g_usbd_CtrlOutSizeLimit)
+            USBD_SET_PAYLOAD_LEN(EP1, g_usbd_CtrlMaxPktSize);
     }
 }
 

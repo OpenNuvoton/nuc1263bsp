@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     usbd.h
  * @version  V3.00
- * @brief    NUC1262 series USBD driver header file
+ * @brief    NUC1263 series USBD driver header file
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
@@ -45,7 +45,7 @@ extern const S_USBD_INFO_T gsInfo;
   @{
 */
 #define USBD_BUF_BASE   (USBD_BASE+0x100)
-#define USBD_MAX_EP     8
+#define USBD_MAX_EP     12
 
 #define EP0     0       /*!< Endpoint 0 */
 #define EP1     1       /*!< Endpoint 1 */
@@ -55,6 +55,10 @@ extern const S_USBD_INFO_T gsInfo;
 #define EP5     5       /*!< Endpoint 5 */
 #define EP6     6       /*!< Endpoint 6 */
 #define EP7     7       /*!< Endpoint 7 */
+#define EP8     8       /*!< Endpoint 8 */
+#define EP9     9       /*!< Endpoint 9 */
+#define EP10    10      /*!< Endpoint 10 */
+#define EP11    11      /*!< Endpoint 11 */
 
 
 /*!<USB Request Type */
@@ -119,22 +123,25 @@ extern const S_USBD_INFO_T gsInfo;
 #define USBD_WAKEUP_EN          USBD_INTEN_WKEN_Msk         /*!< USB Wake-up Enable */
 #define USBD_DRVSE0             USBD_SE0_SE0_Msk            /*!< Drive SE0 */
 
-#define USBD_L1RESUME           USBD_ATTR_L1RESUME_Msk
-#define USBD_L1SUSPEND          USBD_ATTR_L1SUSPEND_Msk
 #define USBD_LPMACK             USBD_ATTR_LPMACK_Msk        /*!< LPM Enable */
-#define USBD_BYTEM              USBD_ATTR_BYTEM_Msk
+#define USBD_BYTEM              USBD_ATTR_BYTEM_Msk         /*!< Access Size Mode Selection */
+#define USBD_PWRDN              USBD_ATTR_PWRDN_Msk         /*!< PHY Turn-on */
 #define USBD_DPPU_EN            USBD_ATTR_DPPUEN_Msk        /*!< USB D+ Pull-up Enable */
 #define USBD_USB_EN             USBD_ATTR_USBEN_Msk         /*!< USB Enable */
-#define USBD_RWAKEUP            USBD_ATTR_RWAKEUP_Msk
+#define USBD_RWAKEUP            USBD_ATTR_RWAKEUP_Msk       /*!< Remote Wake-Up */
 #define USBD_PHY_EN             USBD_ATTR_PHYEN_Msk         /*!< PHY Enable */
 
 #define USBD_INT_BUS            USBD_INTEN_BUSIEN_Msk       /*!< USB Bus Event Interrupt */
 #define USBD_INT_USB            USBD_INTEN_USBIEN_Msk       /*!< USB Event Interrupt */
 #define USBD_INT_FLDET          USBD_INTEN_VBDETIEN_Msk     /*!< USB VBUS Detection Interrupt */
 #define USBD_INT_VBDET          USBD_INTEN_VBDETIEN_Msk     /*!< USB VBUS Detection Interrupt */
-#define USBD_INT_WAKEUP_IDLE    (USBD_INTEN_WKIDLEIEN_Msk | USBD_INTEN_WKEN_Msk)    /*!< USB No-Event-Wake-Up Interrupt */
+#define USBD_INT_WAKEUP         (USBD_INTEN_NEVWKIEN_Msk | USBD_INTEN_WKEN_Msk)    /*!< USB No-Event-Wake-Up Interrupt */
+#define USBD_INT_SOF            USBD_INTEN_SOFIEN_Msk       /*!< USB Start of Frame Interrupt */
+#define USBD_INT_BCD            USBD_INTEN_BCDIEN_Msk       /*!< USB Battery Charge Detect Interrupt */
 
-#define USBD_INTSTS_WAKEUP      USBD_INTSTS_WKIDLEIF_Msk    /*!< USB No-Event-Wake-Up Interrupt Status */
+#define USBD_INTSTS_BCD         USBD_INTSTS_BCDIF_Msk       /*!< USB Battery Charge Detect Interrupt Status */
+#define USBD_INTSTS_SOF         USBD_INTSTS_SOFIF_Msk       /*!< USB Start of Frame Interrupt Status */
+#define USBD_INTSTS_WAKEUP      USBD_INTSTS_NEVWKIF_Msk     /*!< USB No-Event-Wake-Up Interrupt Status */
 #define USBD_INTSTS_FLDET       USBD_INTSTS_VBDETIF_Msk     /*!< USB Float Detect Interrupt Status */
 #define USBD_INTSTS_VBDET       USBD_INTSTS_VBDETIF_Msk     /*!< USB Float Detect Interrupt Status */
 #define USBD_INTSTS_BUS         USBD_INTSTS_BUSIF_Msk       /*!< USB Bus Event Interrupt Status */
@@ -148,20 +155,40 @@ extern const S_USBD_INFO_T gsInfo;
 #define USBD_INTSTS_EP5         USBD_INTSTS_EPEVT5_Msk      /*!< USB Endpoint 5 Event */
 #define USBD_INTSTS_EP6         USBD_INTSTS_EPEVT6_Msk      /*!< USB Endpoint 6 Event */
 #define USBD_INTSTS_EP7         USBD_INTSTS_EPEVT7_Msk      /*!< USB Endpoint 7 Event */
+#define USBD_INTSTS_EP8         USBD_INTSTS_EPEVT8_Msk      /*!< USB Endpoint 8 Event */
+#define USBD_INTSTS_EP9         USBD_INTSTS_EPEVT9_Msk      /*!< USB Endpoint 9 Event */
+#define USBD_INTSTS_EP10        USBD_INTSTS_EPEVT10_Msk     /*!< USB Endpoint 10 Event */
+#define USBD_INTSTS_EP11        USBD_INTSTS_EPEVT11_Msk     /*!< USB Endpoint 11 Event */
 
 #define USBD_STATE_USBRST       USBD_ATTR_USBRST_Msk        /*!< USB Bus Reset */
 #define USBD_STATE_SUSPEND      USBD_ATTR_SUSPEND_Msk       /*!< USB Bus Suspend */
 #define USBD_STATE_RESUME       USBD_ATTR_RESUME_Msk        /*!< USB Bus Resume */
 #define USBD_STATE_TIMEOUT      USBD_ATTR_TOUT_Msk          /*!< USB Bus Timeout */
+#define USBD_STATE_L1SUSPEND    USBD_ATTR_L1SUSPEND_Msk     /*!< USB Bus L1SUSPEND */
+#define USBD_STATE_L1RESUME     USBD_ATTR_L1RESUME_Msk      /*!< USB Bus L1RESUME */
 
 #define USBD_CFGP_SSTALL        USBD_CFGP_SSTALL_Msk        /*!< Set Stall */
 #define USBD_CFGP_CLRRDY        USBD_CFGP_CLRRDY_Msk
 
 #define USBD_CFG_CSTALL         USBD_CFG_CSTALL_Msk         /*!< Clear Stall */
-#define USBD_CFG_EPMODE_DISABLE (0ul << USBD_CFG_STATE_Pos)/*!< Endpoint Disable */
-#define USBD_CFG_EPMODE_OUT     (1ul << USBD_CFG_STATE_Pos)/*!< Out Endpoint */
-#define USBD_CFG_EPMODE_IN      (2ul << USBD_CFG_STATE_Pos)/*!< In Endpoint */
+#define USBD_CFG_EPMODE_DISABLE (0ul << USBD_CFG_STATE_Pos) /*!< Endpoint Disable */
+#define USBD_CFG_EPMODE_OUT     (1ul << USBD_CFG_STATE_Pos) /*!< Out Endpoint */
+#define USBD_CFG_EPMODE_IN      (2ul << USBD_CFG_STATE_Pos) /*!< In Endpoint */
 #define USBD_CFG_TYPE_ISO       (1ul << USBD_CFG_ISOCH_Pos) /*!< Isochronous */
+
+#define USBD_BCDC_DETMOD_IDLE                 (0x0ul << USBD_BCDC_DETMOD_Pos) /*!<Idle */
+#define USBD_BCDC_DETMOD_VBUS                 (0x1ul << USBD_BCDC_DETMOD_Pos) /*!<Vbus detect */
+#define USBD_BCDC_DETMOD_DCD                  (0x2ul << USBD_BCDC_DETMOD_Pos) /*!<Data contact detect */
+#define USBD_BCDC_DETMOD_PD                   (0x3ul << USBD_BCDC_DETMOD_Pos) /*!<Primary detect */
+#define USBD_BCDC_DETMOD_SD                   (0x4ul << USBD_BCDC_DETMOD_Pos) /*!<Secondary detect */
+#define USBD_BCDC_DETSTS_VBUS_UNREACH         (0x0ul << USBD_BCDC_DETSTS_Pos) /*!<Vbus unreach */
+#define USBD_BCDC_DETSTS_VBUS_REACH           (0x1ul << USBD_BCDC_DETSTS_Pos) /*!<Vbus reach */
+#define USBD_BCDC_DETSTS_DCD_DATA_UNCONTACT   (0x0ul << USBD_BCDC_DETSTS_Pos) /*!<Data pin uncontact */
+#define USBD_BCDC_DETSTS_DCD_DATA_CONTACT     (0x1ul << USBD_BCDC_DETSTS_Pos) /*!<Data pin contact */
+#define USBD_BCDC_DETSTS_PD_SDP_NUSP          (0x0ul << USBD_BCDC_DETSTS_Pos) /*!<SDP or NUSP */
+#define USBD_BCDC_DETSTS_PD_DCP_CDP           (0x1ul << USBD_BCDC_DETSTS_Pos) /*!<DCP or CDP */
+#define USBD_BCDC_DETSTS_SD_CDP               (0x0ul << USBD_BCDC_DETSTS_Pos) /*!<CDP */
+#define USBD_BCDC_DETSTS_SD_DCP               (0x1ul << USBD_BCDC_DETSTS_Pos) /*!<DCP */
 
 
 
@@ -182,7 +209,7 @@ extern const S_USBD_INFO_T gsInfo;
   *
   * @details    If a > b, then return a. Otherwise, return b.
   */
-#define Maximum(a,b)        ((a)>(b) ? (a) : (b))
+#define USBD_Maximum(a,b)        ((a)>(b) ? (a) : (b))
 
 
 /**
@@ -195,7 +222,7 @@ extern const S_USBD_INFO_T gsInfo;
   *
   * @details    If a < b, then return a. Otherwise, return b.
   */
-#define Minimum(a,b)        ((a)<(b) ? (a) : (b))
+#define USBD_Minimum(a,b)        ((a)<(b) ? (a) : (b))
 
 
 /**

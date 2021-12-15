@@ -102,11 +102,12 @@ __Vectors:
     .long   LLSI3_IRQHandler
     .long   LLSI4_IRQHandler
     .long   LLSI5_IRQHandler
-    .long   LLSI6_IRQHandler
-    .long   LLSI7_IRQHandler
-    .long   LLSI8_IRQHandler
-    .long   LLSI9_IRQHandler
-    
+    .long   Default_Handler  
+    .long   Default_Handler  
+    .long   Default_Handler  
+    .long   Default_Handler  
+    .long   SPI2_IRQHandler  
+
     .size   __Vectors, . - __Vectors
     
     
@@ -347,10 +348,7 @@ Default_Handler:
     def_irq_handler LLSI3_IRQHandler
     def_irq_handler LLSI4_IRQHandler
     def_irq_handler LLSI5_IRQHandler
-    def_irq_handler LLSI6_IRQHandler
-    def_irq_handler LLSI7_IRQHandler
-    def_irq_handler LLSI8_IRQHandler
-    def_irq_handler LLSI9_IRQHandler
+    def_irq_handler SPI2_IRQHandler
     
     
     /* ;int32_t SH_DoCommand(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0) */

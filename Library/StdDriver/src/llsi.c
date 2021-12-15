@@ -1,7 +1,7 @@
 /**************************************************************************//**
  * @file     llsi.c
  * @version  V3.00
- * @brief    NUC1262 series LLSI driver source file
+ * @brief    NUC1263 series LLSI driver source file
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
@@ -189,30 +189,6 @@ void LLSI_Close(LLSI_T *llsi)
         /* Reset LLSI5 */
         SYS->IPRST2 |= SYS_IPRST2_LLSI5RST_Msk;
         SYS->IPRST2 &= ~SYS_IPRST2_LLSI5RST_Msk;
-    }
-    else if(llsi == LLSI6)
-    {
-        /* Reset LLSI6 */
-        SYS->IPRST2 |= SYS_IPRST2_LLSI6RST_Msk;
-        SYS->IPRST2 &= ~SYS_IPRST2_LLSI6RST_Msk;
-    }
-    else if(llsi == LLSI7)
-    {
-        /* Reset LLSI7 */
-        SYS->IPRST2 |= SYS_IPRST2_LLSI7RST_Msk;
-        SYS->IPRST2 &= ~SYS_IPRST2_LLSI7RST_Msk;
-    }
-    else if(llsi == LLSI8)
-    {
-        /* Reset LLSI8 */
-        SYS->IPRST2 |= SYS_IPRST2_LLSI8RST_Msk;
-        SYS->IPRST2 &= ~SYS_IPRST2_LLSI8RST_Msk;
-    }
-    else if(llsi == LLSI9)
-    {
-        /* Reset LLSI9 */
-        SYS->IPRST2 |= SYS_IPRST2_LLSI9RST_Msk;
-        SYS->IPRST2 &= ~SYS_IPRST2_LLSI9RST_Msk;
     }
 }
 
