@@ -56,6 +56,9 @@ extern "C"
 #define DAC_RST     ((0x4<<24)|SYS_IPRST1_DACRST_Pos)       /*!< DAC reset is one of the SYS_ResetModule parameter */
 #define ACMP01_RST  ((0x4<<24)|SYS_IPRST1_ACMP01RST_Pos)    /*!< ACMP01 reset is one of the SYS_ResetModule parameter */
 #define ACMP23_RST  ((0x4<<24)|SYS_IPRST1_ACMP23RST_Pos)    /*!< ACMP23 reset is one of the SYS_ResetModule parameter */
+#define I3C0_RST    ((0x4<<24)|SYS_IPRST1_I3C0RST_Pos)      /*!< I3C0 reset is one of the SYS_ResetModule parameter */
+#define I3C1_RST    ((0x4<<24)|SYS_IPRST1_I3C1RST_Pos)      /*!< I3C1 reset is one of the SYS_ResetModule parameter */
+#define SPDH_RST    ((0x4<<24)|SYS_IPRST1_SPDHRST_Pos)      /*!< SPDH reset is one of the SYS_ResetModule parameter */
 
 #define LLSI0_RST   ((0x8<<24)|SYS_IPRST2_LLSI0RST_Pos)     /*!< LLSI0 reset is one of the SYS_ResetModule parameter */
 #define LLSI1_RST   ((0x8<<24)|SYS_IPRST2_LLSI1RST_Pos)     /*!< LLSI1 reset is one of the SYS_ResetModule parameter */
@@ -63,6 +66,7 @@ extern "C"
 #define LLSI3_RST   ((0x8<<24)|SYS_IPRST2_LLSI3RST_Pos)     /*!< LLSI3 reset is one of the SYS_ResetModule parameter */
 #define LLSI4_RST   ((0x8<<24)|SYS_IPRST2_LLSI4RST_Pos)     /*!< LLSI4 reset is one of the SYS_ResetModule parameter */
 #define LLSI5_RST   ((0x8<<24)|SYS_IPRST2_LLSI5RST_Pos)     /*!< LLSI5 reset is one of the SYS_ResetModule parameter */
+#define TS_RST      ((0x8<<24)|SYS_IPRST2_TSRST_Pos)        /*!< TS reset is one of the SYS_ResetModule parameter */
 
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -104,6 +108,17 @@ extern "C"
 #define SYS_BODCTL_VDETDGSEL_256CLK    (0x5UL<<SYS_BODCTL_VDETDGSEL_Pos)  /*! VDET Output De-glitch Time is selected 256 HCLK clock */
 #define SYS_BODCTL_VDETDGSEL_512CLK    (0x6UL<<SYS_BODCTL_VDETDGSEL_Pos)  /*! VDET Output De-glitch Time is selected 512 HCLK clock */
 #define SYS_BODCTL_VDETDGSEL_1024CLK   (0x7UL<<SYS_BODCTL_VDETDGSEL_Pos)  /*! VDET Output De-glitch Time is selected 1024 HCLK clock */
+
+
+/*---------------------------------------------------------------------------------------------------------*/
+/*  VREFCTL constant definitions. (Write-Protection Register)                                              */
+/*---------------------------------------------------------------------------------------------------------*/
+#define SYS_VREFCTL_VREF_PIN           (0x0UL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = Vref pin */
+#define SYS_VREFCTL_VREF_2_048V        (0x2UL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 2.048V */
+#define SYS_VREFCTL_VREF_2_56V         (0x6UL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 2.56V */
+#define SYS_VREFCTL_VREF_3_072V        (0xAUL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 3.072V */
+#define SYS_VREFCTL_VREF_4_096V        (0xEUL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 34.096V */
+
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Multi-Function constant definitions.                                                                   */
@@ -2078,6 +2093,7 @@ void SYS_ResetCPU(void);
 void SYS_ResetModule(uint32_t u32ModuleIndex);
 void SYS_EnableBOD(int32_t i32Mode, uint32_t u32BODLevel);
 void SYS_DisableBOD(void);
+void SYS_SetVRef(uint32_t u32VRefCTL);
 
 
 /*@}*/ /* end of group SYS_EXPORTED_FUNCTIONS */

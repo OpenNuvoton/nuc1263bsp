@@ -74,15 +74,19 @@ __vector_table
     DCD     PDMA_IRQHandler             ; PDMA interrupt
     DCD     Default_Handler             ; Reserved
     DCD     PWRWU_IRQHandler            ; Clock controller interrupt for chip wake up from power-down mode
-    DCD     ADC_IRQHandler              ; ADC interrupt                                          
+    DCD     ADC_IRQHandler              ; ADC interrupt
     DCD     CLKDIRC_IRQHandler          ; Clock fail detect and IRC TRIM interrupt
-    DCD     Default_Handler              ; Reserved                              
+    DCD     Default_Handler              ; Reserved
     DCD     LLSI0_IRQHandler            ; LLSI0 interrupt
     DCD     LLSI1_IRQHandler            ; LLSI1 interrupt
     DCD     LLSI2_IRQHandler            ; LLSI2 interrupt
     DCD     LLSI3_IRQHandler            ; LLSI3 interrupt
     DCD     LLSI4_IRQHandler            ; LLSI4 interrupt
     DCD     LLSI5_IRQHandler            ; LLSI5 interrupt
+    DCD     Default_Handler             ; Reserved
+    DCD     Default_Handler             ; Reserved
+    DCD     Default_Handler             ; Reserved
+    DCD     Default_Handler             ; Reserved
     DCD     SPI2_IRQHandler             ; SPI2 interrupt
     DCD     UART2_IRQHandler            ; UART2 interrupt
     DCD     I3C0_IRQHandler             ; I3C0 interrupt
@@ -90,13 +94,14 @@ __vector_table
     DCD     DAC_IRQHandler              ; DAC interrupt
     DCD     ACMP23_IRQHandler           ; ACMP23 interrupt
     DCD     TEMP_IRQHandler             ; TEMP interrupt
+    DCD     SPDH_IRQHandler             ; SPDH interrupt
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Default interrupt handlers.
 ;;
     THUMB
-    PUBWEAK Reset_Handler   
+    PUBWEAK Reset_Handler
     SECTION .text:CODE:REORDER:NOROOT(2)   ; 4 bytes alignment
 Reset_Handler
         
@@ -159,6 +164,7 @@ HardFault_Handler\
     PUBWEAK DAC_IRQHandler
     PUBWEAK ACMP23_IRQHandler
     PUBWEAK TEMP_IRQHandler
+    PUBWEAK SPDH_IRQHandler
     
     SECTION .text:CODE:REORDER:NOROOT(2)
     
@@ -207,6 +213,7 @@ I3C1_IRQHandler
 DAC_IRQHandler
 ACMP23_IRQHandler
 TEMP_IRQHandler
+SPDH_IRQHandler
 Default_Handler
     B Default_Handler         
 

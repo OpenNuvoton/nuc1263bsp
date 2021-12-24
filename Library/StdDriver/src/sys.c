@@ -136,10 +136,14 @@ void SYS_ResetCPU(void)
   *             - \ref LLSI2_RST
   *             - \ref LLSI3_RST
   *             - \ref LLSI4_RST
-  *             - \ref LLSI5_RST  
+  *             - \ref LLSI5_RST
   *             - \ref DAC_RST
   *             - \ref ACMP01_RST
   *             - \ref ACMP23_RST
+  *             - \ref I3C0_RST
+  *             - \ref I3C1_RST
+  *             - \ref SPD5_RST
+  *             - \ref TS_RST
   * @return     None
   * @details    This function reset selected module.
   */
@@ -189,6 +193,25 @@ void SYS_EnableBOD(int32_t i32Mode, uint32_t u32BODLevel)
 void SYS_DisableBOD(void)
 {
     SYS->BODCTL &= ~SYS_BODCTL_BODEN_Msk;
+}
+
+
+/**
+  * @brief      Set Reference Voltage
+  * @param[in]  u32VRefCTL is reference voltage setting. Including :
+  *             - \ref SYS_VREFCTL_VREF_PIN
+  *             - \ref SYS_VREFCTL_VREF_2_048V
+  *             - \ref SYS_VREFCTL_VREF_2_56V
+  *             - \ref SYS_VREFCTL_VREF_3_072V
+  *             - \ref SYS_VREFCTL_VREF_4_096V
+  * @return     None
+  * @details    This function select reference voltage.
+  *             The register write-protection function should be disabled before using this function.
+  */
+void SYS_SetVRef(uint32_t u32VRefCTL)
+{
+    /* Set reference voltage */
+    SYS->VREFCTL = (SYS->VREFCTL & (~SYS_VREFCTL_VREFCTL_Msk)) | (u32VRefCTL);
 }
 
 

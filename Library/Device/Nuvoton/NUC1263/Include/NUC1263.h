@@ -89,6 +89,7 @@ typedef enum IRQn
     DAC_IRQn                  = 46,       /*!< DAC Interrupt                                        */
     ACMP23_IRQn               = 47,       /*!< ACMP23 Interrupt                                     */
     TEMP_IRQn                 = 48,       /*!< TEMP Interrupt                                       */
+    SPDH_IRQn                 = 49,       /*!< SPDH Interrupt                                       */
 
 } IRQn_Type;
 
@@ -656,6 +657,15 @@ typedef struct
      * |[23]    |BPWM3CKEN |BPWM3 Clock Enable Bit
      * |        |          |0 = BPWM3 clock Disabled.
      * |        |          |1 = BPWM3 clock Enabled.
+     * |[24]    |I3C0CKEN  |I3C0 Clock Enable Bit
+     * |        |          |0 = I3C0 Clock Disabled.
+     * |        |          |1 = I3C0 Clock Enabled.
+     * |[25]    |I3C1CKEN  |I3C1 Clock Enable Bit
+     * |        |          |0 = I3C1 Clock Disabled.
+     * |        |          |1 = I3C1 Clock Enabled.
+     * |[26]    |SPDHCKEN  |SPD Hub Clock Enable Bit
+     * |        |          |0 = SPD Hub clock Disabled.
+     * |        |          |1 = SPD Hub clock Enabled.
      * |[27]    |USBDCKEN  |USB Device Clock Enable Bit
      * |        |          |0 = USB Device clock Disabled.
      * |        |          |1 = USB Device clock Enabled.
@@ -1175,6 +1185,15 @@ typedef struct
 
 #define CLK_APBCLK0_BPWM3CKEN_Pos        (23)                                              /*!< CLK_T::APBCLK0: BPWM3CKEN Position     */
 #define CLK_APBCLK0_BPWM3CKEN_Msk        (0x1ul << CLK_APBCLK0_BPWM3CKEN_Pos)              /*!< CLK_T::APBCLK0: BPWM3CKEN Mask         */
+
+#define CLK_APBCLK0_I3C0CKEN_Pos         (24)                                              /*!< CLK_T::APBCLK0: I3C0CKEN Position      */
+#define CLK_APBCLK0_I3C0CKEN_Msk         (0x1ul << CLK_APBCLK0_I3C0CKEN_Pos)               /*!< CLK_T::APBCLK0: I3C0CKEN Mask          */
+
+#define CLK_APBCLK0_I3C1CKEN_Pos         (25)                                              /*!< CLK_T::APBCLK0: I3C1CKEN Position      */
+#define CLK_APBCLK0_I3C1CKEN_Msk         (0x1ul << CLK_APBCLK0_I3C1CKEN_Pos)               /*!< CLK_T::APBCLK0: I3C1CKEN Mask          */
+
+#define CLK_APBCLK0_SPDHCKEN_Pos         (26)                                              /*!< CLK_T::APBCLK0: SPDHCKEN Position      */
+#define CLK_APBCLK0_SPDHCKEN_Msk         (0x1ul << CLK_APBCLK0_SPDHCKEN_Pos)               /*!< CLK_T::APBCLK0: SPDHCKEN Mask          */
 
 #define CLK_APBCLK0_USBDCKEN_Pos         (27)                                              /*!< CLK_T::APBCLK0: USBDCKEN Position      */
 #define CLK_APBCLK0_USBDCKEN_Msk         (0x1ul << CLK_APBCLK0_USBDCKEN_Pos)               /*!< CLK_T::APBCLK0: USBDCKEN Mask          */
@@ -8197,6 +8216,15 @@ typedef struct
      * |[23]    |BPWM3RST  |BPWM3 Controller Reset
      * |        |          |0 = BPWM3 controller normal operation.
      * |        |          |1 = BPWM3 controller reset.
+     * |[24]    |I3C0RST   |I3C0 Controller Reset
+     * |        |          |0 = I3C0 controller normal operation.
+     * |        |          |1 = I3C0 controller reset.
+     * |[25]    |I3C0RST   |I3C1 Controller Reset
+     * |        |          |0 = I3C1 controller normal operation.
+     * |        |          |1 = I3C1 controller reset.
+     * |[26]    |SPDHRST   |SPD Hub Controller Reset
+     * |        |          |0 = SPD Hub controller normal operation.
+     * |        |          |1 = SPD Hub controller reset.
      * |[27]    |USBDRST   |USB Device Controller Reset
      * |        |          |0 = USB device controller normal operation.
      * |        |          |1 = USB device controller reset.
@@ -8235,6 +8263,9 @@ typedef struct
      * |[21]    |LLSI5RST  |LLSI5 Controller Reset
      * |        |          |0 = LED Lighting Strip Interface 5 controller normal operation.
      * |        |          |1 = LED Lighting Strip Interface 5 controller reset.
+     * |[28]    |TSRST     |Temperature Sensor Controller Reset
+     * |        |          |0 = Temperature Sensor controller normal operation.
+     * |        |          |1 = Temperature Sensor controller reset.
      * @var SYS_T::BODCTL
      * Offset: 0x18  Brown-out Detector Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -8263,8 +8294,8 @@ typedef struct
      * |        |          |BOD interrupt can be blocked by disabling the NVIC BOD interrupt or disabling BOD function (set BODEN low).
      * |        |          |Note2: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[4]     |BODIF     |Brown-out Detector Interrupt Flag
-     * |        |          |0 = Brown-out Detector does not detect any voltage draft at VDD down through or up through the voltage of BODVL setting.
-     * |        |          |1 = When Brown-out Detector detects the VDD is dropped down through the voltage of BODVL setting or the VDD is raised up through the voltage of BODVL setting, this bit is set to 1 and the brown-out interrupt is requested if brown-out interrupt is enabled.
+     * |        |          |0 = Brown-out Detector does not detect any voltage draft at AVDD down through or up through the voltage of BODVL setting.
+     * |        |          |1 = When Brown-out Detector detects the AVDD is dropped down through the voltage of BODVL setting or the AVDD is raised up through the voltage of BODVL setting, this bit is set to 1 and the brown-out interrupt is requested if brown-out interrupt is enabled.
      * |        |          |Note: This bit can be cleared by software writing 1.
      * |[5]     |BODLPM    |Brown-out Detector Low Power Mode (Write Protect)
      * |        |          |0 = BOD operate in normal mode (default).
@@ -8343,11 +8374,6 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[0]     |VTEMPEN   |Temperature Sensor Enable Bit
-     * |        |          |This bit is used to enable/disable temperature sensor function.
-     * |        |          |0 = Temperature sensor function Disabled (default).
-     * |        |          |1 = Temperature sensor function Enabled.
-     * |        |          |Note: After this bit is set to 1, the value of temperature sensor output can be obtained from ADC conversion result.
      * |[1]     |VBGUGEN   |Band-gap VBG Unity Gain Buffer Enable Bit
      * |        |          |This bit is used to enable/disable Band-gap VBG unity gain buffer function.
      * |        |          |0 = VBG unity gain buffer function Disabled (default).
@@ -8364,6 +8390,28 @@ typedef struct
      * |        |          |The POR function will be active again when this field is set to another value or chip is reset by other reset source, including:
      * |        |          |nRESET, Watchdog, LVR reset, BOD reset, ICE reset command and the software-chip reset function.
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
+     * @var SYS_T::VREFCTL
+     * Offset: 0x28  VREF Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[4:0]   |VREFCTL   |VREF Control Bits (Write Protect)
+     * |        |          |00000 = VREF is from external pin.
+     * |        |          |00010 = VREF is from internal reference voltage 2.048V.
+     * |        |          |00110 = VREF is from internal reference voltage 2.56V.
+     * |        |          |01010 = VREF is from internal reference voltage 3.072V.
+     * |        |          |01110 = VREF is from internal reference voltage 4.096V.
+     * |        |          |Others = Reserved.
+     * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
+     * |[6]     |PRELOADSEL|Pre-load Timing Selection (Write Protect)
+     * |        |          |This bit should be enabled and keep during Tstable when VREFCTL(SYS_VREFCTL[4:0]) change setting(except set to 00000). 
+     * |        |          |Tstable depends on different situations has different requirement, please refer to datasheet.
+     * |        |          |0 = VREF Pre-load function Disabled. (Default).
+     * |        |          |1 = VREF Pre-load function Enabled.
+     * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
+     * |[24]    |VBGFEN    |Chip Internal Voltage Bandgap Force Enable Bit (Write Protect)
+     * |        |          |0 = Chip internal voltage bandgap controlled by ADC/ACMP if source selected.
+     * |        |          |1 = Chip internal voltage bandgap force enable.
      * @var SYS_T::GPA_MFPL
      * Offset: 0x30  GPIOA Low Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -8570,13 +8618,59 @@ typedef struct
      * |        |          |Read operation:
      * |        |          |0 = Write-protection Enabled for writing protected registers. Any write to the protected register is ignored.
      * |        |          |1 = Write-protection Disabled for writing protected registers.
-     * @var SYS_T::TSOFFSET
-     * Offset: 0x114  Temperature Sensor Offset Register
+    * @var SYS_T::TSCTL
+     * Offset: 0x140  Temperature Sensor Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[11:0]  |VTEMP     |Temperature Sensor Offset Value (Read Only)
-     * |        |          |This field reflects temperature sensor output voltage offset at 25 Celsius degree from Flash.
+     * |[0]     |TSEN      |Temperature Sensor Enable Bit
+     * |        |          |0 = Temperature Sensor function Disabled. (Default)
+     * |        |          |1 = Temperature Sensor function Enabled.
+     * |[1]     |TSBGEN    |Temperature Sensor Bandgap Enable Bit
+     * |        |          |If this bit is set to 1, Temperature sensor bandgap will be enabled and Temperature sensor will supply current source to DAC and Internal Voltage Reference.
+     * |        |          |0 = Temperature Sensor Bandgap function Disabled. (Default)
+     * |        |          |1 = Temperature Sensor Bandgap function Enabled.
+     * |        |          |Note: After TSBGEN is set, users should wait 200us stable time to enable DACEN(DACx_CTL[0]) or VREFEN (SYS_VREFCTL[0]).
+     * |[2]     |TSST      |Temperature Sensor Conversion Start
+     * |        |          |0 = Conversion stops or finished. (Default)
+     * |        |          |1 = Conversion starts.
+     * |        |          |Note1: User needs to set TSEN first, and wait for at least 200us to start temperature sensor conversion.
+     * |        |          |Note2: This bit will be cleared to 0 by hardware automatically when temperature sensor conversion is finished.
+     * |[3]     |TSIEN     |Temperature Sensor Interrupt Enable Bit
+     * |        |          |If this bit is set to 1, temperature sensor interrupt is requested when TSIF (SYS_TSCTL[16]) is set.
+     * |        |          |0 = Temperature Sensor finish interrupt Disabled. (Default)
+     * |        |          |1 = Temperature Sensor finish interrupt Enabled.
+     * |[16]    |TSIF      |Temperature Sensor Interrupt Flag
+     * |        |          |This bit indicates the end of temperature sensor conversion.
+     * |        |          |This bit will be set automatically when temperature sensor conversion is finished.
+     * |        |          |0 = Tempertaure Sensor conversion not finished.
+     * |        |          |1 = Tempertaure Sensor conversion finished.
+     * |        |          |Note: Write 1 to clear this to 0.
+     * @var SYS_T::TSDATA
+     * Offset: 0x144  Temperature Sensor Data Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |TSEOC     |Temperature Sensor Conversion Finish Flag
+     * |        |          |This bit indicates the end of temperature sensor conversion.
+     * |        |          |Note: Write 1 to clear this bit to 0.
+     * |[27:16] |TSDATA    |Temperature Sensor Conversion Data Bits (Read Only)
+     * |        |          |This field present the conversion result of Temperature Sensor, ranges from -40 to 105 degrees Celsius.
+     * |        |          |Note: Negative temperature is represented by 2's complement format, and per LSB difference is equivalent to 0.0625 degrees Celsius.
+     * @var SYS_T::SPIMUX
+     * Offset: 0x160  SPI Mux Function Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |MUXSWEN   |SPI Mux Software Selection Mode Enable Bit
+     * |        |          |This bit is used to enable/disable SPI Mux software selection mode function.
+     * |        |          |0 = SPI Mux software selection mode Disabled (default).
+     * |        |          |1 = SPI Mux software selection mode Enabled.
+     * |        |          |Note: By default, SPI mux is controlled by SPI_SS_MUX.
+     * |[1]     |MUXSWSEL  |SPI Mux Software Selection Mode Selection Bit
+     * |        |          |This bit is used to select which SPI master's signals are going to pass through the SPI mux in software selection mode.
+     * |        |          |0 = Choose external SPI master (default).
+     * |        |          |1 = Choose internal SPI master
      */
 
     __I  uint32_t PDID;                  /*!< [0x0000] Part Device Identification Number Register                       */
@@ -8589,7 +8683,8 @@ typedef struct
     __IO uint32_t IVSCTL;                /*!< [0x001c] Internal Voltage Source Control Register                         */
     __I  uint32_t RESERVE1[1];
     __IO uint32_t PORCTL;                /*!< [0x0024] Power-on Reset Controller Register                               */
-    __I  uint32_t RESERVE2[2];
+    __IO uint32_t VREFCTL;               /*!< [0x0028] VREF Control Register                                            */
+    __I  uint32_t RESERVE2[1];
     __IO uint32_t GPA_MFPL;              /*!< [0x0030] GPIOA Low Byte Multiple Function Control Register                */
     __IO uint32_t GPA_MFPH;              /*!< [0x0034] GPIOA High Byte Multiple Function Control Register               */
     __IO uint32_t GPB_MFPL;              /*!< [0x0038] GPIOB Low Byte Multiple Function Control Register                */
@@ -8608,8 +8703,11 @@ typedef struct
     __IO uint32_t MODCTL;                /*!< [0x00c0] Modulation Control Register                                      */
     __I  uint32_t RESERVE6[15];
     __IO uint32_t REGLCTL;               /*!< [0x0100] Register Lock Control Register                                   */
-    __I  uint32_t RESERVE7[4];
-    __I  uint32_t TSOFFSET;              /*!< [0x0114] Temperature Sensor Offset Register                               */
+    __I  uint32_t RESERVE7[15];
+    __IO uint32_t TSCTL;                 /*!< [0x0140] Temperature Sensor Control Register                              */
+    __IO uint32_t TSDATA;                /*!< [0x0144] Temperature Sensor Data Register                                 */
+    __I  uint32_t RESERVE8[6];
+    __IO uint32_t SPIMUX;                /*!< [0x0160] SPI Mux Function Control Register                                */
 
 
 } SYS_T;
@@ -8617,7 +8715,7 @@ typedef struct
 /**
     @addtogroup SYS_CONST SYS Bit Field Definition
     Constant Definitions for SYS Controller
-    @{ 
+    @{
 */
 
 #define SYS_PDID_PDID_Pos                (0)                                               /*!< SYS_T::PDID: PDID Position             */
@@ -8713,6 +8811,15 @@ typedef struct
 #define SYS_IPRST1_BPWM3RST_Pos          (23)                                              /*!< SYS_T::IPRST1: BPWM3RST Position       */
 #define SYS_IPRST1_BPWM3RST_Msk          (0x1ul << SYS_IPRST1_BPWM3RST_Pos)                /*!< SYS_T::IPRST1: BPWM3RST Mask           */
 
+#define SYS_IPRST1_I3C0RST_Pos           (24)                                              /*!< SYS_T::IPRST1: I3C0RST Position        */
+#define SYS_IPRST1_I3C0RST_Msk           (0x1ul << SYS_IPRST1_I3C0RST_Pos)                 /*!< SYS_T::IPRST1: I3C0RST Mask            */
+
+#define SYS_IPRST1_I3C1RST_Pos           (25)                                              /*!< SYS_T::IPRST1: I3C1RST Position        */
+#define SYS_IPRST1_I3C1RST_Msk           (0x1ul << SYS_IPRST1_I3C1RST_Pos)                 /*!< SYS_T::IPRST1: I3C1RST Mask            */
+
+#define SYS_IPRST1_SPDHRST_Pos           (26)                                              /*!< SYS_T::IPRST1: SPDhRST Position        */
+#define SYS_IPRST1_SPDHRST_Msk           (0x1ul << SYS_IPRST1_SPDHRST_Pos)                 /*!< SYS_T::IPRST1: SPDHRST Mask            */
+
 #define SYS_IPRST1_USBDRST_Pos           (27)                                              /*!< SYS_T::IPRST1: USBDRST Position        */
 #define SYS_IPRST1_USBDRST_Msk           (0x1ul << SYS_IPRST1_USBDRST_Pos)                 /*!< SYS_T::IPRST1: USBDRST Mask            */
 
@@ -8745,6 +8852,9 @@ typedef struct
 
 #define SYS_IPRST2_LLSI5RST_Pos          (21)                                              /*!< SYS_T::IPRST2: LLSI5RST Position       */
 #define SYS_IPRST2_LLSI5RST_Msk          (0x1ul << SYS_IPRST2_LLSI5RST_Pos)                /*!< SYS_T::IPRST2: LLSI5RST Mask           */
+
+#define SYS_IPRST2_TSRST_Pos             (28)                                              /*!< SYS_T::IPRST2: TSRST Position          */
+#define SYS_IPRST2_TSRST_Msk             (0x1ul << SYS_IPRST2_TSRST_Pos)                   /*!< SYS_T::IPRST2: TSRST Mask              */
 
 #define SYS_BODCTL_BODEN_Pos             (0)                                               /*!< SYS_T::BODCTL: BODEN Position          */
 #define SYS_BODCTL_BODEN_Msk             (0x1ul << SYS_BODCTL_BODEN_Pos)                   /*!< SYS_T::BODCTL: BODEN Mask              */
@@ -8791,14 +8901,20 @@ typedef struct
 #define SYS_BODCTL_VDETDGSEL_Pos         (25)                                              /*!< SYS_T::BODCTL: VDETDGSEL Position      */
 #define SYS_BODCTL_VDETDGSEL_Msk         (0x7ul << SYS_BODCTL_VDETDGSEL_Pos)               /*!< SYS_T::BODCTL: VDETDGSEL Mask          */
 
-#define SYS_IVSCTL_VTEMPEN_Pos           (0)                                               /*!< SYS_T::IVSCTL: VTEMPEN Position        */
-#define SYS_IVSCTL_VTEMPEN_Msk           (0x1ul << SYS_IVSCTL_VTEMPEN_Pos)                 /*!< SYS_T::IVSCTL: VTEMPEN Mask            */
-
 #define SYS_IVSCTL_VBGUGEN_Pos           (1)                                               /*!< SYS_T::IVSCTL: VBGUGEN Position        */
 #define SYS_IVSCTL_VBGUGEN_Msk           (0x1ul << SYS_IVSCTL_VBGUGEN_Pos)                 /*!< SYS_T::IVSCTL: VBGUGEN Mask            */
 
 #define SYS_PORCTL_POROFF_Pos            (0)                                               /*!< SYS_T::PORCTL: POROFF Position         */
 #define SYS_PORCTL_POROFF_Msk            (0xfffful << SYS_PORCTL_POROFF_Pos)               /*!< SYS_T::PORCTL: POROFF Mask             */
+
+#define SYS_VREFCTL_VREFCTL_Pos          (0)                                               /*!< SYS_T::VREFCTL: VREFCTL Position       */
+#define SYS_VREFCTL_VREFCTL_Msk          (0x1ful << SYS_VREFCTL_VREFCTL_Pos)               /*!< SYS_T::VREFCTL: VREFCTL Mask           */
+
+#define SYS_VREFCTL_PRELOADSEL_Pos       (6)                                               /*!< SYS_T::VREFCTL: PRELOADSEL Position    */
+#define SYS_VREFCTL_PRELOADSEL_Msk       (0x1ul << SYS_VREFCTL_PRELOADSEL_Pos)             /*!< SYS_T::VREFCTL: PRELOADSEL Mask        */
+
+#define SYS_VREFCTL_VBFGEN_Pos           (24)                                              /*!< SYS_T::VREFCTL: VBFGEN Position        */
+#define SYS_VREFCTL_VBFGEN_Msk           (0x1ul << SYS_VREFCTL_VBFGEN_Pos)                 /*!< SYS_T::VREFCTL: VBFGEN Mask            */
 
 #define SYS_GPA_MFPL_PA0MFP_Pos          (0)                                               /*!< SYS_T::GPA_MFPL: PA0MFP Position       */
 #define SYS_GPA_MFPL_PA0MFP_Msk          (0xful << SYS_GPA_MFPL_PA0MFP_Pos)                /*!< SYS_T::GPA_MFPL: PA0MFP Mask           */
@@ -8992,8 +9108,32 @@ typedef struct
 #define SYS_MODCTL_MODPWMSEL_Pos         (4)                                               /*!< SYS_T::MODCTL: MODPWMSEL Position      */
 #define SYS_MODCTL_MODPWMSEL_Msk         (0x7ul << SYS_MODCTL_MODPWMSEL_Pos)               /*!< SYS_T::MODCTL: MODPWMSEL Mask          */
 
-#define SYS_TSOFFSET_VTEMP_Pos           (0)                                               /*!< SYS_T::TSOFFSET: VTEMP Position        */
-#define SYS_TSOFFSET_VTEMP_Msk           (0xffful << SYS_TSOFFSET_VTEMP_Pos)               /*!< SYS_T::TSOFFSET: VTEMP Mask            */
+#define SYS_TSCTL_TSEN_Pos               (0)                                               /*!< SYS_T::TSCTL: TSEN Position            */
+#define SYS_TSCTL_TSEN_Msk               (0x1ul << SYS_TSCTL_TSEN_Pos)                     /*!< SYS_T::TSCTL: TSEN Mask                */
+
+#define SYS_TSCTL_TSBGEN_Pos             (1)                                               /*!< SYS_T::TSCTL: TSBGEN Position          */
+#define SYS_TSCTL_TSBGEN_Msk             (0x1ul << SYS_TSCTL_TSBGEN_Pos)                   /*!< SYS_T::TSCTL: TSBGEN Mask              */
+
+#define SYS_TSCTL_TSST_Pos               (2)                                               /*!< SYS_T::TSCTL: TSST Position            */
+#define SYS_TSCTL_TSST_Msk               (0x1ul << SYS_TSCTL_TSST_Pos)                     /*!< SYS_T::TSCTL: TSST Mask                */
+
+#define SYS_TSCTL_TSIEN_Pos              (3)                                               /*!< SYS_T::TSCTL: TSIEN Position           */
+#define SYS_TSCTL_TSIEN_Msk              (0x1ul << SYS_TSCTL_TSIEN_Pos)                    /*!< SYS_T::TSCTL: TSIEN Mask               */
+
+#define SYS_TSCTL_TSIF_Pos               (16)                                              /*!< SYS_T::TSCTL: TSIF Position            */
+#define SYS_TSCTL_TSIF_Msk               (0x1ul << SYS_TSCTL_TSIF_Pos)                     /*!< SYS_T::TSCTL: TSIF Mask                */
+
+#define SYS_TSDATA_TSEOC_Pos             (0)                                               /*!< SYS_T::TSDATA: TSEOC Position          */
+#define SYS_TSDATA_TSEOC_Msk             (0x1ul << SYS_TSDATA_TSEOC_Pos)                   /*!< SYS_T::TSDATA: TSEOC Mask              */
+
+#define SYS_TSDATA_TSDATA_Pos            (16)                                              /*!< SYS_T::TSDATA: TSDATA Position         */
+#define SYS_TSDATA_TSDATA_Msk            (0xffful << SYS_TSDATA_TSDATA_Pos)                /*!< SYS_T::TSDATA: TSDATA Mask             */
+
+#define SYS_SPIMUX_MUXSWEN_Pos           (0)                                               /*!< SYS_T::SPIMUX: MUXSWEN Position        */
+#define SYS_SPIMUX_MUXSWEN_Msk           (0x1ul << SYS_SPIMUX_MUXSWEN_Pos)                 /*!< SYS_T::SPIMUX: MUXSWEN Mask            */
+
+#define SYS_SPIMUX_MUXSWSEL_Pos          (1)                                               /*!< SYS_T::SPIMUX: MUXSWSEL Position       */
+#define SYS_SPIMUX_MUXSWSEL_Msk          (0x1ul << SYS_SPIMUX_MUXSWSEL_Pos)                /*!< SYS_T::SPIMUX: MUXSWSEL Mask           */
 
 /**@}*/ /* SYS_CONST */
 

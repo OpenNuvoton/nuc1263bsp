@@ -102,16 +102,23 @@ __Vectors:
     .long   LLSI3_IRQHandler
     .long   LLSI4_IRQHandler
     .long   LLSI5_IRQHandler
-    .long   Default_Handler  
-    .long   Default_Handler  
-    .long   Default_Handler  
-    .long   Default_Handler  
-    .long   SPI2_IRQHandler  
+    .long   Default_Handler
+    .long   Default_Handler
+    .long   Default_Handler
+    .long   Default_Handler
+    .long   SPI2_IRQHandler
+    .long   UART2_IRQHandler
+    .long   I3C0_IRQHandler
+    .long   I3C1_IRQHandler
+    .long   DAC_IRQHandler
+    .long   ACMP23_IRQHandler
+    .long   TEMP_IRQHandler
+    .long   SPDH_IRQHandler
 
     .size   __Vectors, . - __Vectors
-    
-    
-    
+
+
+
     .text
     .thumb
     .thumb_func
@@ -349,13 +356,20 @@ Default_Handler:
     def_irq_handler LLSI4_IRQHandler
     def_irq_handler LLSI5_IRQHandler
     def_irq_handler SPI2_IRQHandler
-    
-    
+    def_irq_handler UART2_IRQHandler
+    def_irq_handler I3C0_IRQHandler
+    def_irq_handler I3C1_IRQHandler
+    def_irq_handler DAC_IRQHandler
+    def_irq_handler ACMP23_IRQHandler
+    def_irq_handler TEMP_IRQHandler
+    def_irq_handler SPDH_IRQHandler
+
+
     /* ;int32_t SH_DoCommand(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0) */
     .align 2
     .thumb_func
     .type SH_DoCommand, % function
-    
+
 SH_DoCommand:
     
     BKPT   0xAB                /* ; Wait ICE or HardFault */
@@ -364,7 +378,7 @@ SH_DoCommand:
     BLX    R3                  /* ; Call SH_Return. The return value is in R0 */
     BX     R4                  /* ; Return value = R0 */
     .size  SH_DoCommand, . - SH_DoCommand
-    
+
     .align  2
     .thumb_func
     .global __PC

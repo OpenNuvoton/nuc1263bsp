@@ -480,6 +480,9 @@ void CLK_DisableXtalRC(uint32_t u32ClkMask)
   *             - \ref DAC_MODULE
   *             - \ref ACMP01_MODULE
   *             - \ref ACMP23_MODULE
+  *             - \ref I3C0_MODULE
+  *             - \ref I3C1_MODULE
+  *             - \ref SPD5_MODULE
   * @return     None
   * @details    This function enable module clock.
   */
@@ -533,7 +536,10 @@ void CLK_EnableModuleClock(uint32_t u32ModuleIdx)
   *             - \ref LLSI5_MODULE
   *             - \ref DAC_MODULE
   *             - \ref ACMP01_MODULE
-  *             - \ref ACMP23_MODULE 
+  *             - \ref ACMP23_MODULE
+  *             - \ref I3C0_MODULE
+  *             - \ref I3C1_MODULE
+  *             - \ref SPD5_MODULE
   * @return     None
   * @details    This function disable module clock.
   */
