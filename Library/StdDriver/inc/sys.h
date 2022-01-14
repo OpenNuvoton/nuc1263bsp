@@ -135,6 +135,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 
 /* PA.0 MFP */
 #define SYS_GPA_MFPL_PA0MFP_GPIO         (0x00UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for GPIO        */
+#define SYS_GPA_MFPL_PA0MFP_SPI0_MOSI_MUX (0x02UL<<SYS_GPA_MFPL_PA0MFP_Pos)/*!< GPA_MFPL PA0 setting for SPI0_MOSI_MUX*/
 #define SYS_GPA_MFPL_PA0MFP_SPI0_MOSI    (0x04UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for SPI0_MOSI   */
 #define SYS_GPA_MFPL_PA0MFP_SPI2_MOSI    (0x05UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for SPI2_MOSI   */
 #define SYS_GPA_MFPL_PA0MFP_I3C0_SDA     (0x06UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for I3C0_SDA    */
@@ -148,6 +149,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 
 /* PA.1 MFP */
 #define SYS_GPA_MFPL_PA1MFP_GPIO         (0x00UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for GPIO        */
+#define SYS_GPA_MFPL_PA1MFP_SPI0_MISO_MUX (0x02UL<<SYS_GPA_MFPL_PA1MFP_Pos)/*!< GPA_MFPL PA1 setting for SPI0_MISO_MUX*/
 #define SYS_GPA_MFPL_PA1MFP_SPI0_MISO    (0x04UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for SPI0_MISO   */
 #define SYS_GPA_MFPL_PA1MFP_SPI2_MISO    (0x05UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for SPI2_MISO   */
 #define SYS_GPA_MFPL_PA1MFP_I3C0_SCL     (0x06UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for I3C0_SCL    */
@@ -160,6 +162,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 
 /* PA.2 MFP */
 #define SYS_GPA_MFPL_PA2MFP_GPIO         (0x00UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for GPIO        */
+#define SYS_GPA_MFPL_PA2MFP_SPI0_CLK_MUX (0x02UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI0_CLK_MUX*/
 #define SYS_GPA_MFPL_PA2MFP_SPI0_CLK     (0x04UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI0_CLK    */
 #define SYS_GPA_MFPL_PA2MFP_SPI2_CLK     (0x05UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI2_CLK    */
 #define SYS_GPA_MFPL_PA2MFP_I3C1_SDA     (0x06UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for I3C1_SDA    */
@@ -173,6 +176,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 
 /* PA.3 MFP */
 #define SYS_GPA_MFPL_PA3MFP_GPIO         (0x00UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for GPIO        */
+#define SYS_GPA_MFPL_PA3MFP_SPI0_SS_MUX  (0x02UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI0_SS_MUX */
 #define SYS_GPA_MFPL_PA3MFP_SPI0_SS      (0x04UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI0_SS     */
 #define SYS_GPA_MFPL_PA3MFP_SPI2_SS      (0x05UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI2_SS     */
 #define SYS_GPA_MFPL_PA3MFP_I3C1_SCL     (0x06UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for I3C1_SCL    */
@@ -234,6 +238,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 /* PA.8 MFP */
 #define SYS_GPA_MFPH_PA8MFP_GPIO         (0x00UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for GPIO        */
 #define SYS_GPA_MFPH_PA8MFP_SPI2_I2SMCLK (0x02UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for SPI2_I2SMCLK*/
+#define SYS_GPA_MFPH_PA8MFP_SPI1_SS      (0x03UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for SPI1_SS     */
 #define SYS_GPA_MFPH_PA8MFP_SPI2_MOSI    (0x04UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for SPI2_MOSI   */
 #define SYS_GPA_MFPH_PA8MFP_I3C0_SCL     (0x06UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for I3C0_SCL    */
 #define SYS_GPA_MFPH_PA8MFP_UART1_RXD    (0x07UL<<SYS_GPA_MFPH_PA8MFP_Pos) /*!< GPA_MFPH PA8 setting for UART1_RXD   */
@@ -246,6 +251,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 /* PA.9 MFP */
 #define SYS_GPA_MFPH_PA9MFP_GPIO         (0x00UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for GPIO        */
 #define SYS_GPA_MFPH_PA9MFP_SPI2_MOSI    (0x02UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for SPI2_MOSI   */
+#define SYS_GPA_MFPH_PA9MFP_SPI1_CLK     (0x03UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for SPI1_CLK    */
 #define SYS_GPA_MFPH_PA9MFP_SPI2_MISO    (0x04UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for SPI2_MISO   */
 #define SYS_GPA_MFPH_PA9MFP_SPI1_MOSI    (0x05UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for SPI1_MOSI   */
 #define SYS_GPA_MFPH_PA9MFP_I3C1_SDA     (0x06UL<<SYS_GPA_MFPH_PA9MFP_Pos) /*!< GPA_MFPH PA9 setting for I3C1_SDA    */
@@ -258,8 +264,8 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 /* PA.10 MFP */
 #define SYS_GPA_MFPH_PA10MFP_GPIO        (0x00UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for GPIO       */
 #define SYS_GPA_MFPH_PA10MFP_SPI2_MISO   (0x02UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for SPI2_MISO  */
+#define SYS_GPA_MFPH_PA10MFP_SPI1_MISO   (0x03UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for SPI1_MISO  */
 #define SYS_GPA_MFPH_PA10MFP_SPI2_CLK    (0x04UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for SPI2_CLK   */
-#define SYS_GPA_MFPH_PA10MFP_SPI1_MISO   (0x05UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for SPI1_MISO  */
 #define SYS_GPA_MFPH_PA10MFP_I3C1_SCL    (0x06UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for I3C1_SCL   */
 #define SYS_GPA_MFPH_PA10MFP_I2C2_SDA    (0x07UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for I2C2_SDA   */
 #define SYS_GPA_MFPH_PA10MFP_BPWM0_CH1   (0x09UL<<SYS_GPA_MFPH_PA10MFP_Pos)/*!< GPA_MFPH PA10 setting for BPWM0_CH1  */
@@ -270,6 +276,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 /* PA.11 MFP */
 #define SYS_GPA_MFPH_PA11MFP_GPIO        (0x00UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for GPIO       */
 #define SYS_GPA_MFPH_PA11MFP_SPI2_CLK    (0x02UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for SPI2_CLK   */
+#define SYS_GPA_MFPH_PA11MFP_SPI1_MOSI   (0x03UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for SPI1_MOSI  */
 #define SYS_GPA_MFPH_PA11MFP_SPI2_SS     (0x04UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for SPI2_SS    */
 #define SYS_GPA_MFPH_PA11MFP_SPI1_CLK    (0x05UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for SPI1_CLK   */
 #define SYS_GPA_MFPH_PA11MFP_I2C2_SCL    (0x07UL<<SYS_GPA_MFPH_PA11MFP_Pos)/*!< GPA_MFPH PA11 setting for I2C2_SCL   */
@@ -922,6 +929,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_CLK_PB14            SYS_GPB_MFPH_PB14MFP_SPI0_CLK        /*!< GPB_MFPH PB14 setting for SPI0_CLK*/
 #define SPI0_CLK_PA2             SYS_GPA_MFPL_PA2MFP_SPI0_CLK         /*!< GPA_MFPL PA2 setting for SPI0_CLK*/
 #define SPI0_CLK_PD2             SYS_GPD_MFPL_PD2MFP_SPI0_CLK         /*!< GPD_MFPL PD2 setting for SPI0_CLK*/
+#define SPI0_CLK_MUX_PA2         SYS_GPA_MFPL_PA2MFP_SPI0_CLK_MUX     /*!< GPA_MFPL PA2 setting for SPI0_CLK_MUX*/
 #define SPI0_I2SMCLK_PC14        SYS_GPC_MFPH_PC14MFP_SPI0_I2SMCLK    /*!< GPC_MFPH PC14 setting for SPI0_I2SMCLK*/
 #define SPI0_I2SMCLK_PB2         SYS_GPB_MFPL_PB2MFP_SPI0_I2SMCLK     /*!< GPB_MFPL PB2 setting for SPI0_I2SMCLK*/
 #define SPI0_I2SMCLK_PA5         SYS_GPA_MFPL_PA5MFP_SPI0_I2SMCLK     /*!< GPA_MFPL PA5 setting for SPI0_I2SMCLK*/
@@ -931,17 +939,21 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_MISO_PB13           SYS_GPB_MFPH_PB13MFP_SPI0_MISO       /*!< GPB_MFPH PB13 setting for SPI0_MISO*/
 #define SPI0_MISO_PD1            SYS_GPD_MFPL_PD1MFP_SPI0_MISO        /*!< GPD_MFPL PD1 setting for SPI0_MISO*/
 #define SPI0_MISO_PA1            SYS_GPA_MFPL_PA1MFP_SPI0_MISO        /*!< GPA_MFPL PA1 setting for SPI0_MISO*/
+#define SPI0_MISO_MUX_PA1        SYS_GPA_MFPL_PA1MFP_SPI0_MISO_MUX    /*!< GPA_MFPL PA1 setting for SPI0_MISO_MUX*/
 #define SPI0_MOSI_PA0            SYS_GPA_MFPL_PA0MFP_SPI0_MOSI        /*!< GPA_MFPL PA0 setting for SPI0_MOSI*/
 #define SPI0_MOSI_PF6            SYS_GPF_MFPL_PF6MFP_SPI0_MOSI        /*!< GPF_MFPL PF6 setting for SPI0_MOSI*/
 #define SPI0_MOSI_PB12           SYS_GPB_MFPH_PB12MFP_SPI0_MOSI       /*!< GPB_MFPH PB12 setting for SPI0_MOSI*/
 #define SPI0_MOSI_PD0            SYS_GPD_MFPL_PD0MFP_SPI0_MOSI        /*!< GPD_MFPL PD0 setting for SPI0_MOSI*/
+#define SPI0_MOSI_MUX_PA0        SYS_GPA_MFPL_PA0MFP_SPI0_MOSI_MUX    /*!< GPA_MFPL PA0 setting for SPI0_MOSI_MUX*/
 #define SPI0_SS_PA3              SYS_GPA_MFPL_PA3MFP_SPI0_SS          /*!< GPA_MFPL PA3 setting for SPI0_SS*/
 #define SPI0_SS_PD3              SYS_GPD_MFPL_PD3MFP_SPI0_SS          /*!< GPD_MFPL PD3 setting for SPI0_SS*/
 #define SPI0_SS_PB15             SYS_GPB_MFPH_PB15MFP_SPI0_SS         /*!< GPB_MFPH PB15 setting for SPI0_SS*/
+#define SPI0_SS_MUX_PA3          SYS_GPA_MFPL_PA3MFP_SPI0_SS_MUX      /*!< GPA_MFPL PA3 setting for SPI0_SS_MUX*/
 #define SPI1_CLK_PA7             SYS_GPA_MFPL_PA7MFP_SPI1_CLK         /*!< GPA_MFPL PA7 setting for SPI1_CLK*/
 #define SPI1_CLK_PB3             SYS_GPB_MFPL_PB3MFP_SPI1_CLK         /*!< GPB_MFPL PB3 setting for SPI1_CLK*/
 #define SPI1_CLK_PC1             SYS_GPC_MFPL_PC1MFP_SPI1_CLK         /*!< GPC_MFPL PC1 setting for SPI1_CLK*/
 #define SPI1_CLK_PA11            SYS_GPA_MFPH_PA11MFP_SPI1_CLK        /*!< GPA_MFPH PA11 setting for SPI1_CLK*/
+#define SPI1_CLK_PA9             SYS_GPA_MFPH_PA9MFP_SPI1_CLK         /*!< GPA_MFPH PA9 setting for SPI1_CLK*/
 #define SPI1_I2SMCLK_PB1         SYS_GPB_MFPL_PB1MFP_SPI1_I2SMCLK     /*!< GPB_MFPL PB1 setting for SPI1_I2SMCLK*/
 #define SPI1_I2SMCLK_PA5         SYS_GPA_MFPL_PA5MFP_SPI1_I2SMCLK     /*!< GPA_MFPL PA5 setting for SPI1_I2SMCLK*/
 #define SPI1_I2SMCLK_PC4         SYS_GPC_MFPL_PC4MFP_SPI1_I2SMCLK     /*!< GPC_MFPL PC4 setting for SPI1_I2SMCLK*/
@@ -955,11 +967,13 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI1_MOSI_PC6            SYS_GPC_MFPL_PC6MFP_SPI1_MOSI        /*!< GPC_MFPL PC6 setting for SPI1_MOSI*/
 #define SPI1_MOSI_PC2            SYS_GPC_MFPL_PC2MFP_SPI1_MOSI        /*!< GPC_MFPL PC2 setting for SPI1_MOSI*/
 #define SPI1_MOSI_PC14           SYS_GPC_MFPH_PC14MFP_SPI1_MOSI       /*!< GPC_MFPH PC14 setting for SPI1_MOSI*/
+#define SPI1_MOSI_PA11           SYS_GPA_MFPH_PA11MFP_SPI1_MOSI       /*!< GPA_MFPH PA11 setting for SPI1_MOSI*/
 #define SPI1_SS_PB0              SYS_GPB_MFPL_PB0MFP_SPI1_SS          /*!< GPB_MFPL PB0 setting for SPI1_SS*/
 #define SPI1_SS_PC0              SYS_GPC_MFPL_PC0MFP_SPI1_SS          /*!< GPC_MFPL PC0 setting for SPI1_SS*/
 #define SPI1_SS_PB2              SYS_GPB_MFPL_PB2MFP_SPI1_SS          /*!< GPB_MFPL PB2 setting for SPI1_SS*/
 #define SPI1_SS_PA6              SYS_GPA_MFPL_PA6MFP_SPI1_SS          /*!< GPA_MFPL PA6 setting for SPI1_SS*/
 #define SPI1_SS_PF4              SYS_GPF_MFPL_PF4MFP_SPI1_SS          /*!< GPF_MFPL PF4 setting for SPI1_SS*/
+#define SPI1_SS_PA8              SYS_GPA_MFPH_PA8MFP_SPI1_SS          /*!< GPA_MFPH PA8 setting for SPI1_SS*/
 #define SPI2_CLK_PA11            SYS_GPA_MFPH_PA11MFP_SPI2_CLK        /*!< GPA_MFPH PA11 setting for SPI2_CLK*/
 #define SPI2_CLK_PA2             SYS_GPA_MFPL_PA2MFP_SPI2_CLK         /*!< GPA_MFPL PA2 setting for SPI2_CLK*/
 #define SPI2_CLK_PA10            SYS_GPA_MFPH_PA10MFP_SPI2_CLK        /*!< GPA_MFPH PA10 setting for SPI2_CLK*/
@@ -1308,6 +1322,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_CLK_PB14_Msk       SYS_GPB_MFPH_PB14MFP_Msk       /*!< SPI0_CLK        PB14     MFP Mask */
 #define SPI0_CLK_PA2_Msk        SYS_GPA_MFPL_PA2MFP_Msk        /*!< SPI0_CLK        PA2      MFP Mask */
 #define SPI0_CLK_PD2_Msk        SYS_GPD_MFPL_PD2MFP_Msk        /*!< SPI0_CLK        PD2      MFP Mask */
+#define SPI0_CLK_MUX_PA2_Msk    SYS_GPA_MFPL_PA2MFP_Msk        /*!< SPI0_CLK_MUX    PA2      MFP Mask */
 #define SPI0_I2SMCLK_PC14_Msk   SYS_GPC_MFPH_PC14MFP_Msk       /*!< SPI0_I2SMCLK    PC14     MFP Mask */
 #define SPI0_I2SMCLK_PB2_Msk    SYS_GPB_MFPL_PB2MFP_Msk        /*!< SPI0_I2SMCLK    PB2      MFP Mask */
 #define SPI0_I2SMCLK_PA5_Msk    SYS_GPA_MFPL_PA5MFP_Msk        /*!< SPI0_I2SMCLK    PA5      MFP Mask */
@@ -1317,17 +1332,21 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_MISO_PB13_Msk      SYS_GPB_MFPH_PB13MFP_Msk       /*!< SPI0_MISO       PB13     MFP Mask */
 #define SPI0_MISO_PD1_Msk       SYS_GPD_MFPL_PD1MFP_Msk        /*!< SPI0_MISO       PD1      MFP Mask */
 #define SPI0_MISO_PA1_Msk       SYS_GPA_MFPL_PA1MFP_Msk        /*!< SPI0_MISO       PA1      MFP Mask */
+#define SPI0_MISO_MUX_PA1_Msk   SYS_GPA_MFPL_PA1MFP_Msk        /*!< SPI0_MISO_MUX   PA1      MFP Mask */
 #define SPI0_MOSI_PA0_Msk       SYS_GPA_MFPL_PA0MFP_Msk        /*!< SPI0_MOSI       PA0      MFP Mask */
 #define SPI0_MOSI_PF6_Msk       SYS_GPF_MFPL_PF6MFP_Msk        /*!< SPI0_MOSI       PF6      MFP Mask */
 #define SPI0_MOSI_PB12_Msk      SYS_GPB_MFPH_PB12MFP_Msk       /*!< SPI0_MOSI       PB12     MFP Mask */
 #define SPI0_MOSI_PD0_Msk       SYS_GPD_MFPL_PD0MFP_Msk        /*!< SPI0_MOSI       PD0      MFP Mask */
+#define SPI0_MOSI_MUX_PA0_Msk   SYS_GPA_MFPL_PA0MFP_Msk        /*!< SPI0_MOSI_MUX   PA0      MFP Mask */
 #define SPI0_SS_PA3_Msk         SYS_GPA_MFPL_PA3MFP_Msk        /*!< SPI0_SS         PA3      MFP Mask */
 #define SPI0_SS_PD3_Msk         SYS_GPD_MFPL_PD3MFP_Msk        /*!< SPI0_SS         PD3      MFP Mask */
 #define SPI0_SS_PB15_Msk        SYS_GPB_MFPH_PB15MFP_Msk       /*!< SPI0_SS         PB15     MFP Mask */
+#define SPI0_SS_MUX_PA3_Msk     SYS_GPA_MFPL_PA3MFP_Msk        /*!< SPI0_SS_MUX     PA3      MFP Mask */
 #define SPI1_CLK_PA7_Msk        SYS_GPA_MFPL_PA7MFP_Msk        /*!< SPI1_CLK        PA7      MFP Mask */
 #define SPI1_CLK_PB3_Msk        SYS_GPB_MFPL_PB3MFP_Msk        /*!< SPI1_CLK        PB3      MFP Mask */
 #define SPI1_CLK_PC1_Msk        SYS_GPC_MFPL_PC1MFP_Msk        /*!< SPI1_CLK        PC1      MFP Mask */
 #define SPI1_CLK_PA11_Msk       SYS_GPA_MFPH_PA11MFP_Msk       /*!< SPI1_CLK        PA11     MFP Mask */
+#define SPI1_CLK_PA9_Msk        SYS_GPA_MFPH_PA9MFP_Msk        /*!< SPI1_CLK        PA9      MFP Mask */
 #define SPI1_I2SMCLK_PB1_Msk    SYS_GPB_MFPL_PB1MFP_Msk        /*!< SPI1_I2SMCLK    PB1      MFP Mask */
 #define SPI1_I2SMCLK_PA5_Msk    SYS_GPA_MFPL_PA5MFP_Msk        /*!< SPI1_I2SMCLK    PA5      MFP Mask */
 #define SPI1_I2SMCLK_PC4_Msk    SYS_GPC_MFPL_PC4MFP_Msk        /*!< SPI1_I2SMCLK    PC4      MFP Mask */
@@ -1341,11 +1360,13 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI1_MOSI_PC6_Msk       SYS_GPC_MFPL_PC6MFP_Msk        /*!< SPI1_MOSI       PC6      MFP Mask */
 #define SPI1_MOSI_PC2_Msk       SYS_GPC_MFPL_PC2MFP_Msk        /*!< SPI1_MOSI       PC2      MFP Mask */
 #define SPI1_MOSI_PC14_Msk      SYS_GPC_MFPH_PC14MFP_Msk       /*!< SPI1_MOSI       PC14     MFP Mask */
+#define SPI1_MOSI_PA11_Msk      SYS_GPA_MFPH_PA11MFP_Msk       /*!< SPI1_MOSI       PA11     MFP Mask */
 #define SPI1_SS_PB0_Msk         SYS_GPB_MFPL_PB0MFP_Msk        /*!< SPI1_SS         PB0      MFP Mask */
 #define SPI1_SS_PC0_Msk         SYS_GPC_MFPL_PC0MFP_Msk        /*!< SPI1_SS         PC0      MFP Mask */
 #define SPI1_SS_PB2_Msk         SYS_GPB_MFPL_PB2MFP_Msk        /*!< SPI1_SS         PB2      MFP Mask */
 #define SPI1_SS_PA6_Msk         SYS_GPA_MFPL_PA6MFP_Msk        /*!< SPI1_SS         PA6      MFP Mask */
 #define SPI1_SS_PF4_Msk         SYS_GPF_MFPL_PF4MFP_Msk        /*!< SPI1_SS         PF4      MFP Mask */
+#define SPI1_SS_PA8_Msk         SYS_GPA_MFPH_PA8MFP_Msk        /*!< SPI1_SS         PA8      MFP Mask */
 #define SPI2_CLK_PA11_Msk       SYS_GPA_MFPH_PA11MFP_Msk       /*!< SPI2_CLK        PA11     MFP Mask */
 #define SPI2_CLK_PA2_Msk        SYS_GPA_MFPL_PA2MFP_Msk        /*!< SPI2_CLK        PA2      MFP Mask */
 #define SPI2_CLK_PA10_Msk       SYS_GPA_MFPH_PA10MFP_Msk       /*!< SPI2_CLK        PA10     MFP Mask */
@@ -1701,6 +1722,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_SPI0_CLK_PB14()      SYS->GPB_MFPH = (SYS->GPB_MFPH & (~SPI0_CLK_PB14_Msk)) | SPI0_CLK_PB14          /*!< Set PB14 function to SPI0_CLK        */
 #define SET_SPI0_CLK_PA2()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_CLK_PA2_Msk)) | SPI0_CLK_PA2            /*!< Set PA2 function to SPI0_CLK         */
 #define SET_SPI0_CLK_PD2()       SYS->GPD_MFPL = (SYS->GPD_MFPL & (~SPI0_CLK_PD2_Msk)) | SPI0_CLK_PD2            /*!< Set PD2 function to SPI0_CLK         */
+#define SET_SPI0_CLK_MUX_PA2()   SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_CLK_PA2_Msk)) | SPI0_CLK_MUX_PA2        /*!< Set PA2 function to SPI0_CLK_MUX     */
 #define SET_SPI0_I2SMCLK_PC14()  SYS->GPC_MFPH = (SYS->GPC_MFPH & (~SPI0_I2SMCLK_PC14_Msk)) | SPI0_I2SMCLK_PC14  /*!< Set PC14 function to SPI0_I2SMCLK    */
 #define SET_SPI0_I2SMCLK_PB2()   SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI0_I2SMCLK_PB2_Msk)) | SPI0_I2SMCLK_PB2    /*!< Set PB2 function to SPI0_I2SMCLK     */
 #define SET_SPI0_I2SMCLK_PA5()   SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_I2SMCLK_PA5_Msk)) | SPI0_I2SMCLK_PA5    /*!< Set PA5 function to SPI0_I2SMCLK     */
@@ -1710,17 +1732,21 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_SPI0_MISO_PB13()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~SPI0_MISO_PB13_Msk)) | SPI0_MISO_PB13        /*!< Set PB13 function to SPI0_MISO       */
 #define SET_SPI0_MISO_PD1()      SYS->GPD_MFPL = (SYS->GPD_MFPL & (~SPI0_MISO_PD1_Msk)) | SPI0_MISO_PD1          /*!< Set PD1 function to SPI0_MISO        */
 #define SET_SPI0_MISO_PA1()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_MISO_PA1_Msk)) | SPI0_MISO_PA1          /*!< Set PA1 function to SPI0_MISO        */
+#define SET_SPI0_MISO_MUX_PA1()  SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_MISO_PA1_Msk)) | SPI0_MISO_MUX_PA1      /*!< Set PA1 function to SPI0_MISO_MUX    */
 #define SET_SPI0_MOSI_PA0()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_MOSI_PA0_Msk)) | SPI0_MOSI_PA0          /*!< Set PA0 function to SPI0_MOSI        */
 #define SET_SPI0_MOSI_PF6()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~SPI0_MOSI_PF6_Msk)) | SPI0_MOSI_PF6          /*!< Set PF6 function to SPI0_MOSI        */
 #define SET_SPI0_MOSI_PB12()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~SPI0_MOSI_PB12_Msk)) | SPI0_MOSI_PB12        /*!< Set PB12 function to SPI0_MOSI       */
 #define SET_SPI0_MOSI_PD0()      SYS->GPD_MFPL = (SYS->GPD_MFPL & (~SPI0_MOSI_PD0_Msk)) | SPI0_MOSI_PD0          /*!< Set PD0 function to SPI0_MOSI        */
+#define SET_SPI0_MOSI_MUX_PA0()  SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_MOSI_PA0_Msk)) | SPI0_MOSI_MUX_PA0      /*!< Set PA0 function to SPI0_MOSI_MUX    */
 #define SET_SPI0_SS_PA3()        SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_SS_PA3_Msk)) | SPI0_SS_PA3              /*!< Set PA3 function to SPI0_SS          */
 #define SET_SPI0_SS_PD3()        SYS->GPD_MFPL = (SYS->GPD_MFPL & (~SPI0_SS_PD3_Msk)) | SPI0_SS_PD3              /*!< Set PD3 function to SPI0_SS          */
 #define SET_SPI0_SS_PB15()       SYS->GPB_MFPH = (SYS->GPB_MFPH & (~SPI0_SS_PB15_Msk)) | SPI0_SS_PB15            /*!< Set PB15 function to SPI0_SS         */
+#define SET_SPI0_SS_MUX_PA3()    SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_SS_PA3_Msk)) | SPI0_SS_MUX_PA3          /*!< Set PA3 function to SPI0_SS_MUX      */
 #define SET_SPI1_CLK_PA7()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI1_CLK_PA7_Msk)) | SPI1_CLK_PA7            /*!< Set PA7 function to SPI1_CLK         */
 #define SET_SPI1_CLK_PB3()       SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI1_CLK_PB3_Msk)) | SPI1_CLK_PB3            /*!< Set PB3 function to SPI1_CLK         */
 #define SET_SPI1_CLK_PC1()       SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SPI1_CLK_PC1_Msk)) | SPI1_CLK_PC1            /*!< Set PC1 function to SPI1_CLK         */
 #define SET_SPI1_CLK_PA11()      SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI1_CLK_PA11_Msk)) | SPI1_CLK_PA11          /*!< Set PA11 function to SPI1_CLK        */
+#define SET_SPI1_CLK_PA9()       SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI1_CLK_PA9_Msk)) | SPI1_CLK_PA9            /*!< Set PA9 function to SPI1_CLK         */
 #define SET_SPI1_I2SMCLK_PB1()   SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI1_I2SMCLK_PB1_Msk)) | SPI1_I2SMCLK_PB1    /*!< Set PB1 function to SPI1_I2SMCLK     */
 #define SET_SPI1_I2SMCLK_PA5()   SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI1_I2SMCLK_PA5_Msk)) | SPI1_I2SMCLK_PA5    /*!< Set PA5 function to SPI1_I2SMCLK     */
 #define SET_SPI1_I2SMCLK_PC4()   SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SPI1_I2SMCLK_PC4_Msk)) | SPI1_I2SMCLK_PC4    /*!< Set PC4 function to SPI1_I2SMCLK     */
@@ -1734,11 +1760,13 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_SPI1_MOSI_PC6()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SPI1_MOSI_PC6_Msk)) | SPI1_MOSI_PC6          /*!< Set PC6 function to SPI1_MOSI        */
 #define SET_SPI1_MOSI_PC2()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SPI1_MOSI_PC2_Msk)) | SPI1_MOSI_PC2          /*!< Set PC2 function to SPI1_MOSI        */
 #define SET_SPI1_MOSI_PC14()     SYS->GPC_MFPH = (SYS->GPC_MFPH & (~SPI1_MOSI_PC14_Msk)) | SPI1_MOSI_PC14        /*!< Set PC14 function to SPI1_MOSI       */
+#define SET_SPI1_MOSI_PA11()     SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI1_MOSI_PA11_Msk)) | SPI1_MOSI_PA11        /*!< Set PA11 function to SPI1_MOSI       */
 #define SET_SPI1_SS_PB0()        SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI1_SS_PB0_Msk)) | SPI1_SS_PB0              /*!< Set PB0 function to SPI1_SS          */
 #define SET_SPI1_SS_PC0()        SYS->GPC_MFPL = (SYS->GPC_MFPL & (~SPI1_SS_PC0_Msk)) | SPI1_SS_PC0              /*!< Set PC0 function to SPI1_SS          */
 #define SET_SPI1_SS_PB2()        SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI1_SS_PB2_Msk)) | SPI1_SS_PB2              /*!< Set PB2 function to SPI1_SS          */
 #define SET_SPI1_SS_PA6()        SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI1_SS_PA6_Msk)) | SPI1_SS_PA6              /*!< Set PA6 function to SPI1_SS          */
 #define SET_SPI1_SS_PF4()        SYS->GPF_MFPL = (SYS->GPF_MFPL & (~SPI1_SS_PF4_Msk)) | SPI1_SS_PF4              /*!< Set PF4 function to SPI1_SS          */
+#define SET_SPI1_SS_PA8()        SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI1_SS_PA8_Msk)) | SPI1_SS_PA8              /*!< Set PA8 function to SPI1_SS          */
 #define SET_SPI2_CLK_PA11()      SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI2_CLK_PA11_Msk)) | SPI2_CLK_PA11          /*!< Set PA11 function to SPI2_CLK        */
 #define SET_SPI2_CLK_PA2()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI2_CLK_PA2_Msk)) | SPI2_CLK_PA2            /*!< Set PA2 function to SPI2_CLK         */
 #define SET_SPI2_CLK_PA10()      SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI2_CLK_PA10_Msk)) | SPI2_CLK_PA10          /*!< Set PA10 function to SPI2_CLK        */
