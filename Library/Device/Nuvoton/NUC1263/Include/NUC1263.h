@@ -591,9 +591,6 @@ typedef struct
      * |[21]    |GPIOFCKEN |General Purpose I/O PF Group Clock Enable Bit
      * |        |          |0 = GPIO PF group clock Disabled.
      * |        |          |1 = GPIO PF group clock Enabled.
-     * |[22]    |GPIOGCKEN |General Purpose I/O PG Group Clock Enable Bit
-     * |        |          |0 = GPIO PG group clock Disabled.
-     * |        |          |1 = GPIO PG group clock Enabled.
      * @var CLK_T::APBCLK0
      * Offset: 0x08  APB Devices Clock Enable Control Register 0
      * ---------------------------------------------------------------------------------------------------
@@ -1125,9 +1122,6 @@ typedef struct
 
 #define CLK_AHBCLK_GPIOFCKEN_Pos         (21)                                              /*!< CLK_T::AHBCLK: GPIOFCKEN Position      */
 #define CLK_AHBCLK_GPIOFCKEN_Msk         (0x1ul << CLK_AHBCLK_GPIOFCKEN_Pos)               /*!< CLK_T::AHBCLK: GPIOFCKEN Mask          */
-
-#define CLK_AHBCLK_GPIOGCKEN_Pos         (22)                                              /*!< CLK_T::AHBCLK: GPIOGCKEN Position      */
-#define CLK_AHBCLK_GPIOGCKEN_Msk         (0x1ul << CLK_AHBCLK_GPIOGCKEN_Pos)               /*!< CLK_T::AHBCLK: GPIOGCKEN Mask          */
 
 #define CLK_APBCLK0_WDTCKEN_Pos          (0)                                               /*!< CLK_T::APBCLK0: WDTCKEN Position       */
 #define CLK_APBCLK0_WDTCKEN_Msk          (0x1ul << CLK_APBCLK0_WDTCKEN_Pos)                /*!< CLK_T::APBCLK0: WDTCKEN Mask           */
@@ -2163,10 +2157,10 @@ typedef struct
      * |        |          |If CIOINI is set to 0, the default value is 0x0000_0000 and all pins will be input mode after chip powered on.
      * |        |          |Note2:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.        
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::DINOFF
      * Offset: 0x04/0x44/0x84/0xC4/0x144  PA-F Digital Input Path Disable Control
      * ---------------------------------------------------------------------------------------------------
@@ -2179,10 +2173,10 @@ typedef struct
      * |        |          |1 = Px.n digital input path Disabled (digital input tied to low).
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.   
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::DOUT
      * Offset: 0x08/0x48/0x88/0xC8/0x148  PA-F Data Output Value
      * ---------------------------------------------------------------------------------------------------
@@ -2194,10 +2188,10 @@ typedef struct
      * |        |          |1 = Px.n will drive High if the Px.n pin is configured as Push-pull output or Quasi-bidirectional mode.
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.   
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::DATMSK
      * Offset: 0x0C/0x4C/0x8C/0xCC/0x14C  PA-F Data Output Write Mask
      * ---------------------------------------------------------------------------------------------------
@@ -2212,10 +2206,10 @@ typedef struct
      * |        |          |Note1: This function only protects the corresponding DOUT (Px_DOUT[n]) bit, and will not protect the corresponding PDIO (Pxn_PDIO[0]) bit.
      * |        |          |Note2:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.   
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::PIN
      * Offset: 0x10/0x50/0x90/0xD0/0x150  PA-F Pin Value
      * ---------------------------------------------------------------------------------------------------
@@ -2226,10 +2220,10 @@ typedef struct
      * |        |          |If the bit is 1, it indicates the corresponding pin status is high; else the pin status is low.
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.   
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::DBEN
      * Offset: 0x14/0x54/0x94/0xD4/0x154  PA-F De-Bounce Enable Control
      * ---------------------------------------------------------------------------------------------------
@@ -2245,10 +2239,10 @@ typedef struct
      * |        |          |If the interrupt mode is level triggered, the de-bounce enable bit is ignored.
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F.   
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::INTTYPE
      * Offset: 0x18/0x58/0x98/0xD8/0x158  PA-F Interrupt Trigger Type Control
      * ---------------------------------------------------------------------------------------------------
@@ -2269,7 +2263,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6 for port F.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::INTEN
      * Offset: 0x1C/0x5C/0x9C/0xDC/0x15C  PA-F Interrupt Enable Control
      * ---------------------------------------------------------------------------------------------------
@@ -2288,7 +2282,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6 for port F.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * |[n+16]  |RHIENn    |Port A-F Pin[n] Rising Edge or High Level Interrupt Trigger Type Enable Bit
      * |        |          |The RHIEN (Px_INTEN[n+16]) bit is used to enable the interrupt for each of the corresponding input Px.n pin.
      * |        |          |Set bit to 1 also enable the pin wake-up function.
@@ -2302,7 +2296,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6 for port F.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::INTSRC
      * Offset: 0x20/0x60/0xA0/0xE0/0x160  PA-F Interrupt Source Flag
      * ---------------------------------------------------------------------------------------------------
@@ -2317,10 +2311,10 @@ typedef struct
      * |        |          |1 = Px.n generates an interrupt.
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F. 
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::SMTEN
      * Offset: 0x24/0x64/0xA4/0xE4/0x164  PA-F Input Schmitt Trigger Enable
      * ---------------------------------------------------------------------------------------------------
@@ -2334,7 +2328,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6 for port F.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::SLEWCTL
      * Offset: 0x28/0x68/0xA8/0xE8/0x128/0x168  PA-F High Slew Rate Control
      * ---------------------------------------------------------------------------------------------------
@@ -2345,10 +2339,10 @@ typedef struct
      * |        |          |1 = Px.n output with higher slew rate.
      * |        |          |Note:
      * |        |          |n = 0~11 for port A.
-     * |        |          |n = 0~15 for port B.   
-     * |        |          |n = 0~7, 14 for port C.       
-     * |        |          |n = 0~3, 15 for port D.  
-     * |        |          |n = 0~6 for port F. 
+     * |        |          |n = 0~15 for port B.
+     * |        |          |n = 0~7, 14 for port C.
+     * |        |          |n = 0~3, 15 for port D.
+     * |        |          |n = 0~6, 14, 15 for port F.
      * @var GPIO_T::PUSEL
      * Offset: 0x30/0x70/0xB0/0xF0/0x170  PA-F Pull-up  Selection Register
      * ---------------------------------------------------------------------------------------------------
@@ -2366,7 +2360,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6 for port F.
+     * |        |          |n = 0~6, 14, 15 for port F.
      */
 
 
@@ -8506,6 +8500,13 @@ typedef struct
      * |[19:16] |PF4MFP    |PF.4 Multi-function Pin Selection
      * |[23:20] |PF5MFP    |PF.5 Multi-function Pin Selection
      * |[27:24] |PF6MFP    |PF.6 Multi-function Pin Selection
+     * @var SYS_T::GPF_MFPH
+     * Offset: 0x3C  GPIOF High Byte Multiple Function Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[27:24] |PF14MFP   |PF.14 Multi-function Pin Selection
+     * |[31:28] |PF15MFP   |PF.15 Multi-function Pin Selection
      * @var SYS_T::IRCTCTL
      * Offset: 0x80  HIRC Trim Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -8695,7 +8696,8 @@ typedef struct
     __IO uint32_t GPD_MFPH;              /*!< [0x004c] GPIOD High Byte Multiple Function Control Register               */
     __I  uint32_t RESERVE3[2];
     __IO uint32_t GPF_MFPL;              /*!< [0x0058] GPIOF Low Byte Multiple Function Control Register                */
-    __I  uint32_t RESERVE4[9];
+    __IO uint32_t GPF_MFPH;              /*!< [0x005C] GPIOF High Byte Multiple Function Control Register               */
+    __I  uint32_t RESERVE4[8];
     __IO uint32_t IRCTCTL;               /*!< [0x0080] HIRC Trim Control Register                                       */
     __IO uint32_t IRCTIEN;               /*!< [0x0084] HIRC Trim Interrupt Enable Register                              */
     __IO uint32_t IRCTISTS;              /*!< [0x0088] HIRC Trim Interrupt Status Register                              */
@@ -9062,6 +9064,12 @@ typedef struct
 
 #define SYS_GPF_MFPL_PF6MFP_Pos          (24)                                              /*!< SYS_T::GPF_MFPL: PF6MFP Position       */
 #define SYS_GPF_MFPL_PF6MFP_Msk          (0xful << SYS_GPF_MFPL_PF6MFP_Pos)                /*!< SYS_T::GPF_MFPL: PF6MFP Mask           */
+
+#define SYS_GPF_MFPH_PF14MFP_Pos         (24)                                              /*!< SYS_T::GPF_MFPH: PF14MFP Position      */
+#define SYS_GPF_MFPH_PF14MFP_Msk         (0xful << SYS_GPF_MFPH_PF14MFP_Pos)               /*!< SYS_T::GPF_MFPH: PF14MFP Mask          */
+
+#define SYS_GPF_MFPH_PF15MFP_Pos         (28)                                              /*!< SYS_T::GPF_MFPH: PF15MFP Position      */
+#define SYS_GPF_MFPH_PF15MFP_Msk         (0xful << SYS_GPF_MFPH_PF15MFP_Pos)               /*!< SYS_T::GPF_MFPH: PF15MFP Mask          */
 
 #define SYS_IRCTCTL_FREQSEL_Pos          (0)                                               /*!< SYS_T::IRCTCTL: FREQSEL Position       */
 #define SYS_IRCTCTL_FREQSEL_Msk          (0x3ul << SYS_IRCTCTL_FREQSEL_Pos)                /*!< SYS_T::IRCTCTL: FREQSEL Mask           */

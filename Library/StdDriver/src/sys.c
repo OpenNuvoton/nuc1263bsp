@@ -142,7 +142,7 @@ void SYS_ResetCPU(void)
   *             - \ref ACMP23_RST
   *             - \ref I3C0_RST
   *             - \ref I3C1_RST
-  *             - \ref SPD5_RST
+  *             - \ref SPDH_RST
   *             - \ref TS_RST
   * @return     None
   * @details    This function reset selected module.

@@ -161,6 +161,8 @@ extern "C"
 #define PF4             GPIO_PIN_DATA(5, 4 ) /*!< Specify PF.4 Pin Data Input/Output */
 #define PF5             GPIO_PIN_DATA(5, 5 ) /*!< Specify PF.5 Pin Data Input/Output */
 #define PF6             GPIO_PIN_DATA(5, 6 ) /*!< Specify PF.6 Pin Data Input/Output */
+#define PF14            GPIO_PIN_DATA(5, 14) /*!< Specify PF.14 Pin Data Input/Output */
+#define PF15            GPIO_PIN_DATA(5, 15) /*!< Specify PF.15 Pin Data Input/Output */
 
 
 /*@}*/ /* end of group GPIO_EXPORTED_CONSTANTS */
@@ -179,7 +181,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -196,7 +198,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -213,7 +215,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  * @return      None
  *
  * @details     Enable the interrupt de-bounce function of specified GPIO pin.
@@ -229,7 +231,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -245,8 +247,8 @@ extern "C"
  *                          It could be BIT0 ~ BIT11 for PA. \n
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
- *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n 
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -263,7 +265,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -280,7 +282,7 @@ extern "C"
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @return      None
  *
@@ -296,8 +298,8 @@ extern "C"
  *                          It could be BIT0 ~ BIT11 for PA. \n
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
- *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n 
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  *
  * @retval      0           No interrupt at specified GPIO pin
  * @retval      1           The specified GPIO pin generate an interrupt
@@ -395,10 +397,10 @@ extern "C"
  * @param[in]   port            GPIO port. It could be PA, PB, PC, PD or PF.
  * @param[in]   u32Pin          The pin of specified GPIO port. \n
  *                              It could be 0 ~ 11 for PA GPIO port. \n
- *                              It could be 0 ~ 15 for PB GPIO port. \n 
+ *                              It could be 0 ~ 15 for PB GPIO port. \n
  *                              It could be 0 ~ 7, 14 for PC GPIO port. \n
  *                              It could be 0 ~ 3, 15 for PD GPIO port. \n
- *                              It could be 0 ~ 6 for PF GPIO port.
+ *                              It could be 0 ~ 6, 14, 15 for PF GPIO port.
  * @param[in]   u32IntAttribs   The interrupt attribute of specified GPIO pin. It could be
  *                            - \ref GPIO_INT_RISING
  *                            - \ref GPIO_INT_FALLING
@@ -418,10 +420,10 @@ extern "C"
  * @param[in]   port            GPIO port. It could be PA, PB, PC, PD or PF.
  * @param[in]   u32Pin          The pin of specified GPIO port. \n
  *                              It could be 0 ~ 11 for PA GPIO port. \n
- *                              It could be 0 ~ 15 for PB GPIO port. \n 
- *                              It could be 0 ~ 7, 14 for PC GPIO port. \n 
+ *                              It could be 0 ~ 15 for PB GPIO port. \n
+ *                              It could be 0 ~ 7, 14 for PC GPIO port. \n
  *                              It could be 0 ~ 3, 15 for PD GPIO port. \n
- *                              It could be 0 ~ 6 for PF GPIO port.
+ *                              It could be 0 ~ 6, 14, 15 for PF GPIO port.
  *
  * @return      None
  *

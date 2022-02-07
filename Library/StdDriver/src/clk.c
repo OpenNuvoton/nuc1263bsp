@@ -448,7 +448,6 @@ void CLK_DisableXtalRC(uint32_t u32ClkMask)
   *             - \ref GPIOC_MODULE
   *             - \ref GPIOD_MODULE
   *             - \ref GPIOF_MODULE
-  *             - \ref GPIOG_MODULE
   *             - \ref WDT_MODULE
   *             - \ref WWDT_MODULE
   *             - \ref TMR0_MODULE
@@ -482,7 +481,7 @@ void CLK_DisableXtalRC(uint32_t u32ClkMask)
   *             - \ref ACMP23_MODULE
   *             - \ref I3C0_MODULE
   *             - \ref I3C1_MODULE
-  *             - \ref SPD5_MODULE
+  *             - \ref SPDH_MODULE
   * @return     None
   * @details    This function enable module clock.
   */
@@ -505,7 +504,6 @@ void CLK_EnableModuleClock(uint32_t u32ModuleIdx)
   *             - \ref GPIOC_MODULE
   *             - \ref GPIOD_MODULE
   *             - \ref GPIOF_MODULE
-  *             - \ref GPIOG_MODULE
   *             - \ref WDT_MODULE
   *             - \ref WWDT_MODULE
   *             - \ref TMR0_MODULE
@@ -539,7 +537,7 @@ void CLK_EnableModuleClock(uint32_t u32ModuleIdx)
   *             - \ref ACMP23_MODULE
   *             - \ref I3C0_MODULE
   *             - \ref I3C1_MODULE
-  *             - \ref SPD5_MODULE
+  *             - \ref SPDH_MODULE
   * @return     None
   * @details    This function disable module clock.
   */

@@ -30,7 +30,7 @@
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  * @param[in]   u32Mode     Operation mode.  It could be
  *                          - \ref GPIO_MODE_INPUT
  *                          - \ref GPIO_MODE_OUTPUT
@@ -63,7 +63,7 @@ void GPIO_SetMode(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
  *                              It could be 0 ~ 15 for PB GPIO port. \n
  *                              It could be 0 ~ 7, 14 for PC GPIO port. \n
  *                              It could be 0 ~ 3, 15 for PD GPIO port. \n
- *                              It could be 0 ~ 6 for PF GPIO port.
+ *                              It could be 0 ~ 6, 14, 15 for PF GPIO port.
  * @param[in]   u32IntAttribs   The interrupt attribute of specified GPIO pin. It could be
  *                              - \ref GPIO_INT_RISING
  *                              - \ref GPIO_INT_FALLING
@@ -93,7 +93,7 @@ void GPIO_EnableInt(GPIO_T *port, uint32_t u32Pin, uint32_t u32IntAttribs)
  *                          It could be 0 ~ 15 for PB GPIO port. \n
  *                          It could be 0 ~ 7, 14 for PC GPIO port. \n
  *                          It could be 0 ~ 3, 15 for PD GPIO port. \n
- *                          It could be 0 ~ 6 for PF GPIO port.
+ *                          It could be 0 ~ 6, 14, 15 for PF GPIO port.
  *
  * @return      None
  *
@@ -117,17 +117,17 @@ void GPIO_DisableInt(GPIO_T *port, uint32_t u32Pin)
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  * @param[in]   u32Mode     Slew rate mode. It could be
- *                          - \ref GPIO_SLEWCTL_NORMAL 
- *                          - \ref GPIO_SLEWCTL_HIGH 
+ *                          - \ref GPIO_SLEWCTL_NORMAL
+ *                          - \ref GPIO_SLEWCTL_HIGH
  *
  * @return      None
  *
  * @details     This function is used to set specified GPIO operation mode.
  */
 void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
-{   
+{
     uint32_t u32Idx;
 
     for(u32Idx = 0ul; u32Idx < GPIO_PIN_MAX; u32Idx++)
@@ -149,7 +149,7 @@ void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
  *                          It could be BIT0 ~ BIT15 for PB. \n
  *                          It could be BIT0 ~ BIT7, BIT14 for PC. \n
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
- *                          It could be BIT0 ~ BIT6 for PF.
+ *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  * @param[in]   u32Mode     The pin mode of specified GPIO pin. It could be
  *                          - \ref GPIO_PUSEL_DISABLE
  *                          - \ref GPIO_PUSEL_PULL_UP

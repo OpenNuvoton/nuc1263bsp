@@ -255,10 +255,10 @@ void SYS_Init(void)
     SET_SPI1_MOSI_PA11();
 
     /* Setup SPI_MUX multi-function pins */
-    SET_SPI0_SS_MUX_PA3();
-    SET_SPI0_CLK_MUX_PA2();
-    SET_SPI0_MISO_MUX_PA1();
-    SET_SPI0_MOSI_MUX_PA0();
+    SET_SPI_SS_MUX_PA3();
+    SET_SPI_CLK_MUX_PA2();
+    SET_SPI_MISO_MUX_PA1();
+    SET_SPI_MOSI_MUX_PA0();
 }
 
 void TMR0_IRQHandler(void)
