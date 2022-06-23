@@ -29,11 +29,11 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
-    
+
     /* Enable HIRC and HXT clock */
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk | CLK_PWRCTL_HXTEN_Msk;
 
-    /* Waiting for HIRC and HXT clock ready */
+    /* Wait for HIRC and HXT clock ready */
     while( (CLK->STATUS & (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk)) != (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk) );
 
     /* Select HCLK clock source as HIRC first */
@@ -109,7 +109,7 @@ void UART1_Init()
 /* MAIN function                                                                                           */
 /*---------------------------------------------------------------------------------------------------------*/
 
-int main(void)
+int32_t main(void)
 {
 
     /* Unlock protected registers */
@@ -238,11 +238,12 @@ void IrDA_FunctionTxTest()
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/*  IrDA Function Receive Test                                                                            */
+/*  IrDA Function Receive Test                                                                             */
 /*---------------------------------------------------------------------------------------------------------*/
 void IrDA_FunctionRxTest()
 {
     uint8_t u8InChar = 0xFF;
+    uint32_t u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
 
     printf("\n");
     printf("+-----------------------------------------------------------+\n");
@@ -261,11 +262,12 @@ void IrDA_FunctionRxTest()
 
     /* Set IrDA Rx mode */
     UART1->IRDA &= ~UART_IRDA_TXEN_Msk;
-    UART1->IRDA |= UART_IRDA_RXINV_Msk;     //Rx signal is inverse
+    UART1->IRDA |= UART_IRDA_RXINV_Msk;     /* Rx signal is inverse */
 
     /* Reset Rx FIFO */
     UART1->FIFO |= UART_FIFO_RXRST_Msk;
-    while(UART1->FIFO & UART_FIFO_RXRST_Msk);
+    while(UART1->FIFO & UART_FIFO_RXRST_Msk)
+        if(--u32TimeOutCnt == 0) break;
 
     printf("Waiting...\n");
 

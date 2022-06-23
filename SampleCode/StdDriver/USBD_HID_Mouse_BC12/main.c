@@ -138,7 +138,7 @@ S_USBD_BC12_PD_STATUS USBD_BC_Detect(TIMER_T *pu32TimerSrc)
             (pu32TimerSrc == TIMER2) ||
             (pu32TimerSrc == TIMER3))
     {
-        pfnBC_Delay = TIMER_Delay;
+        pfnBC_Delay = (void *)TIMER_Delay;
     }
     else
     {
@@ -360,12 +360,16 @@ DCD_REPEAT_TIMER:
 
 void PowerDown()
 {
+    uint32_t u32TimeOutCnt;
+
     /* Unlock protected registers */
     SYS_UnlockReg();
 
     printf("Enter power down ...\n");
 
-    while(!IsDebugFifoEmpty());
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+    while(!IsDebugFifoEmpty())
+        if(--u32TimeOutCnt == 0) break;
 
     /* Wakeup Enable */
     USBD_ENABLE_INT(USBD_INTEN_WKEN_Msk);
@@ -448,7 +452,7 @@ restart:
         {
             printf("parameter error\n");
 
-            while(1);
+            return -1;
         }
     }
 

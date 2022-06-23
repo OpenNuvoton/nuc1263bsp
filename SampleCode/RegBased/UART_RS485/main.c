@@ -91,6 +91,8 @@ void RS485_HANDLE()
 /*---------------------------------------------------------------------------------------------------------*/
 void RS485_9bitModeSlave()
 {
+    uint32_t u32TimeOutCnt;
+
     /* Select UART RS485 function mode */
     UART1->FUNCSEL = UART_FUNCSEL_RS485;
 
@@ -144,9 +146,11 @@ void RS485_9bitModeSlave()
     GetChar();
 
     /* Flush FIFO */
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
     while(UART_GET_RX_EMPTY(UART1) == 0)
     {
         UART_READ(UART1);
+        if(--u32TimeOutCnt == 0) break;
     }
 
     /* Disable RDA\RLS\Time-out Interrupt */
@@ -219,7 +223,7 @@ void RS485_9bitModeMaster()
     /* Set TX delay time */
     UART1->TOUT = 0x2000;
 
-    /* Prepare data to transmit*/
+    /* Prepare data to transmit */
     for(i32 = 0; i32 < 10; i32++)
     {
         g_u8SendDataGroup1[i32] = i32;
@@ -251,7 +255,7 @@ void RS485_9bitModeMaster()
 /*---------------------------------------------------------------------------------------------------------*/
 /*  RS485 Function Test                                                                                    */
 /*---------------------------------------------------------------------------------------------------------*/
-void RS485_FunctionTest()
+void RS485_FunctionTest(void)
 {
     uint32_t u32Item;
 
@@ -282,8 +286,7 @@ void RS485_FunctionTest()
             2.Master will send four different address with 10 bytes data to test Slave.
             3.Address bytes : the parity bit should be '1'. (Set UART_LINE = 0x2B)
             4.Data bytes : the parity bit should be '0'. (Set UART_LINE = 0x3B)
-            5.RTS pin is low in idle state. When master is sending,
-              RTS pin will be pull high.
+            5.RTS pin is low in idle state. When master is sending, RTS pin will be pull high.
 
         Slave:
             1.Set AAD and AUD mode firstly. RTSACTLV is set to '0'.
@@ -332,7 +335,7 @@ void SYS_Init(void)
     /* Enable HIRC and HXT clock */
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk | CLK_PWRCTL_HXTEN_Msk;
 
-    /* Waiting for HIRC and HXT clock ready */
+    /* Wait for HIRC and HXT clock ready */
     while( (CLK->STATUS & (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk)) != (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk) );
 
     /* Select HCLK clock source as HIRC first */
@@ -410,7 +413,7 @@ void UART1_Init()
 /*---------------------------------------------------------------------------------------------------------*/
 /* MAIN function                                                                                           */
 /*---------------------------------------------------------------------------------------------------------*/
-int main(void)
+int32_t main(void)
 {
     /* Unlock protected registers */
     SYS_UnlockReg();

@@ -45,7 +45,7 @@ void SYS_Init(void)
     /* Enable HIRC and HXT clock */
     CLK_EnableXtalRC(CLK_PWRCTL_HIRCEN_Msk|CLK_PWRCTL_HXTEN_Msk);
 
-    /* Waiting for HIRC and HXT clock ready */
+    /* Wait for HIRC and HXT clock ready */
     CLK_WaitClockReady(CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk);
 
     /* Set core clock to 72MHz */
@@ -160,7 +160,7 @@ void UART_TEST_HANDLE()
         }
         printf("\nTransmission Test:");
 
-       /* Forces a write of all user-space buffered data for the given output */
+        /* Forces a write of all user-space buffered data for the given output */
         fflush(stdout);
     }
 

@@ -62,7 +62,7 @@ uint32_t SYS_GetResetSrc(void)
 }
 
 /**
-  * @brief      Check if register is locked nor not
+  * @brief      Check if register is locked or not
   * @param      None
   * @retval     0 Write-protection function is disabled.
   *             1 Write-protection function is enabled.
@@ -146,6 +146,7 @@ void SYS_ResetCPU(void)
   *             - \ref TS_RST
   * @return     None
   * @details    This function reset selected module.
+  *             The register write-protection function should be disabled before using this function.
   */
 void SYS_ResetModule(uint32_t u32ModuleIndex)
 {

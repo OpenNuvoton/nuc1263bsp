@@ -8412,101 +8412,453 @@ typedef struct
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PA0MFP    |PA.0 Multi-function Pin Selection
+     * |        |          |02 = SPI_MOSI_MUX
+     * |        |          |04 = SPI0_MOSI
+     * |        |          |05 = SPI2_MOSI
+     * |        |          |06 = I3C0_SDA
+     * |        |          |07 = UART0_RXD
+     * |        |          |08 = UART1_nRTS
+     * |        |          |09 = I2C2_SDA
+     * |        |          |12 = BPWM0_CH0
+     * |        |          |13 = BPWM2_CH5
+     * |        |          |14 = ACMP3_O
+     * |        |          |15 = DAC0_ST
      * |[7:4]   |PA1MFP    |PA.1 Multi-function Pin Selection
+     * |        |          |02 = SPI_MISO_MUX
+     * |        |          |04 = SPI0_MISO
+     * |        |          |05 = SPI2_MISO
+     * |        |          |06 = I3C0_SCL
+     * |        |          |07 = UART0_TXD
+     * |        |          |08 = UART1_nCTS
+     * |        |          |09 = I2C2_SCL
+     * |        |          |12 = BPWM0_CH1
+     * |        |          |13 = BPWM2_CH4
+     * |        |          |15 = ACMP2_O
      * |[11:8]  |PA2MFP    |PA.2 Multi-function Pin Selection
+     * |        |          |02 = SPI_CLK_MUX
+     * |        |          |04 = SPI0_CLK
+     * |        |          |05 = SPI2_CLK
+     * |        |          |06 = I3C1_SDA
+     * |        |          |07 = I2C0_SMBSUS
+     * |        |          |08 = UART1_RXD
+     * |        |          |09 = I2C1_SDA
+     * |        |          |10 = LLSI5_OUT
+     * |        |          |12 = BPWM0_CH2
+     * |        |          |13 = BPWM2_CH3
+     * |        |          |15 = ACMP3_WLAT
      * |[15:12] |PA3MFP    |PA.3 Multi-function Pin Selection
+     * |        |          |02 = SPI_SS_MUX
+     * |        |          |04 = SPI0_SS
+     * |        |          |05 = SPI2_SS
+     * |        |          |06 = I3C1_SCL
+     * |        |          |07 = I2C0_SMBAL
+     * |        |          |08 = UART1_TXD
+     * |        |          |09 = I2C1_SCL
+     * |        |          |10 = LLSI4_OUT
+     * |        |          |12 = BPWM0_CH3
+     * |        |          |13 = BPWM2_CH2
+     * |        |          |14 = CLKO
+     * |        |          |15 = ACMP2_WLAT
      * |[19:16] |PA4MFP    |PA.4 Multi-function Pin Selection
+     * |        |          |04 = SPI0_I2SMCLK
+     * |        |          |06 = I3C0_SDA
+     * |        |          |07 = UART0_nRTS
+     * |        |          |08 = UART0_RXD
+     * |        |          |09 = I2C0_SDA
+     * |        |          |12 = BPWM0_CH4
+     * |        |          |13 = BPWM2_CH1
+     * |        |          |15 = DAC3_ST
      * |[23:20] |PA5MFP    |PA.5 Multi-function Pin Selection
+     * |        |          |02 = SPI1_I2SMCLK
+     * |        |          |04 = SPI0_I2SMCLK
+     * |        |          |05 = SPI2_I2SMCLK
+     * |        |          |06 = I3C0_SCL
+     * |        |          |07 = UART0_nCTS
+     * |        |          |08 = UART0_TXD
+     * |        |          |09 = I2C0_SCL
+     * |        |          |12 = BPWM0_CH5
+     * |        |          |13 = BPWM2_CH0
+     * |        |          |15 = DAC2_ST
      * |[27:24] |PA6MFP    |PA.6 Multi-function Pin Selection
+     * |        |          |02 = SPI1_SS
+     * |        |          |07 = UART0_RXD
+     * |        |          |08 = I2C1_SDA
+     * |        |          |11 = BPWM3_CH5
+     * |        |          |12 = BPWM1_CH3
+     * |        |          |13 = ACMP1_WLAT
+     * |        |          |14 = TM3
+     * |        |          |15 = INT0
      * |[31:28] |PA7MFP    |PA.7 Multi-function Pin Selection
+     * |        |          |02 = SPI1_CLK
+     * |        |          |07 = UART0_TXD
+     * |        |          |08 = I2C1_SCL
+     * |        |          |11 = BPWM3_CH4
+     * |        |          |12 = BPWM1_CH2
+     * |        |          |13 = ACMP0_WLAT
+     * |        |          |14 = TM2
+     * |        |          |15 = INT1
      * @var SYS_T::GPA_MFPH
      * Offset: 0x34  GPIOA High Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PA8MFP    |PA.8 Multi-function Pin Selection
+     * |        |          |03 = SPI1_SS
+     * |        |          |04 = SPI2_MOSI
+     * |        |          |07 = UART1_RXD
+     * |        |          |09 = BPWM0_CH3
+     * |        |          |10 = I2C0_SCL
+     * |        |          |13 = TM3_EXT
+     * |        |          |14 = DAC3_ST
+     * |        |          |15 = INT4
      * |[7:4]   |PA9MFP    |PA.9 Multi-function Pin Selection
+     * |        |          |03 = SPI1_CLK
+     * |        |          |04 = SPI2_MISO
+     * |        |          |07 = UART1_TXD
+     * |        |          |09 = BPWM0_CH2
+     * |        |          |10 = I2C1_SDA
+     * |        |          |13 = TM2_EXT
+     * |        |          |14 = DAC2_ST
      * |[11:8]  |PA10MFP   |PA.10 Multi-function Pin Selection
+     * |        |          |03 = SPI1_MISO
+     * |        |          |04 = SPI2_CLK
+     * |        |          |07 = I2C2_SDA
+     * |        |          |09 = BPWM0_CH1
+     * |        |          |10 = I2C1_SCL
+     * |        |          |13 = TM1_EXT
+     * |        |          |14 = DAC0_ST
      * |[15:12] |PA11MFP   |PA.11 Multi-function Pin Selection
+     * |        |          |03 = SPI1_MOSI
+     * |        |          |04 = SPI2_SS
+     * |        |          |07 = I2C2_SCL
+     * |        |          |09 = BPWM0_CH0
+     * |        |          |13 = TM0_EXT
+     * |        |          |14 = DAC1_ST
      * @var SYS_T::GPB_MFPL
      * Offset: 0x38  GPIOB Low Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PB0MFP    |PB.0 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH0, VDET_P0
+     * |        |          |03 = SPI0_SS
+     * |        |          |04 = SPI2_I2SMCLK
+     * |        |          |07 = UART2_RXD
+     * |        |          |08 = SPI0_I2SMCLK
+     * |        |          |09 = I2C1_SDA
+     * |        |          |11 = BPWM2_CH5
+     * |        |          |12 = BPWM3_CH5
      * |[7:4]   |PB1MFP    |PB.1 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH1, VDET_P1, SPDH_HAS
+     * |        |          |02 = SPI1_I2SMCLK
+     * |        |          |07 = UART2_TXD
+     * |        |          |09 = I2C1_SCL
+     * |        |          |11 = BPWM2_CH4
+     * |        |          |12 = BPWM3_CH4
+     * |        |          |13 = TM3_EXT
      * |[11:8]  |PB2MFP    |PB.2 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH2, ACMP0_P0
+     * |        |          |02 = SPI1_SS
+     * |        |          |04 = I2C1_SDA
+     * |        |          |06 = UART1_RXD
+     * |        |          |07 = I2C2_SDA
+     * |        |          |08 = SPI0_I2SMCLK
+     * |        |          |11 = BPWM2_CH3
+     * |        |          |14 = TM3
+     * |        |          |15 = INT3
      * |[15:12] |PB3MFP    |PB.3 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH3, ACMP0_P1, ACMP1_P0
+     * |        |          |02 = SPI1_CLK
+     * |        |          |04 = I2C1_SCL
+     * |        |          |06 = UART1_TXD
+     * |        |          |07 = I2C2_SCL
+     * |        |          |11 = BPWM2_CH2
+     * |        |          |14 = TM2
+     * |        |          |15 = INT2
      * |[19:16] |PB4MFP    |PB.4 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH4, ACMP0_N, ACMP1_P1, ACMP2_P0
+     * |        |          |02 = SPI1_MOSI
+     * |        |          |06 = I2C0_SDA
+     * |        |          |11 = BPWM2_CH1
+     * |        |          |12 = LLSI5_OUT
+     * |        |          |13 = UART2_RXD
+     * |        |          |14 = TM1
+     * |        |          |15 = INT1
      * |[23:20] |PB5MFP    |PB.5 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH5, ACMP1_N, ACMP2_P1, ACMP3_P0
+     * |        |          |02 = SPI1_MISO
+     * |        |          |06 = I2C0_SCL
+     * |        |          |11 = BPWM2_CH0
+     * |        |          |12 = LLSI4_OUT
+     * |        |          |13 = UART2_TXD
+     * |        |          |14 = TM0
+     * |        |          |15 = INT0
      * |[27:24] |PB6MFP    |PB.6 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH6, ACMP2_N, ACMP3_P1
+     * |        |          |06 = UART1_RXD
+     * |        |          |10 = BPWM1_CH5
+     * |        |          |12 = BPWM3_CH5
+     * |        |          |13 = INT4
+     * |        |          |15 = ACMP1_O
      * |[31:28] |PB7MFP    |PB.7 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH7, ACMP3_N
+     * |        |          |06 = UART1_TXD
+     * |        |          |10 = BPWM1_CH4
+     * |        |          |12 = BPWM3_CH4
+     * |        |          |13 = INT5
+     * |        |          |15 = ACMP0_O
      * @var SYS_T::GPB_MFPH
      * Offset: 0x3C  GPIOB High Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PB8MFP    |PB.8 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH8
+     * |        |          |05 = UART0_RXD
+     * |        |          |06 = UART1_nRTS
+     * |        |          |07 = I2C1_SMBSUS
+     * |        |          |09 = I2C0_SDA
+     * |        |          |10 = BPWM1_CH3
      * |[7:4]   |PB9MFP    |PB.9 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH9
+     * |        |          |05 = UART0_TXD
+     * |        |          |06 = UART1_nCTS
+     * |        |          |07 = I2C1_SMBAL
+     * |        |          |09 = I2C0_SCL
+     * |        |          |10 = BPWM1_CH2
      * |[11:8]  |PB10MFP   |PB.10 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH10
+     * |        |          |05 = UART0_nRTS
+     * |        |          |07 = I2C1_SDA
+     * |        |          |10 = BPWM1_CH1
      * |[15:12] |PB11MFP   |PB.11 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH11
+     * |        |          |05 = UART0_nCTS
+     * |        |          |07 = I2C1_SCL
+     * |        |          |09 = SPI0_I2SMCLK
+     * |        |          |10 = BPWM1_CH0
      * |[19:16] |PB12MFP   |PB.12 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH12, DAC0_OUT, ACMP0_P2, ACMP1_P2
+     * |        |          |04 = SPI0_MOSI
+     * |        |          |06 = UART0_RXD
+     * |        |          |08 = I2C2_SDA
+     * |        |          |10 = LLSI3_OUT
+     * |        |          |11 = BPWM3_CH3
+     * |        |          |13 = TM3_EXT
      * |[23:20] |PB13MFP   |PB.13 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH13, DAC1_OUT, ACMP0_P3, ACMP1_P3
+     * |        |          |04 = SPI0_MISO
+     * |        |          |06 = UART0_TXD
+     * |        |          |08 = I2C2_SCL
+     * |        |          |10 = LLSI2_OUT
+     * |        |          |11 = BPWM3_CH2
+     * |        |          |13 = TM2_EXT
      * |[27:24] |PB14MFP   |PB.14 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH14, DAC2_OUT, ACMP2_P2, ACMP3_P2
+     * |        |          |04 = SPI0_CLK
+     * |        |          |06 = UART0_nRTS
+     * |        |          |08 = I2C2_SMBSUS
+     * |        |          |10 = LLSI1_OUT
+     * |        |          |11 = BPWM3_CH1
+     * |        |          |13 = TM1_EXT
+     * |        |          |14 = CLKO
      * |[31:28] |PB15MFP   |PB.15 Multi-function Pin Selection
+     * |        |          |01 = ADC0_CH15, DAC3_OUT, ACMP2_P3, ACMP3_P3
+     * |        |          |04 = SPI0_SS
+     * |        |          |06 = UART0_nCTS
+     * |        |          |08 = I2C2_SMBAL
+     * |        |          |10 = LLSI0_OUT
+     * |        |          |11 = BPWM3_CH0
+     * |        |          |13 = TM0_EXT
      * @var SYS_T::GPC_MFPL
      * Offset: 0x40  GPIOC Low Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PC0MFP    |PC.0 Multi-function Pin Selection
+     * |        |          |02 = SPI1_SS
+     * |        |          |07 = I2C1_SDA
+     * |        |          |08 = UART2_RXD
+     * |        |          |09 = I2C0_SDA
+     * |        |          |12 = BPWM3_CH5
+     * |        |          |13 = BPWM3_CH3
+     * |        |          |14 = ACMP1_O
      * |[7:4]   |PC1MFP    |PC.1 Multi-function Pin Selection
+     * |        |          |02 = SPI1_CLK
+     * |        |          |07 = I2C1_SCL
+     * |        |          |08 = UART2_TXD
+     * |        |          |09 = I2C0_SCL
+     * |        |          |11 = ADC0_ST
+     * |        |          |12 = BPWM3_CH4
+     * |        |          |13 = BPWM2_CH1
+     * |        |          |14 = ACMP0_O
      * |[11:8]  |PC2MFP    |PC.2 Multi-function Pin Selection
+     * |        |          |02 = SPI1_MOSI
+     * |        |          |07 = I2C2_SMBSUS
+     * |        |          |08 = UART2_nCTS
+     * |        |          |09 = I2C0_SMBSUS
+     * |        |          |10 = I2C0_SDA
+     * |        |          |12 = BPWM3_CH3
+     * |        |          |15 = LLSI3_OUT
      * |[15:12] |PC3MFP    |PC.3 Multi-function Pin Selection
+     * |        |          |02 = SPI1_MISO
+     * |        |          |07 = I2C2_SMBAL
+     * |        |          |08 = UART2_nRTS
+     * |        |          |09 = I2C0_SMBAL
+     * |        |          |10 = I2C0_SCL
+     * |        |          |12 = BPWM3_CH2
+     * |        |          |15 = LLSI2_OUT
      * |[19:16] |PC4MFP    |PC.4 Multi-function Pin Selection
+     * |        |          |02 = SPI1_I2SMCLK
+     * |        |          |08 = UART2_RXD
+     * |        |          |09 = I2C1_SDA
+     * |        |          |12 = BPWM3_CH1
+     * |        |          |15 = LLSI1_OUT
      * |[23:20] |PC5MFP    |PC.5 Multi-function Pin Selection
+     * |        |          |08 = UART2_TXD
+     * |        |          |09 = I2C1_SCL
+     * |        |          |12 = BPWM3_CH0
+     * |        |          |15 = LLSI0_OUT
      * |[27:24] |PC6MFP    |PC.6 Multi-function Pin Selection
+     * |        |          |04 = SPI1_MOSI
+     * |        |          |07 = UART0_nRTS
+     * |        |          |08 = I2C1_SMBSUS
+     * |        |          |11 = BPWM3_CH3
+     * |        |          |12 = BPWM1_CH1
+     * |        |          |14 = TM1
+     * |        |          |15 = INT2
      * |[31:28] |PC7MFP    |PC.7 Multi-function Pin Selection
+     * |        |          |04 = SPI1_MISO
+     * |        |          |07 = UART0_nCTS
+     * |        |          |08 = I2C1_SMBAL
+     * |        |          |11 = BPWM3_CH2
+     * |        |          |12 = BPWM1_CH0
+     * |        |          |14 = TM0
+     * |        |          |15 = INT3
      * @var SYS_T::GPC_MFPH
      * Offset: 0x44  GPIOC High Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[27:24] |PC14MFP   |PC.14 Multi-function Pin Selection
+     * |        |          |02 = SPI1_MOSI
+     * |        |          |04 = SPI0_I2SMCLK
+     * |        |          |13 = TM1
+     * |        |          |15 = DAC1_ST
      * @var SYS_T::GPD_MFPL
      * Offset: 0x48  GPIOD Low Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PD0MFP    |PD.0 Multi-function Pin Selection
+     * |        |          |04 = SPI0_MOSI
+     * |        |          |14 = TM2
      * |[7:4]   |PD1MFP    |PD.1 Multi-function Pin Selection
+     * |        |          |04 = SPI0_MISO
      * |[11:8]  |PD2MFP    |PD.2 Multi-function Pin Selection
+     * |        |          |04 = SPI0_CLK
+     * |        |          |09 = UART0_RXD
      * |[15:12] |PD3MFP    |PD.3 Multi-function Pin Selection
+     * |        |          |04 = SPI0_SS
+     * |        |          |09 = UART0_TXD
      * @var SYS_T::GPD_MFPH
      * Offset: 0x4C  GPIOD High Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[31:28] |PD15MFP   |PD.15 Multi-function Pin Selection
+     * |        |          |12 = BPWM2_CH5
+     * |        |          |14 = TM3
+     * |        |          |15 = INT1
      * @var SYS_T::GPF_MFPL
      * Offset: 0x58  GPIOF Low Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[3:0]   |PF0MFP    |PF.0 Multi-function Pin Selection
+     * |        |          |02 = UART1_TXD
+     * |        |          |03 = I2C1_SCL
+     * |        |          |04 = UART0_TXD
+     * |        |          |07 = I2C2_SCL
+     * |        |          |08 = UART2_TXD
+     * |        |          |09 = I2C1_SMBAL
+     * |        |          |12 = BPWM1_CH0
+     * |        |          |13 = ACMP0_O
+     * |        |          |14 = ICE_DAT
      * |[7:4]   |PF1MFP    |PF.1 Multi-function Pin Selection
+     * |        |          |02 = UART1_RXD
+     * |        |          |03 = I2C1_SDA
+     * |        |          |04 = UART0_RXD
+     * |        |          |07 = I2C2_SDA
+     * |        |          |08 = UART2_RXD
+     * |        |          |09 = I2C1_SMBSUS
+     * |        |          |12 = BPWM1_CH1
+     * |        |          |13 = ACMP1_O
+     * |        |          |14 = ICE_CLK
      * |[11:8]  |PF2MFP    |PF.2 Multi-function Pin Selection
+     * |        |          |03 = UART0_RXD
+     * |        |          |04 = I2C0_SDA
+     * |        |          |07 = UART1_RXD
+     * |        |          |10 = XT1_OUT
+     * |        |          |11 = BPWM1_CH1
+     * |        |          |13 = ACMP3_O
+     * |        |          |15 = INT4
      * |[15:12] |PF3MFP    |PF.3 Multi-function Pin Selection
+     * |        |          |03 = UART0_TXD
+     * |        |          |04 = I2C0_SCL
+     * |        |          |07 = UART2_RXD
+     * |        |          |09 = BPWM0_CH3
+     * |        |          |10 = XT1_IN
+     * |        |          |11 = BPWM1_CH0
+     * |        |          |13 = ACMP2_O
      * |[19:16] |PF4MFP    |PF.4 Multi-function Pin Selection
+     * |        |          |02 = UART2_TXD
+     * |        |          |04 = UART2_nRTS
+     * |        |          |05 = SPI0_MISO
+     * |        |          |07 = BPWM2_CH1
+     * |        |          |08 = BPWM0_CH5
+     * |        |          |09 = I2C0_SDA
+     * |        |          |10 = X32_OUT
+     * |        |          |11 = BPWM2_CH5
+     * |        |          |12 = BPWM3_CH5
+     * |        |          |13 = ACMP3_WLAT
      * |[23:20] |PF5MFP    |PF.5 Multi-function Pin Selection
+     * |        |          |02 = UART2_RXD
+     * |        |          |03 = SPI1_SS
+     * |        |          |04 = UART2_nCTS
+     * |        |          |05 = SPI0_CLK
+     * |        |          |07 = BPWM2_CH0
+     * |        |          |08 = BPWM0_CH4
+     * |        |          |09 = I2C0_SCL
+     * |        |          |10 = X32_IN
+     * |        |          |11 = ADC0_ST
+     * |        |          |13 = ACMP2_WLAT
      * |[27:24] |PF6MFP    |PF.6 Multi-function Pin Selection
+     * |        |          |05 = SPI0_MOSI
+     * |        |          |10 = I2C0_SDA
+     * |        |          |11 = LLSI3_OUT
+     * |        |          |12 = BPWM2_CH4
+     * |        |          |13 = CLKO
+     * |        |          |14 = TM3
+     * |        |          |15 = INT5
      * @var SYS_T::GPF_MFPH
      * Offset: 0x3C  GPIOF High Byte Multiple Function Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[27:24] |PF14MFP   |PF.14 Multi-function Pin Selection
+     * |        |          |05 = SPI0_SS
+     * |        |          |11 = LLSI3_OUT
+     * |        |          |12 = BPWM2_CH4
+     * |        |          |13 = CLKO
+     * |        |          |14 = TM3
+     * |        |          |15 = INT5
      * |[31:28] |PF15MFP   |PF.15 Multi-function Pin Selection
+     * |        |          |07 = UART0_nRTS
+     * |        |          |12 = BPWM1_CH0
+     * |        |          |13 = TM2
+     * |        |          |14 = CLKO
+     * |        |          |15 = INT4
      * @var SYS_T::IRCTCTL
      * Offset: 0x80  HIRC Trim Control Register
      * ---------------------------------------------------------------------------------------------------

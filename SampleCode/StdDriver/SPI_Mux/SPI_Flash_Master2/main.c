@@ -26,10 +26,24 @@ static uint8_t s_au8DestArray[TEST_LENGTH];
 void SpiFlash_ChipErase(void);
 uint8_t SpiFlash_ReadStatusReg(void);
 void SpiFlash_WriteStatusReg(uint8_t u8Value);
-void SpiFlash_WaitReady(void);
+int32_t SpiFlash_WaitReady(void);
 void SpiFlash_NormalPageProgram(uint32_t u32StartAddress, uint8_t *u8DataBuffer);
 void SpiFlash_NormalRead(uint32_t u32StartAddress, uint8_t *u8DataBuffer);
 void SYS_Init(void);
+
+__STATIC_INLINE void wait_SPI_IS_BUSY(SPI_T *spi)
+{
+    uint32_t u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+
+    while(SPI_IS_BUSY(spi))
+    {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for SPI time-out!\n");
+            break;
+        }
+    }
+}
 
 void SpiFlash_ChipErase(void)
 {
@@ -40,7 +54,7 @@ void SpiFlash_ChipErase(void)
     SPI_WRITE_TX(SPI_FLASH_PORT, 0x06);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -54,7 +68,7 @@ void SpiFlash_ChipErase(void)
     SPI_WRITE_TX(SPI_FLASH_PORT, 0xC7);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -74,7 +88,7 @@ uint8_t SpiFlash_ReadStatusReg(void)
     SPI_WRITE_TX(SPI_FLASH_PORT, 0x00);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -94,7 +108,7 @@ void SpiFlash_WriteStatusReg(uint8_t u8Value)
     SPI_WRITE_TX(SPI_FLASH_PORT, 0x06);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -111,22 +125,31 @@ void SpiFlash_WriteStatusReg(uint8_t u8Value)
     SPI_WRITE_TX(SPI_FLASH_PORT, u8Value);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
 }
 
-void SpiFlash_WaitReady(void)
+int32_t SpiFlash_WaitReady(void)
 {
     uint8_t u8ReturnValue;
+    uint32_t u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
 
     do
     {
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for QSPI time-out!\n");
+            return -1;
+        }
+
         u8ReturnValue = SpiFlash_ReadStatusReg();
         u8ReturnValue = u8ReturnValue & 1;
     }
     while(u8ReturnValue != 0); // check the BUSY bit
+
+    return 0;
 }
 
 void SpiFlash_NormalPageProgram(uint32_t u32StartAddress, uint8_t *u8DataBuffer)
@@ -140,7 +163,7 @@ void SpiFlash_NormalPageProgram(uint32_t u32StartAddress, uint8_t *u8DataBuffer)
     SPI_WRITE_TX(SPI_FLASH_PORT, 0x06);
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -168,7 +191,7 @@ void SpiFlash_NormalPageProgram(uint32_t u32StartAddress, uint8_t *u8DataBuffer)
     }
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -191,7 +214,7 @@ void SpiFlash_NormalRead(uint32_t u32StartAddress, uint8_t *u8DataBuffer)
     SPI_WRITE_TX(SPI_FLASH_PORT, (u32StartAddress >> 8)  & 0xFF);
     SPI_WRITE_TX(SPI_FLASH_PORT, u32StartAddress       & 0xFF);
 
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
     // clear RX buffer
     SPI_ClearRxFIFO(SPI_FLASH_PORT);
 
@@ -199,12 +222,12 @@ void SpiFlash_NormalRead(uint32_t u32StartAddress, uint8_t *u8DataBuffer)
     for(u32Cnt = 0; u32Cnt < 256; u32Cnt++)
     {
         SPI_WRITE_TX(SPI_FLASH_PORT, 0x00);
-        while(SPI_IS_BUSY(SPI_FLASH_PORT));
+        wait_SPI_IS_BUSY(SPI_FLASH_PORT);
         u8DataBuffer[u32Cnt] = (uint8_t)SPI_READ_RX(SPI_FLASH_PORT);
     }
 
     // wait tx finish
-    while(SPI_IS_BUSY(SPI_FLASH_PORT));
+    wait_SPI_IS_BUSY(SPI_FLASH_PORT);
 
     // /CS: de-active
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
@@ -408,7 +431,7 @@ int main(void)
                 /* Erase SPI flash */
                 SpiFlash_ChipErase();
                 /* Wait ready */
-                SpiFlash_WaitReady();
+                if( SpiFlash_WaitReady() < 0 ) return -1;
                 printf("[OK]\n");
 
                 printf("Start to normal write data to Flash ...");
@@ -424,7 +447,7 @@ int main(void)
 
                     /* page program */
                     SpiFlash_NormalPageProgram(u32FlashAddress, s_au8SrcArray);
-                    SpiFlash_WaitReady();
+                    if( SpiFlash_WaitReady() < 0 ) return -1;
                     u32FlashAddress += 0x100;
                 }
                 printf("[OK]\n");
@@ -512,7 +535,7 @@ int main(void)
                 /* Erase SPI flash */
                 SpiFlash_ChipErase();
                 /* Wait ready */
-                SpiFlash_WaitReady();
+                if( SpiFlash_WaitReady() < 0 ) return -1;
                 printf("[OK]\n");
 
                 printf("Start to normal write data to Flash ...");
@@ -522,7 +545,7 @@ int main(void)
                 {
                     /* page program */
                     SpiFlash_NormalPageProgram(u32FlashAddress, s_au8SrcArray);
-                    SpiFlash_WaitReady();
+                    if( SpiFlash_WaitReady() < 0 ) return -1;
                     u32FlashAddress += 0x100;
                 }
                 printf("[OK]\n");

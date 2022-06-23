@@ -41,7 +41,7 @@ void SYS_Init(void)
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
 
-     /* Enable HIRC and HXT clock */
+    /* Enable HIRC and HXT clock */
     CLK_EnableXtalRC(CLK_PWRCTL_HIRCEN_Msk|CLK_PWRCTL_HXTEN_Msk);
 
     /* Wait for HIRC and HXT clock ready */
@@ -99,7 +99,7 @@ void UART1_Init()
 /*---------------------------------------------------------------------------------------------------------*/
 /* MAIN function                                                                                           */
 /*---------------------------------------------------------------------------------------------------------*/
-int main(void)
+int32_t main(void)
 {
 
     /* Unlock protected registers */
@@ -201,7 +201,7 @@ void AutoFlow_FunctionTxTest(void)
 /*---------------------------------------------------------------------------------------------------------*/
 void AutoFlow_FunctionRxTest(void)
 {
-    uint32_t u32Idx;
+    uint32_t u32Idx, u32Err = 0;
 
     /* Enable RTS and CTS autoflow control */
     UART_EnableFlowCtrl(UART1);
@@ -229,11 +229,15 @@ void AutoFlow_FunctionRxTest(void)
     {
         if(g_u8RecData[u32Idx] != (u32Idx & 0xFF))
         {
-            printf("Compare Data Failed\n");
-            while(1);
+            u32Err = 1;
+            break;
         }
     }
-    printf("\n Receive OK & Check OK\n");
+
+    if( u32Err )
+        printf("Compare Data Failed\n");
+    else
+        printf("\n Receive OK & Check OK\n");
 
     /* Disable RDA and RTO Interrupt */
     NVIC_DisableIRQ(UART1_IRQn);
@@ -259,6 +263,7 @@ void UART1_IRQHandler(void)
         }
     }
 
+    /* Handle transmission error */
     if(UART1->FIFOSTS & (UART_FIFOSTS_BIF_Msk | UART_FIFOSTS_FEF_Msk | UART_FIFOSTS_PEF_Msk | UART_FIFOSTS_RXOVIF_Msk))
     {
         UART1->FIFOSTS = (UART_FIFOSTS_BIF_Msk | UART_FIFOSTS_FEF_Msk | UART_FIFOSTS_PEF_Msk | UART_FIFOSTS_RXOVIF_Msk);

@@ -44,7 +44,7 @@ void SYS_Init(void)
     /* Enable HIRC and HXT clock */
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk | CLK_PWRCTL_HXTEN_Msk;
 
-    /* Waiting for HIRC and HXT clock ready */
+    /* Wait for HIRC and HXT clock ready */
     while( (CLK->STATUS & (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk)) != (CLK_STATUS_HIRCSTB_Msk|CLK_STATUS_HXTSTB_Msk) );
 
     /* Select HCLK clock source as HIRC first */
