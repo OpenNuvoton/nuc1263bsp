@@ -237,7 +237,7 @@ int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
     int32_t i32ret = 0;
 
     for(i = 0; i < u32Count; i++)
-    {
+	{
         u32Config[i] = FMC_Read(FMC_CONFIG_BASE + i * 4);
         if (g_FMC_i32ErrCode != 0) i32ret = -1;
     }
@@ -260,8 +260,13 @@ int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
   *             User Configuration is also be page erase. User needs to backup necessary data
   *             before erase User Configuration.
   *
-  * @note       Global error code g_FMC_i32ErrCode
-  *             -1  Program failed or time-out
+  * @details  User must enable User Configuration update before writing it.
+  *           User must erase User Configuration before writing it.
+  *           User Configuration is also be page erase. User needs to backup necessary data
+  *           before erase User Configuration.
+  *
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  Program failed or time-out
   */
 int32_t FMC_WriteConfig(uint32_t *u32Config, uint32_t u32Count)
 {
@@ -299,8 +304,7 @@ int32_t FMC_WriteConfig(uint32_t *u32Config, uint32_t u32Count)
  */
 void FMC_EnableFreqOptimizeMode(uint32_t u32Mode)
 {
-    FMC->FTCTL &= ~FMC_FTCTL_FOM_Msk;
-    FMC->FTCTL |= (u32Mode << FMC_FTCTL_FOM_Pos);
+    FMC->FTCTL = (FMC->FTCTL & (~FMC_FTCTL_FOM_Msk)) | (u32Mode << FMC_FTCTL_FOM_Pos);
 }
 
 /**

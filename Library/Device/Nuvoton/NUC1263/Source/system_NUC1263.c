@@ -72,7 +72,7 @@ void SystemCoreClockUpdate(void)
  */
 void SystemInit(void)
 {
-    
+
 }
 
 #if USE_ASSERT

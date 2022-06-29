@@ -77,10 +77,20 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /*  FTCTL constant definitions                                                                             */
 /*---------------------------------------------------------------------------------------------------------*/
-#define FMC_FTCTL_OPTIMIZE_DISABLE      0x00       /*!< Frequency Optimize Mode disable */
+#define FMC_FTCTL_OPTIMIZE_72MHZ        0x00       /*!< Frequency Optimize Mode <= 72Mhz */
 #define FMC_FTCTL_OPTIMIZE_24MHZ        0x01       /*!< Frequency Optimize Mode <= 24Mhz */
 #define FMC_FTCTL_OPTIMIZE_48MHZ        0x02       /*!< Frequency Optimize Mode <= 48Mhz */
-#define FMC_FTCTL_OPTIMIZE_72MHZ        0x05       /*!< Frequency Optimize Mode <= 72Mhz */
+
+
+/*---------------------------------------------------------------------------------------------------------*/
+/* FMC Time-out Handler Constant Definitions                                                               */
+/*---------------------------------------------------------------------------------------------------------*/
+#define FMC_TIMEOUT_READ            (SystemCoreClock>>3) /*!< Read command time-out 125 ms       */
+#define FMC_TIMEOUT_WRITE           (SystemCoreClock>>3) /*!< Write command time-out 125 ms      */
+#define FMC_TIMEOUT_ERASE           (SystemCoreClock>>2) /*!< Erase command time-out 250 ms      */
+#define FMC_TIMEOUT_CHKSUM          (SystemCoreClock<<1) /*!< Get checksum command time-out 2 s  */
+#define FMC_TIMEOUT_CHKALLONE       (SystemCoreClock<<1) /*!< Check-all-one command time-out 2 s */
+
 
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -722,7 +732,6 @@ retrigger:
 
     for(i = idx; i < 256 / 4; i += 4) // Max data length is 256 bytes (256/4 words)
     {
-
         __set_PRIMASK(1); // Mask interrupt to avoid status check coherence error
         u32TimeOutCnt = FMC_TIMEOUT_WRITE;
         do

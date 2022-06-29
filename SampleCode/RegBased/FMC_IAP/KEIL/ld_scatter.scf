@@ -1,0 +1,20 @@
+
+LR 0x100000
+{
+    ROM +0
+    {
+        startup_NUC1263.o (RESET, +First)    
+        * (+RO)
+    }
+
+    TBLROM +0
+    {
+        main_LD.o (.rodata.g_funcTable)
+    }
+
+    RAM 0x20000000
+    {
+        *(+RW, +ZI)
+    }
+}
+
