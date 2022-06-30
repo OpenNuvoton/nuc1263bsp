@@ -284,7 +284,7 @@ void I2C_SetData(I2C_T *i2c, uint8_t u8Data)
  *
  * @param[in]  i2c          I2C port
  * @param[in]  u8SlaveNo    Set the number of I2C address register (0~3)
- * @param[in]  u8SlaveAddr  7-bit/10-bit slave address
+ * @param[in]  u16SlaveAddr  7-bit/10-bit slave address
  * @param[in]  u8GCMode     Enable/Disable GC Mode (I2C_GCMODE_ENABLE / I2C_GCMODE_DISABLE)
  *
  * @return     None
@@ -293,22 +293,22 @@ void I2C_SetData(I2C_T *i2c, uint8_t u8Data)
  *             and enable GC Mode.
  *
  */
-void I2C_SetSlaveAddr(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u8SlaveAddr, uint8_t u8GCMode)
+void I2C_SetSlaveAddr(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u16SlaveAddr, uint8_t u8GCMode)
 {
     switch(u8SlaveNo)
     {
     case 1:
-        i2c->ADDR1  = (u8SlaveAddr << 1) | u8GCMode;
+        i2c->ADDR1  = (u16SlaveAddr << 1) | u8GCMode;
         break;
     case 2:
-        i2c->ADDR2  = (u8SlaveAddr << 1) | u8GCMode;
+        i2c->ADDR2  = (u16SlaveAddr << 1) | u8GCMode;
         break;
     case 3:
-        i2c->ADDR3  = (u8SlaveAddr << 1) | u8GCMode;
+        i2c->ADDR3  = (u16SlaveAddr << 1) | u8GCMode;
         break;
     case 0:
     default:
-        i2c->ADDR0  = (u8SlaveAddr << 1) | u8GCMode;
+        i2c->ADDR0  = (u16SlaveAddr << 1) | u8GCMode;
         break;
     }
 }
@@ -318,29 +318,29 @@ void I2C_SetSlaveAddr(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u8SlaveAddr, uint8
  *
  * @param[in]  i2c              I2C port
  * @param[in]  u8SlaveNo        Set the number of I2C address mask register (0~3)
- * @param[in]  u8SlaveAddrMask  A byte for slave address mask
+ * @param[in]  u16SlaveAddrMask  A byte for slave address mask
  *
  * @return     None
  *
  * @details    This function is used to set 7-bit/10-bit slave addresses.
  *
  */
-void I2C_SetSlaveAddrMask(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u8SlaveAddrMask)
+void I2C_SetSlaveAddrMask(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u16SlaveAddrMask)
 {
     switch(u8SlaveNo)
     {
     case 1:
-        i2c->ADDRMSK1  = u8SlaveAddrMask << 1;
+        i2c->ADDRMSK1  = u16SlaveAddrMask << 1;
         break;
     case 2:
-        i2c->ADDRMSK2  = u8SlaveAddrMask << 1;
+        i2c->ADDRMSK2  = u16SlaveAddrMask << 1;
         break;
     case 3:
-        i2c->ADDRMSK3  = u8SlaveAddrMask << 1;
+        i2c->ADDRMSK3  = u16SlaveAddrMask << 1;
         break;
     case 0:
     default:
-        i2c->ADDRMSK0  = u8SlaveAddrMask << 1;
+        i2c->ADDRMSK0  = u16SlaveAddrMask << 1;
         break;
     }
 }
@@ -416,7 +416,7 @@ void I2C_DisableWakeup(I2C_T *i2c)
   * @brief      Write a byte to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address
   * @param[in]  data            Write a byte data to Slave
   *
   * @retval     0               Write data success
@@ -428,7 +428,7 @@ void I2C_DisableWakeup(I2C_T *i2c)
   *
   */
 
-uint8_t I2C_WriteByte(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t data)
+uint8_t I2C_WriteByte(I2C_T *i2c, uint16_t u16SlaveAddr, const uint8_t data)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32TimeOutCount = 0u;
@@ -452,7 +452,7 @@ uint8_t I2C_WriteByte(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t data)
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                           /* Clear SI */
             break;
         case 0x18:                                           /* Slave Address ACK */
@@ -482,7 +482,7 @@ uint8_t I2C_WriteByte(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t data)
   * @brief      Write multi bytes to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  *data           Pointer to array to write data to Slave
   * @param[in]  u32wLen         How many bytes need to write to Slave
   *
@@ -494,7 +494,7 @@ uint8_t I2C_WriteByte(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t data)
   *
   */
 
-uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t *data, uint32_t u32wLen)
+uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint16_t u16SlaveAddr, const uint8_t *data, uint32_t u32wLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32txLen = 0, u32TimeOutCount = 0u;
@@ -518,7 +518,7 @@ uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t *dat
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                           /* Clear SI */
             break;
         case 0x18:                                           /* Slave Address ACK */
@@ -551,7 +551,7 @@ uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t *dat
   * @brief      Specify a byte register address and write a byte to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address
   * @param[in]  u8DataAddr      Specify a address (1 byte) of data write to
   * @param[in]  data            A byte data to write it to Slave
   *
@@ -564,7 +564,7 @@ uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, const uint8_t *dat
   *
   */
 
-uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, const uint8_t data)
+uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, const uint8_t data)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32txLen = 0, u32TimeOutCount = 0u;
@@ -588,7 +588,7 @@ uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr,
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));    /* Send Slave address with write bit */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));    /* Send Slave address with write bit */
             u8Ctrl = I2C_CTL_SI;                           /* Clear SI */
             break;
         case 0x18:                                           /* Slave Address ACK */
@@ -627,7 +627,7 @@ uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr,
   * @brief      Specify a byte register address and write multi bytes to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  u8DataAddr      Specify a address (1 byte) of data write to
   * @param[in]  *data           Pointer to array to write data to Slave
   * @param[in]  u32wLen         How many bytes need to write to Slave
@@ -640,7 +640,7 @@ uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr,
   *
   */
 
-uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, const uint8_t *data, uint32_t u32wLen)
+uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, const uint8_t *data, uint32_t u32wLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32txLen = 0, u32TimeOutCount = 0u;
@@ -664,7 +664,7 @@ uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Da
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));    /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;
             break;
         case 0x18:                                           /* Slave Address ACK */
@@ -700,7 +700,7 @@ uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Da
   * @brief      Specify two bytes register address and Write a byte to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  u16DataAddr     Specify a address (2 byte) of data write to
   * @param[in]  data            Write a byte data to Slave
   *
@@ -713,7 +713,7 @@ uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Da
   *
   */
 
-uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, const uint8_t data)
+uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, const uint8_t data)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Addr = 1, u8Ctrl = 0;
     uint32_t u32txLen = 0, u32TimeOutCount = 0u;
@@ -737,7 +737,7 @@ uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAd
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x18:                                                      /* Slave Address ACK */
@@ -781,7 +781,7 @@ uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAd
   * @brief      Specify two bytes register address and write multi bytes to Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  u16DataAddr     Specify a address (2 bytes) of data write to
   * @param[in]  *data           Pointer to array to write data to Slave
   * @param[in]  u32wLen         How many bytes need to write to Slave
@@ -794,7 +794,7 @@ uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAd
   *
   */
 
-uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, const uint8_t *data, uint32_t u32wLen)
+uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, const uint8_t *data, uint32_t u32wLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Addr = 1, u8Ctrl = 0;
     uint32_t u32txLen = 0, u32TimeOutCount = 0u;
@@ -818,7 +818,7 @@ uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u1
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x18:                                                      /* Slave Address ACK */
@@ -858,7 +858,7 @@ uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u1
   * @brief      Read a byte from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   *
   * @return     Read a byte data from Slave
   *
@@ -867,7 +867,7 @@ uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u1
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint8_t I2C_ReadByte(I2C_T *i2c, uint8_t u8SlaveAddr)
+uint8_t I2C_ReadByte(I2C_T *i2c, uint16_t u16SlaveAddr)
 {
     uint8_t u8Xfering = 1, u8Err = 0, rdata = 0, u8Ctrl = 0;
     uint32_t u32TimeOutCount = 0u;
@@ -891,7 +891,7 @@ uint8_t I2C_ReadByte(I2C_T *i2c, uint8_t u8SlaveAddr)
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                             /* Clear SI */
             break;
         case 0x40:                                             /* Slave Address ACK */
@@ -924,7 +924,7 @@ uint8_t I2C_ReadByte(I2C_T *i2c, uint8_t u8SlaveAddr)
   * @brief      Read multi bytes from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[out] *rdata          Point to array to store data from Slave
   * @param[in]  u32rLen         How many bytes need to read from Slave
   *
@@ -935,7 +935,7 @@ uint8_t I2C_ReadByte(I2C_T *i2c, uint8_t u8SlaveAddr)
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t *rdata, uint32_t u32rLen)
+uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t *rdata, uint32_t u32rLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32rxLen = 0, u32TimeOutCount = 0u;
@@ -959,7 +959,7 @@ uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t *rdata, uin
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                             /* Clear SI */
             break;
         case 0x40:                                             /* Slave Address ACK */
@@ -1001,7 +1001,7 @@ uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t *rdata, uin
   * @brief      Specify a byte register address and read a byte from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  u8DataAddr      Specify a address(1 byte) of data read from
   *
   * @return     Read a byte data from Slave
@@ -1011,7 +1011,7 @@ uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t *rdata, uin
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr)
+uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr)
 {
     uint8_t u8Xfering = 1, u8Err = 0, rdata = 0, u8Ctrl = 0;
     uint32_t u32TimeOutCount = 0u;
@@ -1035,7 +1035,7 @@ uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr)
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));      /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));      /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                             /* Clear SI */
             break;
         case 0x18:                                             /* Slave Address ACK */
@@ -1050,7 +1050,7 @@ uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr)
             u8Ctrl = I2C_CTL_STA_SI;                         /* Send repeat START */
             break;
         case 0x10:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                               /* Clear SI */
             break;
         case 0x40:                                             /* Slave Address ACK */
@@ -1082,7 +1082,7 @@ uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr)
   * @brief      Specify a byte register address and read multi bytes from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address(7-bit)
   * @param[in]  u8DataAddr      Specify a address (1 bytes) of data read from
   * @param[out] *rdata          Point to array to store data from Slave
   * @param[in]  u32rLen         How many bytes need to read from Slave
@@ -1094,7 +1094,7 @@ uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr)
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, uint8_t *rdata, uint32_t u32rLen)
+uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, uint8_t *rdata, uint32_t u32rLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Ctrl = 0;
     uint32_t u32rxLen = 0, u32TimeOutCount = 0u;
@@ -1118,7 +1118,7 @@ uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Dat
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));      /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));      /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                             /* Clear SI */
             break;
         case 0x18:                                             /* Slave Address ACK */
@@ -1133,7 +1133,7 @@ uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Dat
             u8Ctrl = I2C_CTL_STA_SI;                         /* Send repeat START */
             break;
         case 0x10:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));    /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                             /* Clear SI */
             break;
         case 0x40:                                             /* Slave Address ACK */
@@ -1170,7 +1170,7 @@ uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Dat
   * @brief      Specify two bytes register address and read a byte from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address
   * @param[in]  u16DataAddr     Specify a address(2 byte) of data read from
   *
   * @return     Read a byte data from Slave
@@ -1180,7 +1180,7 @@ uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Dat
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr)
+uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr)
 {
     uint8_t u8Xfering = 1, u8Err = 0, rdata = 0, u8Addr = 1, u8Ctrl = 0;
     uint32_t u32TimeOutCount = 0u;
@@ -1204,7 +1204,7 @@ uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAdd
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x18:                                                      /* Slave Address ACK */
@@ -1225,7 +1225,7 @@ uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAdd
                 u8Ctrl = I2C_CTL_STA_SI;                              /* Clear SI and send repeat START */
             break;
         case 0x10:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));             /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));             /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x40:                                                      /* Slave Address ACK */
@@ -1257,7 +1257,7 @@ uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAdd
   * @brief      Specify two bytes register address and read multi bytes from Slave
   *
   * @param[in]  *i2c            Point to I2C peripheral
-  * @param[in]  u8SlaveAddr     Access Slave address(7-bit)
+  * @param[in]  u16SlaveAddr     Access Slave address
   * @param[in]  u16DataAddr     Specify a address (2 bytes) of data read from
   * @param[out] *rdata          Point to array to store data from Slave
   * @param[in]  u32rLen         How many bytes need to read from Slave
@@ -1269,7 +1269,7 @@ uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAdd
   * @note       This function sets g_I2C_i32ErrCode to I2C_ERR_TIMEOUT if waiting I2C time-out.
   *
   */
-uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, uint8_t *rdata, uint32_t u32rLen)
+uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, uint8_t *rdata, uint32_t u32rLen)
 {
     uint8_t u8Xfering = 1, u8Err = 0, u8Addr = 1, u8Ctrl = 0;
     uint32_t u32rxLen = 0, u32TimeOutCount = 0u;
@@ -1293,7 +1293,7 @@ uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16
         switch(I2C_GET_STATUS(i2c))
         {
         case 0x08:
-            I2C_SET_DATA(i2c, (u8SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
+            I2C_SET_DATA(i2c, (u16SlaveAddr << 1 | 0x00));               /* Write SLA+W to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x18:                                                      /* Slave Address ACK */
@@ -1314,7 +1314,7 @@ uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16
                 u8Ctrl = I2C_CTL_STA_SI;                              /* Clear SI and send repeat START */
             break;
         case 0x10:
-            I2C_SET_DATA(i2c, ((u8SlaveAddr << 1) | 0x01));             /* Write SLA+R to Register I2CDAT */
+            I2C_SET_DATA(i2c, ((u16SlaveAddr << 1) | 0x01));             /* Write SLA+R to Register I2CDAT */
             u8Ctrl = I2C_CTL_SI;                                      /* Clear SI */
             break;
         case 0x40:                                                      /* Slave Address ACK */
