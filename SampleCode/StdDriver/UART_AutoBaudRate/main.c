@@ -234,6 +234,9 @@ uint32_t GetUartBaudrate(UART_T* uart)
             u8UartClkSrcSel = (CLK->CLKSEL1 & CLK_CLKSEL1_UART2SEL_Msk) >> CLK_CLKSEL1_UART2SEL_Pos;
             u8UartClkDivNum = (CLK->CLKDIV0 & CLK_CLKDIV0_UART2DIV_Msk) >> CLK_CLKDIV0_UART2DIV_Pos;
             break;
+
+        default:
+            return 0;
     }
 
     /* Get PLL clock frequency if UART clock source selection is PLL/2 */
