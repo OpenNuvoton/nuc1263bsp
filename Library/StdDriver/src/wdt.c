@@ -1,12 +1,10 @@
 /**************************************************************************//**
  * @file     wdt.c
  * @version  V3.00
- * $Revision: 5 $
- * $Date: 16/10/25 4:25p $
- * @brief    Watchdog Timer(WDT) driver source file
+ * @brief    NUC1263 series Watchdog Timer (WDT) driver source file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "NuMicro.h"
 

@@ -1,12 +1,10 @@
 /**************************************************************************//**
  * @file     wdt.h
  * @version  V3.00
- * $Revision: 5 $
- * $Date: 16/10/25 4:25p $
- * @brief    Watchdog Timer(WDT) driver header file
+ * @brief    NUC1263 series Watchdog Timer (WDT) driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 #ifndef __WDT_H__
 #define __WDT_H__
@@ -52,11 +50,6 @@ extern "C"
 /*  WDT Free Reset Counter Keyword Constant Definitions                                                    */
 /*---------------------------------------------------------------------------------------------------------*/
 #define WDT_RESET_COUNTER_KEYWORD   (0x00005AA5)    /*!< Fill this value to WDT_RSTCNT register to free reset WDT counter */
-
-/*---------------------------------------------------------------------------------------------------------*/
-/* WDT Time-out Handler Constant Definitions                                                               */
-/*---------------------------------------------------------------------------------------------------------*/
-#define WDT_TIMEOUT                 SystemCoreClock /*!< WDT time-out counter (1 second time-out) */
 
 /*@}*/ /* end of group WDT_EXPORTED_CONSTANTS */
 
@@ -159,11 +152,8 @@ extern "C"
   */
 static __INLINE void WDT_Close(void)
 {
-    uint32_t u32TimeOutCnt = WDT_TIMEOUT;
-
     WDT->CTL = 0;
-    while(WDT->CTL & WDT_CTL_SYNC_Msk)  // Wait disable WDTEN bit completed, it needs 2 * WDT_CLK.
-        if(--u32TimeOutCnt == 0) break;
+    while(WDT->CTL & WDT_CTL_SYNC_Msk); // Wait disable WDTEN bit completed, it needs 2 * WDT_CLK.
 }
 
 /**
@@ -177,11 +167,8 @@ static __INLINE void WDT_Close(void)
   */
 static __INLINE void WDT_EnableInt(void)
 {
-    uint32_t u32TimeOutCnt = WDT_TIMEOUT;
-
     WDT->CTL |= WDT_CTL_INTEN_Msk;
-    while(WDT->CTL & WDT_CTL_SYNC_Msk)  // Wait enable WDTEN bit completed, it needs 2 * WDT_CLK.
-        if(--u32TimeOutCnt == 0) break;
+    while(WDT->CTL & WDT_CTL_SYNC_Msk); // Wait enable WDTEN bit completed, it needs 2 * WDT_CLK.
 }
 
 /**

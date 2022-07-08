@@ -1,12 +1,10 @@
 /**************************************************************************//**
  * @file     timer.c
  * @version  V3.00
- * $Revision: 8 $
- * $Date: 16/10/25 4:25p $
- * @brief    Timer Controller(Timer) driver source file
+ * @brief    NUC1263 series Timer Controller (Timer) driver source file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "NuMicro.h"
 
@@ -74,7 +72,7 @@ uint32_t TIMER_Open(TIMER_T *timer, uint32_t u32Mode, uint32_t u32Freq)
 
     timer->CTL = u32Mode | u32Prescale;
     timer->CMP = u32Cmpr;
-
+    
     return(u32Clk / (u32Cmpr * (u32Prescale + 1)));
 }
 
@@ -99,19 +97,17 @@ void TIMER_Close(TIMER_T *timer)
   * @param[in]  timer       The pointer of the specified Timer module. It could be TIMER0, TIMER1, TIMER2, TIMER3.
   * @param[in]  u32Usec     Delay period in micro seconds. Valid values are between 100~1000000 (100 micro second ~ 1 second).
   *
-  * @retval     TIMER_OK          Delay success, target delay time reached
-  * @retval     TIMER_ERR_TIMEOUT Delay function execute failed due to timer stop working
+  * @return     None
   *
   * @details    This API is used to create a delay loop for u32usec micro seconds by using timer one-shot mode.
   * @note       This API overwrites the register setting of the timer used to count the delay time.
   * @note       This API use polling mode. So there is no need to enable interrupt for the timer module used to generate delay.
   */
-int32_t TIMER_Delay(TIMER_T *timer, uint32_t u32Usec)
+void TIMER_Delay(TIMER_T *timer, uint32_t u32Usec)
 {
     uint32_t u32Clk = TIMER_GetModuleClock(timer);
-    uint32_t u32Prescale = 0, u32Delay;
+    uint32_t u32Prescale = 0, delay = (SystemCoreClock / u32Clk) + 1;
     uint32_t u32Cmpr, u32NsecPerTick;
-    uint32_t u32Cntr, i = 0UL;
 
     // Clear current timer configuration/
     timer->CTL = 0;
@@ -172,33 +168,12 @@ int32_t TIMER_Delay(TIMER_T *timer, uint32_t u32Usec)
 
     // When system clock is faster than timer clock, it is possible timer active bit cannot set in time while we check it.
     // And the while loop below return immediately, so put a tiny delay here allowing timer start counting and raise active flag.
-    for(u32Delay = (SystemCoreClock / u32Clk) + 1UL; u32Delay > 0UL; u32Delay--)
+    for(; delay > 0; delay--)
     {
         __NOP();
     }
 
-    /* Add a bail out counter here in case timer clock source is disabled accidentally.
-       Prescale counter reset every ECLK * (prescale value + 1).
-       The u32Delay here is to make sure timer counter value changed when prescale counter reset */
-    u32Delay = (SystemCoreClock / TIMER_GetModuleClock(timer)) * (u32Prescale + 1);
-    u32Cntr = timer->CNT;
-    while(timer->CTL & TIMER_CTL_ACTSTS_Msk)
-    {
-        /* Bailed out if timer stop counting e.g. Some interrupt handler close timer clock source. */
-        if(u32Cntr == timer->CNT)
-        {
-            if(i++ > u32Delay)
-            {
-                return TIMER_ERR_TIMEOUT;
-            }
-        }
-        else
-        {
-            i = 0;
-            u32Cntr = timer->CNT;
-        }
-    }
-    return TIMER_OK;
+    while(timer->CTL & TIMER_CTL_ACTSTS_Msk);
 }
 
 /**
@@ -230,8 +205,8 @@ void TIMER_EnableCapture(TIMER_T *timer, uint32_t u32CapMode, uint32_t u32Edge)
   *
   * @param[in]  timer       The pointer of the specified Timer module. It could be TIMER0, TIMER1, TIMER2, TIMER3.
   * @param[in]  u32Sr       Timer capture source. Possible values are
-  *                         - \ref TIMER_CAPTURE_FROM_EXTERNAL
-  *                         - \ref TIMER_CAPTURE_FROM_LIRC
+  *                         - \ref TIMER_CAPTURE_SOURCE_FROM_PIN
+  *                         - \ref TIMER_CAPTURE_SOURCE_FROM_INTERNAL
   *
   * @return     None
   *
@@ -383,17 +358,18 @@ void TIMER_SetTriggerSource(TIMER_T *timer, uint32_t u32Src)
   * @brief      Set Modules Trigger by Timer Interrupt Event
   *
   * @param[in]  timer       The pointer of the specified Timer module. It could be TIMER0, TIMER1, TIMER2, TIMER3.
-  * @param[in]  u32Mask     The mask of modules (BPWM01, BPWM23, ADC and PDMA) trigger by timer. Is the combination of
+  * @param[in]  u32Mask     The mask of modules (BPWM01, BPWM12, ADC, DAC and PDMA) trigger by timer. Is the combination of
   *                         - \ref TIMER_TRG_TO_BPWM01
   *                         - \ref TIMER_TRG_TO_BPWM23
   *                         - \ref TIMER_TRG_TO_ADC
+  *                         - \ref TIMER_TRG_TO_DAC
   *                         - \ref TIMER_TRG_TO_PDMA
   *
   * @return     None
   */
 void TIMER_SetTriggerTarget(TIMER_T *timer, uint32_t u32Mask)
 {
-    timer->CTL = (timer->CTL & ~(TIMER_CTL_TRGBPWM01_Msk | TIMER_CTL_TRGBPWM23_Msk | TIMER_CTL_TRGADC_Msk | TIMER_CTL_TRGPDMA_Msk)) | (u32Mask);
+    timer->CTL = (timer->CTL & ~(TIMER_CTL_TRGBPWM01_Msk | TIMER_CTL_TRGBPWM23_Msk | TIMER_CTL_TRGADC_Msk | TIMER_CTL_TRGDAC_Msk | TIMER_CTL_TRGPDMA_Msk)) | (u32Mask);
 }
 
 /**
@@ -401,33 +377,28 @@ void TIMER_SetTriggerTarget(TIMER_T *timer, uint32_t u32Mask)
   *
   * @param[in]  timer       The pointer of the specified Timer module. It could be TIMER0, TIMER1, TIMER2, TIMER3.
   *
-  * @retval     TIMER_OK          Timer reset success
-  * @retval     TIMER_ERR_TIMEOUT Timer reset failed
+  * @return     Reset success or not
+  * @retval     0 Timer reset success
+  * @retval     TIMER_TIMEOUT_ERR Timer reset failed
   *
   * @details    This function is usde to reset current counter value and internal prescale counter value.
   */
 int32_t TIMER_ResetCounter(TIMER_T *timer)
 {
-    volatile uint32_t u32Reg = timer->CTL;
-    uint32_t u32TimeOutCnt;
-    int32_t i32Err = TIMER_OK;
-
+    volatile uint32_t reg = timer->CTL;
+    uint32_t u32Delay;
+    
     timer->CTL |= TIMER_CTL_RSTCNT_Msk;
-
     /* Takes 2~3 ECLKs to reset timer counter */
-    u32TimeOutCnt = (SystemCoreClock / TIMER_GetModuleClock(timer)) * 3;
-    while(timer->CTL & TIMER_CTL_RSTCNT_Msk)
+    u32Delay = (SystemCoreClock / TIMER_GetModuleClock(timer)) * 3;
+    while(((timer->CTL&TIMER_CTL_RSTCNT_Msk) == TIMER_CTL_RSTCNT_Msk) && (--u32Delay))
     {
-        if(--u32TimeOutCnt == 0)
-        {
-            i32Err = TIMER_ERR_TIMEOUT;
-            break;
-        }
+        __NOP();
     }
-
-    timer->CTL = u32Reg;
-
-    return i32Err;
+    
+    timer->CTL = reg;
+    
+    return u32Delay > 0 ? 0 : TIMER_TIMEOUT_ERR;
 }
 
 /*@}*/ /* end of group TIMER_EXPORTED_FUNCTIONS */

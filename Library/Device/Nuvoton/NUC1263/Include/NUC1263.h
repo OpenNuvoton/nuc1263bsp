@@ -9741,6 +9741,11 @@ typedef struct
      * |        |          |0 = Timer interrupt trigger BPWM01 Disabled.
      * |        |          |1 = Timer interrupt trigger BPWM01 Enabled.
      * |        |          |Note: If TRGSSEL (TIMERx_CTL[18]) = 0, time-out interrupt signal will trigger BPWM01. If TRGSSEL (TIMERx_CTL[18]) = 1, capture interrupt signal will trigger BPWM01.
+     * |[20]    |TRGDAC    |Trigger DAC Enable Bit  
+     * |        |          |If this bit is set to 1, timer time-out interrupt or capture interrupt can trigger DAC. 
+     * |        |          |0 = Timer interrupt trigger DAC Disabled.
+     * |        |          |1 = Timer interrupt trigger DAC Enabled.
+     * |        |          |Note: If TRGSSEL (TIMERx_CTL[18]) = 0, time-out interrupt signal will trigger DAC. If TRGSSEL (TIMERx_CTL[18]) = 1, capture interrupt signal will trigger DAC.
      * |[21]    |TRGADC    |Trigger ADC Enable Bit 
      * |        |          |If this bit is set to 1, timer time-out interrupt or capture interrupt can trigger ADC.
      * |        |          |0 = Timer interrupt trigger ADC Disabled.
@@ -9869,6 +9874,15 @@ typedef struct
      * |        |          |0 = TMx (x= 0~3) pin de-bounce Disabled.
      * |        |          |1 = TMx (x= 0~3) pin de-bounce Enabled.
      * |        |          |Note: If this bit is enabled, the edge detection of TMx pin is detected with de-bounce circuit.
+     * |[8]     |ICAPSEL   |Internal Capture Source Select
+     * |        |          |000 = Capture Function source is from internal ACMP0 output signal.
+     * |        |          |001 = Capture Function source is from internal ACMP1 output signal.
+     * |        |          |010 = Capture Function source is from internal ACMP2 output signal.
+     * |        |          |011 = Capture Function source is from internal ACMP3 output signal.
+     * |        |          |100 = Reserved.
+     * |        |          |101 = Capture Function source is from LIRC.
+     * |        |          |110, 111 = Reserved.
+     * |        |          |Note: These bits only available when CAPSRC (TIMERx_CTL[16]) is 1.
      * @var TIMER_T::EINTSTS
      * Offset: 0x18  Timer0 External Interrupt Status Register
      * ---------------------------------------------------------------------------------------------------
@@ -9903,11 +9917,11 @@ typedef struct
 #define TIMER_CTL_PSC_Pos                (0)                                               /*!< TIMER_T::CTL: PSC Position             */
 #define TIMER_CTL_PSC_Msk                (0xfful << TIMER_CTL_PSC_Pos)                     /*!< TIMER_T::CTL: PSC Mask                 */
 
-#define TIMER_CTL_TRGPDMA_Pos            (8)                                               /*!< TIMER_T::CTL: TRGPDMA Position             */
-#define TIMER_CTL_TRGPDMA_Msk            (0x1ul << TIMER_CTL_TRGPDMA_Pos)                  /*!< TIMER_T::CTL: TRGPDMA Mask                 */
+#define TIMER_CTL_TRGPDMA_Pos            (8)                                               /*!< TIMER_T::CTL: TRGPDMA Position          */
+#define TIMER_CTL_TRGPDMA_Msk            (0x1ul << TIMER_CTL_TRGPDMA_Pos)                  /*!< TIMER_T::CTL: TRGPDMA Mask              */
 
-#define TIMER_CTL_TRGBPWM23_Pos          (9)                                               /*!< TIMER_T::CTL: TRGBPWM23 Position             */
-#define TIMER_CTL_TRGBPWM23_Msk          (0x1ul << TIMER_CTL_TRGBPWM23_Pos)                /*!< TIMER_T::CTL: TRGBPWM23 Mask                 */
+#define TIMER_CTL_TRGBPWM23_Pos          (9)                                               /*!< TIMER_T::CTL: TRGBPWM23 Position        */
+#define TIMER_CTL_TRGBPWM23_Msk          (0x1ul << TIMER_CTL_TRGBPWM23_Pos)                /*!< TIMER_T::CTL: TRGBPWM23 Mask            */
 
 #define TIMER_CTL_INTRGEN_Pos            (10)                                              /*!< TIMER_T::CTL: INTRGEN Position         */
 #define TIMER_CTL_INTRGEN_Msk            (0x1ul << TIMER_CTL_INTRGEN_Pos)                  /*!< TIMER_T::CTL: INTRGEN Mask             */
@@ -9918,11 +9932,14 @@ typedef struct
 #define TIMER_CTL_TRGSSEL_Pos            (18)                                              /*!< TIMER_T::CTL: TRGSSEL Position          */
 #define TIMER_CTL_TRGSSEL_Msk            (0x1ul << TIMER_CTL_TRGSSEL_Pos)                  /*!< TIMER_T::CTL: TRGSSEL Mask              */
 
-#define TIMER_CTL_TRGBPWM01_Pos          (19)                                              /*!< TIMER_T::CTL: TRGBPWM01 Position             */
-#define TIMER_CTL_TRGBPWM01_Msk          (0x1ul << TIMER_CTL_TRGBPWM01_Pos)                /*!< TIMER_T::CTL: TRGBPWM01 Mask                 */
+#define TIMER_CTL_TRGBPWM01_Pos          (19)                                              /*!< TIMER_T::CTL: TRGBPWM01 Position        */
+#define TIMER_CTL_TRGBPWM01_Msk          (0x1ul << TIMER_CTL_TRGBPWM01_Pos)                /*!< TIMER_T::CTL: TRGBPWM01 Mask            */
 
-#define TIMER_CTL_TRGADC_Pos             (21)                                              /*!< TIMER_T::CTL: TRGADC Position             */
-#define TIMER_CTL_TRGADC_Msk             (0x1ul << TIMER_CTL_TRGADC_Pos)                   /*!< TIMER_T::CTL: TRGADC Mask                 */
+#define TIMER_CTL_TRGDAC_Pos             (20)                                              /*!< TIMER_T::CTL: TRGDAC Position           */
+#define TIMER_CTL_TRGDAC_Msk             (0x1ul << TIMER_CTL_TRGDAC_Pos)                   /*!< TIMER_T::CTL: TRGDAC Mask               */
+
+#define TIMER_CTL_TRGADC_Pos             (21)                                              /*!< TIMER_T::CTL: TRGADC Position           */
+#define TIMER_CTL_TRGADC_Msk             (0x1ul << TIMER_CTL_TRGADC_Pos)                   /*!< TIMER_T::CTL: TRGADC Mask               */
 
 #define TIMER_CTL_TGLPINSEL_Pos          (22)                                              /*!< TIMER_T::CTL: TGLPINSEL Position       */
 #define TIMER_CTL_TGLPINSEL_Msk          (0x1ul << TIMER_CTL_TGLPINSEL_Pos)                /*!< TIMER_T::CTL: TGLPINSEL Mask           */
@@ -9986,6 +10003,9 @@ typedef struct
 
 #define TIMER_EXTCTL_CNTDBEN_Pos         (7)                                               /*!< TIMER_T::EXTCTL: CNTDBEN Position      */
 #define TIMER_EXTCTL_CNTDBEN_Msk         (0x1ul << TIMER_EXTCTL_CNTDBEN_Pos)               /*!< TIMER_T::EXTCTL: CNTDBEN Mask          */
+
+#define TIMER_EXTCTL_ICAPSEL_Pos         (8)                                               /*!< TIMER_T::EXTCTL: ICAPSEL Position      */
+#define TIMER_EXTCTL_ICAPSEL_Msk         (0x7ul << TIMER_EXTCTL_ICAPSEL_Pos)               /*!< TIMER_T::EXTCTL: ICAPSEL Mask          */
 
 #define TIMER_EINTSTS_CAPIF_Pos          (0)                                               /*!< TIMER_T::EINTSTS: CAPIF Position       */
 #define TIMER_EINTSTS_CAPIF_Msk          (0x1ul << TIMER_EINTSTS_CAPIF_Pos)                /*!< TIMER_T::EINTSTS: CAPIF Mask           */

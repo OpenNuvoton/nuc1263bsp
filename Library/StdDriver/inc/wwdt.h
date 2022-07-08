@@ -1,12 +1,10 @@
 /**************************************************************************//**
  * @file     wwdt.h
  * @version  V3.00
- * $Revision: 4 $
- * $Date: 16/10/25 4:25p $
- * @brief    Window Watchdog Timet(WWDT) driver header file
+ * @brief    NUC1263 series Window Watchdog Timer (WWDT) driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 #ifndef __WWDT_H__
 #define __WWDT_H__

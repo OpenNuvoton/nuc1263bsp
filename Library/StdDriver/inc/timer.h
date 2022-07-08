@@ -1,12 +1,10 @@
 /**************************************************************************//**
  * @file     timer.h
  * @version  V3.00
- * $Revision: 8 $
- * $Date: 16/10/25 4:25p $
- * @brief    Timer Controller(Timer) driver header file
+ * @brief    NUC1263 series Timer Controller (Timer) driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 #ifndef __TIMER_H__
 #define __TIMER_H__
@@ -35,7 +33,6 @@ extern "C"
 #define TIMER_PERIODIC_MODE                     (1UL << TIMER_CTL_OPMODE_Pos)      /*!< Timer working in periodic mode */
 #define TIMER_TOGGLE_MODE                       (2UL << TIMER_CTL_OPMODE_Pos)      /*!< Timer working in toggle-output mode */
 #define TIMER_CONTINUOUS_MODE                   (3UL << TIMER_CTL_OPMODE_Pos)      /*!< Timer working in continuous counting mode */
-
 #define TIMER_TOUT_PIN_FROM_TMX                 (0UL << TIMER_CTL_TGLPINSEL_Pos)   /*!< Timer toggle-output pin is from TMx pin */
 #define TIMER_TOUT_PIN_FROM_TMX_EXT             (1UL << TIMER_CTL_TGLPINSEL_Pos)   /*!< Timer toggle-output pin is from TMx_EXT pin */
 
@@ -49,19 +46,24 @@ extern "C"
 #define TIMER_CAPTURE_EVENT_RISING              (1UL << TIMER_EXTCTL_CAPEDGE_Pos)  /*!< Rising edge detection to trigger capture event */
 #define TIMER_CAPTURE_EVENT_FALLING_RISING      (2UL << TIMER_EXTCTL_CAPEDGE_Pos)  /*!< Both falling and rising edge detection to trigger capture event */
 
-#define TIMER_CAPTURE_FROM_EXTERNAL             (0UL << TIMER_CTL_CAPSRC_Pos)
-#define TIMER_CAPTURE_FROM_LIRC                 (1UL << TIMER_CTL_CAPSRC_Pos)
+#define TIMER_CAPTURE_SOURCE_FROM_PIN           (0UL << TIMER_CTL_CAPSRC_Pos)      /*!< The capture source is from TMx_EXT pin \hideinitializer */
+#define TIMER_CAPTURE_SOURCE_FROM_INTERNAL      (1UL << TIMER_CTL_CAPSRC_Pos)      /*!< The capture source is from internal ACMPx signal or clock source \hideinitializer */
+
+#define TIMER_INTER_CAPTURE_SOURCE_ACMP0        (0UL << TIMER_EXTCTL_ICAPSEL_Pos) /*!< Capture source from internal ACMP0 output signal \hideinitializer */
+#define TIMER_INTER_CAPTURE_SOURCE_ACMP1        (1UL << TIMER_EXTCTL_ICAPSEL_Pos) /*!< Capture source from internal ACMP1 output signal \hideinitializer */
+#define TIMER_INTER_CAPTURE_SOURCE_ACMP2        (2UL << TIMER_EXTCTL_ICAPSEL_Pos) /*!< Capture source from internal ACMP2 output signal \hideinitializer */
+#define TIMER_INTER_CAPTURE_SOURCE_ACMP3        (3UL << TIMER_EXTCTL_ICAPSEL_Pos) /*!< Capture source from internal ACMP3 output signal \hideinitializer */
+#define TIMER_INTER_CAPTURE_SOURCE_LIRC         (5UL << TIMER_EXTCTL_ICAPSEL_Pos) /*!< Capture source from LIRC \hideinitializer */
 
 #define TIMER_TRGSEL_TIMEOUT_EVENT              (0UL << TIMER_CTL_TRGSSEL_Pos)     /*!< Select internal trigger source from timer time-out event */
 #define TIMER_TRGSEL_CAPTURE_EVENT              (1UL << TIMER_CTL_TRGSSEL_Pos)     /*!< Select internal trigger source from timer capture event */
 #define TIMER_TRG_TO_BPWM01                     (TIMER_CTL_TRGBPWM01_Msk)          /*!< Each timer event as BPWM01 counter clock source */
 #define TIMER_TRG_TO_BPWM23                     (TIMER_CTL_TRGBPWM23_Msk)          /*!< Each timer event as BPWM23 counter clock source */
 #define TIMER_TRG_TO_ADC                        (TIMER_CTL_TRGADC_Msk)             /*!< Each timer event to start ADC conversion */
+#define TIMER_TRG_TO_DAC                        (TIMER_CTL_TRGDAC_Msk)             /*!< Each timer event to start DAC conversion. */
 #define TIMER_TRG_TO_PDMA                       (TIMER_CTL_TRGPDMA_Msk)            /*!< Each timer event to trigger PDMA transfer */
 
-#define TIMER_OK                                ( 0L)                              /*!< TIMER operation OK */
-#define TIMER_ERR_FAIL                          (-1L)                              /*!< TIMER operation failed */
-#define TIMER_ERR_TIMEOUT                       (-2L)                              /*!< TIMER operation abort due to timeout error */
+#define TIMER_TIMEOUT_ERR                       (-1L)                             /*!< TIMER operation abort due to timeout error \hideinitializer */
 
 /*@}*/ /* end of group TIMER_EXPORTED_CONSTANTS */
 
@@ -123,6 +125,50 @@ extern "C"
   * @details    This macro is used to select timer toggle-output pin is output on TMx or TMx_EXT pin.
   */
 #define TIMER_SELECT_TOUT_PIN(timer, u32ToutSel)    ((timer)->CTL = ((timer)->CTL & ~TIMER_CTL_TGLPINSEL_Msk) | (u32ToutSel))
+
+/**
+  * @brief      Set Timer Operating Mode
+  *
+  * @param[in]  timer       The pointer of the specified Timer module. It could be TIMER0 ~ TIMER5.
+  * @param[in]  u32OpMode   Operation mode. Possible options are
+  *                         - \ref TIMER_ONESHOT_MODE
+  *                         - \ref TIMER_PERIODIC_MODE
+  *                         - \ref TIMER_TOGGLE_MODE
+  *                         - \ref TIMER_CONTINUOUS_MODE
+  *
+  * @return     None
+  * \hideinitializer
+  */
+#define TIMER_SET_OPMODE(timer, u32OpMode)   ((timer)->CTL = ((timer)->CTL & ~TIMER_CTL_OPMODE_Msk) | (u32OpMode))
+
+
+/*---------------------------------------------------------------------------------------------------------*/
+/* static inline functions                                                                                 */
+/*---------------------------------------------------------------------------------------------------------*/
+/* Declare these inline functions here to avoid MISRA C 2004 rule 8.1 error */
+__STATIC_INLINE void TIMER_Start(TIMER_T *timer);
+__STATIC_INLINE void TIMER_Stop(TIMER_T *timer);
+__STATIC_INLINE void TIMER_EnableWakeup(TIMER_T *timer);
+__STATIC_INLINE void TIMER_DisableWakeup(TIMER_T *timer);
+__STATIC_INLINE void TIMER_StartCapture(TIMER_T *timer);
+__STATIC_INLINE void TIMER_StopCapture(TIMER_T *timer);
+__STATIC_INLINE void TIMER_EnableCaptureDebounce(TIMER_T *timer);
+__STATIC_INLINE void TIMER_DisableCaptureDebounce(TIMER_T *timer);
+__STATIC_INLINE void TIMER_EnableEventCounterDebounce(TIMER_T *timer);
+__STATIC_INLINE void TIMER_DisableEventCounterDebounce(TIMER_T *timer);
+__STATIC_INLINE void TIMER_EnableInt(TIMER_T *timer);
+__STATIC_INLINE void TIMER_DisableInt(TIMER_T *timer);
+__STATIC_INLINE void TIMER_EnableCaptureInt(TIMER_T *timer);
+__STATIC_INLINE void TIMER_DisableCaptureInt(TIMER_T *timer);
+__STATIC_INLINE uint32_t TIMER_GetIntFlag(TIMER_T *timer);
+__STATIC_INLINE void TIMER_ClearIntFlag(TIMER_T *timer);
+__STATIC_INLINE uint32_t TIMER_GetCaptureIntFlag(TIMER_T *timer);
+__STATIC_INLINE void TIMER_ClearCaptureIntFlag(TIMER_T *timer);
+__STATIC_INLINE uint32_t TIMER_GetWakeupFlag(TIMER_T *timer);
+__STATIC_INLINE void TIMER_ClearWakeupFlag(TIMER_T *timer);
+__STATIC_INLINE uint32_t TIMER_GetCaptureData(TIMER_T *timer);
+__STATIC_INLINE uint32_t TIMER_GetCounter(TIMER_T *timer);
+
 
 /**
   * @brief      Start Timer Counting
@@ -440,10 +486,10 @@ static __INLINE uint32_t TIMER_GetCounter(TIMER_T *timer)
 
 uint32_t TIMER_Open(TIMER_T *timer, uint32_t u32Mode, uint32_t u32Freq);
 void TIMER_Close(TIMER_T *timer);
-int32_t TIMER_Delay(TIMER_T *timer, uint32_t u32Usec);
+void TIMER_Delay(TIMER_T *timer, uint32_t u32Usec);
 void TIMER_EnableCapture(TIMER_T *timer, uint32_t u32CapMode, uint32_t u32Edge);
-void TIMER_CaptureSelect(TIMER_T *timer, uint32_t u32Src);
 void TIMER_DisableCapture(TIMER_T *timer);
+void TIMER_CaptureSelect(TIMER_T *timer, uint32_t u32Src);
 void TIMER_EnableEventCounter(TIMER_T *timer, uint32_t u32Edge);
 void TIMER_DisableEventCounter(TIMER_T *timer);
 uint32_t TIMER_GetModuleClock(TIMER_T *timer);
