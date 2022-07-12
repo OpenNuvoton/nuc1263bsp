@@ -93,7 +93,7 @@ __vector_table
     DCD     I3C1_IRQHandler             ; I3C1 interrupt
     DCD     DAC_IRQHandler              ; DAC interrupt
     DCD     ACMP23_IRQHandler           ; ACMP23 interrupt
-    DCD     TEMP_IRQHandler             ; TEMP interrupt
+    DCD     TS_IRQHandler               ; TS interrupt
     DCD     SPDH_IRQHandler             ; SPDH interrupt
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -163,7 +163,7 @@ HardFault_Handler\
     PUBWEAK I3C1_IRQHandler
     PUBWEAK DAC_IRQHandler
     PUBWEAK ACMP23_IRQHandler
-    PUBWEAK TEMP_IRQHandler
+    PUBWEAK TS_IRQHandler
     PUBWEAK SPDH_IRQHandler
     
     SECTION .text:CODE:REORDER:NOROOT(2)
@@ -212,7 +212,7 @@ I3C0_IRQHandler
 I3C1_IRQHandler
 DAC_IRQHandler
 ACMP23_IRQHandler
-TEMP_IRQHandler
+TS_IRQHandler
 SPDH_IRQHandler
 Default_Handler
     B Default_Handler         

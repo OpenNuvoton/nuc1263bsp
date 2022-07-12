@@ -87,7 +87,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     BPWM3_IRQHandler 
                 DCD     I2C0_IRQHandler 
                 DCD     I2C1_IRQHandler 
-                DCD     DEFAULT_IRQHandler 
+                DCD     I2C2_IRQHandler 
                 DCD     DEFAULT_IRQHandler
                 DCD     DEFAULT_IRQHandler 
                 DCD     USBD_IRQHandler  
@@ -115,7 +115,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     I3C1_IRQHandler
                 DCD     DAC_IRQHandler
                 DCD     ACMP23_IRQHandler
-                DCD     TEMP_IRQHandler
+                DCD     TS_IRQHandler
                 DCD     SPDH_IRQHandler
 
 
@@ -217,9 +217,9 @@ Default_Handler PROC
                 EXPORT  I3C1_IRQHandler           [WEAK]
                 EXPORT  DAC_IRQHandler            [WEAK]
                 EXPORT  ACMP23_IRQHandler         [WEAK]
-                EXPORT  TEMP_IRQHandler           [WEAK]
+                EXPORT  TS_IRQHandler             [WEAK]
                 EXPORT  SPDH_IRQHandler           [WEAK]
-                EXPORT	DEFAULT_IRQHandler	  [WEAK]                                                
+                EXPORT	DEFAULT_IRQHandler        [WEAK]                                                
                 
 BOD_IRQHandler
 WDT_IRQHandler
@@ -260,7 +260,7 @@ I3C0_IRQHandler
 I3C1_IRQHandler
 DAC_IRQHandler
 ACMP23_IRQHandler
-TEMP_IRQHandler
+TS_IRQHandler
 SPDH_IRQHandler
 DEFAULT_IRQHandler
                 B       .

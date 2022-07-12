@@ -88,7 +88,7 @@ typedef enum IRQn
     I3C1_IRQn                 = 45,       /*!< I3C1 Interrupt                                       */
     DAC_IRQn                  = 46,       /*!< DAC Interrupt                                        */
     ACMP23_IRQn               = 47,       /*!< ACMP23 Interrupt                                     */
-    TEMP_IRQn                 = 48,       /*!< TEMP Interrupt                                       */
+    TS_IRQn                   = 48,       /*!< Temperature Sensor Interrupt                         */
     SPDH_IRQn                 = 49,       /*!< SPDH Interrupt                                       */
 
 } IRQn_Type;
@@ -532,7 +532,7 @@ typedef struct
      * |        |          |Note2: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[6]     |PDWKIF    |Power-down Mode Wake-up Interrupt Status
      * |        |          |Set by Power-down wake-up event, it indicates that resume from Power-down mode.
-     * |        |          |The flag is set if the EINT, VDET, GPIO, USBD, ACMP, UART, WDT, BOD, TMR or I2C wake-up occurred.
+     * |        |          |The flag is set if the EINT, VDET, GPIO, USBD, ACMP, UART, WDT, BOD, TMR, I2C or I3C wake-up occurred.
      * |        |          |Note1: Write 1 to clear the bit to 0.
      * |        |          |Note2: This bit works only if PDWKIEN (CLK_PWRCTL[5]) set to 1.
      * |[7]     |PDEN      |System Power-down Enable (Write Protect)
@@ -660,9 +660,9 @@ typedef struct
      * |[25]    |I3C1CKEN  |I3C1 Clock Enable Bit
      * |        |          |0 = I3C1 Clock Disabled.
      * |        |          |1 = I3C1 Clock Enabled.
-     * |[26]    |SPDHCKEN  |SPD Hub Clock Enable Bit
-     * |        |          |0 = SPD Hub clock Disabled.
-     * |        |          |1 = SPD Hub clock Enabled.
+     * |[26]    |SPDHCKEN  |SPD5 Hub Clock Enable Bit
+     * |        |          |0 = SPD5 Hub clock Disabled.
+     * |        |          |1 = SPD5 Hub clock Enabled.
      * |[27]    |USBDCKEN  |USB Device Clock Enable Bit
      * |        |          |0 = USB Device clock Disabled.
      * |        |          |1 = USB Device clock Enabled.
@@ -2343,6 +2343,16 @@ typedef struct
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
      * |        |          |n = 0~6, 14, 15 for port F.
+     * |[n+16]  |UHSRENn   |Port A-F Pin[n] Ultra High Slew Rate Control
+     * |        |          |0 = Px.n output with basic/higher slew rate according to HSREN[n] setting.
+     * |        |          |1 = Px.n output with ultra higher slew rate when HSREN[n] is 1.
+     * |        |          |Note:
+     * |        |          |Note 1:
+     * |        |          |This function is used for port A and port F.
+     * |        |          |n=0~3, 8~11 for port A.
+     * |        |          |n=4~6, 14 for port F.
+     * |        |          |Note 2: Ultra higher slew rate function is used to match I3C and SPI application when releate pins are in 1.8V domain. 
+     * |        |          |Both UHSREN[n] and HSREN[n] need to be set to 1.
      * @var GPIO_T::PUSEL
      * Offset: 0x30/0x70/0xB0/0xF0/0x170  PA-F Pull-up  Selection Register
      * ---------------------------------------------------------------------------------------------------
@@ -3005,6 +3015,54 @@ typedef struct
 
 #define GPIO_SLEWCTL_HSREN15_Pos         (15)                                              /*!< GPIO_T::SLEWCTL: HSREN15 Position      */
 #define GPIO_SLEWCTL_HSREN15_Msk         (0x1ul << GPIO_SLEWCTL_HSREN15_Pos)               /*!< GPIO_T::SLEWCTL: HSREN15 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN0_Pos         (16)                                              /*!< GPIO_T::SLEWCTL: HSREN0 Position       */
+#define GPIO_SLEWCTL_UHSREN0_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN0_Pos)               /*!< GPIO_T::SLEWCTL: HSREN0 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN1_Pos         (17)                                              /*!< GPIO_T::SLEWCTL: HSREN1 Position       */
+#define GPIO_SLEWCTL_UHSREN1_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN1_Pos)               /*!< GPIO_T::SLEWCTL: HSREN1 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN2_Pos         (18)                                              /*!< GPIO_T::SLEWCTL: HSREN2 Position       */
+#define GPIO_SLEWCTL_UHSREN2_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN2_Pos)               /*!< GPIO_T::SLEWCTL: HSREN2 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN3_Pos         (19)                                              /*!< GPIO_T::SLEWCTL: HSREN3 Position       */
+#define GPIO_SLEWCTL_UHSREN3_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN3_Pos)               /*!< GPIO_T::SLEWCTL: HSREN3 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN4_Pos         (20)                                              /*!< GPIO_T::SLEWCTL: HSREN4 Position       */
+#define GPIO_SLEWCTL_UHSREN4_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN4_Pos)               /*!< GPIO_T::SLEWCTL: HSREN4 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN5_Pos         (21)                                              /*!< GPIO_T::SLEWCTL: HSREN5 Position       */
+#define GPIO_SLEWCTL_UHSREN5_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN5_Pos)               /*!< GPIO_T::SLEWCTL: HSREN5 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN6_Pos         (22)                                              /*!< GPIO_T::SLEWCTL: HSREN6 Position       */
+#define GPIO_SLEWCTL_UHSREN6_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN6_Pos)               /*!< GPIO_T::SLEWCTL: HSREN6 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN7_Pos         (23)                                              /*!< GPIO_T::SLEWCTL: HSREN7 Position       */
+#define GPIO_SLEWCTL_UHSREN7_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN7_Pos)               /*!< GPIO_T::SLEWCTL: HSREN7 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN8_Pos         (24)                                              /*!< GPIO_T::SLEWCTL: HSREN8 Position       */
+#define GPIO_SLEWCTL_UHSREN8_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN8_Pos)               /*!< GPIO_T::SLEWCTL: HSREN8 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN9_Pos         (25)                                              /*!< GPIO_T::SLEWCTL: HSREN9 Position       */
+#define GPIO_SLEWCTL_UHSREN9_Msk         (0x1ul << GPIO_SLEWCTL_UHSREN9_Pos)               /*!< GPIO_T::SLEWCTL: HSREN9 Mask           */
+
+#define GPIO_SLEWCTL_UHSREN10_Pos        (26)                                              /*!< GPIO_T::SLEWCTL: HSREN10 Position      */
+#define GPIO_SLEWCTL_UHSREN10_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN10_Pos)              /*!< GPIO_T::SLEWCTL: HSREN10 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN11_Pos        (27)                                              /*!< GPIO_T::SLEWCTL: HSREN11 Position      */
+#define GPIO_SLEWCTL_UHSREN11_Msk        (0x1ul << GPIO_SLEWCTL_HSREN11_Pos)               /*!< GPIO_T::SLEWCTL: HSREN11 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN12_Pos        (28)                                              /*!< GPIO_T::SLEWCTL: HSREN12 Position      */
+#define GPIO_SLEWCTL_UHSREN12_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN12_Pos)              /*!< GPIO_T::SLEWCTL: HSREN12 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN13_Pos        (29)                                              /*!< GPIO_T::SLEWCTL: HSREN13 Position      */
+#define GPIO_SLEWCTL_UHSREN13_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN13_Pos)              /*!< GPIO_T::SLEWCTL: HSREN13 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN14_Pos        (30)                                              /*!< GPIO_T::SLEWCTL: HSREN14 Position      */
+#define GPIO_SLEWCTL_UHSREN14_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN14_Pos)              /*!< GPIO_T::SLEWCTL: HSREN14 Mask          */
+
+#define GPIO_SLEWCTL_UHSREN15_Pos        (31)                                              /*!< GPIO_T::SLEWCTL: HSREN15 Position      */
+#define GPIO_SLEWCTL_UHSREN15_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN15_Pos)              /*!< GPIO_T::SLEWCTL: HSREN15 Mask          */
 
 #define GPIO_PUSEL_PUSEL0_Pos            (0)                                               /*!< GPIO_T::PUSEL: PUSEL0 Position         */
 #define GPIO_PUSEL_PUSEL0_Msk            (0x3ul << GPIO_PUSEL_PUSEL0_Pos)                  /*!< GPIO_T::PUSEL: PUSEL0 Mask             */
@@ -8213,12 +8271,12 @@ typedef struct
      * |[24]    |I3C0RST   |I3C0 Controller Reset
      * |        |          |0 = I3C0 controller normal operation.
      * |        |          |1 = I3C0 controller reset.
-     * |[25]    |I3C0RST   |I3C1 Controller Reset
+     * |[25]    |I3C1RST   |I3C1 Controller Reset
      * |        |          |0 = I3C1 controller normal operation.
      * |        |          |1 = I3C1 controller reset.
-     * |[26]    |SPDHRST   |SPD Hub Controller Reset
-     * |        |          |0 = SPD Hub controller normal operation.
-     * |        |          |1 = SPD Hub controller reset.
+     * |[26]    |SPDHRST   |SPD5 Hub Controller Reset
+     * |        |          |0 = SPD5 Hub controller normal operation.
+     * |        |          |1 = SPD5 Hub controller reset.
      * |[27]    |USBDRST   |USB Device Controller Reset
      * |        |          |0 = USB device controller normal operation.
      * |        |          |1 = USB device controller reset.
@@ -8397,7 +8455,7 @@ typedef struct
      * |        |          |01110 = VREF is from internal reference voltage 4.096V.
      * |        |          |Others = Reserved.
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
-     * |[6]     |PRELOADSEL|Pre-load Timing Selection (Write Protect)
+     * |[6]     |PRELOADEN |Pre-load Function Enable Bit (Write Protect)
      * |        |          |This bit should be enabled and keep during Tstable when VREFCTL(SYS_VREFCTL[4:0]) change setting(except set to 00000). 
      * |        |          |Tstable depends on different situations has different requirement, please refer to datasheet.
      * |        |          |0 = VREF Pre-load function Disabled. (Default).
@@ -8549,7 +8607,7 @@ typedef struct
      * |        |          |11 = BPWM2_CH5
      * |        |          |12 = BPWM3_CH5
      * |[7:4]   |PB1MFP    |PB.1 Multi-function Pin Selection
-     * |        |          |01 = ADC0_CH1, VDET_P1, SPDH_HAS
+     * |        |          |01 = ADC0_CH1, VDET_P1, SPDH_HSA
      * |        |          |02 = SPI1_I2SMCLK
      * |        |          |07 = UART2_TXD
      * |        |          |09 = I2C1_SCL
@@ -8932,7 +8990,7 @@ typedef struct
      * |        |          |1 = Trim value update limitation count reached and HIRC frequency still not locked.
      * |[2]     |CLKERRIF  |Clock Error Interrupt Status
      * |        |          |When the frequency of 32.768 kHz external low speed crystal oscillator (LXT) or 48 MHz internal high speed RC oscillator (HIRC) is shift larger to unreasonable value, this bit will be set and to be an indicate that clock frequency is inaccuracy.
-     * |        |          |Once this bit is set to 1, the auto trim operation stopped and FREQSEL(SYS_IRCTCL[1:0]) will be cleared to 00 by hardware automatically if CESTOPEN(SYS_IRCTCTL[8]) is set to 1.
+     * |        |          |Once this bit is set to 1, the auto trim operation stopped and FREQSEL(SYS_IRCTCTL[1:0]) will be cleared to 00 by hardware automatically if CESTOPEN(SYS_IRCTCTL[8]) is set to 1.
      * |        |          |If this bit is set and CLKEIEN(SYS_IRCTIEN[2]) is high, an interrupt will be triggered to notify the clock frequency is inaccurate.
      * |        |          |Write 1 to clear this to 0.
      * |        |          |0 = Clock frequency is accurate.
@@ -8979,6 +9037,7 @@ typedef struct
      * |[0]     |TSEN      |Temperature Sensor Enable Bit
      * |        |          |0 = Temperature Sensor function Disabled. (Default)
      * |        |          |1 = Temperature Sensor function Enabled.
+     * |        |          |Note: TSEN should be enabled only when TSBGEN is enabled.
      * |[1]     |TSBGEN    |Temperature Sensor Bandgap Enable Bit
      * |        |          |If this bit is set to 1, Temperature sensor bandgap will be enabled and Temperature sensor will supply current source to DAC and Internal Voltage Reference.
      * |        |          |0 = Temperature Sensor Bandgap function Disabled. (Default)
@@ -8987,8 +9046,8 @@ typedef struct
      * |[2]     |TSST      |Temperature Sensor Conversion Start
      * |        |          |0 = Conversion stops or finished. (Default)
      * |        |          |1 = Conversion starts.
-     * |        |          |Note1: User needs to set TSEN first, and wait for at least 200us to start temperature sensor conversion.
-     * |        |          |Note2: This bit will be cleared to 0 by hardware automatically when temperature sensor conversion is finished.
+     * |        |          |Note 1: User needs to set TSEN first, and wait for at least 200us to start temperature sensor conversion.
+     * |        |          |Note 2: This bit will be cleared to 0 by hardware automatically when temperature sensor conversion is finished.
      * |[3]     |TSIEN     |Temperature Sensor Interrupt Enable Bit
      * |        |          |If this bit is set to 1, temperature sensor interrupt is requested when TSIF (SYS_TSCTL[16]) is set.
      * |        |          |0 = Temperature Sensor finish interrupt Disabled. (Default)
@@ -9010,6 +9069,17 @@ typedef struct
      * |[27:16] |TSDATA    |Temperature Sensor Conversion Data Bits (Read Only)
      * |        |          |This field present the conversion result of Temperature Sensor, ranges from -40 to 105 degrees Celsius.
      * |        |          |Note: Negative temperature is represented by 2's complement format, and per LSB difference is equivalent to 0.0625 degrees Celsius.
+     * @var SYS_T::SPDHCTL
+     * Offset: 0x150  SPD5 Hub Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[31]    |SPDHEN    |SPD5 Hub Controller Enable Bit (Write Protect)
+     * |        |          |This bit is used to enable the whole SPD5 Hub controller function.
+     * |        |          |When SPD5 Hub function is enabled, I3C0 and I3C1 are for DDR5 platform purpose only.
+     * |        |          |When SPD5 Hub function is disabled, I3C0 and I3C1 are general purpose I3C slave.
+     * |        |          |0 = SPD5 Hub function Disabled.
+     * |        |          |1 = SPD5 Hub function Enable.
      * @var SYS_T::SPIMUX
      * Offset: 0x160  SPI Mux Function Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -9060,7 +9130,9 @@ typedef struct
     __I  uint32_t RESERVE7[15];
     __IO uint32_t TSCTL;                 /*!< [0x0140] Temperature Sensor Control Register                              */
     __IO uint32_t TSDATA;                /*!< [0x0144] Temperature Sensor Data Register                                 */
-    __I  uint32_t RESERVE8[6];
+    __I  uint32_t RESERVE8[2];
+    __IO uint32_t SPDHCTL;               /*!< [0x0150] SPD5 Hub Control Register                                        */
+    __I  uint32_t RESERVE9[3];
     __IO uint32_t SPIMUX;                /*!< [0x0160] SPI Mux Function Control Register                                */
 
 
@@ -9264,11 +9336,11 @@ typedef struct
 #define SYS_VREFCTL_VREFCTL_Pos          (0)                                               /*!< SYS_T::VREFCTL: VREFCTL Position       */
 #define SYS_VREFCTL_VREFCTL_Msk          (0x1ful << SYS_VREFCTL_VREFCTL_Pos)               /*!< SYS_T::VREFCTL: VREFCTL Mask           */
 
-#define SYS_VREFCTL_PRELOADSEL_Pos       (6)                                               /*!< SYS_T::VREFCTL: PRELOADSEL Position    */
-#define SYS_VREFCTL_PRELOADSEL_Msk       (0x1ul << SYS_VREFCTL_PRELOADSEL_Pos)             /*!< SYS_T::VREFCTL: PRELOADSEL Mask        */
+#define SYS_VREFCTL_PRELOADEN_Pos        (6)                                               /*!< SYS_T::VREFCTL: PRELOADEN Position     */
+#define SYS_VREFCTL_PRELOADEN_Msk        (0x1ul << SYS_VREFCTL_PRELOADEN_Pos)              /*!< SYS_T::VREFCTL: PRELOADEN Mask         */
 
-#define SYS_VREFCTL_VBFGEN_Pos           (24)                                              /*!< SYS_T::VREFCTL: VBFGEN Position        */
-#define SYS_VREFCTL_VBFGEN_Msk           (0x1ul << SYS_VREFCTL_VBFGEN_Pos)                 /*!< SYS_T::VREFCTL: VBFGEN Mask            */
+#define SYS_VREFCTL_VBGFEN_Pos           (24)                                              /*!< SYS_T::VREFCTL: VBGFEN Position        */
+#define SYS_VREFCTL_VBGFEN_Msk           (0x1ul << SYS_VREFCTL_VBGFEN_Pos)                 /*!< SYS_T::VREFCTL: VBGFEN Mask            */
 
 #define SYS_GPA_MFPL_PA0MFP_Pos          (0)                                               /*!< SYS_T::GPA_MFPL: PA0MFP Position       */
 #define SYS_GPA_MFPL_PA0MFP_Msk          (0xful << SYS_GPA_MFPL_PA0MFP_Pos)                /*!< SYS_T::GPA_MFPL: PA0MFP Mask           */
@@ -9488,6 +9560,9 @@ typedef struct
 
 #define SYS_TSDATA_TSDATA_Pos            (16)                                              /*!< SYS_T::TSDATA: TSDATA Position         */
 #define SYS_TSDATA_TSDATA_Msk            (0xffful << SYS_TSDATA_TSDATA_Pos)                /*!< SYS_T::TSDATA: TSDATA Mask             */
+
+#define SYS_SPDHCTL_SPDHEN_Pos           (31)                                              /*!< SYS_T::SPDHCTL: SPDHEN Position        */
+#define SYS_SPDHCTL_SPDHEN_Msk           (0x1ul << SYS_SPDHCTL_SPDHEN_Pos)                 /*!< SYS_T::SPDHCTL: SPDHEN Mask            */
 
 #define SYS_SPIMUX_MUXSWEN_Pos           (0)                                               /*!< SYS_T::SPIMUX: MUXSWEN Position        */
 #define SYS_SPIMUX_MUXSWEN_Msk           (0x1ul << SYS_SPIMUX_MUXSWEN_Pos)                 /*!< SYS_T::SPIMUX: MUXSWEN Mask            */

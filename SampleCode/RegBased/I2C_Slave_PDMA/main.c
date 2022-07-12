@@ -523,7 +523,8 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for PDMA transfer done time-out!\n");
-            return -1;
+            err = 1;
+            goto lexit;
         }
     }
     g_u32IsTestOver = 0;
@@ -538,6 +539,8 @@ int32_t main(void)
             printf("[%03d]: Tx[0x%X] != Rx[0x%X]\n", i, g_au8MstTxData[i], g_au8SlvData[i]);
         }
     }
+
+lexit:
 
     if(err)
         printf("Master write data to Slave(PDMA RX) fail...\n");

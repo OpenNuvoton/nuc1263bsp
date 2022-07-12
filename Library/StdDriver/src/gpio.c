@@ -119,12 +119,14 @@ void GPIO_DisableInt(GPIO_T *port, uint32_t u32Pin)
  *                          It could be BIT0 ~ BIT3, BIT15 for PD. \n
  *                          It could be BIT0 ~ BIT6, BIT14, BIT15 for PF.
  * @param[in]   u32Mode     Slew rate mode. It could be
- *                          - \ref GPIO_SLEWCTL_NORMAL
- *                          - \ref GPIO_SLEWCTL_HIGH
+*                           - \ref GPIO_SLEWCTL_NORMAL     : basic slew rate
+ *                          - \ref GPIO_SLEWCTL_HIGH       : higher slew rate
+ *                          - \ref GPIO_SLEWCTL_ULTRA_HIGH : ultra higher slew rate
  *
  * @return      None
  *
- * @details     This function is used to set specified GPIO operation mode.
+ * @details     This function is used to set specified GPIO slew rate control.
+ *              Ultra higher slew rate function is used to match I3C and SPI application when releate pins VDDIO_0/1/2 domain are in 1.8V.
  */
 void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
 {
@@ -134,7 +136,7 @@ void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
     {
         if(u32PinMask & (1ul << u32Idx))
         {
-            port->SLEWCTL = (port->SLEWCTL & ~(0x1ul << u32Idx)) | (u32Mode << u32Idx);
+            port->SLEWCTL = (port->SLEWCTL & ~(0x10001ul << u32Idx)) | (u32Mode << u32Idx);
         }
     }
 }
@@ -156,7 +158,7 @@ void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
  *
  * @return      None
  *
- * @details     Set the pin mode of specified GPIO pin.
+ * @details     This function is used to set specified GPIO pull-up control.
  */
 void GPIO_SetPullCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
 {

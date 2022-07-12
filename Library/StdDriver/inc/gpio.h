@@ -61,6 +61,7 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 #define GPIO_SLEWCTL_NORMAL         0x0UL           /*!< GPIO slew rate setting for basic slew rate */
 #define GPIO_SLEWCTL_HIGH           0x1UL           /*!< GPIO slew rate setting for higer slew rate */
+#define GPIO_SLEWCTL_ULTRA_HIGH     0x10001UL       /*!< GPIO slew rate setting for ultra higer slew rate */
 
 
 /*---------------------------------------------------------------------------------------------------------*/

@@ -84,12 +84,12 @@ __Vectors:
     .long   BPWM3_IRQHandler
     .long   I2C0_IRQHandler 
     .long   I2C1_IRQHandler 
-    .long   Default_Handler 
+    .long   I2C2_IRQHandler 
     .long   Default_Handler
     .long   Default_Handler 
     .long   USBD_IRQHandler  
     .long   Default_Handler  
-    .long   Default_Handler 
+    .long   ACMP01_IRQHandler 
     .long   PDMA_IRQHandler
     .long   Default_Handler 
     .long   PWRWU_IRQHandler
@@ -112,7 +112,7 @@ __Vectors:
     .long   I3C1_IRQHandler
     .long   DAC_IRQHandler
     .long   ACMP23_IRQHandler
-    .long   TEMP_IRQHandler
+    .long   TS_IRQHandler
     .long   SPDH_IRQHandler
 
     .size   __Vectors, . - __Vectors
@@ -343,7 +343,7 @@ Default_Handler:
     def_irq_handler BPWM3_IRQHandler
     def_irq_handler I2C0_IRQHandler
     def_irq_handler I2C1_IRQHandler
-    def_irq_handler USCI_IRQHandler
+    def_irq_handler I2C2_IRQHandler
     def_irq_handler USBD_IRQHandler
     def_irq_handler PDMA_IRQHandler
     def_irq_handler PWRWU_IRQHandler
@@ -361,7 +361,7 @@ Default_Handler:
     def_irq_handler I3C1_IRQHandler
     def_irq_handler DAC_IRQHandler
     def_irq_handler ACMP23_IRQHandler
-    def_irq_handler TEMP_IRQHandler
+    def_irq_handler TS_IRQHandler
     def_irq_handler SPDH_IRQHandler
 
 
