@@ -15,7 +15,7 @@
 
 #if defined (__ICCARM__)
 # define __RAMFUNC  __ramfunc
-#elif defined (__CC_ARM)
+#elif defined (__CC_ARM) || defined (__ARMCC_VERSION)
 # define __RAMFUNC
 #elif defined (__GNUC__)
 # define __RAMFUNC __attribute__((long_call, section(".data.ramfunc")))
