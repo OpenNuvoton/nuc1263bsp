@@ -12132,6 +12132,10 @@ typedef struct
 /**@}*/ /* end of REGISTER group */
 
 
+
+#include "acmp_reg.h"
+
+
 /******************************************************************************/
 /*                         Peripheral memory map                              */
 /******************************************************************************/
@@ -12200,12 +12204,16 @@ typedef struct
 
 #define PDMA_BASE           (AHB_BASE       + 0x08000)                  /*!< PDMA Base Address                                */
 
-#define LLSI0_BASE           (APB1_BASE      + 0x54000)                  /*!< LLSI0 Base Address                              */
-#define LLSI1_BASE           (APB2_BASE      + 0x54000)                  /*!< LLSI1 Base Address                              */
-#define LLSI2_BASE           (APB1_BASE      + 0x54200)                  /*!< LLSI2 Base Address                              */
-#define LLSI3_BASE           (APB2_BASE      + 0x54200)                  /*!< LLSI3 Base Address                              */
-#define LLSI4_BASE           (APB1_BASE      + 0x54400)                  /*!< LLSI4 Base Address                              */
-#define LLSI5_BASE           (APB2_BASE      + 0x54400)                  /*!< LLSI5 Base Address                              */
+#define LLSI0_BASE          (APB1_BASE      + 0x54000)                  /*!< LLSI0 Base Address                               */
+#define LLSI1_BASE          (APB2_BASE      + 0x54000)                  /*!< LLSI1 Base Address                               */
+#define LLSI2_BASE          (APB1_BASE      + 0x54200)                  /*!< LLSI2 Base Address                               */
+#define LLSI3_BASE          (APB2_BASE      + 0x54200)                  /*!< LLSI3 Base Address                               */
+#define LLSI4_BASE          (APB1_BASE      + 0x54400)                  /*!< LLSI4 Base Address                               */
+#define LLSI5_BASE          (APB2_BASE      + 0x54400)                  /*!< LLSI5 Base Address                               */
+
+#define ACMP01_BASE         (APB1_BASE      + 0xD0000)                  /*!< ACMP01 Base Address                              */
+#define ACMP23_BASE         (APB2_BASE      + 0xD0000)                  /*!< ACMP23 Base Address                              */
+
 
 #define DAC0_BASE            (APB1_BASE     + 0xF0000UL)                 /*!< DAC0 Base Address                                */
 #define DAC1_BASE            (APB1_BASE     + 0xF0040UL)                 /*!< DAC1 Base Address                                */
@@ -12260,28 +12268,31 @@ typedef struct
 
 #define FMC                 ((FMC_T *) FMC_BASE)                        /*!< Flash Memory Controller */
 
-#define BPWM0                ((BPWM_T *) BPWM0_BASE)                    /*!< BPWM0 Configuration Struct                        */
-#define BPWM1                ((BPWM_T *) BPWM1_BASE)                    /*!< BPWM1 Configuration Struct                        */
-#define BPWM2                ((BPWM_T *) BPWM2_BASE)                    /*!< BPWM2 Configuration Struct                        */
-#define BPWM3                ((BPWM_T *) BPWM3_BASE)                    /*!< BPWM3 Configuration Struct                        */
-
-#define CRC                 ((CRC_T *) CRC_BASE)                        /*!< CRC Configuration Struct                         */
-
-#define USBD                ((USBD_T *) USBD_BASE)                      /*!< USB Device Configuration Struct                  */
-
-#define PDMA                ((PDMA_T *) PDMA_BASE)                      /*!< PDMA Configuration Struct                        */
-
-#define LLSI0               ((LLSI_T *) LLSI0_BASE)                     /*!< LLSI0 Configuration Struct                       */
-#define LLSI1               ((LLSI_T *) LLSI1_BASE)                     /*!< LLSI1 Configuration Struct                       */
-#define LLSI2               ((LLSI_T *) LLSI2_BASE)                     /*!< LLSI2 Configuration Struct                       */
-#define LLSI3               ((LLSI_T *) LLSI3_BASE)                     /*!< LLSI3 Configuration Struct                       */
-#define LLSI4               ((LLSI_T *) LLSI4_BASE)                     /*!< LLSI4 Configuration Struct                       */
-#define LLSI5               ((LLSI_T *) LLSI5_BASE)                     /*!< LLSI5 Configuration Struct                       */
-
-#define DAC0                ((DAC_T *) DAC0_BASE)                       /*!< DAC0 Configuration Struct                        */
-#define DAC1                ((DAC_T *) DAC1_BASE)                       /*!< DAC1 Configuration Struct                        */
-#define DAC2                ((DAC_T *) DAC2_BASE)                       /*!< DAC2 Configuration Struct                        */
-#define DAC3                ((DAC_T *) DAC3_BASE)                       /*!< DAC3 Configuration Struct                        */
+#define BPWM0               ((BPWM_T *) BPWM0_BASE)                     /*!< BPWM0 Configuration Struct                        */
+#define BPWM1               ((BPWM_T *) BPWM1_BASE)                     /*!< BPWM1 Configuration Struct                        */
+#define BPWM2               ((BPWM_T *) BPWM2_BASE)                     /*!< BPWM2 Configuration Struct                        */
+#define BPWM3               ((BPWM_T *) BPWM3_BASE)                     /*!< BPWM3 Configuration Struct                        */
+                                                                     
+#define CRC                 ((CRC_T *) CRC_BASE)                        /*!< CRC Configuration Struct                          */
+                                                                                                                        
+#define USBD                ((USBD_T *) USBD_BASE)                      /*!< USB Device Configuration Struct                   */
+                                                                                                                        
+#define PDMA                ((PDMA_T *) PDMA_BASE)                      /*!< PDMA Configuration Struct                         */
+                                                                                                                        
+#define LLSI0               ((LLSI_T *) LLSI0_BASE)                     /*!< LLSI0 Configuration Struct                        */
+#define LLSI1               ((LLSI_T *) LLSI1_BASE)                     /*!< LLSI1 Configuration Struct                        */
+#define LLSI2               ((LLSI_T *) LLSI2_BASE)                     /*!< LLSI2 Configuration Struct                        */
+#define LLSI3               ((LLSI_T *) LLSI3_BASE)                     /*!< LLSI3 Configuration Struct                        */
+#define LLSI4               ((LLSI_T *) LLSI4_BASE)                     /*!< LLSI4 Configuration Struct                        */
+#define LLSI5               ((LLSI_T *) LLSI5_BASE)                     /*!< LLSI5 Configuration Struct                        */
+                                                                                                                        
+#define ACMP01              ((ACMP_T *) ACMP01_BASE)                    /*!< ACMP01 Configuration Struct                       */
+#define ACMP23              ((ACMP_T *) ACMP23_BASE)                    /*!< ACMP23 Configuration Struct                       */
+                                                                     
+#define DAC0                ((DAC_T *) DAC0_BASE)                       /*!< DAC0 Configuration Struct                         */
+#define DAC1                ((DAC_T *) DAC1_BASE)                       /*!< DAC1 Configuration Struct                         */
+#define DAC2                ((DAC_T *) DAC2_BASE)                       /*!< DAC2 Configuration Struct                         */
+#define DAC3                ((DAC_T *) DAC3_BASE)                       /*!< DAC3 Configuration Struct                         */
 /**@}*/ /* end of group PMODULE */
 
 
@@ -12386,4 +12397,5 @@ typedef volatile unsigned short vu16;
 #include "pdma.h"
 #include "llsi.h"
 #include "dac.h"
+#include "acmp.h"
 #endif
