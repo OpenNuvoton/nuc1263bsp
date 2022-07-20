@@ -345,6 +345,7 @@ Default_Handler:
     def_irq_handler I2C1_IRQHandler
     def_irq_handler I2C2_IRQHandler
     def_irq_handler USBD_IRQHandler
+    def_irq_handler ACMP01_IRQHandler
     def_irq_handler PDMA_IRQHandler
     def_irq_handler PWRWU_IRQHandler
     def_irq_handler ADC_IRQHandler

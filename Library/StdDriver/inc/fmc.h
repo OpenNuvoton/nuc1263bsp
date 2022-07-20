@@ -92,17 +92,6 @@ extern "C"
 #define FMC_TIMEOUT_CHKALLONE       (SystemCoreClock<<1) /*!< Check-all-one command time-out 2 s */
 
 
-
-/*---------------------------------------------------------------------------------------------------------*/
-/* FMC Time-out Handler Constant Definitions                                                               */
-/*---------------------------------------------------------------------------------------------------------*/
-#define FMC_TIMEOUT_READ            (SystemCoreClock>>3) /*!< Read command time-out 125 ms       */
-#define FMC_TIMEOUT_WRITE           (SystemCoreClock>>3) /*!< Write command time-out 125 ms      */
-#define FMC_TIMEOUT_ERASE           (SystemCoreClock>>2) /*!< Erase command time-out 250 ms      */
-#define FMC_TIMEOUT_CHKSUM          (SystemCoreClock<<1) /*!< Get checksum command time-out 2 s  */
-#define FMC_TIMEOUT_CHKALLONE       (SystemCoreClock<<1) /*!< Check-all-one command time-out 2 s */
-
-
 /*@}*/ /* end of group FMC_EXPORTED_CONSTANTS */
 
 extern int32_t g_FMC_i32ErrCode;
