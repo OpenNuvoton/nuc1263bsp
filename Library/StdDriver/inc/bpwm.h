@@ -1,6 +1,6 @@
 /**************************************************************************//**
  * @file     bpwm.h
- * @version  V1.00
+ * @version  V3.00
  * @brief    BPWM driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0

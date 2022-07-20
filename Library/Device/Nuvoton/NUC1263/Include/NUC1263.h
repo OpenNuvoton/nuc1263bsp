@@ -151,7 +151,7 @@ typedef struct
 
     /**
      * @var ADC_T::ADDR
-     * Offset: 0x00~0x1C, 0x74~0x78  ADC Data Register 0~7, 29~30
+     * Offset: 0x00~0x3C, 0x74~0x78  ADC Data Register 0~15, 29~30
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
@@ -208,10 +208,10 @@ typedef struct
      * |        |          |1 = External trigger Enabled.
      * |        |          |Note: The ADC external trigger function is only supported in Single-cycle Scan mode.
      * |[9]     |PTEN      |PDMA Transfer Enable Bit
-     * |        |          |When A/D conversion is completed, the converted data is loaded into ADDR0~7, ADDR29~ADDR30.
+     * |        |          |When A/D conversion is completed, the converted data is loaded into ADDR0~15, ADDR29~ADDR30.
      * |        |          |Software can enable this bit to generate a PDMA data transfer request.
      * |        |          |0 = PDMA data transfer Disabled.
-     * |        |          |1 = PDMA data transfer in ADDR0~7, ADDR29~ADDR30 Enabled.
+     * |        |          |1 = PDMA data transfer in ADDR0~15, ADDR29~ADDR30 Enabled.
      * |        |          |Note: When PTEN=1, software must set ADIE=0 to disable interrupt.
      * |[10]    |DIFFEN    |Differential Input Mode Control
      * |        |          |0 = Single-end analog input mode.
@@ -249,14 +249,13 @@ typedef struct
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
      * |[31:0]  |CHEN      |Analog Input Channel Enable Control
-     * |        |          |Set ADCHENR[7:0] bits to enable the corresponding analog input channel 7 ~ 0.
+     * |        |          |Set ADCHENR[15:0] bits to enable the corresponding analog input channel 15 ~ 0.
      * |        |          |If DIFFEN(ADC_ADCR[10]) bit is set to 1, only the even number channel needs to be enabled.
-     * |        |          |Besides, set ADCHENR[29] to ADCHENR[30] bits will enable internal channel for band-gap voltage and temperature sensor respectively.
+     * |        |          |Besides, set ADCHENR[29] to ADCHENR[30] bits will enable internal channel for band-gap voltage and SPDHUB HSA input respectively.
      * |        |          |Other bits are reserved.
      * |        |          |0 = Channel Disabled.
      * |        |          |1 = Channel Enabled.
-     * |        |          |Note 1 : If the internal channel for band-gap voltage (CHEN[29]) is active, the maximum sampling rate will be 300k SPS.
-     * |        |          |Note 2 : If the internal channel for temperature sensor (CHEN[30]) is active, the maximum sampling rate will be 300k SPS.
+     * |        |          |Note : If the internal channel for band-gap voltage (CHEN[29]) is active, the maximum sampling rate will be 300k SPS.
      * @var ADC_T::ADCMPR
      * Offset: 0x88/0x8C  ADC Compare Register 0/1
      * ---------------------------------------------------------------------------------------------------
@@ -365,7 +364,8 @@ typedef struct
      * |        |          |Current PDMA transfer data could be the content of ADC_ADDR0 ~ ADC_ADDR7 and ADC_ADDR29 ~ ADC_ADDR30 registers.
      */
 
-    __I  uint32_t ADDR[32];              /*!< [0x0000 ~ 0x007c] ADC Data Register 31                                    */
+    __I  uint32_t ADDR[31];              /*!< [0x0000 ~ 0x0078] ADC Data Register 30                                    */
+    __I  uint32_t RESERVE0[1];
     __IO uint32_t ADCR;                  /*!< [0x0080] ADC Control Register                                             */
     __IO uint32_t ADCHER;                /*!< [0x0084] ADC Channel Enable Register                                      */
     __IO uint32_t ADCMPR[2];             /*!< [0x0088 ~ 0x008C] ADC Compare Register 0 & 1                              */
@@ -373,7 +373,7 @@ typedef struct
     __I  uint32_t ADSR1;                 /*!< [0x0094] ADC Status Register1                                             */
     __I  uint32_t ADSR2;                 /*!< [0x0098] ADC Status Register2                                             */
     __IO uint32_t ADTDCR;                /*!< [0x009c] ADC Trigger Delay Control Register                               */
-    __I  uint32_t RESERVE0[24];
+    __I  uint32_t RESERVE1[24];
     __I  uint32_t ADPDMA;                /*!< [0x0100] ADC PDMA Current Transfer Data Register                          */
 
 } ADC_T;
@@ -7339,6 +7339,161 @@ typedef struct
 /**@}*/ /* BPWM_CONST */
 /**@}*/ /* end of BPWM register group */
 
+/**
+    @addtogroup DAC Digital to Analog Converter(DAC)
+    Memory Mapped Structure for DAC Controller
+@{ */
+
+typedef struct
+{
+
+
+    /**
+     * @var DAC_T::CTL
+     * Offset: 0x00  DAC Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |DACEN     |DAC Enable Bit
+     * |        |          |0 = DAC is Disabled.
+     * |        |          |1 = DAC is Enabled.
+     * |[1]     |DACIEN    |DAC Interrupt Enable Bit
+     * |        |          |0 = Interrupt is Disabled.
+     * |        |          |1 = Interrupt is Enabled.
+     * |[2]     |DMAEN     |DMA Mode Enable Bit
+     * |        |          |0 = DMA mode Disabled.
+     * |        |          |1 = DMA mode Enabled.
+     * |[3]     |DMAURIEN  |DMA Under-run Interrupt Enable Bit
+     * |        |          |0 = DMA under-run interrupt Disabled.
+     * |        |          |1 = DMA under-run interrupt Enabled.
+     * |[4]     |TRGEN     |Trigger Mode Enable Bit
+     * |        |          |0 = DAC event trigger mode Disabled.
+     * |        |          |1 = DAC event trigger mode Enabled.
+     * |[7:5]   |TRGSEL    |Trigger Source Selection
+     * |        |          |000 = Software trigger.
+     * |        |          |001 = External pin DAC0_ST trigger.
+     * |        |          |010 = Timer 0 trigger.
+     * |        |          |011 = Timer 1 trigger.
+     * |        |          |100 = Timer 2 trigger.
+     * |        |          |101 = Timer 3 trigger.
+     * |[13:12] |ETRGSEL   |External Pin Trigger Selection
+     * |        |          |00 = Low level trigger.
+     * |        |          |01 = High level trigger.
+     * |        |          |10 = Falling edge trigger.
+     * |        |          |11 = Rising edge trigger.
+     * @var DAC_T::SWTRG
+     * Offset: 0x04  DAC Software Trigger Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |SWTRG     |Software Trigger
+     * |        |          |0 = Software trigger Disabled.
+     * |        |          |1 = Software trigger Enabled.
+     * |        |          |User writes this bit to generate one shot pulse and it is cleared to 0 by hardware automatically; Reading this bit will always get 0.
+     * @var DAC_T::DAT
+     * Offset: 0x08  DAC Data Holding Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[15:0]  |DACDAT    |DAC 12-bit Holding Data
+     * |        |          |These bits are written by user software which specifies 12-bit conversion data for DAC output
+     * |        |          |The unused bits (DAC_DAT[3:0] in left-alignment mode and DAC_DAT[15:12] in right alignment mode) are ignored by DAC controller hardware.
+     * |        |          |12 bit left alignment: user has to load data into DAC_DAT[15:4] bits.
+     * |        |          |12 bit right alignment: user has to load data into DAC_DAT[11:0] bits.
+     * @var DAC_T::DATOUT
+     * Offset: 0x0C  DAC Data Output Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[11:0]  |DATOUT    |DAC 12-bit Output Data
+     * |        |          |These bits are current digital data for DAC output conversion.
+     * |        |          |It is loaded from DAC_DAT register and user cannot write it directly.
+     * @var DAC_T::STATUS
+     * Offset: 0x10  DAC Status Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[0]     |FINISH    |DAC Conversion Complete Finish Flag
+     * |        |          |0 = DAC is in conversion state.
+     * |        |          |1 = DAC conversion finish.
+     * |        |          |This bit set to 1 when conversion time counter counts to SETTLET
+     * |        |          |It is cleared to 0 when DAC starts a new conversion
+     * |        |          |User writes 1 to clear this bit to 0.
+     * |[1]     |DMAUDR    |DMA Under-run Interrupt Flag
+     * |        |          |0 = No DMA under-run error condition occurred.
+     * |        |          |1 = DMA under-run error condition occurred.
+     * |        |          |User writes 1 to clear this bit.
+     * |[8]     |BUSY      |DAC Busy Flag (Read Only)
+     * |        |          |0 = DAC is ready for next conversion.
+     * |        |          |1 = DAC is busy in conversion.
+     * |        |          |This is read only bit.
+     * @var DAC_T::TCTL
+     * Offset: 0x14  DAC Timing Control Register
+     * ---------------------------------------------------------------------------------------------------
+     * |Bits    |Field     |Descriptions
+     * | :----: | :----:   | :---- |
+     * |[9:0]   |SETTLET   |DAC Output Settling Time
+     * |        |          |User software needs to write appropriate value to these bits to meet DAC conversion settling time base on PCLK (APB clock) speed.
+     * |        |          |For example, DAC controller clock speed is 80MHz and DAC conversion settling time is 1 us, SETTLETvalue must be greater than 0x50.
+     * |        |          |SELTTLET = DAC controller clock speed x settling time.
+     */
+    __IO uint32_t CTL;                   /*!< [0x0000] DAC Control Register                                             */
+    __IO uint32_t SWTRG;                 /*!< [0x0004] DAC Software Trigger Control Register                            */
+    __IO uint32_t DAT;                   /*!< [0x0008] DAC Data Holding Register                                        */
+    __I  uint32_t DATOUT;                /*!< [0x000c] DAC Data Output Register                                         */
+    __IO uint32_t STATUS;                /*!< [0x0010] DAC Status Register                                              */
+    __IO uint32_t TCTL;                  /*!< [0x0014] DAC Timing Control Register                                      */
+} DAC_T;
+
+/**
+    @addtogroup DAC_CONST DAC Bit Field Definition
+    Constant Definitions for DAC Controller
+@{ */
+
+#define DAC_CTL_DACEN_Pos                (0)                                               /*!< DAC_T::CTL: DACEN Position             */
+#define DAC_CTL_DACEN_Msk                (0x1ul << DAC_CTL_DACEN_Pos)                      /*!< DAC_T::CTL: DACEN Mask                 */
+
+#define DAC_CTL_DACIEN_Pos               (1)                                               /*!< DAC_T::CTL: DACIEN Position            */
+#define DAC_CTL_DACIEN_Msk               (0x1ul << DAC_CTL_DACIEN_Pos)                     /*!< DAC_T::CTL: DACIEN Mask                */
+
+#define DAC_CTL_DMAEN_Pos                (2)                                               /*!< DAC_T::CTL: DMAEN Position             */
+#define DAC_CTL_DMAEN_Msk                (0x1ul << DAC_CTL_DMAEN_Pos)                      /*!< DAC_T::CTL: DMAEN Mask                 */
+
+#define DAC_CTL_DMAURIEN_Pos             (3)                                               /*!< DAC_T::CTL: DMAURIEN Position          */
+#define DAC_CTL_DMAURIEN_Msk             (0x1ul << DAC_CTL_DMAURIEN_Pos)                   /*!< DAC_T::CTL: DMAURIEN Mask              */
+
+#define DAC_CTL_TRGEN_Pos                (4)                                               /*!< DAC_T::CTL: TRGEN Position             */
+#define DAC_CTL_TRGEN_Msk                (0x1ul << DAC_CTL_TRGEN_Pos)                      /*!< DAC_T::CTL: TRGEN Mask                 */
+
+#define DAC_CTL_TRGSEL_Pos               (5)                                               /*!< DAC_T::CTL: TRGSEL Position            */
+#define DAC_CTL_TRGSEL_Msk               (0x7ul << DAC_CTL_TRGSEL_Pos)                     /*!< DAC_T::CTL: TRGSEL Mask                */
+
+#define DAC_CTL_ETRGSEL_Pos              (12)                                              /*!< DAC_T::CTL: ETRGSEL Position           */
+#define DAC_CTL_ETRGSEL_Msk              (0x3ul << DAC_CTL_ETRGSEL_Pos)                    /*!< DAC_T::CTL: ETRGSEL Mask               */
+
+#define DAC_SWTRG_SWTRG_Pos              (0)                                               /*!< DAC_T::SWTRG: SWTRG Position           */
+#define DAC_SWTRG_SWTRG_Msk              (0x1ul << DAC_SWTRG_SWTRG_Pos)                    /*!< DAC_T::SWTRG: SWTRG Mask               */
+
+#define DAC_DAT_DACDAT_Pos               (0)                                               /*!< DAC_T::DAT: DACDAT Position            */
+#define DAC_DAT_DACDAT_Msk               (0xfffful << DAC_DAT_DACDAT_Pos)                  /*!< DAC_T::DAT: DACDAT Mask                */
+
+#define DAC_DATOUT_DATOUT_Pos            (0)                                               /*!< DAC_T::DATOUT: DATOUT Position         */
+#define DAC_DATOUT_DATOUT_Msk            (0xffful << DAC_DATOUT_DATOUT_Pos)                /*!< DAC_T::DATOUT: DATOUT Mask             */
+
+#define DAC_STATUS_FINISH_Pos            (0)                                               /*!< DAC_T::STATUS: FINISH Position         */
+#define DAC_STATUS_FINISH_Msk            (0x1ul << DAC_STATUS_FINISH_Pos)                  /*!< DAC_T::STATUS: FINISH Mask             */
+
+#define DAC_STATUS_DMAUDR_Pos            (1)                                               /*!< DAC_T::STATUS: DMAUDR Position         */
+#define DAC_STATUS_DMAUDR_Msk            (0x1ul << DAC_STATUS_DMAUDR_Pos)                  /*!< DAC_T::STATUS: DMAUDR Mask             */
+
+#define DAC_STATUS_BUSY_Pos              (8)                                               /*!< DAC_T::STATUS: BUSY Position           */
+#define DAC_STATUS_BUSY_Msk              (0x1ul << DAC_STATUS_BUSY_Pos)                    /*!< DAC_T::STATUS: BUSY Mask               */
+
+#define DAC_TCTL_SETTLET_Pos             (0)                                               /*!< DAC_T::TCTL: SETTLET Position          */
+#define DAC_TCTL_SETTLET_Msk             (0x3fful << DAC_TCTL_SETTLET_Pos)                 /*!< DAC_T::TCTL: SETTLET Mask              */
+
+/**@}*/ /* DAC_CONST */
+/**@}*/ /* end of DAC register group */
 
 /*---------------------- Serial Peripheral Interface Controller -------------------------*/
 /**
@@ -12052,6 +12207,11 @@ typedef struct
 #define LLSI4_BASE           (APB1_BASE      + 0x54400)                  /*!< LLSI4 Base Address                              */
 #define LLSI5_BASE           (APB2_BASE      + 0x54400)                  /*!< LLSI5 Base Address                              */
 
+#define DAC0_BASE            (APB1_BASE     + 0xF0000UL)                 /*!< DAC0 Base Address                                */
+#define DAC1_BASE            (APB1_BASE     + 0xF0040UL)                 /*!< DAC1 Base Address                                */
+#define DAC2_BASE            (APB1_BASE     + 0xF0080UL)                 /*!< DAC2 Base Address                                */
+#define DAC3_BASE            (APB1_BASE     + 0xF00C0UL)                 /*!< DAC3 Base Address                                */
+
 /**@}*/ /* PERIPHERAL_BASE */
 
 /******************************************************************************/
@@ -12117,6 +12277,11 @@ typedef struct
 #define LLSI3               ((LLSI_T *) LLSI3_BASE)                     /*!< LLSI3 Configuration Struct                       */
 #define LLSI4               ((LLSI_T *) LLSI4_BASE)                     /*!< LLSI4 Configuration Struct                       */
 #define LLSI5               ((LLSI_T *) LLSI5_BASE)                     /*!< LLSI5 Configuration Struct                       */
+
+#define DAC0                ((DAC_T *) DAC0_BASE)                       /*!< DAC0 Configuration Struct                        */
+#define DAC1                ((DAC_T *) DAC1_BASE)                       /*!< DAC1 Configuration Struct                        */
+#define DAC2                ((DAC_T *) DAC2_BASE)                       /*!< DAC2 Configuration Struct                        */
+#define DAC3                ((DAC_T *) DAC3_BASE)                       /*!< DAC3 Configuration Struct                        */
 /**@}*/ /* end of group PMODULE */
 
 
@@ -12220,4 +12385,5 @@ typedef volatile unsigned short vu16;
 #include "usbd.h"
 #include "pdma.h"
 #include "llsi.h"
+#include "dac.h"
 #endif

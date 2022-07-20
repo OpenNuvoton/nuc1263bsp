@@ -120,11 +120,21 @@ void PDMA_SetTransferAddr(uint32_t u32Ch, uint32_t u32SrcAddr, uint32_t u32SrcCt
  *                - \ref PDMA_UART0_RX
  *                - \ref PDMA_UART1_TX
  *                - \ref PDMA_UART1_RX
+ *                - \ref PDMA_UART2_TX
+ *                - \ref PDMA_UART2_RX
+ *                - \ref PDMA_DAC0_TX
+ *                - \ref PDMA_DAC1_TX
+ *                - \ref PDMA_DAC2_TX
+ *                - \ref PDMA_DAC3_TX
  *                - \ref PDMA_SPI0_TX
  *                - \ref PDMA_SPI0_RX
  *                - \ref PDMA_SPI1_TX
  *                - \ref PDMA_SPI1_RX
  *                - \ref PDMA_ADC_RX
+ *                - \ref PDMA_I3C0_TX
+ *                - \ref PDMA_I3C0_RX
+ *                - \ref PDMA_I3C1_TX
+ *                - \ref PDMA_I3C1_RX
  *                - \ref PDMA_I2C0_TX
  *                - \ref PDMA_I2C0_RX
  *                - \ref PDMA_I2C1_TX
@@ -139,10 +149,10 @@ void PDMA_SetTransferAddr(uint32_t u32Ch, uint32_t u32SrcAddr, uint32_t u32SrcCt
  *                - \ref PDMA_LLSI3
  *                - \ref PDMA_LLSI4
  *                - \ref PDMA_LLSI5
- *                - \ref PDMA_LLSI6
- *                - \ref PDMA_LLSI7
- *                - \ref PDMA_LLSI8
- *                - \ref PDMA_LLSI9
+ *                - \ref PDMA_SPI2_TX
+ *                - \ref PDMA_SPI2_RX
+ *                - \ref PDMA_I2C2_TX
+ *                - \ref PDMA_I2C2_RX
  * @param[in]   u32ScatterEn    Scatter-gather mode enable
  * @param[in]   u32DescAddr     Scatter-gather descriptor address
  *

@@ -58,8 +58,18 @@ void ADC_Open(ADC_T *adc,
 
     if ((adc)->ADCHER & BIT30)
     {
-        /* Enable temperature sensor */
-        SYS->IVSCTL |= SYS_IVSCTL_VTEMPEN_Msk;
+        uint32_t u32RegLockState = SYS_IsRegLocked();
+        if (u32RegLockState)
+        {
+            SYS_UnlockReg();
+        }
+        /* Enable HSA Resistor */
+        outpw(SYS_BASE + 0x150, inpw(SYS_BASE + 0x150) | BIT30);
+
+        if (u32RegLockState)
+        {
+            SYS_LockReg();
+        }
     }
 
     return;
@@ -72,11 +82,24 @@ void ADC_Open(ADC_T *adc,
   */
 void ADC_Close(ADC_T *adc)
 {
+    uint32_t u32RegLockState = SYS_IsRegLocked();
     (void) adc;
     SYS->IPRST1 |= SYS_IPRST1_ADCRST_Msk;
     SYS->IPRST1 &= ~SYS_IPRST1_ADCRST_Msk;
     /* Disable VBG gain buffer and disable temperature sensor */
-    SYS->IVSCTL &= ~(SYS_IVSCTL_VTEMPEN_Msk | SYS_IVSCTL_VBGUGEN_Msk);
+    SYS->IVSCTL &= ~(SYS_IVSCTL_VBGUGEN_Msk);
+
+    if (u32RegLockState)
+    {
+        SYS_UnlockReg();
+    }
+    /* Disable HSA Resistor */
+    outpw(SYS_BASE + 0x150, inpw(SYS_BASE + 0x150) & ~BIT30);
+
+    if (u32RegLockState)
+    {
+        SYS_LockReg();
+    }
     return;
 }
 
