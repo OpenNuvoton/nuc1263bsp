@@ -16,7 +16,9 @@ uart.c
 usbd.c
 wdt.c
 wwdt.c
+dac.c
+acmp.c
 )
 
 
-add_library(m2354_driver ${DRV_SRC})
+add_library(standard_driver ${DRV_SRC})

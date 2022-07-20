@@ -25,8 +25,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_PATH})
 
-#SET(CMAKE_C_FLAGS    "-mcpu=cortex-m23 -Wno-ignored-optimization-argument -Wno-unused-command-line-argument -Wall    -Wno-error=cpp    -c    -fdata-sections    -ffunction-sections        -fshort-enums    -fshort-wchar -funsigned-char -masm=auto -nostdlib -mfpu=none -g -std=c99 -D__MICROLIB")
-#SET(CMAKE_CXX_FLAGS  "-mcpu=cortex-m23 -Wno-ignored-optimization-argument -Wno-unused-command-line-argument -Wall    -Wno-error=cpp    -c    -fdata-sections    -ffunction-sections        -fshort-enums    -fshort-wchar -funsigned-char -masm=auto -nostdlib -mfpu=none -g -D__MICROLIB")
 set(C_FLAGS "--target=arm-arm-none-eabi -mcpu=cortex-m23 -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -D__MICROLIB")
 set(CMAKE_C_FLAGS "-xc -std=c99  ${C_FLAGS}")
 set(CMAKE_CXX_FLAGS ${C_FLAGS})
@@ -48,7 +46,8 @@ add_subdirectory(${BSP_DIR}/Library/StdDriver/src)
 add_subdirectory(${BSP_DIR}/Library/Device/Nuvoton/nuc1263/Source)
 
 # Build sample code
-add_subdirectory(${BSP_DIR}/SampleCode/RegBased/ACMP)
+add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
+
 
 
 

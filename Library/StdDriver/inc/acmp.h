@@ -62,6 +62,8 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /* ACMP_VREF constant definitions                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
+#define ACMP_VREF_CRVSSEL_VDDA        (0UL << ACMP_VREF_CRV0SSEL_Pos)  /*!< ACMP_VREF setting for selecting analog supply voltage VDDA as the CRV0 source voltage \hideinitializer */
+#define ACMP_VREF_CRVSSEL_INTVREF     (1UL << ACMP_VREF_CRV0SSEL_Pos)  /*!< ACMP_VREF setting for selecting internal reference voltage as the CRV0 source voltage \hideinitializer */
 #define ACMP_VREF_CRV0SSEL_VDDA       (0UL << ACMP_VREF_CRV0SSEL_Pos)  /*!< ACMP_VREF setting for selecting analog supply voltage VDDA as the CRV0 source voltage \hideinitializer */
 #define ACMP_VREF_CRV0SSEL_INTVREF    (1UL << ACMP_VREF_CRV0SSEL_Pos)  /*!< ACMP_VREF setting for selecting internal reference voltage as the CRV0 source voltage \hideinitializer */
 #define ACMP_VREF_CRV1SSEL_VDDA       (0UL << ACMP_VREF_CRV1SSEL_Pos)  /*!< ACMP_VREF setting for selecting analog supply voltage VDDA as the CRV1 source voltage \hideinitializer */
