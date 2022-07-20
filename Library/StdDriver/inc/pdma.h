@@ -81,11 +81,21 @@ extern "C"
 #define PDMA_UART0_RX       5UL            /*!<DMA Connect to UART0 RX  \hideinitializer */
 #define PDMA_UART1_TX       6UL            /*!<DMA Connect to UART1 TX  \hideinitializer */
 #define PDMA_UART1_RX       7UL            /*!<DMA Connect to UART1 RX  \hideinitializer */
+#define PDMA_UART2_TX       8UL            /*!<DMA Connect to UART2 TX  \hideinitializer */
+#define PDMA_UART2_RX       9UL            /*!<DMA Connect to UART2 RX  \hideinitializer */
+#define PDMA_DAC0_TX        10UL           /*!<DMA Connect to DAC0 TX  \hideinitializer */
+#define PDMA_DAC1_TX        11UL           /*!<DMA Connect to DAC1 TX  \hideinitializer */
+#define PDMA_DAC2_TX        12UL           /*!<DMA Connect to DAC2 TX  \hideinitializer */
+#define PDMA_DAC3_TX        13UL           /*!<DMA Connect to DAC3 TX  \hideinitializer */
 #define PDMA_SPI0_TX        16UL           /*!<DMA Connect to SPI0 TX  \hideinitializer */
 #define PDMA_SPI0_RX        17UL           /*!<DMA Connect to SPI0 RX  \hideinitializer */
 #define PDMA_SPI1_TX        18UL           /*!<DMA Connect to SPI1 TX  \hideinitializer */
 #define PDMA_SPI1_RX        19UL           /*!<DMA Connect to SPI1 RX  \hideinitializer */
 #define PDMA_ADC_RX         20UL           /*!<DMA Connect to ADC RX  \hideinitializer */
+#define PDMA_I3C0_TX        22UL           /*!<DMA Connect to I3C0 TX  \hideinitializer */
+#define PDMA_I3C0_RX        23UL           /*!<DMA Connect to I3C0 RX  \hideinitializer */
+#define PDMA_I3C1_TX        24UL           /*!<DMA Connect to I3C1 TX  \hideinitializer */
+#define PDMA_I3C1_RX        25UL           /*!<DMA Connect to I3C1 RX  \hideinitializer */
 #define PDMA_I2C0_TX        28UL           /*!<DMA Connect to I2C0 TX  \hideinitializer */
 #define PDMA_I2C0_RX        29UL           /*!<DMA Connect to I2C0 RX  \hideinitializer */
 #define PDMA_I2C1_TX        30UL           /*!<DMA Connect to I2C1 TX  \hideinitializer */
@@ -100,10 +110,10 @@ extern "C"
 #define PDMA_LLSI3          39UL           /*!<DMA Connect to LLSI3  \hideinitializer */
 #define PDMA_LLSI4          40UL           /*!<DMA Connect to LLSI4  \hideinitializer */
 #define PDMA_LLSI5          41UL           /*!<DMA Connect to LLSI5  \hideinitializer */
-#define PDMA_LLSI6          42UL           /*!<DMA Connect to LLSI6  \hideinitializer */
-#define PDMA_LLSI7          43UL           /*!<DMA Connect to LLSI7  \hideinitializer */
-#define PDMA_LLSI8          44UL           /*!<DMA Connect to LLSI8  \hideinitializer */
-#define PDMA_LLSI9          45UL           /*!<DMA Connect to LLSI9  \hideinitializer */
+#define PDMA_SPI2_TX        46UL           /*!<DMA Connect to SPI2 TX  \hideinitializer */
+#define PDMA_SPI2_RX        47UL           /*!<DMA Connect to SPI2 RX  \hideinitializer */
+#define PDMA_I2C2_TX        48UL           /*!<DMA Connect to I2C2 TX  \hideinitializer */
+#define PDMA_I2C2_RX        49UL           /*!<DMA Connect to I2C2 RX  \hideinitializer */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Interrupt Type Constant Definitions                                                                    */

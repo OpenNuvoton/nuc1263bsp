@@ -1,5 +1,6 @@
 /**************************************************************************//**
  * @file     adc.h
+ * @version  V3.00
  * @brief    ADC driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
@@ -168,7 +169,7 @@ extern "C"
 /**
   * @brief Check if the ADC conversion data is valid or not.
   * @param[in] adc The pointer of the specified ADC module.
-  * @param[in] u32ChNum ADC Channel, valid value are from 0 to 7 and 29 to 30.
+  * @param[in] u32ChNum ADC Channel, valid value are from 0 to 15 and 29 to 30.
   * @retval 0 ADC data is not valid.
   * @retval 1 ADC data is valid.
   * @details VALID(ADC_ADDR0~30[17]) is set to 1 when corresponding channel analog input conversion is completed and cleared by hardware after ADC_ADDR register is read.
@@ -194,7 +195,7 @@ extern "C"
 /**
   * @brief Configure the comparator 0 and enable it.
   * @param[in] adc The pointer of the specified ADC module.
-  * @param[in] u32ChNum  Specifies the source channel, valid value are from 0 to 7.
+  * @param[in] u32ChNum  Specifies the source channel, valid value are from 0 to 15.
   * @param[in] u32Condition Specifies the compare condition. Valid values are:
   *                          - \ref ADC_ADCMPR_CMPCOND_LESS_THAN            :The compare condition is "less than the compare value".
   *                          - \ref ADC_ADCMPR_CMPCOND_GREATER_OR_EQUAL     :The compare condition is "greater than or equal to the compare value".
@@ -226,7 +227,7 @@ extern "C"
 /**
   * @brief Configure the comparator 1 and enable it.
   * @param[in] adc The pointer of the specified ADC module.
-  * @param[in] u32ChNum  Specifies the source channel, valid value are from 0 to 7.
+  * @param[in] u32ChNum  Specifies the source channel, valid value are from 0 to 15.
   * @param[in] u32Condition Specifies the compare condition. Valid values are:
   *                          - \ref ADC_ADCMPR_CMPCOND_LESS_THAN            :The compare condition is "less than the compare value".
   *                          - \ref ADC_ADCMPR_CMPCOND_GREATER_OR_EQUAL     :The compare condition is "greater than or equal to the compare value".
