@@ -313,7 +313,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for BPWM channel 0 Timer start to count time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -322,7 +322,7 @@ int32_t main(void)
 
         /* Capture the Input Waveform Data */
         if( CalPeriodTime() < 0)
-            return -1;
+            goto lexit;
 
         /*------------------------------------------------------------------------------------------------------------*/
         /* Stop BPWM1 channel 0 (Recommended procedure method 1)                                                      */
@@ -339,7 +339,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for BPWM channel 0 Timer Stop time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -364,7 +364,7 @@ int32_t main(void)
             if(--u32TimeOutCnt == 0)
             {
                 printf("Wait for BPWM channel 0 current counter reach to 0 time-out!\n");
-                return -1;
+                goto lexit;
             }
         }
 
@@ -379,4 +379,8 @@ int32_t main(void)
         BPWM0->CAPIF = BPWM_CAPIF_CAPFIF0_Msk;
 
     }
+
+lexit:
+
+    while(1);
 }
