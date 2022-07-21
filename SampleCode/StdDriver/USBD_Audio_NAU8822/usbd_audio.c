@@ -697,11 +697,11 @@ int32_t I2C_WaitReady(I2C_T *i2c)
     u32Timeout = 0x100000;
 
     u32Cnt = 0;
-    while(!((I2C0)->CTL & I2C_CTL_SI_Msk))
+    while(!((I2C0)->CTL0 & I2C_CTL0_SI_Msk))
     {
         if(u32Cnt++ > u32Timeout)
         {
-            printf("ctl=%x sts=%x flow=%d\n", i2c->CTL, i2c->STATUS, g_u32I2cFlow);
+            printf("ctl=%x sts=%x flow=%d\n", i2c->CTL0, i2c->STATUS0, g_u32I2cFlow);
 
             return -1;
         }

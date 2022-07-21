@@ -268,7 +268,7 @@ void I2C0_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C0RST_Msk;
 
     /* Enable I2C0 Controller */
-    I2C0->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C0 bus clock 100K divider setting, I2CLK = PCLK/(100K*4)-1 */
     u32BusClock = 100000;
