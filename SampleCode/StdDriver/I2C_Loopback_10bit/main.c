@@ -228,7 +228,7 @@ void I2CM_Init_10bit(I2C_T *i2c, uint32_t u32BusClock)
 
 
     /* Enable I2C0 Controller */
-    i2c->CTL |= I2C_CTL_I2CEN_Msk;
+    i2c->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* Enable I2C1 10-bit address mode */
     i2c->CTL1 |= I2C_CTL1_ADDR10EN_Msk;
@@ -265,7 +265,7 @@ void I2CS_Init_10bit(I2C_T *i2c, uint32_t u32BusClock)
 
 
     /* Enable I2C1 Controller */
-    i2c->CTL |= I2C_CTL_I2CEN_Msk;
+    i2c->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* Enable I2C1 10-bit address mode */
     i2c->CTL1 |= I2C_CTL1_ADDR10EN_Msk;

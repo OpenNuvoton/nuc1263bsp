@@ -133,7 +133,7 @@ void I2C_MasterRx(uint32_t u32Status)
         getchar();
         I2C_SET_CONTROL_REG(I2C0, I2C_CTL_SI);
         u32TimeOutCnt = I2C_TIMEOUT;
-        while(I2C0->CTL & I2C_CTL_SI_Msk)
+        while(I2C0->CTL0 & I2C_CTL0_SI_Msk)
             if(--u32TimeOutCnt == 0) break;
     }
 }
@@ -213,7 +213,7 @@ void I2C_MasterTx(uint32_t u32Status)
         getchar();
         I2C_SET_CONTROL_REG(I2C0, I2C_CTL_SI);
         u32TimeOutCnt = I2C_TIMEOUT;
-        while(I2C0->CTL & I2C_CTL_SI_Msk)
+        while(I2C0->CTL0 & I2C_CTL0_SI_Msk)
             if(--u32TimeOutCnt == 0) break;
     }
 }

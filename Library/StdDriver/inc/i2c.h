@@ -1,18 +1,13 @@
-/****************************************************************************
-* @file     i2c.h
-* @version  V3.00
-* $Revision: 1 $
-* $Date: 20/11/27 $
-* @brief    I2C Serial Interface Controller(I2C) driver header file
-*
-* @copyright SPDX-License-Identifier: Apache-2.0
-* @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+/****************************************************************************//**
+ * @file     i2c.h
+ * @version  V3.00
+ * @brief    I2C driver header file
+ *
+ * @copyright SPDX-License-Identifier: Apache-2.0
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
-
 #ifndef __I2C_H__
 #define __I2C_H__
-
-#include "NuMicro.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -35,23 +30,21 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I2C_CTL constant definitions.                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
-#define I2C_CTL_STA_STO_SI        0x38UL /*!< I2C_CTL setting for I2C control bits. It would set STA, STO and SI bits     */
-#define I2C_CTL_STA_STO_SI_AA     0x3CUL /*!< I2C_CTL setting for I2C control bits. It would set STA, STO, SI and AA bits */
-#define I2C_CTL_STA_SI            0x28UL /*!< I2C_CTL setting for I2C control bits. It would set STA and SI bits          */
-#define I2C_CTL_STA_SI_AA         0x2CUL /*!< I2C_CTL setting for I2C control bits. It would set STA, SI and AA bits      */
-#define I2C_CTL_STO_SI            0x18UL /*!< I2C_CTL setting for I2C control bits. It would set STO and SI bits          */
-#define I2C_CTL_STO_SI_AA         0x1CUL /*!< I2C_CTL setting for I2C control bits. It would set STO, SI and AA bits      */
-#define I2C_CTL_SI                0x08UL /*!< I2C_CTL setting for I2C control bits. It would set SI bit                   */
-#define I2C_CTL_SI_AA             0x0CUL /*!< I2C_CTL setting for I2C control bits. It would set SI and AA bits           */
-#define I2C_CTL_STA               0x20UL /*!< I2C_CTL setting for I2C control bits. It would set STA bit                  */
-#define I2C_CTL_STO               0x10UL /*!< I2C_CTL setting for I2C control bits. It would set STO bit                  */
-#define I2C_CTL_AA                0x04UL /*!< I2C_CTL setting for I2C control bits. It would set AA bit                   */
+#define I2C_CTL_STA_SI            0x28UL /*!< I2C_CTL setting for I2C control bits. It would set STA and SI bits          \hideinitializer */
+#define I2C_CTL_STA_SI_AA         0x2CUL /*!< I2C_CTL setting for I2C control bits. It would set STA, SI and AA bits      \hideinitializer */
+#define I2C_CTL_STO_SI            0x18UL /*!< I2C_CTL setting for I2C control bits. It would set STO and SI bits          \hideinitializer */
+#define I2C_CTL_STO_SI_AA         0x1CUL /*!< I2C_CTL setting for I2C control bits. It would set STO, SI and AA bits      \hideinitializer */
+#define I2C_CTL_SI                0x08UL /*!< I2C_CTL setting for I2C control bits. It would set SI bit                   \hideinitializer */
+#define I2C_CTL_SI_AA             0x0CUL /*!< I2C_CTL setting for I2C control bits. It would set SI and AA bits           \hideinitializer */
+#define I2C_CTL_STA               0x20UL /*!< I2C_CTL setting for I2C control bits. It would set STA bit                  \hideinitializer */
+#define I2C_CTL_STO               0x10UL /*!< I2C_CTL setting for I2C control bits. It would set STO bit                  \hideinitializer */
+#define I2C_CTL_AA                0x04UL /*!< I2C_CTL setting for I2C control bits. It would set AA bit                   \hideinitializer */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I2C GCMode constant definitions.                                                                       */
 /*---------------------------------------------------------------------------------------------------------*/
-#define I2C_GCMODE_ENABLE           1    /*!< Enable  I2C GC Mode                                                         */
-#define I2C_GCMODE_DISABLE          0    /*!< Disable I2C GC Mode                                                         */
+#define I2C_GCMODE_ENABLE           1    /*!< Enable  I2C GC Mode                                                         \hideinitializer */
+#define I2C_GCMODE_DISABLE          0    /*!< Disable I2C GC Mode                                                         \hideinitializer */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I2C SMBUS constant definitions.                                                                        */
@@ -64,11 +57,10 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /* I2C Define Error Code                                                                                   */
 /*---------------------------------------------------------------------------------------------------------*/
-#define I2C_TIMEOUT     SystemCoreClock  /*!< I2C time-out counter (1 second time-out)                                    */
-#define I2C_OK          ( 0L)            /*!< I2C operation OK                                                            */
-#define I2C_ERR_FAIL    (-1L)            /*!< I2C operation failed                                                        */
-#define I2C_ERR_TIMEOUT (-2L)            /*!< I2C operation abort due to timeout error                                    */
-
+#define I2C_TIMEOUT     SystemCoreClock  /*!< I2C time-out counter (1 second time-out)                                    \hideinitializer */
+#define I2C_OK          ( 0L)            /*!< I2C operation OK                                                            \hideinitializer */
+#define I2C_ERR_FAIL    (-1L)            /*!< I2C operation failed                                                        \hideinitializer */
+#define I2C_ERR_TIMEOUT (-2L)            /*!< I2C operation abort due to timeout error                                    \hideinitializer */
 
 /*@}*/ /* end of group I2C_EXPORTED_CONSTANTS */
 
@@ -86,8 +78,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       None
  *
  *    @details      Set I2C_CTL register to control I2C bus conditions of START, STOP, SI, ACK.
+ *    \hideinitializer
  */
-#define I2C_SET_CONTROL_REG(i2c, u8Ctrl) ((i2c)->CTL = ((i2c)->CTL & ~0x3c) | (u8Ctrl))
+#define I2C_SET_CONTROL_REG(i2c, u8Ctrl) ((i2c)->CTL0 = ((i2c)->CTL0 & ~0x3c) | (u8Ctrl))
 
 /**
  *    @brief        The macro is used to set START condition of I2C Bus
@@ -97,19 +90,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       None
  *
  *    @details      Set the I2C bus START condition in I2C_CTL register.
+ *    \hideinitializer
  */
-#define I2C_START(i2c)  ((i2c)->CTL = ((i2c)->CTL | I2C_CTL_SI_Msk) | I2C_CTL_STA_Msk)
-
-/**
- *    @brief        The macro is used to set STOP condition of I2C Bus
- *
- *    @param[in]    i2c        Specify I2C port
- *
- *    @return       None
- *
- *    @details      Set the I2C bus STOP condition in I2C_CTL register.
- */
-#define I2C_STOP(i2c)   ((i2c)->CTL = ((i2c)->CTL | I2C_CTL_SI_Msk) | I2C_CTL_STO_Msk)
+#define I2C_START(i2c)  ((i2c)->CTL0 = ((i2c)->CTL0 & ~I2C_CTL0_SI_Msk) | I2C_CTL0_STA_Msk)
 
 /**
  *    @brief        The macro is used to wait I2C bus status get ready
@@ -119,8 +102,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       None
  *
  *    @details      When a new status is presented of I2C bus, the SI flag will be set in I2C_CTL register.
+ *    \hideinitializer
  */
-#define I2C_WAIT_READY(i2c)     while(!((i2c)->CTL & I2C_CTL_SI_Msk))
+#define I2C_WAIT_READY(i2c)     while(!((i2c)->CTL0 & I2C_CTL0_SI_Msk))
 
 /**
  *    @brief        The macro is used to Read I2C Bus Data Register
@@ -130,6 +114,7 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       A byte of I2C data register
  *
  *    @details      I2C controller read data from bus and save it in I2CDAT register.
+ *    \hideinitializer
  */
 #define I2C_GET_DATA(i2c)   ((i2c)->DAT)
 
@@ -142,6 +127,7 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       None
  *
  *    @details      When write a data to I2C_DAT register, the I2C controller will shift it to I2C bus.
+ *    \hideinitializer
  */
 #define I2C_SET_DATA(i2c, u8Data) ((i2c)->DAT = (u8Data))
 
@@ -153,8 +139,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       I2C status code
  *
  *    @details      To get this status code to monitor I2C bus event.
+ *    \hideinitializer
  */
-#define I2C_GET_STATUS(i2c) ((i2c)->STATUS)
+#define I2C_GET_STATUS(i2c) ((i2c)->STATUS0)
 
 /**
  *    @brief        Get Time-out flag from I2C Bus
@@ -165,8 +152,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @retval       1       I2C Bus time-out is happened
  *
  *    @details      When I2C bus occurs time-out event, the time-out flag will be set.
+ *    \hideinitializer
  */
-#define I2C_GET_TIMEOUT_FLAG(i2c)   ( ((i2c)->TOCTL & I2C_TOCTL_TOIF_Msk) == I2C_TOCTL_TOIF_Msk ? 1 : 0 )
+#define I2C_GET_TIMEOUT_FLAG(i2c)   ( ((i2c)->TOCTL & I2C_TOCTL_TOIF_Msk) == I2C_TOCTL_TOIF_Msk ? 1:0 )
 
 /**
  *    @brief        To get wake-up flag from I2C Bus
@@ -177,8 +165,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @retval       1       Chip is woken-up from power-down mode
  *
  *    @details      I2C bus occurs wake-up event, wake-up flag will be set.
+ *    \hideinitializer
  */
-#define I2C_GET_WAKEUP_FLAG(i2c) ( ((i2c)->WKSTS & I2C_WKSTS_WKIF_Msk) == I2C_WKSTS_WKIF_Msk ? 1 : 0 )
+#define I2C_GET_WAKEUP_FLAG(i2c) ( ((i2c)->WKSTS & I2C_WKSTS_WKIF_Msk) == I2C_WKSTS_WKIF_Msk ? 1:0  )
 
 /**
  *    @brief        To clear wake-up flag
@@ -188,49 +177,9 @@ extern int32_t g_I2C_i32ErrCode;
  *    @return       None
  *
  *    @details      If wake-up flag is set, use this macro to clear it.
+ *    \hideinitializer
  */
 #define I2C_CLEAR_WAKEUP_FLAG(i2c)  ((i2c)->WKSTS = I2C_WKSTS_WKIF_Msk)
-
-/**
- *    @brief        To get wake-up address frame ACK done flag from I2C Bus
- *
- *    @param[in]    i2c     Specify I2C port
- *
- *    @retval       0       The ACK bit cycle of address match frame is not done
- *    @retval       1       The ACK bit cycle of address match frame is done in power-down
- *
- *    @details      I2C bus occurs wake-up event and address frame ACK is done, this flag will be set.
- *
- *    \hideinitializer
- */
-#define I2C_GET_WAKEUP_DONE(i2c) ( ((i2c)->WKSTS & I2C_WKSTS_WKAKDONE_Msk) == I2C_WKSTS_WKAKDONE_Msk ? 1 : 0 )
-
-/**
- *    @brief        To clear address frame ACK done flag
- *
- *    @param[in]    i2c     Specify I2C port
- *
- *    @return       None
- *
- *    @details      If wake-up done is set, use this macro to clear it.
- *
- *    \hideinitializer
- */
-#define I2C_CLEAR_WAKEUP_DONE(i2c)  ((i2c)->WKSTS = I2C_WKSTS_WKAKDONE_Msk)
-
-/**
- *    @brief        To get read/write status bit in address wakeup frame
- *
- *    @param[in]    i2c     Specify I2C port
- *
- *    @retval       0       Write command be record on the address match wakeup frame
- *    @retval       1       Read command be record on the address match wakeup frame.
- *
- *    @details      I2C bus occurs wake-up event and address frame is received, this bit will record read/write status.
- *
- *    \hideinitializer
-*/
-#define I2C_GET_WAKEUP_WR_STATUS(i2c) ( ((i2c)->WKSTS & I2C_WKSTS_WRSTSWK_Msk) == I2C_WKSTS_WRSTSWK_Msk ? 1 : 0 )
 
 /**
  * @brief      To get SMBus Status
@@ -419,6 +368,95 @@ extern int32_t g_I2C_i32ErrCode;
  */
 #define I2C_SMBUS_RST_PEC_AT_START_DISABLE(i2c)   ((i2c)->BUSCTL &= ~I2C_BUSCTL_PECCLR_Msk)
 
+/**
+  * @brief      Enable RX PDMA function.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    Set RXPDMAEN bit of I2C_CTL1 register to enable RX PDMA transfer function.
+  * \hideinitializer
+  */
+#define I2C_ENABLE_RX_PDMA(i2c)   ((i2c)->CTL1 |= I2C_CTL1_RXPDMAEN_Msk)
+
+/**
+  * @brief      Enable TX PDMA function.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    Set TXPDMAEN bit of I2C_CTL1 register to enable TX PDMA transfer function.
+  * \hideinitializer
+  */
+#define I2C_ENABLE_TX_PDMA(i2c)   ((i2c)->CTL1 |= I2C_CTL1_TXPDMAEN_Msk)
+
+/**
+  * @brief      Disable RX PDMA transfer.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    Clear RXPDMAEN bit of I2C_CTL1 register to disable RX PDMA transfer function.
+  * \hideinitializer
+  */
+#define I2C_DISABLE_RX_PDMA(i2c)   ((i2c)->CTL1 &= ~I2C_CTL1_RXPDMAEN_Msk)
+
+/**
+  * @brief      Disable TX PDMA transfer.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    Clear TXPDMAEN bit of I2C_CTL1 register to disable TX PDMA transfer function.
+  * \hideinitializer
+  */
+#define I2C_DISABLE_TX_PDMA(i2c)   ((i2c)->CTL1 &= ~I2C_CTL1_TXPDMAEN_Msk)
+
+/**
+  * @brief      Enable PDMA stretch function.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    Enable this function is to stretch bus by hardware after PDMA transfer is done if SI is not cleared.
+  * \hideinitializer
+  */
+#define I2C_ENABLE_PDMA_STRETCH(i2c)   ((i2c)->CTL1 |= I2C_CTL1_PDMASTR_Msk)
+
+/**
+  * @brief      Disable PDMA stretch function.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    I2C will send STOP after PDMA transfers done automatically.
+  * \hideinitializer
+  */
+#define I2C_DISABLE_PDMA_STRETCH(i2c)   ((i2c)->CTL1 &= ~I2C_CTL1_PDMASTR_Msk)
+
+/**
+  * @brief      Reset PDMA function.
+  * @param[in]  i2c The pointer of the specified I2C module.
+  * @return     None.
+  * @details    I2C PDMA engine will be reset after this function is called.
+  * \hideinitializer
+  */
+#define I2C_DISABLE_RST_PDMA(i2c)   ((i2c)->CTL1 |= I2C_CTL1_PDMARST_Msk)
+
+/*---------------------------------------------------------------------------------------------------------*/
+/* inline functions                                                                                        */
+/*---------------------------------------------------------------------------------------------------------*/
+
+/* Declare these inline functions here to avoid MISRA C 2004 rule 8.1 error */
+__STATIC_INLINE void I2C_STOP(I2C_T *i2c);
+
+/**
+ *    @brief        The macro is used to set STOP condition of I2C Bus
+ *
+ *    @param[in]    i2c        Specify I2C port
+ *
+ *    @return       None
+ *
+ *    @details      Set the I2C bus STOP condition in I2C_CTL register.
+ */
+__STATIC_INLINE void I2C_STOP(I2C_T *i2c)
+{
+    uint32_t u32TimeOutCount = I2C_TIMEOUT;
+
+    (i2c)->CTL0 |= (I2C_CTL0_SI_Msk | I2C_CTL0_STO_Msk);
+    while(i2c->CTL0 & I2C_CTL0_STO_Msk)
+    {
+        if(--u32TimeOutCount == 0) break;
+    }
+}
 
 void I2C_ClearTimeoutFlag(I2C_T *i2c);
 void I2C_Close(I2C_T *i2c);
@@ -431,25 +469,26 @@ uint32_t I2C_GetStatus(I2C_T *i2c);
 uint32_t I2C_Open(I2C_T *i2c, uint32_t u32BusClock);
 uint8_t I2C_GetData(I2C_T *i2c);
 void I2C_SetSlaveAddr(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u16SlaveAddr, uint8_t u8GCMode);
-void I2C_SetSlaveAddrMask(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u8SlaveAddrMask);
+void I2C_SetSlaveAddrMask(I2C_T *i2c, uint8_t u8SlaveNo, uint16_t u16SlaveAddrMask);
 uint32_t I2C_SetBusClockFreq(I2C_T *i2c, uint32_t u32BusClock);
 void I2C_EnableTimeout(I2C_T *i2c, uint8_t u8LongTimeout);
 void I2C_DisableTimeout(I2C_T *i2c);
 void I2C_EnableWakeup(I2C_T *i2c);
 void I2C_DisableWakeup(I2C_T *i2c);
 void I2C_SetData(I2C_T *i2c, uint8_t u8Data);
-uint8_t I2C_WriteByte(I2C_T *i2c, uint16_t u16SlaveAddr, const uint8_t data);
-uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint16_t u16SlaveAddr, const uint8_t *data, uint32_t u32wLen);
-uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, const uint8_t data);
-uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, const uint8_t *data, uint32_t u32wLen);
-uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, const uint8_t data);
-uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, const uint8_t *data, uint32_t u32wLen);
-uint8_t I2C_ReadByte(I2C_T *i2c, uint16_t u16SlaveAddr);
-uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t *rdata, uint32_t u32rLen);
-uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr);
-uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint16_t u16SlaveAddr, uint8_t u8DataAddr, uint8_t *rdata, uint32_t u32rLen);
-uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr);
-uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint16_t u16SlaveAddr, uint16_t u16DataAddr, uint8_t *rdata, uint32_t u32rLen);
+void I2C_SMBusClearInterruptFlag(I2C_T *i2c, uint8_t u8SMBusIntFlag);
+uint8_t I2C_WriteByte(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t data);
+uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t data[], uint32_t u32wLen);
+uint8_t I2C_WriteByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, uint8_t data);
+uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, uint8_t data[], uint32_t u32wLen);
+uint8_t I2C_WriteByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, uint8_t data);
+uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, uint8_t data[], uint32_t u32wLen);
+uint8_t I2C_ReadByte(I2C_T *i2c, uint8_t u8SlaveAddr);
+uint32_t I2C_ReadMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t rdata[], uint32_t u32rLen);
+uint8_t I2C_ReadByteOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr);
+uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, uint8_t rdata[], uint32_t u32rLen);
+uint8_t I2C_ReadByteTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr);
+uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16DataAddr, uint8_t rdata[], uint32_t u32rLen);
 uint32_t I2C_SMBusGetStatus(I2C_T *i2c);
 void I2C_SMBusSetPacketByteCount(I2C_T *i2c, uint32_t u32PktSize);
 void I2C_SMBusOpen(I2C_T *i2c, uint8_t u8HostDevice);
@@ -459,7 +498,6 @@ uint8_t I2C_SMBusGetPECValue(I2C_T *i2c);
 void I2C_SMBusIdleTimeout(I2C_T *i2c, uint32_t us, uint32_t u32Hclk);
 void I2C_SMBusTimeout(I2C_T *i2c, uint32_t ms, uint32_t u32Pclk);
 void I2C_SMBusClockLoTimeout(I2C_T *i2c, uint32_t ms, uint32_t u32Pclk);
-void I2C_SMBusClearInterruptFlag(I2C_T *i2c, uint8_t u8SMBusIntFlag);
 
 /*@}*/ /* end of group I2C_EXPORTED_FUNCTIONS */
 
@@ -470,5 +508,7 @@ void I2C_SMBusClearInterruptFlag(I2C_T *i2c, uint8_t u8SMBusIntFlag);
 #ifdef __cplusplus
 }
 #endif
-#endif //__I2C_H__
+
+#endif
+
 

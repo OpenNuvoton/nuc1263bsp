@@ -297,9 +297,9 @@ int32_t main(void)
             s_u8SlvTRxAbortFlag = 0;
 
             u32TimeOutCnt = I2C_TIMEOUT;
-            while(I2C0->CTL & I2C_CTL_SI_Msk)
+            while(I2C0->CTL0 & I2C_CTL0_SI_Msk)
                 if(--u32TimeOutCnt == 0) break;
-            printf("I2C Slave re-start. status[0x%x]\n", I2C0->STATUS);
+            printf("I2C Slave re-start. status[0x%x]\n", I2C_GET_STATUS(I2C0));
             I2C_SET_CONTROL_REG(I2C0, I2C_CTL_SI_AA);
         }
     }

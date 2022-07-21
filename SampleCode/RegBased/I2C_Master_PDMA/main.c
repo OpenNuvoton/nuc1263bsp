@@ -69,7 +69,7 @@ void I2C0_IRQHandler(void)
 {
     uint32_t u32Status;
 
-    u32Status = I2C0->STATUS;
+    u32Status = I2C_GET_STATUS(I2C0);
 
     if(I2C_GET_TIMEOUT_FLAG(I2C0))
     {
@@ -90,7 +90,7 @@ void I2C1_IRQHandler(void)
 {
     uint32_t u32Status;
 
-    u32Status = I2C1->STATUS;
+    u32Status = I2C_GET_STATUS(I2C1);
 
     if(I2C_GET_TIMEOUT_FLAG(I2C1))
     {
@@ -422,7 +422,7 @@ void I2C0_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C0RST_Msk;
 
     /* Enable I2C0 Controller */
-    I2C0->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C0 bus clock 100K divider setting, I2CLK = PCLK/(100K*4)-1 */
     u32BusClock = 100000;
@@ -442,7 +442,7 @@ void I2C0_Init(void)
     I2C0->ADDR3 = (I2C0->ADDR3 & ~I2C_ADDR3_ADDR_Msk) | (0x75 << I2C_ADDR3_ADDR_Pos);
 
     /* Enable I2C0 interrupt and set corresponding NVIC bit */
-    I2C0->CTL |= I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C0_IRQn);
 }
 
@@ -455,7 +455,7 @@ void I2C1_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C1RST_Msk;
 
     /* Enable I2C1 Controller */
-    I2C1->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C1 bus clock 100K divider setting, I2CLK = PCLK/(100K*4)-1 */
     u32BusClock = 100000;
@@ -475,29 +475,29 @@ void I2C1_Init(void)
     I2C1->ADDR3 = (I2C1->ADDR3 & ~I2C_ADDR3_ADDR_Msk) | (0x76 << I2C_ADDR3_ADDR_Pos);
 
     /* Enable I2C1 interrupt and set corresponding NVIC bit */
-    I2C1->CTL |= I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C1_IRQn);
 }
 
 void I2C0_Close(void)
 {
     /* Disable I2C0 interrupt and clear corresponding NVIC bit */
-    I2C0->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C0_IRQn);
 
     /* Disable I2C0 and close I2C0 clock */
-    I2C0->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C0CKEN_Msk;
 }
 
 void I2C1_Close(void)
 {
     /* Disable I2C1 interrupt and clear corresponding NVIC bit */
-    I2C1->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C1_IRQn);
 
     /* Disable I2C1 and close I2C1 clock */
-    I2C1->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C1CKEN_Msk;
 }
 /*---------------------------------------------------------------------------------------------------------*/

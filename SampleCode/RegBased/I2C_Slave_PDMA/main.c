@@ -308,7 +308,7 @@ void I2C0_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C0RST_Msk;
 
     /* Enable I2C0 Controller */
-    I2C0->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C0 clock divider, I2C Bus Clock = PCLK(72Mhz) / (4*180) = 100kHz */
     I2C0->CLKDIV = 180 - 1;
@@ -337,7 +337,7 @@ void I2C0_Init(void)
     I2C0->ADDRMSK3 = (I2C0->ADDRMSK3 & ~I2C_ADDRMSK3_ADDRMSK_Msk) | (0x04 << I2C_ADDRMSK3_ADDRMSK_Pos);
 
     /* Enable I2C0 interrupt and set corresponding NVIC bit */
-    I2C0->CTL |= I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C0_IRQn);
 }
 
@@ -348,7 +348,7 @@ void I2C1_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C1RST_Msk;
 
     /* Enable I2C1 Controller */
-    I2C1->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C1 clock divider, I2C Bus Clock = PCLK(72Mhz) / (4*180) = 100kHz */
     I2C1->CLKDIV = 180 - 1;
@@ -377,29 +377,29 @@ void I2C1_Init(void)
     I2C1->ADDRMSK3 = (I2C1->ADDRMSK3 & ~I2C_ADDRMSK3_ADDRMSK_Msk) | (0x02 << I2C_ADDRMSK3_ADDRMSK_Pos);
 
     /* Enable I2C1 interrupt and set corresponding NVIC bit */
-    I2C1->CTL |= I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C1_IRQn);
 }
 
 void I2C0_Close(void)
 {
     /* Disable I2C0 interrupt and clear corresponding NVIC bit */
-    I2C0->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C0_IRQn);
 
     /* Disable I2C0 and close I2C0 clock */
-    I2C0->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C0CKEN_Msk;
 }
 
 void I2C1_Close(void)
 {
     /* Disable I2C1 interrupt and clear corresponding NVIC bit */
-    I2C1->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C1_IRQn);
 
     /* Disable I2C1 and close I2C0 clock */
-    I2C1->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C1CKEN_Msk;
 }
 

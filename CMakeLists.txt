@@ -48,6 +48,31 @@ add_subdirectory(${BSP_DIR}/Library/Device/Nuvoton/nuc1263/Source)
 # Build sample code
 add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
 
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_EEPROM)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_GCMode)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Loopback)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Loopback_10bit)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Master_PDMA)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_MultiBytes_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_SingleByte_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Slave)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Slave_PDMA)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_SMBUS)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Wakeup_Slave)
+
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_EEPROM)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_GCMode_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_GCMode_Slave)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Loopback)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Loopback_10bit)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Master_PDMA)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Slave)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Slave_PDMA)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_SMBUS)
+#add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Wakeup_Slave)
+
 
 
 

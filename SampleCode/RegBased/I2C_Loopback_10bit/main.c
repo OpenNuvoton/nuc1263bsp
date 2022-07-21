@@ -165,7 +165,7 @@ void I2C0_Init(void)
     /* Enable I2C0 Controller */
     I2C0->CLKDIV = (uint32_t)(((SystemCoreClock * 10) / (100000 * 4) + 5) / 10 - 1); /* Compute proper divider for I2C clock */
 
-    I2C0->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_I2CEN_Msk;
     /* Get I2C0 Bus Clock */
     printf("I2C0 clock %d Hz\n", (SystemCoreClock / (((I2C0->CLKDIV) + 1) << 2)));
 
@@ -183,7 +183,7 @@ void I2C0_Init(void)
 
 
     /* Enable I2C0 interrupt and set corresponding NVIC bit */
-    I2C0->CTL |= I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C0_IRQn);
 }
 
@@ -192,7 +192,7 @@ void I2C1_Init(void)
     /* Open I2C1 module and set bus clock */
     I2C1->CLKDIV = (uint32_t)(((SystemCoreClock * 10) / (100000 * 4) + 5) / 10 - 1); /* Compute proper divider for I2C clock */
 
-    I2C1->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_I2CEN_Msk;
     /* Get I2C1 Bus Clock */
     printf("I2C1 clock %d Hz\n", (SystemCoreClock / (((I2C1->CLKDIV) + 1) << 2)));
 
@@ -209,29 +209,29 @@ void I2C1_Init(void)
 
 
     /* Enable I2C interrupt */
-    I2C1->CTL |= I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C1_IRQn);
 }
 
 void I2C0_Close(void)
 {
     /* Disable I2C0 interrupt and clear corresponding NVIC bit */
-    I2C0->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C0_IRQn);
 
     /* Disable I2C0 and close I2C0 clock */
-    I2C0->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C0CKEN_Msk;
 }
 
 void I2C1_Close(void)
 {
     /* Disable I2C1 interrupt and clear corresponding NVIC bit */
-    I2C1->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C1_IRQn);
 
     /* Disable I2C1 and close I2C1 clock */
-    I2C1->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C1->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C1CKEN_Msk;
 }
 
@@ -256,7 +256,7 @@ void I2CM_Init_10bit(I2C_T *i2c, uint32_t u32BusClock)
 
 
     /* Enable I2C0 Controller */
-    i2c->CTL |= I2C_CTL_I2CEN_Msk;
+    i2c->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* Enable I2C1 10-bit address mode */
     i2c->CTL1 |= I2C_CTL1_ADDR10EN_Msk;
@@ -293,7 +293,7 @@ void I2CS_Init_10bit(I2C_T *i2c, uint32_t u32BusClock)
 
 
     /* Enable I2C1 Controller */
-    i2c->CTL |= I2C_CTL_I2CEN_Msk;
+    i2c->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* Enable I2C1 10-bit address mode */
     i2c->CTL1 |= I2C_CTL1_ADDR10EN_Msk;

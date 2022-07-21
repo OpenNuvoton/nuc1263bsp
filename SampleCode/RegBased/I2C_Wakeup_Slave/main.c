@@ -44,7 +44,7 @@ void I2C0_IRQHandler(void)
         return;
     }
 
-    u32Status = I2C0->STATUS;
+    u32Status = I2C_GET_STATUS(I2C0);
 
     if(I2C0->TOCTL & I2C_TOCTL_TOIF_Msk)
     {
@@ -211,7 +211,7 @@ void I2C0_Init(void)
     SYS->IPRST1 &= ~SYS_IPRST1_I2C0RST_Msk;
 
     /* Enable I2C0 Controller */
-    I2C0->CTL |= I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_I2CEN_Msk;
 
     /* I2C0 bus clock 100K divider setting, I2CLK = PCLK/(100K*4)-1 */
     u32BusClock = 100000;
@@ -241,18 +241,18 @@ void I2C0_Init(void)
     I2C0->ADDRMSK3 = (I2C0->ADDRMSK3 & ~I2C_ADDRMSK3_ADDRMSK_Msk) | (0x04 << I2C_ADDRMSK3_ADDRMSK_Pos);
 
     /* Enable I2C0 interrupt and set corresponding NVIC bit */
-    I2C0->CTL |= I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 |= I2C_CTL0_INTEN_Msk;
     NVIC_EnableIRQ(I2C0_IRQn);
 }
 
 void I2C0_Close(void)
 {
     /* Disable I2C0 interrupt and clear corresponding NVIC bit */
-    I2C0->CTL &= ~I2C_CTL_INTEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_INTEN_Msk;
     NVIC_DisableIRQ(I2C0_IRQn);
 
     /* Disable I2C0 and close I2C0 clock */
-    I2C0->CTL &= ~I2C_CTL_I2CEN_Msk;
+    I2C0->CTL0 &= ~I2C_CTL0_I2CEN_Msk;
     CLK->APBCLK0 &= ~CLK_APBCLK0_I2C0CKEN_Msk;
 }
 
@@ -322,7 +322,7 @@ int32_t main(void)
     CLK->PWRCTL |= CLK_PWRCTL_PDEN_Msk;
 
     printf("\n");
-    printf("Enter PD 0x%x 0x%x\n", I2C0->CTL, I2C0->STATUS);
+    printf("Enter PD 0x%x 0x%x\n", I2C0->CTL0, I2C_GET_STATUS(I2C0));
 
     printf("\n");
     printf("CHIP enter power down status.\n");
@@ -332,7 +332,7 @@ int32_t main(void)
     while(((UART0->FIFOSTS) & UART_FIFOSTS_TXEMPTYF_Msk) == 0)
         if(--u32TimeOutCnt == 0) break;
 
-    if(((I2C0->CTL)&I2C_CTL_SI_Msk) != 0)
+    if(((I2C0->CTL0)&I2C_CTL0_SI_Msk) != 0)
     {
         I2C_SET_CONTROL_REG(I2C0, I2C_CTL_SI);
     }
@@ -356,7 +356,7 @@ int32_t main(void)
 
     /* Waiting for I2C response ACK finish */
     u32TimeOutCnt = I2C_TIMEOUT;
-    while(!I2C_GET_WAKEUP_DONE(I2C0))
+    while(!I2C_GET_WAKEUP_FLAG(I2C0))
     {
         if(--u32TimeOutCnt == 0)
         {
@@ -366,7 +366,7 @@ int32_t main(void)
     }
 
     /* Clear Wakeup done flag, I2C will release bus */
-    I2C_CLEAR_WAKEUP_DONE(I2C0);
+    I2C_CLEAR_WAKEUP_FLAG(I2C0);
 
     /* Wake-up Interrupt Message */
     printf("Power-down Wake-up INT 0x%x\n", (uint32_t)((CLK->PWRCTL) & CLK_PWRCTL_PDWKIF_Msk));

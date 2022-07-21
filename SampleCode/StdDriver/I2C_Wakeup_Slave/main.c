@@ -294,11 +294,11 @@ int32_t main(void)
     g_u8SlvI2CWK = 0;
 
     printf("\n");
-    printf("Enter PD 0x%x 0x%x\n", I2C0->CTL, I2C0->STATUS);
+    printf("Enter PD 0x%x 0x%x\n", I2C0->CTL0, I2C_GET_STATUS(I2C0));
     printf("\n");
     printf("CHIP enter power down status.\n");
 
-    if(((I2C0->CTL)&I2C_CTL_SI_Msk) != 0)
+    if((I2C0->CTL0 & I2C_CTL0_SI_Msk) != 0)
     {
         I2C_SET_CONTROL_REG(I2C0, I2C_CTL_SI);
     }
@@ -318,7 +318,7 @@ int32_t main(void)
 
     /* Waiting for I2C response ACK finish */
     u32TimeOutCnt = I2C_TIMEOUT;
-    while(!I2C_GET_WAKEUP_DONE(I2C0))
+    while(!I2C_GET_WAKEUP_FLAG(I2C0))
     {
         if(--u32TimeOutCnt == 0)
         {
@@ -328,7 +328,7 @@ int32_t main(void)
     }
 
     /* Clear Wakeup done flag, I2C will release bus */
-    I2C_CLEAR_WAKEUP_DONE(I2C0);
+    I2C_CLEAR_WAKEUP_FLAG(I2C0);
 
     /* Wake-up Interrupt Message */
     printf("Power-down Wake-up INT 0x%x\n", (uint32_t)((CLK->PWRCTL) & CLK_PWRCTL_PDWKIF_Msk));
