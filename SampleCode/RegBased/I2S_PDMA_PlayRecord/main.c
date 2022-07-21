@@ -1,8 +1,7 @@
 /**************************************************************************//**
  * @file     main.c
  * @version  V3.00
- * @brief    NUC1262 SPI Driver Sample Code
- *           This is a I2S demo for playing and recording data with PDMA function.
+ * @brief    This is a I2S demo for playing and recording data with PDMA function.
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0

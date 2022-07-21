@@ -5,7 +5,7 @@
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include "NuMicro.h"
 
@@ -248,7 +248,7 @@ void LLSI_SetFIFO(LLSI_T *llsi, uint32_t u32TxThreshold)
   *                     This parameter decides which interrupts will be enabled. It is combination of:
   *                       - \ref LLSI_UNDFL_INT_MASK
   *                       - \ref LLSI_FEND_INT_MASK
-  *                       - \ref LLSI_RST_INT_MASK
+  *                       - \ref LLSI_RSTC_INT_MASK
   *                       - \ref LLSI_EMP_INT_MASK
   *                       - \ref LLSI_FUL_INT_MASK
   *                       - \ref LLSI_TXTH_INT_MASK
@@ -267,8 +267,8 @@ void LLSI_EnableInt(LLSI_T *llsi, uint32_t u32Mask)
         llsi->CTL |= LLSI_CTL_FENDINTEN_Msk;
 
     /* Enable reset command interrupt flag */
-    if((u32Mask & LLSI_RST_INT_MASK) == LLSI_RST_INT_MASK)
-        llsi->CTL |= LLSI_CTL_RSTINTEN_Msk;
+    if((u32Mask & LLSI_RSTC_INT_MASK) == LLSI_RSTC_INT_MASK)
+        llsi->CTL |= LLSI_CTL_RSTCINTEN_Msk;
 
     /* Enable FIFO empty interrupt flag */
     if((u32Mask & LLSI_EMP_INT_MASK) == LLSI_EMP_INT_MASK)
@@ -291,7 +291,7 @@ void LLSI_EnableInt(LLSI_T *llsi, uint32_t u32Mask)
   *                     This parameter decides which interrupts will be disabled. It is combination of:
   *                       - \ref LLSI_UNDFL_INT_MASK
   *                       - \ref LLSI_FEND_INT_MASK
-  *                       - \ref LLSI_RST_INT_MASK
+  *                       - \ref LLSI_RSTC_INT_MASK
   *                       - \ref LLSI_EMP_INT_MASK
   *                       - \ref LLSI_FUL_INT_MASK
   *                       - \ref LLSI_TXTH_INT_MASK
@@ -310,8 +310,8 @@ void LLSI_DisableInt(LLSI_T *llsi, uint32_t u32Mask)
         llsi->CTL &= ~LLSI_CTL_FENDINTEN_Msk;
 
     /* Disable reset command interrupt flag */
-    if((u32Mask & LLSI_RST_INT_MASK) == LLSI_RST_INT_MASK)
-        llsi->CTL &= ~LLSI_CTL_RSTINTEN_Msk;
+    if((u32Mask & LLSI_RSTC_INT_MASK) == LLSI_RSTC_INT_MASK)
+        llsi->CTL &= ~LLSI_CTL_RSTCINTEN_Msk;
 
     /* Disable FIFO empty interrupt flag */
     if((u32Mask & LLSI_EMP_INT_MASK) == LLSI_EMP_INT_MASK)
@@ -334,7 +334,7 @@ void LLSI_DisableInt(LLSI_T *llsi, uint32_t u32Mask)
   *                     This parameter decides which interrupt flags will be read. It is combination of:
   *                       - \ref LLSI_UNDFL_INT_MASK
   *                       - \ref LLSI_FEND_INT_MASK
-  *                       - \ref LLSI_RST_INT_MASK
+  *                       - \ref LLSI_RSTC_INT_MASK
   *                       - \ref LLSI_EMP_INT_MASK
   *                       - \ref LLSI_FUL_INT_MASK
   *                       - \ref LLSI_TXTH_INT_MASK
@@ -355,8 +355,8 @@ uint32_t LLSI_GetIntFlag(LLSI_T *llsi, uint32_t u32Mask)
         u32IntFlag |= LLSI_FEND_INT_MASK;
 
     /* Check reset command interrupt flag */
-    if((u32Mask & LLSI_RST_INT_MASK) && (llsi->STATUS & LLSI_STATUS_RSTCIF_Msk))
-        u32IntFlag |= LLSI_RST_INT_MASK;
+    if((u32Mask & LLSI_RSTC_INT_MASK) && (llsi->STATUS & LLSI_STATUS_RSTCIF_Msk))
+        u32IntFlag |= LLSI_RSTC_INT_MASK;
 
     /* Check FIFO empty interrupt flag */
     if((u32Mask & LLSI_EMP_INT_MASK) && (llsi->STATUS & LLSI_STATUS_EMPIF_Msk))
@@ -381,7 +381,7 @@ uint32_t LLSI_GetIntFlag(LLSI_T *llsi, uint32_t u32Mask)
   *                     This parameter decides which interrupt flags will be cleared. It could be the combination of:
   *                       - \ref LLSI_UNDFL_INT_MASK
   *                       - \ref LLSI_FEND_INT_MASK
-  *                       - \ref LLSI_RST_INT_MASK
+  *                       - \ref LLSI_RSTC_INT_MASK
   *
   * @return None
   * @details Clear LLSI related interrupt flags specified by u32Mask parameter.
@@ -394,7 +394,7 @@ void LLSI_ClearIntFlag(LLSI_T *llsi, uint32_t u32Mask)
     if(u32Mask & LLSI_FEND_INT_MASK)
         llsi->STATUS = LLSI_STATUS_FENDIF_Msk; /* Clear frame end interrupt flag */
 
-    if(u32Mask & LLSI_RST_INT_MASK)
+    if(u32Mask & LLSI_RSTC_INT_MASK)
         llsi->STATUS = LLSI_STATUS_RSTCIF_Msk; /* Clear reset command interrupt flag */
 }
 

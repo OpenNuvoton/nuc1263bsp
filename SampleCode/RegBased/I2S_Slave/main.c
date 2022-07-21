@@ -1,9 +1,9 @@
 /**************************************************************************//**
  * @file     main.c
  * @version  V3.00
- * @brief
- *           Configure SPI1 as I2S Slave mode and demonstrate how I2S works in Slave mode.
+ * @brief    Configure SPI1 as I2S Slave mode and demonstrate how I2S works in Slave mode.
  *           This sample code needs to work with I2S_Master sample code.
+ *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
  * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.

@@ -1,11 +1,11 @@
 /******************************************************************************
  * @file     llsi.h
  * @version  V3.00
- * @brief    NUC1262 series LLSI driver header file
+ * @brief    NUC1263 series LLSI driver header file
  *
  * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #ifndef __LLSI_H__
 #define __LLSI_H__
@@ -57,7 +57,7 @@ typedef struct
 /* LLSI Interrupt Mask */
 #define LLSI_UNDFL_INT_MASK          (0x001)                        /*!< Underflow interrupt mask */
 #define LLSI_FEND_INT_MASK           (0x002)                        /*!< Frame end interrupt mask */
-#define LLSI_RST_INT_MASK            (0x004)                        /*!< Reset command interrupt mask */
+#define LLSI_RSTC_INT_MASK           (0x004)                        /*!< Reset command interrupt mask */
 #define LLSI_EMP_INT_MASK            (0x008)                        /*!< FIFO empty interrupt mask */
 #define LLSI_FUL_INT_MASK            (0x010)                        /*!< FIFO full interrupt mask */
 #define LLSI_TXTH_INT_MASK           (0x020)                        /*!< TX threshold interrupt mask */

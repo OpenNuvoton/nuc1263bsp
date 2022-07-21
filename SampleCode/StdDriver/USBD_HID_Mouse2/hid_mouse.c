@@ -64,9 +64,7 @@ void USBD_IRQHandler(void)
         }
         if(u32State & USBD_ATTR_SUSPEND_Msk)
         {
-
             /* Enter power down to wait USB attached */
-            //PowerDown();
             g_u8Suspend = 1;
 
             /* Enable USB but disable PHY */
@@ -76,10 +74,24 @@ void USBD_IRQHandler(void)
         {
             /* Enable USB and enable PHY */
             USBD_ENABLE_USB();
-
             g_u8Suspend = 0;
-
         }
+#ifdef SUPPORT_LPM
+        if(u32State & USBD_STATE_L1SUSPEND)
+        {
+            /* Enter power down to wait USB attached */
+            g_u8Suspend = 1;
+
+            /* Enable USB but disable PHY */
+            USBD_DISABLE_PHY();
+        }
+        if(u32State & USBD_STATE_L1RESUME)
+        {
+            /* Enable USB and enable PHY */
+            USBD_ENABLE_USB();
+            g_u8Suspend = 0;
+        }
+#endif
     }
 
 //------------------------------------------------------------------
