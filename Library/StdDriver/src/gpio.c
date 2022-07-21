@@ -126,7 +126,7 @@ void GPIO_DisableInt(GPIO_T *port, uint32_t u32Pin)
  * @return      None
  *
  * @details     This function is used to set specified GPIO slew rate control.
- *              Ultra higher slew rate function is used to match I3C and SPI application when releate pins VDDIO_0/1/2 domain are in 1.8V.
+ *              Ultra higher slew rate function is used to match I3C and SPI application when releate pins VDDIO0/1/2 are in 1.8V domain.
  */
 void GPIO_SetSlewCtl(GPIO_T *port, uint32_t u32PinMask, uint32_t u32Mode)
 {
