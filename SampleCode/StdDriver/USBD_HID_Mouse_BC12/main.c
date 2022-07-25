@@ -138,7 +138,7 @@ S_USBD_BC12_PD_STATUS USBD_BC_Detect(TIMER_T *pu32TimerSrc)
             (pu32TimerSrc == TIMER2) ||
             (pu32TimerSrc == TIMER3))
     {
-        pfnBC_Delay = (void *)TIMER_Delay;
+        pfnBC_Delay = TIMER_Delay;
     }
     else
     {
