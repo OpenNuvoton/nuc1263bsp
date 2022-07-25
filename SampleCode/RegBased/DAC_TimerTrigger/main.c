@@ -157,7 +157,6 @@ void DAC_FunctionTest(void)
 
     while(1);
 
-    return;
 }
 
 
