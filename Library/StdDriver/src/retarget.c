@@ -61,7 +61,7 @@ void __aeabi_assert(const char* expr, const char* file, int line)
     fputs(p, stderr);
 
     abort();
-    
+
     while(1){}
 }
 
@@ -79,11 +79,11 @@ __asm("  .global __ARM_use_no_argv\n");
 int32_t _sys_open (const char *name, int openmode)
 {
   (void)openmode;
- 
+
   if (name == NULL) {
     return (-1);
   }
- 
+
   if (name[0] == ':') {
     if (strcmp(name, ":STDIN") == 0) {
       return (FH_STDIN);
@@ -121,7 +121,7 @@ void _sys_exit(int return_code)
     (void) return_code;
     while(1);
 }
-# elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 5060000)
+# elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION == 5060000)
 
 void __use_no_semihosting(void)
 {}
@@ -172,7 +172,7 @@ __attribute__((weak))
 #endif
 uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp);
 
-#endif 
+#endif
 
 int kbhit(void);
 int IsDebugFifoEmpty(void);
@@ -267,9 +267,9 @@ uint32_t ProcessHardFault(uint32_t lr, uint32_t msp, uint32_t psp)
     printf("pc  = 0x%x\n", sp[6]);
     printf("psr = 0x%x\n", sp[7]);
     */
-    
+
     while(1){}
-    
+
 }
 
 
@@ -291,7 +291,7 @@ int32_t SH_Return(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
     {
         if(pn32Out_R0)
             *pn32Out_R0 = n32In_R0;
-        
+
         return 1;
     }
     return 0;
@@ -481,7 +481,7 @@ void SendChar(int ch)
         }
         else
         {
-# if (DEBUG_ENABLE_SEMIHOST == 2) // Re-direct to UART Debug Port only when DEBUG_ENABLE_SEMIHOST=2           
+# if (DEBUG_ENABLE_SEMIHOST == 2) // Re-direct to UART Debug Port only when DEBUG_ENABLE_SEMIHOST=2
             int i;
 
             for(i = 0; i < g_buf_len; i++)
