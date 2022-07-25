@@ -123,8 +123,6 @@ void UART0_Init()
 
 int32_t main(void)
 {
-    uint32_t u32DelayCount;
-
     /* Unlock protected registers */
     SYS_UnlockReg();
 
