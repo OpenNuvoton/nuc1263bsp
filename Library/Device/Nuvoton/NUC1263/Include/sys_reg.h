@@ -1664,11 +1664,11 @@ typedef struct
 #define SYS_NMISTS_EINT5_Pos             (13)                                              /*!< SYS_INT_T::NMISTS: EINT5 Position         */
 #define SYS_NMISTS_EINT5_Msk             (0x1ul << SYS_NMISTS_EINT5_Pos )                  /*!< SYS_INT_T::NMISTS: EINT5 Mask             */
 
-#define SYS_NMISTS_UART0INT_Pos          (14)                                              /*!< SYS_INT_T::NMISTS: UART0_INT Position     */
-#define SYS_NMISTS_UART0INT_Msk          (0x1ul << SYS_NMISTS_UART0INT_Pos )               /*!< SYS_INT_T::NMISTS: UART0_INT Mask         */
+#define SYS_NMISTS_UART0INT_Pos          (14)                                              /*!< SYS_INT_T::NMISTS: UART0INT Position      */
+#define SYS_NMISTS_UART0INT_Msk          (0x1ul << SYS_NMISTS_UART0INT_Pos )               /*!< SYS_INT_T::NMISTS: UART0INT Mask          */
 
-#define SYS_NMISTS_UART1INT_Pos          (15)                                              /*!< SYS_INT_T::NMISTS: UART1_INT Position     */
-#define SYS_NMISTS_UART1INT_Msk          (0x1ul << SYS_NMISTS_UART1INT_Pos )               /*!< SYS_INT_T::NMISTS: UART1_INT Mask         */
+#define SYS_NMISTS_UART1INT_Pos          (15)                                              /*!< SYS_INT_T::NMISTS: UART1INT Position      */
+#define SYS_NMISTS_UART1INT_Msk          (0x1ul << SYS_NMISTS_UART1INT_Pos )               /*!< SYS_INT_T::NMISTS: UART1INT Mask          */
 
 /**@}*/ /* INT_CONST */
 /**@}*/ /* end of SYS register group */

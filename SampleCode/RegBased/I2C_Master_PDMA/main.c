@@ -592,7 +592,6 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for PDMA transfer done time-out!\n");
-            err = 1;
             goto lexit;
         }
     }
@@ -605,7 +604,6 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for I2C bus become free time-out!\n");
-            err = 1;
             goto lexit;
         }
     }
@@ -640,7 +638,6 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for I2C time-out!\n");
-            err = 1;
             goto lexit;
         }
     }
@@ -655,7 +652,6 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for PDMA receive done time-out!\n");
-            err = 1;
             goto lexit;
         }
     }
@@ -673,7 +669,6 @@ int32_t main(void)
         if(--u32TimeOutCnt == 0)
         {
             printf("Wait for I2C Rx time-out!\n");
-            err = 1;
             goto lexit;
         }
     }
@@ -689,12 +684,12 @@ int32_t main(void)
         }
     }
 
-lexit:
-
     if(err)
         printf("I2C0 PDMA receive data fail...\n");
     else
         printf("I2C0 PDMA Tx/Rx data pass...\n");
+
+lexit:
 
     while(1);
 }

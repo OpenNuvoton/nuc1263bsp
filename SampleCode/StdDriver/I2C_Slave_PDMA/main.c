@@ -474,7 +474,6 @@ int32_t main(void)
     /* I2C0 access I2C1 */
     if( I2C_Write_to_Slave_PDMA_RX(0x16) < 0 )
     {
-        err = 1;
         goto lexit;
     }
 
@@ -484,7 +483,6 @@ int32_t main(void)
     {
         if(--u32TimeOutCnt == 0)
         {
-            err = 1;
             printf("Wait for PDMA transfer done time-out!\n");
             goto lexit;
         }
@@ -502,13 +500,12 @@ int32_t main(void)
         }
     }
 
-lexit:
-
     if(err)
         printf("Master write data to Slave(PDMA RX) fail...\n");
     else
         printf("Master write data to Slave(PDMA RX) pass...\n");
 
+lexit:
 
     /* Disable PDMA channel */
     PDMA_Close();
