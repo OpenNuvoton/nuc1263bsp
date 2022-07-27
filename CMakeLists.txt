@@ -46,6 +46,8 @@ add_subdirectory(${BSP_DIR}/Library/StdDriver/src)
 add_subdirectory(${BSP_DIR}/Library/Device/Nuvoton/nuc1263/Source)
 
 # Build sample code
+
+add_subdirectory(${BSP_DIR}/SampleCode/Hard_Fault_Sample)
 add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
 
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_EEPROM)
