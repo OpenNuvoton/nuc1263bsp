@@ -23,63 +23,10 @@ extern "C"
   @{
 */
 
-/** @addtogroup I3C_EXPORTED_STRUCTS I3C Exported Structs
-  @{
-*/
-typedef union
-{
-    uint32_t w;                     /*!< Type used for word access */
-    struct
-    {
-        uint32_t ATTR:3;            /*!< bit:  0.. 2  Command Attribute */
-        uint32_t TID:3;             /*!< bit:  3.. 5  Transmit Transaction ID */
-        uint32_t reserved:10;       /*!< bit:  6..15  Reserved */
-        uint32_t DATLEN:16;         /*!< bit: 16..31  Data Length (byte) */
-    } b;                            /*!< Structure used for bit access */
-    
-} S_I3C_CMD_QUEUE_T;
-
-typedef union
-{
-    uint32_t w;                     /*!< Type used for word access */
-    struct
-    {
-        uint32_t DATLEN:16;         /*!< bit:  0..15  Data Length (byte) */
-        uint32_t HDRCODE:8;         /*!< bit: 16..23  HDR Command Code */
-        uint32_t TID:3;             /*!< bit: 24..26  Transmit Transaction ID */
-        uint32_t RXRESP:1;          /*!< bit:     27  Transaction Type */
-        uint32_t ERRSTS:4;          /*!< bit: 28..31  Error Status */
-    } b;                            /*!< Structure used for bit access */
-    
-} S_I3C_RESP_QUEUE_T;
-
-//typedef struct
-//{
-//    I3C_T       *port;                  // Active I3C poniter
-//        
-//    uint8_t     u8SA;                   // Static Address for I2C operation 
-//    uint8_t     u8DA;                   // Dynamic Address for I3C operation
-//    
-//    uint32_t    u32IntMask;             // Interrupt enable mask
-
-//    S_I3C_RESP_QUEUE_T  *pRESPQ;        // Response queue pointer
-//    uint32_t    *p32RX;                 // Start buffer address to store RX data
-//    uint32_t    u32RXBufCnt;            // Processed RX buffer count
-//        
-//    S_I3C_CMD_QUEUE_T   *pCMDQ;         // Command queue pointer         
-//    uint32_t    *p32TX;                 // Start buffer address for prepare TX data
-//    
-//    uint32_t    u32MID;
-//    uint32_t    u32PID;
-//    
-//} S_I3C_DEVICE_T;
-/*@}*/ /* end of group I3C_EXPORTED_STRUCTS */
-
 
 /** @addtogroup I3C_EXPORTED_CONSTANTS I3C Exported Constants
   @{
 */
-
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I3C Maximum RX/TX FIFO and Response/Command Queue Constant Definitions                                 */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -92,8 +39,8 @@ typedef union
 /*  I3C Support ENTDAA CCC or Hot-Join Generation Constant Definitions                                     */
 /*---------------------------------------------------------------------------------------------------------*/
 #define I3C_SUPPORT_ENTDAA                  (0UL)   /*!< Support to receive ENTDAA CCC */
-#define I3C_SUPPORT_HJ_ADAPTIVE             (1UL)   /*!< Support to generate Hot-Join after receiving broadcast header 7'h7E */
-#define I3C_SUPPORT_HJ_IMMEDIATE            (2UL)   /*!< Support to generate Hot-Join immediately after I3C controller enabled */
+#define I3C_SUPPORT_ADAPTIVE_HJ             (1UL)   /*!< Support to initiate Hot-Join after receiving broadcast header 7'h7E */
+#define I3C_SUPPORT_IMMEDIATE_HJ            (2UL)   /*!< Support to initiate Hot-Join immediately after I3C controller enabled */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I3C Error Status in Response Queue Constant Definitions                                                */
@@ -112,7 +59,7 @@ typedef union
 #define I3C_RESET_RESP_QUEUE                (I3C_RSTCTL_RESPRST_Msk)    /*!< Response Queue software reset */
 #define I3C_RESET_TX_BUF                    (I3C_RSTCTL_TXRST_Msk)      /*!< TX FIFO buffer software reset */
 #define I3C_RESET_RX_BUF                    (I3C_RSTCTL_RXRST_Msk)      /*!< RX FIFO buffer software reset */
-#define I3C_RESET_ALL_QUEUE_AND_BUF         (I3C_RSTCTL_SWRST_Msk)      /*!< Command, Response Queue and TX, RX FIFO buffer software reset */
+#define I3C_RESET_ALL_QUEUE_AND_BUF         (0x1EUL)                    /*!< Command, Response Queue and TX, RX FIFO buffer software reset */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I3C Interrupt Status Constant Definitions                                                              */
@@ -192,6 +139,18 @@ typedef union
 #define I3C_GET_I2C_SA(i3c)                 (((i3c)->DEVADDR&I3C_DEVADDR_SA_Msk) >> I3C_DEVADDR_SA_Pos)
 
 /**
+  * @brief      Check I2C Sataic Address is valid
+  *
+  * @param[in]  i3c     The pointer of the specified I3C module
+  *
+  * @retval     0       I2C Static Address is invalid
+  * @retval     1       I2C Static Address is valid
+  *
+  * @details    This macro checks if the I2C Sataic Address is valid.
+  */
+#define I3C_IS_SA_VALID(i3c)                ((((i3c)->DEVADDR&I3C_DEVADDR_SAVALID_Msk)==I3C_DEVADDR_SAVALID_Msk)? 1:0)
+
+        /**
   * @brief      Get I3C Dynamic Address
   *
   * @param[in]  i3c     The pointer of the specified I3C module
@@ -201,6 +160,18 @@ typedef union
   * @details    This macro gets the I3C Dynamic Address.
   */
 #define I3C_GET_I3C_DA(i3c)                 (((i3c)->DEVADDR&I3C_DEVADDR_DA_Msk) >> I3C_DEVADDR_DA_Pos)
+
+/**
+  * @brief      Check I3C Dymanic Address is valid
+  *
+  * @param[in]  i3c     The pointer of the specified I3C module
+  *
+  * @retval     0       I3C Dymanic Address is invalid
+  * @retval     1       I3C Dymanic Address is valid
+  *
+  * @details    This macro checks if the I3C Dymanic Address is valid.
+  */
+#define I3C_IS_DA_VALID(i3c)            ((((i3c)->DEVADDR&I3C_DEVADDR_DAVALID_Msk)==I3C_DEVADDR_DAVALID_Msk)? 1:0)
 
 /**
   * @brief      Get Response Queue Threshold
@@ -619,7 +590,7 @@ __STATIC_INLINE int32_t I3C_Enable(I3C_T *i3c)
     volatile uint32_t u32Timeout;
     
     i3c->DEVCTL |= I3C_DEVCTL_ENABLE_Msk;
-    u32Timeout = SystemCoreClock;
+    u32Timeout = (SystemCoreClock / 1000);
     while(((i3c->DEVCTL&I3C_DEVCTL_SYNC_Msk) == I3C_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
         return I3C_TIMEOUT_ERR;
@@ -642,7 +613,7 @@ __STATIC_INLINE int32_t I3C_Disable(I3C_T *i3c)
     volatile uint32_t u32Timeout;
     
     i3c->DEVCTL &= ~I3C_DEVCTL_ENABLE_Msk;
-    u32Timeout = SystemCoreClock;
+    u32Timeout = (SystemCoreClock / 1000);
     while(((i3c->DEVCTL&I3C_DEVCTL_SYNC_Msk) == I3C_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
         return I3C_TIMEOUT_ERR;
@@ -679,16 +650,16 @@ __STATIC_INLINE void I3C_DisableDMA(I3C_T *i3c)
     i3c->DEVCTL &= ~I3C_DEVCTL_DMAEN_Msk;
 }
 
-typedef int32_t (*I3C_FUNC_PDMA)(I3C_T *i3c, uint32_t u32Src, uint32_t u32Dest, uint32_t u32ByteCnts);  /*!< Functional pointer type definition for perform I3C DMA operation */
+//typedef int32_t (*I3C_FUNC_PDMA)(I3C_T *i3c, uint32_t u32Src, uint32_t u32Dest, uint32_t u32ByteCnts);  /*!< Functional pointer type definition for perform I3C DMA operation */
 
 void    I3C_Open(I3C_T *i3c, uint8_t u8StaticAddr, uint32_t u32ModeSel);
 int32_t I3C_ResetAndResume(I3C_T *i3c, uint32_t u32ResetMask, uint32_t u32EnableResume);
-int32_t I3C_ParseRespQueue(I3C_T *i3c, S_I3C_RESP_QUEUE_T *pRespQ, uint32_t *pu32RxBuf, I3C_FUNC_PDMA pfnI3CPDMARx);
-int32_t I3C_PrepareTXData(I3C_T *i3c, uint8_t u8TID, uint32_t *pu32TxBuf, uint16_t u16WriteBytes, I3C_FUNC_PDMA pfnI3CPDMATx);
-int32_t I3C_SendIBIRequest(I3C_T *i3c, uint8_t u8MDB, uint32_t *pu32PayloadBuf, uint8_t u8PayloadLen); 
+int32_t I3C_ParseRespQueue(I3C_T *i3c, uint32_t *pu32RespQ);
+int32_t I3C_SetCmdQueueAndData(I3C_T *i3c, uint8_t u8TID, uint32_t *pu32TxBuf, uint16_t u16WriteBytes);
+int32_t I3C_SendIBIRequest(I3C_T *i3c, uint8_t u8MandatoryData, uint32_t u32PayloadData, uint8_t u8PayloadLen);
 int32_t I3C_EnableHJRequest(I3C_T *i3c, uint32_t u32ModeSel); 
 int32_t I3C_DisableHJRequest(I3C_T *i3c); 
-int32_t I3C_ErrorRecovery(I3C_T *i3c);
+int32_t I3C_RespErrorRecovery(I3C_T *i3c, uint32_t u32RespStatus);
 
 /*@}*/ /* end of group I3C_EXPORTED_FUNCTIONS */
 

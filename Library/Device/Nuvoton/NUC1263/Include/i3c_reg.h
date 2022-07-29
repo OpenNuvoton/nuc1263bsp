@@ -115,10 +115,10 @@ typedef struct
 #define I3C_DEVADDR_DAVALID_Msk         (1UL << I3C_DEVADDR_DAVALID_Pos)
 
 #define I3C_CMDQUE_ATTR_Pos             0U
-#define I3C_CMDQUE_ATTR_Msk             (0x3UL << I3C_CMDQUE_ATTR_Pos)
+#define I3C_CMDQUE_ATTR_Msk             (0x7UL << I3C_CMDQUE_ATTR_Pos)
 
 #define I3C_CMDQUE_TID_Pos              3U
-#define I3C_CMDQUE_TID_Msk              (0x3UL << I3C_CMDQUE_TID_Pos)
+#define I3C_CMDQUE_TID_Msk              (0x7UL << I3C_CMDQUE_TID_Pos)
 
 #define I3C_CMDQUE_DATLEN_Pos           16U
 #define I3C_CMDQUE_DATLEN_Msk           (0xFFFFUL << I3C_CMDQUE_DATLEN_Pos)
@@ -130,7 +130,7 @@ typedef struct
 #define I3C_RESPQUE_HDRCODE_Msk         (0xFFUL << I3C_RESPQUE_HDRCODE_Pos)
 
 #define I3C_RESPQUE_TID_Pos             24U
-#define I3C_RESPQUE_TID_Msk             (0x3UL << I3C_RESPQUE_TID_Pos)
+#define I3C_RESPQUE_TID_Msk             (0x7UL << I3C_RESPQUE_TID_Pos)
 
 #define I3C_RESPQUE_RXRESP_Pos          27U
 #define I3C_RESPQUE_RXRESP_Msk          (1UL << I3C_RESPQUE_RXRESP_Pos)
