@@ -125,7 +125,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2V8M</Key>
-          <Name>UL2V8M(-S0 -C0 -P0 )  -FN1 -FC2800 -FD20000000 -FF0NUC126_AP_128 -FL020000 -FS00 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM)</Name>
+          <Name>UL2V8M(-S0 -C0 -P0 )  -FN1 -FC2800 -FD20000000 -FF0NUC1263_AP_64 -FL010000 -FS00 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
@@ -273,7 +273,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2V8M</Key>
-          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC126_AP_128 -FL020000 -FS00 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM)</Name>
+          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC1263_AP_64 -FL010000 -FS00 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -426,7 +426,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2V8M</Key>
-          <Name>UL2V8M(-S0 -C0 -P0 )  -FN1 -FC2800 -FD20000000 -FF0NUC126_AP_128 -FL020000 -FS00 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM)</Name>
+          <Name>UL2V8M(-S0 -C0 -P0 )  -FN1 -FC2800 -FD20000000 -FF0NUC1263_AP_64 -FL010000 -FS00 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
@@ -574,7 +574,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2V8M</Key>
-          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC126_AP_128 -FL020000 -FS00 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM)</Name>
+          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC1263_AP_64 -FL010000 -FS00 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -727,7 +727,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2V8M</Key>
-          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC126_AP_128 -FL020000 -FS00 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM)</Name>
+          <Name>UL2V8M(-S0 -C0 -P0 ) -FN1 -FC2800 -FD20000000 -FF0NUC1263_AP_64 -FL010000 -FS00 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>

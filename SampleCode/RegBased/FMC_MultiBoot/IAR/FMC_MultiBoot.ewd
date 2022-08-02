@@ -1593,7 +1593,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M0564_APROM.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC126_APROM.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -3074,7 +3074,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M0564_APROM.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC126_APROM.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -4555,7 +4555,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M0564_APROM.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC126_APROM.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -6036,7 +6036,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M0564_APROM.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC126_APROM.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>

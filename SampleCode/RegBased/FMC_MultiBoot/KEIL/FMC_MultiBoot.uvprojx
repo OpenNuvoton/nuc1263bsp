@@ -14,16 +14,16 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>NUC1262LE4AE</Device>
+          <Device>NUC1263SE4AE</Device>
           <Vendor>Nuvoton</Vendor>
           <PackID>Nuvoton.NuMicro_DFP.1.3.17</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
-          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x20000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
+          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x10000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC126_AP_128 -FS00 -FL020000 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC1263_AP_64 -FS00 -FL010000 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:NUC1262LE4AE$Device\NUC1262\Include\NUC1262.h</RegisterFile>
+          <RegisterFile>$$Device:NUC1263SE4AE$Device\NUC1263\Include\NUC1263.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1262LE4AE$SVD\Nuvoton\NUC1262AE.svd</SFDFile>
+          <SFDFile>$$Device:NUC1263SE4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -252,7 +252,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -277,7 +277,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -426,16 +426,16 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>NUC1262LE4AE</Device>
+          <Device>NUC1263SE4AE</Device>
           <Vendor>Nuvoton</Vendor>
           <PackID>Nuvoton.NuMicro_DFP.1.3.17</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
-          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x20000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
+          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x10000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC126_AP_128 -FS00 -FL020000 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC1263_AP_64 -FS00 -FL010000 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:NUC1262LE4AE$Device\NUC1262\Include\NUC1262.h</RegisterFile>
+          <RegisterFile>$$Device:NUC1263SE4AE$Device\NUC1263\Include\NUC1263.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -445,7 +445,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1262LE4AE$SVD\Nuvoton\NUC1262AE.svd</SFDFile>
+          <SFDFile>$$Device:NUC1263SE4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -664,7 +664,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -689,7 +689,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -838,16 +838,16 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>NUC1262LE4AE</Device>
+          <Device>NUC1263SE4AE</Device>
           <Vendor>Nuvoton</Vendor>
           <PackID>Nuvoton.NuMicro_DFP.1.3.17</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
-          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x20000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
+          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x10000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC126_AP_128 -FS00 -FL020000 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC1263_AP_64 -FS00 -FL010000 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:NUC1262LE4AE$Device\NUC1262\Include\NUC1262.h</RegisterFile>
+          <RegisterFile>$$Device:NUC1263SE4AE$Device\NUC1263\Include\NUC1263.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -857,7 +857,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1262LE4AE$SVD\Nuvoton\NUC1262AE.svd</SFDFile>
+          <SFDFile>$$Device:NUC1263SE4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -1076,7 +1076,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -1101,7 +1101,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -1250,16 +1250,16 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>NUC1262LE4AE</Device>
+          <Device>NUC1263SE4AE</Device>
           <Vendor>Nuvoton</Vendor>
           <PackID>Nuvoton.NuMicro_DFP.1.3.17</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
-          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x20000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
+          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x10000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC126_AP_128 -FS00 -FL020000 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC1263_AP_64 -FS00 -FL010000 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:NUC1262LE4AE$Device\NUC1262\Include\NUC1262.h</RegisterFile>
+          <RegisterFile>$$Device:NUC1263SE4AE$Device\NUC1263\Include\NUC1263.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -1269,7 +1269,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1262LE4AE$SVD\Nuvoton\NUC1262AE.svd</SFDFile>
+          <SFDFile>$$Device:NUC1263SE4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -1488,7 +1488,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -1513,7 +1513,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -1662,16 +1662,16 @@
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>NUC1262LE4AE</Device>
+          <Device>NUC1263SE4AE</Device>
           <Vendor>Nuvoton</Vendor>
           <PackID>Nuvoton.NuMicro_DFP.1.3.17</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
-          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x20000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
+          <Cpu>IRAM(0x20000000,0x5000) IROM(0x00000000,0x10000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC126_AP_128 -FS00 -FL020000 -FP0($$Device:NUC1262LE4AE$Flash\NUC126_AP_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC2800 -FN1 -FF0NUC1263_AP_64 -FS00 -FL010000 -FP0($$Device:NUC1263SE4AE$Flash\NUC1263_AP_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:NUC1262LE4AE$Device\NUC1262\Include\NUC1262.h</RegisterFile>
+          <RegisterFile>$$Device:NUC1263SE4AE$Device\NUC1263\Include\NUC1263.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -1681,7 +1681,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1262LE4AE$SVD\Nuvoton\NUC1262AE.svd</SFDFile>
+          <SFDFile>$$Device:NUC1263SE4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -1900,7 +1900,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -1925,7 +1925,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
