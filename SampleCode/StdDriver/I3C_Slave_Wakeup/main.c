@@ -235,7 +235,6 @@ void I3C0_IRQHandler(void)
 
 void SYS_Init(void)
 {
-#if 0
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -270,47 +269,6 @@ void SYS_Init(void)
     /* Set multi-function pins for I3C0 pin */
     SET_I3C0_SDA_PA0();
     SET_I3C0_SCL_PA1();
-#else
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Init System Clock                                                                                       */
-    /*---------------------------------------------------------------------------------------------------------*/
-//    /* Enable HIRC clock */
-//    CLK_EnableXtalRC(CLK_PWRCTL_HIRCEN_Msk);
-
-//    /* Wait for HIRC clock ready */
-//    CLK_WaitClockReady(CLK_STATUS_HIRCSTB_Msk);
-
-//    /* Set core clock to 72MHz */
-//    CLK_SetCoreClock(72000000);
-CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
-    
-    /* Enable UART0 module clock */
-    CLK_EnableModuleClock(UART0_MODULE);
-
-    /* Select UART0 module clock source as HIRC/2 and UART0 module clock divider as 1 */
-//    CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HIRC_DIV2, CLK_CLKDIV0_UART0(1));
-CLK_EnableXtalRC(CLK_PWRCTL_HXTEN_Msk);
-CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HXT, CLK_CLKDIV0_UART0(1));
-
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Init I/O Multi-function                                                                                 */
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SET_UART0_RXD_PB12();
-    SET_UART0_TXD_PB13();
-SET_UART0_RXD_PD2();
-SET_UART0_TXD_PD3();
-
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Initialization for sample code                                                                          */
-    /*---------------------------------------------------------------------------------------------------------*/    
-    /* Enable peripheral clock */
-    CLK_EnableModuleClock(I3C0_MODULE);
-
-    /* Set multi-function pins for I3C0 pin */
-    SET_I3C0_SDA_PA0();
-    SET_I3C0_SCL_PA1();
-#endif    
 }
 
 void UART_Init(void)
