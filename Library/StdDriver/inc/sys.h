@@ -117,7 +117,7 @@ extern "C"
 #define SYS_VREFCTL_VREF_2_048V        (0x2UL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 2.048V */
 #define SYS_VREFCTL_VREF_2_56V         (0x6UL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 2.56V */
 #define SYS_VREFCTL_VREF_3_072V        (0xAUL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 3.072V */
-#define SYS_VREFCTL_VREF_4_096V        (0xEUL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 34.096V */
+#define SYS_VREFCTL_VREF_4_096V        (0xEUL<<SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 4.096V */
 
 
 /*---------------------------------------------------------------------------------------------------------*/
