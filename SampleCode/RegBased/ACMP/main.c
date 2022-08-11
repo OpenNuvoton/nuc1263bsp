@@ -136,10 +136,16 @@ void SYS_Init(void)
 
 void UART_Init(void)
 {
-    /* Word length is 8 bits; 1 stop bit; no parity bit. */
+    /*---------------------------------------------------------------------------------------------------------*/
+    /* Init UART                                                                                               */
+    /*---------------------------------------------------------------------------------------------------------*/
+    /* Reset UART module */
+    SYS->IPRST1 |=  SYS_IPRST1_UART0RST_Msk;
+    SYS->IPRST1 &= ~SYS_IPRST1_UART0RST_Msk;
+
+    /* Configure UART0 and set UART0 Baudrate */
+    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER((__HIRC >> 1), 115200);
     UART0->LINE = UART_WORD_LEN_8 | UART_PARITY_NONE | UART_STOP_BIT_1;
-    /* UART peripheral clock rate 12MHz; UART bit rate 115200 bps. */
-    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER(__HXT, 115200);
 }
 
 
