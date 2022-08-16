@@ -355,7 +355,7 @@ int main(void)
     if((u16ID = SpiFlash_ReadMidDid()) != 0xEF14)
     {
         printf("Wrong ID, 0x%x\n", u16ID);
-        return -1;
+        goto lexit;
     }
     else
         printf("Flash found: W25X16 ...\n");
@@ -473,4 +473,8 @@ int main(void)
                 printf("[FAIL]\n");
         }
     }
+
+lexit:
+
+    while(1);
 }

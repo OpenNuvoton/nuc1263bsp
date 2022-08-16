@@ -84,6 +84,9 @@ void USBD_Open(const S_USBD_INFO_T *param, CLASS_REQ pfnClassReq, SET_INTERFACE_
     /* get EP0 maximum packet size */
     g_usbd_CtrlMaxPktSize = g_usbd_sInfo->gu8DevDesc[7];
 
+    /* Select PHY type */
+    outpw(0x400600AC, inpw(0x400600AC) & ~BIT0);
+
     /* Initial USB engine */
 #ifdef SUPPORT_LPM
     USBD->ATTR = 0x7D0 | USBD_LPMACK;

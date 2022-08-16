@@ -14,9 +14,7 @@
 #include <stdio.h>
 
 
-/* If crystal-less is enabled, system won't use any crystal as clock source
-   If using crystal-less, system will be 48MHz, otherwise, system is 72MHz
-*/
+/* If crystal-less is enabled, system won't use any crystal as clock source */
 #define CRYSTAL_LESS        1
 #define HIRC_AUTO_TRIM      0x611   /* Use USB signal to fine tune HIRC 48MHz */
 #define TRIM_INIT           (SYS_BASE+0x110)
@@ -43,11 +41,11 @@ void SYS_Init(void)
     /* Wait for HXT clock ready */
     CLK_WaitClockReady(CLK_STATUS_HXTSTB_Msk);
 
-    /* Set core clock to 72MHz */
-    CLK_SetCoreClock(72000000);
+    /* Set core clock to 48MHz */
+    CLK_SetCoreClock(48000000);
 
-    /* Select USB clock source as PLL and USB clock divider as 3 */
-    CLK_SetModuleClock(USBD_MODULE, CLK_CLKSEL3_USBDSEL_PLL, CLK_CLKDIV0_USB(3));
+    /* Select USB clock source as PLL and USB clock divider as 2 */
+    CLK_SetModuleClock(USBD_MODULE, CLK_CLKSEL3_USBDSEL_PLL, CLK_CLKDIV0_USB(2));
 #else
     /* Select HCLK clock source to HIRC and HCLK clock divider as 1 */
     CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK(1));
@@ -68,8 +66,8 @@ void SYS_Init(void)
     /* Enable TIMER0 module clock */
     CLK_EnableModuleClock(TMR0_MODULE);
 
-    /* Select TIMER0 module clock source as HIRC/2 */
-    CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_TMR0SEL_HIRC_DIV2, 0);
+    /* Select TIMER0 module clock source as PCLK0 */
+    CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR0SEL_PCLK0, 0);
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
@@ -85,6 +83,8 @@ void SYS_Init(void)
  */
 void SysTick_Delay(TIMER_T *dummy_for_compatible __attribute__((unused)), uint32_t us)
 {
+    uint32_t u32TimeOutCnt = SystemCoreClock;
+
     /* Unlock protected registers */
     SYS_UnlockReg();
 
@@ -95,7 +95,8 @@ void SysTick_Delay(TIMER_T *dummy_for_compatible __attribute__((unused)), uint32
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
 
     /* Waiting for down-count to zero */
-    while((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
+    while((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0)
+        if(--u32TimeOutCnt == 0) break;
 
     /* Disable SysTick counter */
     SysTick->CTRL = 0;
@@ -116,7 +117,7 @@ void SysTick_Delay(TIMER_T *dummy_for_compatible __attribute__((unused)), uint32
 S_USBD_BC12_PD_STATUS USBD_BC_Detect(TIMER_T *pu32TimerSrc)
 {
 /* TDCD_TIMEOUT (BC1.2 SPEC): 300ms ~ 900ms */
-#define DCD_TIMEOUT_PERIOD_US 500000UL
+#define DCD_TIMEOUT_PERIOD_US 300000UL
 
 #define ENABLE_BC12_DBG_MSG 0
 #if ENABLE_BC12_DBG_MSG
@@ -451,8 +452,7 @@ restart:
         if(USBD_BC12_ERROR == g_sChargeStatus)
         {
             printf("parameter error\n");
-
-            return -1;
+            goto lexit;
         }
     }
 
@@ -522,4 +522,8 @@ restart:
 
         HID_UpdateMouseData();
     }
+
+lexit:
+
+    while(1);
 }
