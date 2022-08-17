@@ -122,6 +122,9 @@ int32_t main(void)
     printf("The voltage detector interrupt is requested when the input voltage \nis dropped down or raised up through the Bandgap voltage(1.2V).\n\n");
     UART_WAIT_TX_EMPTY(DEBUG_PORT);
 
+    /* Configure PB.0 as input mode for input voltage */
+    PB->MODE = (PB->MODE & (~GPIO_MODE_MODE0_Msk)) | (GPIO_MODE_INPUT << GPIO_MODE_MODE0_Pos);
+
     /* Select voltage detector external input voltage pin as VDET_P0(PB.0) */
     SYS->BODCTL &= ~SYS_BODCTL_VDETPINSEL_Msk;
 

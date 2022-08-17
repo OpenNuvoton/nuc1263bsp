@@ -651,7 +651,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>SYS_VoltageDetector.bin</state>
+                    <state>SYS_PowerDown_MinCurrent.bin</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -706,7 +706,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>SYS_VoltageDetector.out</state>
+                    <state>SYS_PowerDown_MinCurrent.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
@@ -1003,7 +1003,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state>###Unitialized###</state>
+                    <state>CLK_ClockDetector_import_lib.o</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>
@@ -1050,19 +1050,7 @@
     <group>
         <name>Library</name>
         <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\clk.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\gpio.c</name>
-        </file>
-        <file>
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\retarget.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\sys.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\uart.c</name>
         </file>
     </group>
     <group>
