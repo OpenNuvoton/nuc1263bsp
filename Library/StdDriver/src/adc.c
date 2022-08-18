@@ -35,7 +35,7 @@
   *                       - \ref ADC_ADCR_ADMD_CONTINUOUS           :Continuous scan mode.
   * @param[in] u32ChMask Channel enable bit. Each bit corresponds to a input channel. Bit 0 is channel 0, bit 1 is channel 1..., bit 7 is channel 7.
   * @return  None
-  * @note NUC1262 series MCU ADC can only convert 1 channel at a time. If more than 1 channels are enabled, only channel
+  * @note NUC1263 series MCU ADC can only convert 1 channel at a time. If more than 1 channels are enabled, only channel
   *       with smallest number will be convert.
   * @note This API does not turn on ADC power nor does trigger ADC conversion
   */

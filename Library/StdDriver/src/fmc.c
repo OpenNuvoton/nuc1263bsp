@@ -237,7 +237,7 @@ int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
     int32_t i32ret = 0;
 
     for(i = 0; i < u32Count; i++)
-	{
+    {
         u32Config[i] = FMC_Read(FMC_CONFIG_BASE + i * 4);
         if (g_FMC_i32ErrCode != 0) i32ret = -1;
     }
