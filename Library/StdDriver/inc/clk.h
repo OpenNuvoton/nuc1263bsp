@@ -177,6 +177,9 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /*  PLLCTL constant definitions. PLL = FIN * NF / NR / NO                                                  */
 /*---------------------------------------------------------------------------------------------------------*/
+#define CLK_PLLCTL_STBSEL_6144       (0x0UL<<CLK_PLLCTL_STBSEL_Pos)   /*!< PLL stable time is  6144 PLL source clock (suitable for source clock equal to or less than 12 MHz) */
+#define CLK_PLLCTL_STBSEL_12288      (0x1UL<<CLK_PLLCTL_STBSEL_Pos)   /*!< PLL stable time is 12288 PLL source clock (suitable for source clock greater than 12 MHz) */
+
 #define CLK_PLLCTL_PLLSRC_HXT        0x00000000UL    /*!< For PLL clock source is HXT.    3.2MHz < FIN < 150MHz */
 #define CLK_PLLCTL_PLLSRC_HIRC_DIV2  0x00080000UL    /*!< For PLL clock source is HIRC/2. 3.2MHz < FIN < 150MHz */
 
@@ -187,8 +190,13 @@ extern "C"
 #define CLK_PLLCTL_NO_2         0x4000UL        /*!< For output divider is 2 */
 #define CLK_PLLCTL_NO_4         0xC000UL        /*!< For output divider is 4 */
 
-#define CLK_PLLCTL_144MHz_HXT         (CLK_PLLCTL_PLLSRC_HXT       | CLK_PLLCTL_NR(2) | CLK_PLLCTL_NF(48) | CLK_PLLCTL_NO_2) /*!< Predefined PLLCTL setting for 144MHz PLL output with HXT(12MHz X'tal) */
-#define CLK_PLLCTL_144MHz_HIRC_DIV2   (CLK_PLLCTL_PLLSRC_HIRC_DIV2 | CLK_PLLCTL_NR(2) | CLK_PLLCTL_NF(24) | CLK_PLLCTL_NO_2) /*!< Predefined PLLCTL setting for 144MHz PLL output with HIRC(48MHz IRC)/2 */
+
+#if (__HXT == 12000000UL)
+#define CLK_PLLCTL_144MHz_HXT         (CLK_PLLCTL_STBSEL_6144 |CLK_PLLCTL_PLLSRC_HXT       | CLK_PLLCTL_NR(2) | CLK_PLLCTL_NF(48) | CLK_PLLCTL_NO_2) /*!< Predefined PLLCTL setting for 144MHz PLL output with HXT(12MHz X'tal) */
+#else
+# error "The PLL pre-definitions are only valid when external crystal is 12MHz"
+#endif
+#define CLK_PLLCTL_144MHz_HIRC_DIV2   (CLK_PLLCTL_STBSEL_12288|CLK_PLLCTL_PLLSRC_HIRC_DIV2 | CLK_PLLCTL_NR(2) | CLK_PLLCTL_NF(24) | CLK_PLLCTL_NO_2) /*!< Predefined PLLCTL setting for 144MHz PLL output with HIRC(48MHz IRC)/2 */
 
 
 /*---------------------------------------------------------------------------------------------------------*/

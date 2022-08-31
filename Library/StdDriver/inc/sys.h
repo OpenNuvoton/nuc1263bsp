@@ -648,23 +648,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPF_MFPL_PF6MFP_TM3          (0x0eUL<<SYS_GPF_MFPL_PF6MFP_Pos) /*!< GPF_MFPL PF6 setting for TM3         */
 #define SYS_GPF_MFPL_PF6MFP_INT5         (0x0fUL<<SYS_GPF_MFPL_PF6MFP_Pos) /*!< GPF_MFPL PF6 setting for INT5        */
 
-/* PF.14 MFP */
-#define SYS_GPF_MFPH_PF14MFP_GPIO        (0x00UL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for GPIO       */
-#define SYS_GPF_MFPH_PF14MFP_SPI0_SS     (0x05UL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for SPI0_SS    */
-#define SYS_GPF_MFPH_PF14MFP_LLSI3_OUT   (0x0bUL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for LLSI3_OUT  */
-#define SYS_GPF_MFPH_PF14MFP_BPWM2_CH4   (0x0cUL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for BPWM2_CH4  */
-#define SYS_GPF_MFPH_PF14MFP_CLKO        (0x0dUL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for CLKO       */
-#define SYS_GPF_MFPH_PF14MFP_TM3         (0x0eUL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for TM3        */
-#define SYS_GPF_MFPH_PF14MFP_INT5        (0x0fUL<<SYS_GPF_MFPH_PF14MFP_Pos)/*!< GPF_MFPH PF14 setting for INT5       */
-
-/* PF.15 MFP */
-#define SYS_GPF_MFPH_PF15MFP_GPIO        (0x00UL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for GPIO       */
-#define SYS_GPF_MFPH_PF15MFP_UART0_nRTS  (0x07UL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for UART0_nRTS */
-#define SYS_GPF_MFPH_PF15MFP_BPWM1_CH0   (0x0cUL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for BPWM1_CH0  */
-#define SYS_GPF_MFPH_PF15MFP_TM2         (0x0dUL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for TM2        */
-#define SYS_GPF_MFPH_PF15MFP_CLKO        (0x0eUL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for CLKO       */
-#define SYS_GPF_MFPH_PF15MFP_INT4        (0x0fUL<<SYS_GPF_MFPH_PF15MFP_Pos)/*!< GPF_MFPH PF15 setting for INT4       */
-
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Multi-Function setting constant definitions abbreviation.                                              */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -739,7 +722,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM1_CH0_PF3            SYS_GPF_MFPL_PF3MFP_BPWM1_CH0        /*!< GPF_MFPL PF3 setting for BPWM1_CH0*/
 #define BPWM1_CH0_PC7            SYS_GPC_MFPL_PC7MFP_BPWM1_CH0        /*!< GPC_MFPL PC7 setting for BPWM1_CH0*/
 #define BPWM1_CH0_PF0            SYS_GPF_MFPL_PF0MFP_BPWM1_CH0        /*!< GPF_MFPL PF0 setting for BPWM1_CH0*/
-#define BPWM1_CH0_PF15           SYS_GPF_MFPH_PF15MFP_BPWM1_CH0       /*!< GPF_MFPH PF15 setting for BPWM1_CH0*/
 #define BPWM1_CH1_PC6            SYS_GPC_MFPL_PC6MFP_BPWM1_CH1        /*!< GPC_MFPL PC6 setting for BPWM1_CH1*/
 #define BPWM1_CH1_PF2            SYS_GPF_MFPL_PF2MFP_BPWM1_CH1        /*!< GPF_MFPL PF2 setting for BPWM1_CH1*/
 #define BPWM1_CH1_PB10           SYS_GPB_MFPH_PB10MFP_BPWM1_CH1       /*!< GPB_MFPH PB10 setting for BPWM1_CH1*/
@@ -763,7 +745,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM2_CH3_PB2            SYS_GPB_MFPL_PB2MFP_BPWM2_CH3        /*!< GPB_MFPL PB2 setting for BPWM2_CH3*/
 #define BPWM2_CH4_PB1            SYS_GPB_MFPL_PB1MFP_BPWM2_CH4        /*!< GPB_MFPL PB1 setting for BPWM2_CH4*/
 #define BPWM2_CH4_PF6            SYS_GPF_MFPL_PF6MFP_BPWM2_CH4        /*!< GPF_MFPL PF6 setting for BPWM2_CH4*/
-#define BPWM2_CH4_PF14           SYS_GPF_MFPH_PF14MFP_BPWM2_CH4       /*!< GPF_MFPH PF14 setting for BPWM2_CH4*/
 #define BPWM2_CH4_PA1            SYS_GPA_MFPL_PA1MFP_BPWM2_CH4        /*!< GPA_MFPL PA1 setting for BPWM2_CH4*/
 #define BPWM2_CH5_PD15           SYS_GPD_MFPH_PD15MFP_BPWM2_CH5       /*!< GPD_MFPH PD15 setting for BPWM2_CH5*/
 #define BPWM2_CH5_PA0            SYS_GPA_MFPL_PA0MFP_BPWM2_CH5        /*!< GPA_MFPL PA0 setting for BPWM2_CH5*/
@@ -791,9 +772,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM3_CH5_PB0            SYS_GPB_MFPL_PB0MFP_BPWM3_CH5        /*!< GPB_MFPL PB0 setting for BPWM3_CH5*/
 #define CLKO_PF6                 SYS_GPF_MFPL_PF6MFP_CLKO             /*!< GPF_MFPL PF6 setting for CLKO*/
 #define CLKO_PB14                SYS_GPB_MFPH_PB14MFP_CLKO            /*!< GPB_MFPH PB14 setting for CLKO*/
-#define CLKO_PF14                SYS_GPF_MFPH_PF14MFP_CLKO            /*!< GPF_MFPH PF14 setting for CLKO*/
 #define CLKO_PA3                 SYS_GPA_MFPL_PA3MFP_CLKO             /*!< GPA_MFPL PA3 setting for CLKO*/
-#define CLKO_PF15                SYS_GPF_MFPH_PF15MFP_CLKO            /*!< GPF_MFPH PF15 setting for CLKO*/
 #define DAC0_OUT_PB12            SYS_GPB_MFPH_PB12MFP_DAC0_OUT        /*!< GPB_MFPH PB12 setting for DAC0_OUT*/
 #define DAC0_ST_PA10             SYS_GPA_MFPH_PA10MFP_DAC0_ST         /*!< GPA_MFPH PA10 setting for DAC0_ST*/
 #define DAC0_ST_PA0              SYS_GPA_MFPL_PA0MFP_DAC0_ST          /*!< GPA_MFPL PA0 setting for DAC0_ST*/
@@ -884,10 +863,8 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define INT4_PB6                 SYS_GPB_MFPL_PB6MFP_INT4             /*!< GPB_MFPL PB6 setting for INT4*/
 #define INT4_PF2                 SYS_GPF_MFPL_PF2MFP_INT4             /*!< GPF_MFPL PF2 setting for INT4*/
 #define INT4_PA8                 SYS_GPA_MFPH_PA8MFP_INT4             /*!< GPA_MFPH PA8 setting for INT4*/
-#define INT4_PF15                SYS_GPF_MFPH_PF15MFP_INT4            /*!< GPF_MFPH PF15 setting for INT4*/
 #define INT5_PB7                 SYS_GPB_MFPL_PB7MFP_INT5             /*!< GPB_MFPL PB7 setting for INT5*/
 #define INT5_PF6                 SYS_GPF_MFPL_PF6MFP_INT5             /*!< GPF_MFPL PF6 setting for INT5*/
-#define INT5_PF14                SYS_GPF_MFPH_PF14MFP_INT5            /*!< GPF_MFPH PF14 setting for INT5*/
 #define LLSI0_OUT_PB15           SYS_GPB_MFPH_PB15MFP_LLSI0_OUT       /*!< GPB_MFPH PB15 setting for LLSI0_OUT*/
 #define LLSI0_OUT_PC5            SYS_GPC_MFPL_PC5MFP_LLSI0_OUT        /*!< GPC_MFPL PC5 setting for LLSI0_OUT*/
 #define LLSI1_OUT_PC4            SYS_GPC_MFPL_PC4MFP_LLSI1_OUT        /*!< GPC_MFPL PC4 setting for LLSI1_OUT*/
@@ -895,7 +872,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define LLSI2_OUT_PB13           SYS_GPB_MFPH_PB13MFP_LLSI2_OUT       /*!< GPB_MFPH PB13 setting for LLSI2_OUT*/
 #define LLSI2_OUT_PC3            SYS_GPC_MFPL_PC3MFP_LLSI2_OUT        /*!< GPC_MFPL PC3 setting for LLSI2_OUT*/
 #define LLSI3_OUT_PF6            SYS_GPF_MFPL_PF6MFP_LLSI3_OUT        /*!< GPF_MFPL PF6 setting for LLSI3_OUT*/
-#define LLSI3_OUT_PF14           SYS_GPF_MFPH_PF14MFP_LLSI3_OUT       /*!< GPF_MFPH PF14 setting for LLSI3_OUT*/
 #define LLSI3_OUT_PB12           SYS_GPB_MFPH_PB12MFP_LLSI3_OUT       /*!< GPB_MFPH PB12 setting for LLSI3_OUT*/
 #define LLSI3_OUT_PC2            SYS_GPC_MFPL_PC2MFP_LLSI3_OUT        /*!< GPC_MFPL PC2 setting for LLSI3_OUT*/
 #define LLSI4_OUT_PA3            SYS_GPA_MFPL_PA3MFP_LLSI4_OUT        /*!< GPA_MFPL PA3 setting for LLSI4_OUT*/
@@ -923,7 +899,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_MOSI_PF6            SYS_GPF_MFPL_PF6MFP_SPI0_MOSI        /*!< GPF_MFPL PF6 setting for SPI0_MOSI*/
 #define SPI0_SS_PD3              SYS_GPD_MFPL_PD3MFP_SPI0_SS          /*!< GPD_MFPL PD3 setting for SPI0_SS*/
 #define SPI0_SS_PB0              SYS_GPB_MFPL_PB0MFP_SPI0_SS          /*!< GPB_MFPL PB0 setting for SPI0_SS*/
-#define SPI0_SS_PF14             SYS_GPF_MFPH_PF14MFP_SPI0_SS         /*!< GPF_MFPH PF14 setting for SPI0_SS*/
 #define SPI0_SS_PB15             SYS_GPB_MFPH_PB15MFP_SPI0_SS         /*!< GPB_MFPH PB15 setting for SPI0_SS*/
 #define SPI0_SS_PA3              SYS_GPA_MFPL_PA3MFP_SPI0_SS          /*!< GPA_MFPL PA3 setting for SPI0_SS*/
 #define SPI1_CLK_PA9             SYS_GPA_MFPH_PA9MFP_SPI1_CLK         /*!< GPA_MFPH PA9 setting for SPI1_CLK*/
@@ -971,7 +946,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define TM1_EXT_PA10             SYS_GPA_MFPH_PA10MFP_TM1_EXT         /*!< GPA_MFPH PA10 setting for TM1_EXT*/
 #define TM1_EXT_PB14             SYS_GPB_MFPH_PB14MFP_TM1_EXT         /*!< GPB_MFPH PB14 setting for TM1_EXT*/
 #define TM2_PD0                  SYS_GPD_MFPL_PD0MFP_TM2              /*!< GPD_MFPL PD0 setting for TM2*/
-#define TM2_PF15                 SYS_GPF_MFPH_PF15MFP_TM2             /*!< GPF_MFPH PF15 setting for TM2*/
 #define TM2_PB3                  SYS_GPB_MFPL_PB3MFP_TM2              /*!< GPB_MFPL PB3 setting for TM2*/
 #define TM2_PA7                  SYS_GPA_MFPL_PA7MFP_TM2              /*!< GPA_MFPL PA7 setting for TM2*/
 #define TM2_EXT_PB13             SYS_GPB_MFPH_PB13MFP_TM2_EXT         /*!< GPB_MFPH PB13 setting for TM2_EXT*/
@@ -980,7 +954,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define TM3_PA6                  SYS_GPA_MFPL_PA6MFP_TM3              /*!< GPA_MFPL PA6 setting for TM3*/
 #define TM3_PF6                  SYS_GPF_MFPL_PF6MFP_TM3              /*!< GPF_MFPL PF6 setting for TM3*/
 #define TM3_PB2                  SYS_GPB_MFPL_PB2MFP_TM3              /*!< GPB_MFPL PB2 setting for TM3*/
-#define TM3_PF14                 SYS_GPF_MFPH_PF14MFP_TM3             /*!< GPF_MFPH PF14 setting for TM3*/
 #define TM3_EXT_PA8              SYS_GPA_MFPH_PA8MFP_TM3_EXT          /*!< GPA_MFPH PA8 setting for TM3_EXT*/
 #define TM3_EXT_PB1              SYS_GPB_MFPL_PB1MFP_TM3_EXT          /*!< GPB_MFPL PB1 setting for TM3_EXT*/
 #define TM3_EXT_PB12             SYS_GPB_MFPH_PB12MFP_TM3_EXT         /*!< GPB_MFPH PB12 setting for TM3_EXT*/
@@ -1004,7 +977,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define UART0_nCTS_PC7           SYS_GPC_MFPL_PC7MFP_UART0_nCTS       /*!< GPC_MFPL PC7 setting for UART0_nCTS*/
 #define UART0_nCTS_PB11          SYS_GPB_MFPH_PB11MFP_UART0_nCTS      /*!< GPB_MFPH PB11 setting for UART0_nCTS*/
 #define UART0_nCTS_PB15          SYS_GPB_MFPH_PB15MFP_UART0_nCTS      /*!< GPB_MFPH PB15 setting for UART0_nCTS*/
-#define UART0_nRTS_PF15          SYS_GPF_MFPH_PF15MFP_UART0_nRTS      /*!< GPF_MFPH PF15 setting for UART0_nRTS*/
 #define UART0_nRTS_PB10          SYS_GPB_MFPH_PB10MFP_UART0_nRTS      /*!< GPB_MFPH PB10 setting for UART0_nRTS*/
 #define UART0_nRTS_PB14          SYS_GPB_MFPH_PB14MFP_UART0_nRTS      /*!< GPB_MFPH PB14 setting for UART0_nRTS*/
 #define UART0_nRTS_PC6           SYS_GPC_MFPL_PC6MFP_UART0_nRTS       /*!< GPC_MFPL PC6 setting for UART0_nRTS*/
@@ -1123,7 +1095,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM1_CH0_PF3_Msk       SYS_GPF_MFPL_PF3MFP_Msk        /*!< BPWM1_CH0       PF3      MFP Mask */
 #define BPWM1_CH0_PC7_Msk       SYS_GPC_MFPL_PC7MFP_Msk        /*!< BPWM1_CH0       PC7      MFP Mask */
 #define BPWM1_CH0_PF0_Msk       SYS_GPF_MFPL_PF0MFP_Msk        /*!< BPWM1_CH0       PF0      MFP Mask */
-#define BPWM1_CH0_PF15_Msk      SYS_GPF_MFPH_PF15MFP_Msk       /*!< BPWM1_CH0       PF15     MFP Mask */
 #define BPWM1_CH1_PC6_Msk       SYS_GPC_MFPL_PC6MFP_Msk        /*!< BPWM1_CH1       PC6      MFP Mask */
 #define BPWM1_CH1_PF2_Msk       SYS_GPF_MFPL_PF2MFP_Msk        /*!< BPWM1_CH1       PF2      MFP Mask */
 #define BPWM1_CH1_PB10_Msk      SYS_GPB_MFPH_PB10MFP_Msk       /*!< BPWM1_CH1       PB10     MFP Mask */
@@ -1147,7 +1118,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM2_CH3_PB2_Msk       SYS_GPB_MFPL_PB2MFP_Msk        /*!< BPWM2_CH3       PB2      MFP Mask */
 #define BPWM2_CH4_PB1_Msk       SYS_GPB_MFPL_PB1MFP_Msk        /*!< BPWM2_CH4       PB1      MFP Mask */
 #define BPWM2_CH4_PF6_Msk       SYS_GPF_MFPL_PF6MFP_Msk        /*!< BPWM2_CH4       PF6      MFP Mask */
-#define BPWM2_CH4_PF14_Msk      SYS_GPF_MFPH_PF14MFP_Msk       /*!< BPWM2_CH4       PF14     MFP Mask */
 #define BPWM2_CH4_PA1_Msk       SYS_GPA_MFPL_PA1MFP_Msk        /*!< BPWM2_CH4       PA1      MFP Mask */
 #define BPWM2_CH5_PD15_Msk      SYS_GPD_MFPH_PD15MFP_Msk       /*!< BPWM2_CH5       PD15     MFP Mask */
 #define BPWM2_CH5_PA0_Msk       SYS_GPA_MFPL_PA0MFP_Msk        /*!< BPWM2_CH5       PA0      MFP Mask */
@@ -1175,9 +1145,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define BPWM3_CH5_PB0_Msk       SYS_GPB_MFPL_PB0MFP_Msk        /*!< BPWM3_CH5       PB0      MFP Mask */
 #define CLKO_PF6_Msk            SYS_GPF_MFPL_PF6MFP_Msk        /*!< CLKO            PF6      MFP Mask */
 #define CLKO_PB14_Msk           SYS_GPB_MFPH_PB14MFP_Msk       /*!< CLKO            PB14     MFP Mask */
-#define CLKO_PF14_Msk           SYS_GPF_MFPH_PF14MFP_Msk       /*!< CLKO            PF14     MFP Mask */
 #define CLKO_PA3_Msk            SYS_GPA_MFPL_PA3MFP_Msk        /*!< CLKO            PA3      MFP Mask */
-#define CLKO_PF15_Msk           SYS_GPF_MFPH_PF15MFP_Msk       /*!< CLKO            PF15     MFP Mask */
 #define DAC0_OUT_PB12_Msk       SYS_GPB_MFPH_PB12MFP_Msk       /*!< DAC0_OUT        PB12     MFP Mask */
 #define DAC0_ST_PA10_Msk        SYS_GPA_MFPH_PA10MFP_Msk       /*!< DAC0_ST         PA10     MFP Mask */
 #define DAC0_ST_PA0_Msk         SYS_GPA_MFPL_PA0MFP_Msk        /*!< DAC0_ST         PA0      MFP Mask */
@@ -1268,10 +1236,8 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define INT4_PB6_Msk            SYS_GPB_MFPL_PB6MFP_Msk        /*!< INT4            PB6      MFP Mask */
 #define INT4_PF2_Msk            SYS_GPF_MFPL_PF2MFP_Msk        /*!< INT4            PF2      MFP Mask */
 #define INT4_PA8_Msk            SYS_GPA_MFPH_PA8MFP_Msk        /*!< INT4            PA8      MFP Mask */
-#define INT4_PF15_Msk           SYS_GPF_MFPH_PF15MFP_Msk       /*!< INT4            PF15     MFP Mask */
 #define INT5_PB7_Msk            SYS_GPB_MFPL_PB7MFP_Msk        /*!< INT5            PB7      MFP Mask */
 #define INT5_PF6_Msk            SYS_GPF_MFPL_PF6MFP_Msk        /*!< INT5            PF6      MFP Mask */
-#define INT5_PF14_Msk           SYS_GPF_MFPH_PF14MFP_Msk       /*!< INT5            PF14     MFP Mask */
 #define LLSI0_OUT_PB15_Msk      SYS_GPB_MFPH_PB15MFP_Msk       /*!< LLSI0_OUT       PB15     MFP Mask */
 #define LLSI0_OUT_PC5_Msk       SYS_GPC_MFPL_PC5MFP_Msk        /*!< LLSI0_OUT       PC5      MFP Mask */
 #define LLSI1_OUT_PC4_Msk       SYS_GPC_MFPL_PC4MFP_Msk        /*!< LLSI1_OUT       PC4      MFP Mask */
@@ -1279,7 +1245,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define LLSI2_OUT_PB13_Msk      SYS_GPB_MFPH_PB13MFP_Msk       /*!< LLSI2_OUT       PB13     MFP Mask */
 #define LLSI2_OUT_PC3_Msk       SYS_GPC_MFPL_PC3MFP_Msk        /*!< LLSI2_OUT       PC3      MFP Mask */
 #define LLSI3_OUT_PF6_Msk       SYS_GPF_MFPL_PF6MFP_Msk        /*!< LLSI3_OUT       PF6      MFP Mask */
-#define LLSI3_OUT_PF14_Msk      SYS_GPF_MFPH_PF14MFP_Msk       /*!< LLSI3_OUT       PF14     MFP Mask */
 #define LLSI3_OUT_PB12_Msk      SYS_GPB_MFPH_PB12MFP_Msk       /*!< LLSI3_OUT       PB12     MFP Mask */
 #define LLSI3_OUT_PC2_Msk       SYS_GPC_MFPL_PC2MFP_Msk        /*!< LLSI3_OUT       PC2      MFP Mask */
 #define LLSI4_OUT_PA3_Msk       SYS_GPA_MFPL_PA3MFP_Msk        /*!< LLSI4_OUT       PA3      MFP Mask */
@@ -1307,7 +1272,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SPI0_MOSI_PF6_Msk       SYS_GPF_MFPL_PF6MFP_Msk        /*!< SPI0_MOSI       PF6      MFP Mask */
 #define SPI0_SS_PD3_Msk         SYS_GPD_MFPL_PD3MFP_Msk        /*!< SPI0_SS         PD3      MFP Mask */
 #define SPI0_SS_PB0_Msk         SYS_GPB_MFPL_PB0MFP_Msk        /*!< SPI0_SS         PB0      MFP Mask */
-#define SPI0_SS_PF14_Msk        SYS_GPF_MFPH_PF14MFP_Msk       /*!< SPI0_SS         PF14     MFP Mask */
 #define SPI0_SS_PB15_Msk        SYS_GPB_MFPH_PB15MFP_Msk       /*!< SPI0_SS         PB15     MFP Mask */
 #define SPI0_SS_PA3_Msk         SYS_GPA_MFPL_PA3MFP_Msk        /*!< SPI0_SS         PA3      MFP Mask */
 #define SPI1_CLK_PA9_Msk        SYS_GPA_MFPH_PA9MFP_Msk        /*!< SPI1_CLK        PA9      MFP Mask */
@@ -1355,7 +1319,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define TM1_EXT_PA10_Msk        SYS_GPA_MFPH_PA10MFP_Msk       /*!< TM1_EXT         PA10     MFP Mask */
 #define TM1_EXT_PB14_Msk        SYS_GPB_MFPH_PB14MFP_Msk       /*!< TM1_EXT         PB14     MFP Mask */
 #define TM2_PD0_Msk             SYS_GPD_MFPL_PD0MFP_Msk        /*!< TM2             PD0      MFP Mask */
-#define TM2_PF15_Msk            SYS_GPF_MFPH_PF15MFP_Msk       /*!< TM2             PF15     MFP Mask */
 #define TM2_PB3_Msk             SYS_GPB_MFPL_PB3MFP_Msk        /*!< TM2             PB3      MFP Mask */
 #define TM2_PA7_Msk             SYS_GPA_MFPL_PA7MFP_Msk        /*!< TM2             PA7      MFP Mask */
 #define TM2_EXT_PB13_Msk        SYS_GPB_MFPH_PB13MFP_Msk       /*!< TM2_EXT         PB13     MFP Mask */
@@ -1364,7 +1327,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define TM3_PA6_Msk             SYS_GPA_MFPL_PA6MFP_Msk        /*!< TM3             PA6      MFP Mask */
 #define TM3_PF6_Msk             SYS_GPF_MFPL_PF6MFP_Msk        /*!< TM3             PF6      MFP Mask */
 #define TM3_PB2_Msk             SYS_GPB_MFPL_PB2MFP_Msk        /*!< TM3             PB2      MFP Mask */
-#define TM3_PF14_Msk            SYS_GPF_MFPH_PF14MFP_Msk       /*!< TM3             PF14     MFP Mask */
 #define TM3_EXT_PA8_Msk         SYS_GPA_MFPH_PA8MFP_Msk        /*!< TM3_EXT         PA8      MFP Mask */
 #define TM3_EXT_PB1_Msk         SYS_GPB_MFPL_PB1MFP_Msk        /*!< TM3_EXT         PB1      MFP Mask */
 #define TM3_EXT_PB12_Msk        SYS_GPB_MFPH_PB12MFP_Msk       /*!< TM3_EXT         PB12     MFP Mask */
@@ -1388,7 +1350,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define UART0_nCTS_PC7_Msk      SYS_GPC_MFPL_PC7MFP_Msk        /*!< UART0_nCTS      PC7      MFP Mask */
 #define UART0_nCTS_PB11_Msk     SYS_GPB_MFPH_PB11MFP_Msk       /*!< UART0_nCTS      PB11     MFP Mask */
 #define UART0_nCTS_PB15_Msk     SYS_GPB_MFPH_PB15MFP_Msk       /*!< UART0_nCTS      PB15     MFP Mask */
-#define UART0_nRTS_PF15_Msk     SYS_GPF_MFPH_PF15MFP_Msk       /*!< UART0_nRTS      PF15     MFP Mask */
 #define UART0_nRTS_PB10_Msk     SYS_GPB_MFPH_PB10MFP_Msk       /*!< UART0_nRTS      PB10     MFP Mask */
 #define UART0_nRTS_PB14_Msk     SYS_GPB_MFPH_PB14MFP_Msk       /*!< UART0_nRTS      PB14     MFP Mask */
 #define UART0_nRTS_PC6_Msk      SYS_GPC_MFPL_PC6MFP_Msk        /*!< UART0_nRTS      PC6      MFP Mask */
@@ -1514,7 +1475,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_BPWM1_CH0_PF3()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~BPWM1_CH0_PF3_Msk)) | BPWM1_CH0_PF3          /*!< Set PF3 function to BPWM1_CH0        */
 #define SET_BPWM1_CH0_PC7()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~BPWM1_CH0_PC7_Msk)) | BPWM1_CH0_PC7          /*!< Set PC7 function to BPWM1_CH0        */
 #define SET_BPWM1_CH0_PF0()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~BPWM1_CH0_PF0_Msk)) | BPWM1_CH0_PF0          /*!< Set PF0 function to BPWM1_CH0        */
-#define SET_BPWM1_CH0_PF15()     SYS->GPF_MFPH = (SYS->GPF_MFPH & (~BPWM1_CH0_PF15_Msk)) | BPWM1_CH0_PF15        /*!< Set PF15 function to BPWM1_CH0       */
 #define SET_BPWM1_CH1_PC6()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~BPWM1_CH1_PC6_Msk)) | BPWM1_CH1_PC6          /*!< Set PC6 function to BPWM1_CH1        */
 #define SET_BPWM1_CH1_PF2()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~BPWM1_CH1_PF2_Msk)) | BPWM1_CH1_PF2          /*!< Set PF2 function to BPWM1_CH1        */
 #define SET_BPWM1_CH1_PB10()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~BPWM1_CH1_PB10_Msk)) | BPWM1_CH1_PB10        /*!< Set PB10 function to BPWM1_CH1       */
@@ -1538,7 +1498,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_BPWM2_CH3_PB2()      SYS->GPB_MFPL = (SYS->GPB_MFPL & (~BPWM2_CH3_PB2_Msk)) | BPWM2_CH3_PB2          /*!< Set PB2 function to BPWM2_CH3        */
 #define SET_BPWM2_CH4_PB1()      SYS->GPB_MFPL = (SYS->GPB_MFPL & (~BPWM2_CH4_PB1_Msk)) | BPWM2_CH4_PB1          /*!< Set PB1 function to BPWM2_CH4        */
 #define SET_BPWM2_CH4_PF6()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~BPWM2_CH4_PF6_Msk)) | BPWM2_CH4_PF6          /*!< Set PF6 function to BPWM2_CH4        */
-#define SET_BPWM2_CH4_PF14()     SYS->GPF_MFPH = (SYS->GPF_MFPH & (~BPWM2_CH4_PF14_Msk)) | BPWM2_CH4_PF14        /*!< Set PF14 function to BPWM2_CH4       */
 #define SET_BPWM2_CH4_PA1()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~BPWM2_CH4_PA1_Msk)) | BPWM2_CH4_PA1          /*!< Set PA1 function to BPWM2_CH4        */
 #define SET_BPWM2_CH5_PD15()     SYS->GPD_MFPH = (SYS->GPD_MFPH & (~BPWM2_CH5_PD15_Msk)) | BPWM2_CH5_PD15        /*!< Set PD15 function to BPWM2_CH5       */
 #define SET_BPWM2_CH5_PA0()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~BPWM2_CH5_PA0_Msk)) | BPWM2_CH5_PA0          /*!< Set PA0 function to BPWM2_CH5        */
@@ -1566,9 +1525,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_BPWM3_CH5_PB0()      SYS->GPB_MFPL = (SYS->GPB_MFPL & (~BPWM3_CH5_PB0_Msk)) | BPWM3_CH5_PB0          /*!< Set PB0 function to BPWM3_CH5        */
 #define SET_CLKO_PF6()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~CLKO_PF6_Msk)) | CLKO_PF6                    /*!< Set PF6 function to CLKO             */
 #define SET_CLKO_PB14()          SYS->GPB_MFPH = (SYS->GPB_MFPH & (~CLKO_PB14_Msk)) | CLKO_PB14                  /*!< Set PB14 function to CLKO            */
-#define SET_CLKO_PF14()          SYS->GPF_MFPH = (SYS->GPF_MFPH & (~CLKO_PF14_Msk)) | CLKO_PF14                  /*!< Set PF14 function to CLKO            */
 #define SET_CLKO_PA3()           SYS->GPA_MFPL = (SYS->GPA_MFPL & (~CLKO_PA3_Msk)) | CLKO_PA3                    /*!< Set PA3 function to CLKO             */
-#define SET_CLKO_PF15()          SYS->GPF_MFPH = (SYS->GPF_MFPH & (~CLKO_PF15_Msk)) | CLKO_PF15                  /*!< Set PF15 function to CLKO            */
 #define SET_DAC0_OUT_PB12()      SYS->GPB_MFPH = (SYS->GPB_MFPH & (~DAC0_OUT_PB12_Msk)) | DAC0_OUT_PB12          /*!< Set PB12 function to DAC0_OUT        */
 #define SET_DAC0_ST_PA10()       SYS->GPA_MFPH = (SYS->GPA_MFPH & (~DAC0_ST_PA10_Msk)) | DAC0_ST_PA10            /*!< Set PA10 function to DAC0_ST         */
 #define SET_DAC0_ST_PA0()        SYS->GPA_MFPL = (SYS->GPA_MFPL & (~DAC0_ST_PA0_Msk)) | DAC0_ST_PA0              /*!< Set PA0 function to DAC0_ST          */
@@ -1659,10 +1616,8 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_INT4_PB6()           SYS->GPB_MFPL = (SYS->GPB_MFPL & (~INT4_PB6_Msk)) | INT4_PB6                    /*!< Set PB6 function to INT4             */
 #define SET_INT4_PF2()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~INT4_PF2_Msk)) | INT4_PF2                    /*!< Set PF2 function to INT4             */
 #define SET_INT4_PA8()           SYS->GPA_MFPH = (SYS->GPA_MFPH & (~INT4_PA8_Msk)) | INT4_PA8                    /*!< Set PA8 function to INT4             */
-#define SET_INT4_PF15()          SYS->GPF_MFPH = (SYS->GPF_MFPH & (~INT4_PF15_Msk)) | INT4_PF15                  /*!< Set PF15 function to INT4            */
 #define SET_INT5_PB7()           SYS->GPB_MFPL = (SYS->GPB_MFPL & (~INT5_PB7_Msk)) | INT5_PB7                    /*!< Set PB7 function to INT5             */
 #define SET_INT5_PF6()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~INT5_PF6_Msk)) | INT5_PF6                    /*!< Set PF6 function to INT5             */
-#define SET_INT5_PF14()          SYS->GPF_MFPH = (SYS->GPF_MFPH & (~INT5_PF14_Msk)) | INT5_PF14                  /*!< Set PF14 function to INT5            */
 #define SET_LLSI0_OUT_PB15()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~LLSI0_OUT_PB15_Msk)) | LLSI0_OUT_PB15        /*!< Set PB15 function to LLSI0_OUT       */
 #define SET_LLSI0_OUT_PC5()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~LLSI0_OUT_PC5_Msk)) | LLSI0_OUT_PC5          /*!< Set PC5 function to LLSI0_OUT        */
 #define SET_LLSI1_OUT_PC4()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~LLSI1_OUT_PC4_Msk)) | LLSI1_OUT_PC4          /*!< Set PC4 function to LLSI1_OUT        */
@@ -1670,7 +1625,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_LLSI2_OUT_PB13()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~LLSI2_OUT_PB13_Msk)) | LLSI2_OUT_PB13        /*!< Set PB13 function to LLSI2_OUT       */
 #define SET_LLSI2_OUT_PC3()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~LLSI2_OUT_PC3_Msk)) | LLSI2_OUT_PC3          /*!< Set PC3 function to LLSI2_OUT        */
 #define SET_LLSI3_OUT_PF6()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~LLSI3_OUT_PF6_Msk)) | LLSI3_OUT_PF6          /*!< Set PF6 function to LLSI3_OUT        */
-#define SET_LLSI3_OUT_PF14()     SYS->GPF_MFPH = (SYS->GPF_MFPH & (~LLSI3_OUT_PF14_Msk)) | LLSI3_OUT_PF14        /*!< Set PF14 function to LLSI3_OUT       */
 #define SET_LLSI3_OUT_PB12()     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~LLSI3_OUT_PB12_Msk)) | LLSI3_OUT_PB12        /*!< Set PB12 function to LLSI3_OUT       */
 #define SET_LLSI3_OUT_PC2()      SYS->GPC_MFPL = (SYS->GPC_MFPL & (~LLSI3_OUT_PC2_Msk)) | LLSI3_OUT_PC2          /*!< Set PC2 function to LLSI3_OUT        */
 #define SET_LLSI4_OUT_PA3()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~LLSI4_OUT_PA3_Msk)) | LLSI4_OUT_PA3          /*!< Set PA3 function to LLSI4_OUT        */
@@ -1698,7 +1652,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_SPI0_MOSI_PF6()      SYS->GPF_MFPL = (SYS->GPF_MFPL & (~SPI0_MOSI_PF6_Msk)) | SPI0_MOSI_PF6          /*!< Set PF6 function to SPI0_MOSI        */
 #define SET_SPI0_SS_PD3()        SYS->GPD_MFPL = (SYS->GPD_MFPL & (~SPI0_SS_PD3_Msk)) | SPI0_SS_PD3              /*!< Set PD3 function to SPI0_SS          */
 #define SET_SPI0_SS_PB0()        SYS->GPB_MFPL = (SYS->GPB_MFPL & (~SPI0_SS_PB0_Msk)) | SPI0_SS_PB0              /*!< Set PB0 function to SPI0_SS          */
-#define SET_SPI0_SS_PF14()       SYS->GPF_MFPH = (SYS->GPF_MFPH & (~SPI0_SS_PF14_Msk)) | SPI0_SS_PF14            /*!< Set PF14 function to SPI0_SS         */
 #define SET_SPI0_SS_PB15()       SYS->GPB_MFPH = (SYS->GPB_MFPH & (~SPI0_SS_PB15_Msk)) | SPI0_SS_PB15            /*!< Set PB15 function to SPI0_SS         */
 #define SET_SPI0_SS_PA3()        SYS->GPA_MFPL = (SYS->GPA_MFPL & (~SPI0_SS_PA3_Msk)) | SPI0_SS_PA3              /*!< Set PA3 function to SPI0_SS          */
 #define SET_SPI1_CLK_PA9()       SYS->GPA_MFPH = (SYS->GPA_MFPH & (~SPI1_CLK_PA9_Msk)) | SPI1_CLK_PA9            /*!< Set PA9 function to SPI1_CLK         */
@@ -1746,7 +1699,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_TM1_EXT_PA10()       SYS->GPA_MFPH = (SYS->GPA_MFPH & (~TM1_EXT_PA10_Msk)) | TM1_EXT_PA10            /*!< Set PA10 function to TM1_EXT         */
 #define SET_TM1_EXT_PB14()       SYS->GPB_MFPH = (SYS->GPB_MFPH & (~TM1_EXT_PB14_Msk)) | TM1_EXT_PB14            /*!< Set PB14 function to TM1_EXT         */
 #define SET_TM2_PD0()            SYS->GPD_MFPL = (SYS->GPD_MFPL & (~TM2_PD0_Msk)) | TM2_PD0                      /*!< Set PD0 function to TM2              */
-#define SET_TM2_PF15()           SYS->GPF_MFPH = (SYS->GPF_MFPH & (~TM2_PF15_Msk)) | TM2_PF15                    /*!< Set PF15 function to TM2             */
 #define SET_TM2_PB3()            SYS->GPB_MFPL = (SYS->GPB_MFPL & (~TM2_PB3_Msk)) | TM2_PB3                      /*!< Set PB3 function to TM2              */
 #define SET_TM2_PA7()            SYS->GPA_MFPL = (SYS->GPA_MFPL & (~TM2_PA7_Msk)) | TM2_PA7                      /*!< Set PA7 function to TM2              */
 #define SET_TM2_EXT_PB13()       SYS->GPB_MFPH = (SYS->GPB_MFPH & (~TM2_EXT_PB13_Msk)) | TM2_EXT_PB13            /*!< Set PB13 function to TM2_EXT         */
@@ -1755,7 +1707,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_TM3_PA6()            SYS->GPA_MFPL = (SYS->GPA_MFPL & (~TM3_PA6_Msk)) | TM3_PA6                      /*!< Set PA6 function to TM3              */
 #define SET_TM3_PF6()            SYS->GPF_MFPL = (SYS->GPF_MFPL & (~TM3_PF6_Msk)) | TM3_PF6                      /*!< Set PF6 function to TM3              */
 #define SET_TM3_PB2()            SYS->GPB_MFPL = (SYS->GPB_MFPL & (~TM3_PB2_Msk)) | TM3_PB2                      /*!< Set PB2 function to TM3              */
-#define SET_TM3_PF14()           SYS->GPF_MFPH = (SYS->GPF_MFPH & (~TM3_PF14_Msk)) | TM3_PF14                    /*!< Set PF14 function to TM3             */
 #define SET_TM3_EXT_PA8()        SYS->GPA_MFPH = (SYS->GPA_MFPH & (~TM3_EXT_PA8_Msk)) | TM3_EXT_PA8              /*!< Set PA8 function to TM3_EXT          */
 #define SET_TM3_EXT_PB1()        SYS->GPB_MFPL = (SYS->GPB_MFPL & (~TM3_EXT_PB1_Msk)) | TM3_EXT_PB1              /*!< Set PB1 function to TM3_EXT          */
 #define SET_TM3_EXT_PB12()       SYS->GPB_MFPH = (SYS->GPB_MFPH & (~TM3_EXT_PB12_Msk)) | TM3_EXT_PB12            /*!< Set PB12 function to TM3_EXT         */
@@ -1779,7 +1730,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_UART0_nCTS_PC7()     SYS->GPC_MFPL = (SYS->GPC_MFPL & (~UART0_nCTS_PC7_Msk)) | UART0_nCTS_PC7        /*!< Set PC7 function to UART0_nCTS       */
 #define SET_UART0_nCTS_PB11()    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~UART0_nCTS_PB11_Msk)) | UART0_nCTS_PB11      /*!< Set PB11 function to UART0_nCTS      */
 #define SET_UART0_nCTS_PB15()    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~UART0_nCTS_PB15_Msk)) | UART0_nCTS_PB15      /*!< Set PB15 function to UART0_nCTS      */
-#define SET_UART0_nRTS_PF15()    SYS->GPF_MFPH = (SYS->GPF_MFPH & (~UART0_nRTS_PF15_Msk)) | UART0_nRTS_PF15      /*!< Set PF15 function to UART0_nRTS      */
 #define SET_UART0_nRTS_PB10()    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~UART0_nRTS_PB10_Msk)) | UART0_nRTS_PB10      /*!< Set PB10 function to UART0_nRTS      */
 #define SET_UART0_nRTS_PB14()    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~UART0_nRTS_PB14_Msk)) | UART0_nRTS_PB14      /*!< Set PB14 function to UART0_nRTS      */
 #define SET_UART0_nRTS_PC6()     SYS->GPC_MFPL = (SYS->GPC_MFPL & (~UART0_nRTS_PC6_Msk)) | UART0_nRTS_PC6        /*!< Set PC6 function to UART0_nRTS       */
@@ -1871,9 +1821,6 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_GPIO_PF4()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~(0xful << SYS_GPF_MFPL_PF4MFP_Pos)))          /*!< Set PF4 function to GPIO             */
 #define SET_GPIO_PF5()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~(0xful << SYS_GPF_MFPL_PF5MFP_Pos)))          /*!< Set PF5 function to GPIO             */
 #define SET_GPIO_PF6()           SYS->GPF_MFPL = (SYS->GPF_MFPL & (~(0xful << SYS_GPF_MFPL_PF6MFP_Pos)))          /*!< Set PF6 function to GPIO             */
-#define SET_GPIO_PF14()          SYS->GPF_MFPH = (SYS->GPF_MFPH & (~(0xful << SYS_GPF_MFPH_PF14MFP_Pos)))         /*!< Set PF14 function to GPIO            */
-#define SET_GPIO_PF15()          SYS->GPF_MFPh = (SYS->GPF_MFPH & (~(0xful << SYS_GPF_MFPH_PF15MFP_Pos)))         /*!< Set PF15 function to GPIO            */
-
 
 
 /**
@@ -1966,7 +1913,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
   *             - \ref SYS_BODCTL_BODVL_2_2V
   * @return     None
   * @details    This macro set Brown-out detector voltage level.
-  *             The write-protection function should be disabled before using this macro.
+  *             The register write-protection function should be disabled before using this macro.
   */
 #define SYS_SET_BOD_LEVEL(u32Level)     (SYS->BODCTL = (SYS->BODCTL & ~SYS_BODCTL_BODVL_Msk) | (u32Level))
 

@@ -810,24 +810,6 @@ typedef struct
      * |        |          |13 = CLKO
      * |        |          |14 = TM3
      * |        |          |15 = INT5
-     * @var SYS_T::GPF_MFPH
-     * Offset: 0x3C  GPIOF High Byte Multiple Function Control Register
-     * ---------------------------------------------------------------------------------------------------
-     * |Bits    |Field     |Descriptions
-     * | :----: | :----:   | :---- |
-     * |[27:24] |PF14MFP   |PF.14 Multi-function Pin Selection
-     * |        |          |05 = SPI0_SS
-     * |        |          |11 = LLSI3_OUT
-     * |        |          |12 = BPWM2_CH4
-     * |        |          |13 = CLKO
-     * |        |          |14 = TM3
-     * |        |          |15 = INT5
-     * |[31:28] |PF15MFP   |PF.15 Multi-function Pin Selection
-     * |        |          |07 = UART0_nRTS
-     * |        |          |12 = BPWM1_CH0
-     * |        |          |13 = TM2
-     * |        |          |14 = CLKO
-     * |        |          |15 = INT4
      * @var SYS_T::IRCTCTL
      * Offset: 0x80  HIRC Trim Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -1029,8 +1011,7 @@ typedef struct
     __IO uint32_t GPD_MFPH;              /*!< [0x004c] GPIOD High Byte Multiple Function Control Register               */
     __I  uint32_t RESERVE3[2];
     __IO uint32_t GPF_MFPL;              /*!< [0x0058] GPIOF Low Byte Multiple Function Control Register                */
-    __IO uint32_t GPF_MFPH;              /*!< [0x005C] GPIOF High Byte Multiple Function Control Register               */
-    __I  uint32_t RESERVE4[8];
+    __I  uint32_t RESERVE4[9];
     __IO uint32_t IRCTCTL;               /*!< [0x0080] HIRC Trim Control Register                                       */
     __IO uint32_t IRCTIEN;               /*!< [0x0084] HIRC Trim Interrupt Enable Register                              */
     __IO uint32_t IRCTISTS;              /*!< [0x0088] HIRC Trim Interrupt Status Register                              */
@@ -1399,12 +1380,6 @@ typedef struct
 
 #define SYS_GPF_MFPL_PF6MFP_Pos          (24)                                              /*!< SYS_T::GPF_MFPL: PF6MFP Position       */
 #define SYS_GPF_MFPL_PF6MFP_Msk          (0xful << SYS_GPF_MFPL_PF6MFP_Pos)                /*!< SYS_T::GPF_MFPL: PF6MFP Mask           */
-
-#define SYS_GPF_MFPH_PF14MFP_Pos         (24)                                              /*!< SYS_T::GPF_MFPH: PF14MFP Position      */
-#define SYS_GPF_MFPH_PF14MFP_Msk         (0xful << SYS_GPF_MFPH_PF14MFP_Pos)               /*!< SYS_T::GPF_MFPH: PF14MFP Mask          */
-
-#define SYS_GPF_MFPH_PF15MFP_Pos         (28)                                              /*!< SYS_T::GPF_MFPH: PF15MFP Position      */
-#define SYS_GPF_MFPH_PF15MFP_Msk         (0xful << SYS_GPF_MFPH_PF15MFP_Pos)               /*!< SYS_T::GPF_MFPH: PF15MFP Mask          */
 
 #define SYS_IRCTCTL_FREQSEL_Pos          (0)                                               /*!< SYS_T::IRCTCTL: FREQSEL Position       */
 #define SYS_IRCTCTL_FREQSEL_Msk          (0x3ul << SYS_IRCTCTL_FREQSEL_Pos)                /*!< SYS_T::IRCTCTL: FREQSEL Mask           */

@@ -174,8 +174,8 @@ void SYS_Init(void)
     /* Set multi-function pins for BPWM */
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA0MFP_Msk);
     SYS->GPA_MFPL |= SYS_GPA_MFPL_PA0MFP_BPWM0_CH0;
-    SYS->GPF_MFPH &= ~(SYS_GPF_MFPH_PF15MFP_Msk);
-    SYS->GPF_MFPH |= SYS_GPF_MFPH_PF15MFP_BPWM1_CH0;
+    SYS->GPB_MFPH &= ~(SYS_GPB_MFPH_PB11MFP_Msk);
+    SYS->GPB_MFPH |= SYS_GPB_MFPH_PB11MFP_BPWM1_CH0;
 
 }
 
@@ -226,8 +226,8 @@ int32_t main(void)
     printf("+------------------------------------------------------------------------+\n");
     printf("  This sample code will use BPWM0 channel 0 to capture\n  the signal from BPWM1 channel 0.\n");
     printf("  I/O configuration:\n");
-    printf("    BPWM0 channel 0(PA.0) <--> BPWM1 channel 0(PF.15)\n\n");
-    printf("Use BPWM0 Channel 0(PA.0) to capture the BPWM1 Channel 0(PF.15) Waveform\n");
+    printf("    BPWM0 channel 0(PA.0) <--> BPWM1 channel 0(PB.11)\n\n");
+    printf("Use BPWM0 Channel 0(PA.0) to capture the BPWM1 Channel 0(PB.11) Waveform\n");
 
     while(1)
     {

@@ -561,7 +561,7 @@ void CLK_DisableModuleClock(uint32_t u32ModuleIdx)
   */
 uint32_t CLK_EnablePLL(uint32_t u32PllClkSrc, uint32_t u32PllFreq)
 {
-    uint32_t u32PllSrcClk, u32NR, u32NF, u32NO, u32CLK_SRC;
+    uint32_t u32PllSrcClk, u32NR, u32NF, u32NO, u32CLK_SRC, u32STBSEL;
     uint32_t u32Tmp, u32Tmp2, u32Tmp3, u32Min, u32MinNF, u32MinNR;
 
     /* Disable PLL first to avoid unstable when setting PLL */
@@ -599,6 +599,16 @@ uint32_t CLK_EnablePLL(uint32_t u32PllClkSrc, uint32_t u32PllFreq)
 
         /* u32NR start from 4 when FIN = 24MHz to avoid calculation overflow */
         u32NR = 4;
+    }
+
+    /* Select PLL stable counter */
+    if(u32PllSrcClk <= 12000000UL)
+    {
+        u32STBSEL = CLK_PLLCTL_STBSEL_6144;
+    }
+    else
+    {
+        u32STBSEL = CLK_PLLCTL_STBSEL_12288;
     }
 
     /* Select "NO" according to request frequency */
@@ -649,7 +659,7 @@ uint32_t CLK_EnablePLL(uint32_t u32PllClkSrc, uint32_t u32PllFreq)
     }
 
     /* Enable and apply new PLL setting. */
-    CLK->PLLCTL = u32CLK_SRC | (u32NO << 14) | ((u32MinNR - 2) << 9) | (u32MinNF - 2);
+    CLK->PLLCTL = u32STBSEL| u32CLK_SRC | (u32NO << 14) | ((u32MinNR - 2) << 9) | (u32MinNF - 2);
 
     /* Wait for PLL clock stable */
     CLK_WaitClockReady(CLK_STATUS_PLLSTB_Msk);

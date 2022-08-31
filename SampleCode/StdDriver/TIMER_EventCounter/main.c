@@ -178,12 +178,19 @@ int main(void)
     /* To generate remains counts to TM2 pin */
     GenerateEventCounterSource(3, 3, (56789 - 1));
 
+    u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
     while(1)
     {
         if(g_au32TMRINTCount[2] == 1)
         {
             printf("# Timer2 interrupt event occurred.\n");
             break;
+        }
+
+        if(--u32TimeOutCnt == 0)
+        {
+            printf("Wait for Timer2 interrupt time-out!\n");
+            goto lexit;
         }
     }
 

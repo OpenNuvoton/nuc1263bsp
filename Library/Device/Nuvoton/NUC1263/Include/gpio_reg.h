@@ -56,7 +56,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::DINOFF
      * Offset: 0x04/0x44/0x84/0xC4/0x144  PA-F Digital Input Path Disable Control
      * ---------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::DOUT
      * Offset: 0x08/0x48/0x88/0xC8/0x148  PA-F Data Output Value
      * ---------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::DATMSK
      * Offset: 0x0C/0x4C/0x8C/0xCC/0x14C  PA-F Data Output Write Mask
      * ---------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::PIN
      * Offset: 0x10/0x50/0x90/0xD0/0x150  PA-F Pin Value
      * ---------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::DBEN
      * Offset: 0x14/0x54/0x94/0xD4/0x154  PA-F De-Bounce Enable Control
      * ---------------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::INTTYPE
      * Offset: 0x18/0x58/0x98/0xD8/0x158  PA-F Interrupt Trigger Type Control
      * ---------------------------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::INTEN
      * Offset: 0x1C/0x5C/0x9C/0xDC/0x15C  PA-F Interrupt Enable Control
      * ---------------------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * |[n+16]  |RHIENn    |Port A-F Pin[n] Rising Edge or High Level Interrupt Trigger Type Enable Bit
      * |        |          |The RHIEN (Px_INTEN[n+16]) bit is used to enable the interrupt for each of the corresponding input Px.n pin.
      * |        |          |Set bit to 1 also enable the pin wake-up function.
@@ -192,7 +192,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::INTSRC
      * Offset: 0x20/0x60/0xA0/0xE0/0x160  PA-F Interrupt Source Flag
      * ---------------------------------------------------------------------------------------------------
@@ -210,7 +210,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::SMTEN
      * Offset: 0x24/0x64/0xA4/0xE4/0x164  PA-F Input Schmitt Trigger Enable
      * ---------------------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * @var GPIO_T::SLEWCTL
      * Offset: 0x28/0x68/0xA8/0xE8/0x128/0x168  PA-F High Slew Rate Control
      * ---------------------------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      * |[n+16]  |UHSRENn   |Port A-F Pin[n] Ultra High Slew Rate Control
      * |        |          |0 = Px.n output with basic/higher slew rate according to HSREN[n] setting.
      * |        |          |1 = Px.n output with ultra higher slew rate when HSREN[n] is 1.
@@ -246,7 +246,7 @@ typedef struct
      * |        |          |Note 1:
      * |        |          |This function is used for port A and port F.
      * |        |          |n=0~3, 8~11 for port A.
-     * |        |          |n=4~6, 14 for port F.
+     * |        |          |n=4~6 for port F.
      * |        |          |Note 2: Ultra higher slew rate function is used to match I3C and SPI application when releate pins are in 1.8V domain. 
      * |        |          |Both UHSREN[n] and HSREN[n] need to be set to 1.
      * @var GPIO_T::PUSEL
@@ -266,7 +266,7 @@ typedef struct
      * |        |          |n = 0~15 for port B.
      * |        |          |n = 0~7, 14 for port C.
      * |        |          |n = 0~3, 15 for port D.
-     * |        |          |n = 0~6, 14, 15 for port F.
+     * |        |          |n = 0~6 for port F.
      */
 
 

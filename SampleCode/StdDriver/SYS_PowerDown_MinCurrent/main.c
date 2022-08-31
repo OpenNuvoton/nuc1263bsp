@@ -276,7 +276,6 @@ int32_t main(void)
     SYS->GPD_MFPL = 0;
     SYS->GPD_MFPH = 0;
     SYS->GPF_MFPL = 0;
-    SYS->GPF_MFPH = 0;
 
     /* Configure all GPIO as Quasi-bidirectional Mode */
     GPIO_SetMode(PA, GPIO_P0_TO_P15, GPIO_MODE_QUASI);
