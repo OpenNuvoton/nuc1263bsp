@@ -320,7 +320,7 @@ extern void SystemInit(void);
 
 //=============================================================================
 typedef volatile unsigned char  vu8;
-typedef volatile unsigned long  vu32;
+typedef volatile unsigned int   vu32;
 typedef volatile unsigned short vu16;
 #define M8(adr)  (*((vu8  *) (adr)))
 #define M16(adr) (*((vu16 *) (adr)))
