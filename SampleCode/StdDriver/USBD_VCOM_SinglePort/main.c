@@ -53,8 +53,6 @@ volatile uint32_t gu32TxSize = 0;
 
 volatile int8_t gi8BulkOutReady = 0;
 
-int IsDebugFifoEmpty(void);
-
 void SYS_Init(void)
 {
     /*---------------------------------------------------------------------------------------------------------*/
@@ -272,9 +270,6 @@ void PowerDown()
     /* Unlock protected registers */
     SYS_UnlockReg();
 
-    printf("Enter power down ...\n");
-    while(!IsDebugFifoEmpty());
-
     /* Wakeup Enable */
     USBD_ENABLE_INT(USBD_INTEN_WKEN_Msk);
 
@@ -283,8 +278,6 @@ void PowerDown()
     /* Clear PWR_DOWN_EN if it is not clear by itself */
     if(CLK->PWRCTL & CLK_PWRCTL_PDEN_Msk)
         CLK->PWRCTL ^= CLK_PWRCTL_PDEN_Msk;
-
-    printf("device wakeup!\n");
 
     /* Lock protected registers */
     SYS_LockReg();
