@@ -244,7 +244,7 @@ typedef struct
      * |        |          |Note 1: Before this bit is enabled, ACMPEN(ACMP_CTL1[0]) should be set and the internal high speed RC oscillator (HIRC) should be enabled in advance.
      * |        |          |Note 2: Hardware will auto clear this bit when the next calibration is triggered by software.
      * |        |          |Note 3: If user must trigger calibration twice or more times, the second trigger has to wait at least 300us after the previous calibration is done.
-     * @var ACMP_T::CALSR
+     * @var ACMP_T::CALSTS
      * Offset: 0x14  Analog Comparator Calibration Status Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
@@ -262,7 +262,7 @@ typedef struct
     __IO uint32_t STATUS;                /*!< [0x0008] Analog Comparator Status Register                                */
     __IO uint32_t VREF;                  /*!< [0x000c] Analog Comparator Reference Voltage Control Register             */
     __IO uint32_t CALCTL;                /*!< [0x0010] Analog Comparator Calibration Control Register                   */
-    __I  uint32_t CALSR;                 /*!< [0x0014] Analog Comparator Calibration Status Register                    */
+    __IO uint32_t CALSTS;                /*!< [0x0014] Analog Comparator Calibration Status Register                    */
 
 } ACMP_T;
 
@@ -361,11 +361,11 @@ typedef struct
 #define ACMP_CALCTL_CALTRG1_Pos          (1)                                               /*!< ACMP_T::CALCTL: CALTRG1 Position       */
 #define ACMP_CALCTL_CALTRG1_Msk          (0x1ul << ACMP_CALCTL_CALTRG1_Pos)                /*!< ACMP_T::CALCTL: CALTRG1 Mask           */
 
-#define ACMP_CALSR_DONE0_Pos             (0)                                               /*!< ACMP_T::CALSR: DONE0 Position          */
-#define ACMP_CALSR_DONE0_Msk             (0x1ul << ACMP_CALSR_DONE0_Pos)                   /*!< ACMP_T::CALSR: DONE0 Mask              */
+#define ACMP_CALSTS_DONE0_Pos            (0)                                               /*!< ACMP_T::CALSTS: DONE0 Position         */
+#define ACMP_CALSTS_DONE0_Msk            (0x1ul << ACMP_CALSTS_DONE0_Pos)                  /*!< ACMP_T::CALSTS: DONE0 Mask             */
 
-#define ACMP_CALSR_DONE1_Pos             (4)                                               /*!< ACMP_T::CALSR: DONE1 Position          */
-#define ACMP_CALSR_DONE1_Msk             (0x1ul << ACMP_CALSR_DONE1_Pos)                   /*!< ACMP_T::CALSR: DONE1 Mask              */
+#define ACMP_CALSTS_DONE1_Pos            (4)                                               /*!< ACMP_T::CALSTS: DONE1 Position         */
+#define ACMP_CALSTS_DONE1_Msk            (0x1ul << ACMP_CALSTS_DONE1_Pos)                  /*!< ACMP_T::CALSTS: DONE1 Mask             */
 
 /**@}*/ /* ACMP_CONST */
 /**@}*/ /* end of ACMP register group */

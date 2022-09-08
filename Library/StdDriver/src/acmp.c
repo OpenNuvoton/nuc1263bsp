@@ -49,7 +49,8 @@ void ACMP_Open(ACMP_T *acmp, uint32_t u32ChNum, uint32_t u32NegSrc, uint32_t u32
 
     acmp->CTL[u32ChNum] = (acmp->CTL[u32ChNum] & (~(ACMP_CTL_NEGSEL_Msk | ACMP_CTL_HYSSEL_Msk))) | (u32NegSrc | u32HysSel | ACMP_CTL_ACMPEN_Msk);
     
-    for(delay = 25; delay > 0; delay--) {} // Delay about 1.2us @ CPU = 192MHz
+    /* Delay for analog macro stable */
+    for(delay = SystemCoreClock / 0x20000; delay > 0; delay--) {} 
 }
 
 /**
