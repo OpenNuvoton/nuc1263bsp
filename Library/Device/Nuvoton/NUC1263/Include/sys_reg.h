@@ -384,7 +384,7 @@ typedef struct
      * |        |          |02 = SPI_MOSI_MUX
      * |        |          |04 = SPI0_MOSI
      * |        |          |05 = SPI2_MOSI
-     * |        |          |06 = I3C0_SDA
+     * |        |          |06 = I3CS0_SDA
      * |        |          |07 = UART0_RXD
      * |        |          |08 = UART1_nRTS
      * |        |          |09 = I2C2_SDA
@@ -396,7 +396,7 @@ typedef struct
      * |        |          |02 = SPI_MISO_MUX
      * |        |          |04 = SPI0_MISO
      * |        |          |05 = SPI2_MISO
-     * |        |          |06 = I3C0_SCL
+     * |        |          |06 = I3CS0_SCL
      * |        |          |07 = UART0_TXD
      * |        |          |08 = UART1_nCTS
      * |        |          |09 = I2C2_SCL
@@ -407,7 +407,7 @@ typedef struct
      * |        |          |02 = SPI_CLK_MUX
      * |        |          |04 = SPI0_CLK
      * |        |          |05 = SPI2_CLK
-     * |        |          |06 = I3C1_SDA
+     * |        |          |06 = I3CS1_SDA
      * |        |          |07 = I2C0_SMBSUS
      * |        |          |08 = UART1_RXD
      * |        |          |09 = I2C1_SDA
@@ -419,7 +419,7 @@ typedef struct
      * |        |          |02 = SPI_SS_MUX
      * |        |          |04 = SPI0_SS
      * |        |          |05 = SPI2_SS
-     * |        |          |06 = I3C1_SCL
+     * |        |          |06 = I3CS1_SCL
      * |        |          |07 = I2C0_SMBAL
      * |        |          |08 = UART1_TXD
      * |        |          |09 = I2C1_SCL
@@ -430,7 +430,7 @@ typedef struct
      * |        |          |15 = ACMP2_WLAT
      * |[19:16] |PA4MFP    |PA.4 Multi-function Pin Selection
      * |        |          |04 = SPI0_I2SMCLK
-     * |        |          |06 = I3C0_SDA
+     * |        |          |06 = I3CS0_SDA
      * |        |          |07 = UART0_nRTS
      * |        |          |08 = UART0_RXD
      * |        |          |09 = I2C0_SDA
@@ -441,7 +441,7 @@ typedef struct
      * |        |          |02 = SPI1_I2SMCLK
      * |        |          |04 = SPI0_I2SMCLK
      * |        |          |05 = SPI2_I2SMCLK
-     * |        |          |06 = I3C0_SCL
+     * |        |          |06 = I3CS0_SCL
      * |        |          |07 = UART0_nCTS
      * |        |          |08 = UART0_TXD
      * |        |          |09 = I2C0_SCL
@@ -973,6 +973,10 @@ typedef struct
      * |        |          |When SPD5 Hub function is disabled, I3C0 and I3C1 are general purpose I3C slave.
      * |        |          |0 = SPD5 Hub function Disabled.
      * |        |          |1 = SPD5 Hub function Enable.
+     * |[30]    |HSADIS    |HSA Resistor Disable Bit (Write Protect)
+     * |        |          |This bit is used to disable SPD5 Hub HSA resistor.
+     * |        |          |0 = SPD5 Hub HSA Resistor enabled.
+     * |        |          |1 = SPD5 Hub HSA Resistor disabled (default).
      * @var SYS_T::SPIMUX
      * Offset: 0x160  SPI Mux Function Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -1129,11 +1133,11 @@ typedef struct
 #define SYS_IPRST1_BPWM3RST_Pos          (23)                                              /*!< SYS_T::IPRST1: BPWM3RST Position       */
 #define SYS_IPRST1_BPWM3RST_Msk          (0x1ul << SYS_IPRST1_BPWM3RST_Pos)                /*!< SYS_T::IPRST1: BPWM3RST Mask           */
 
-#define SYS_IPRST1_I3C0RST_Pos           (24)                                              /*!< SYS_T::IPRST1: I3C0RST Position        */
-#define SYS_IPRST1_I3C0RST_Msk           (0x1ul << SYS_IPRST1_I3C0RST_Pos)                 /*!< SYS_T::IPRST1: I3C0RST Mask            */
+#define SYS_IPRST1_I3CS0RST_Pos          (24)                                              /*!< SYS_T::IPRST1: I3CS0RST Position       */
+#define SYS_IPRST1_I3CS0RST_Msk          (0x1ul << SYS_IPRST1_I3CS0RST_Pos)                /*!< SYS_T::IPRST1: I3CS0RST Mask           */
 
-#define SYS_IPRST1_I3C1RST_Pos           (25)                                              /*!< SYS_T::IPRST1: I3C1RST Position        */
-#define SYS_IPRST1_I3C1RST_Msk           (0x1ul << SYS_IPRST1_I3C1RST_Pos)                 /*!< SYS_T::IPRST1: I3C1RST Mask            */
+#define SYS_IPRST1_I3CS1RST_Pos          (25)                                              /*!< SYS_T::IPRST1: I3CS1RST Position       */
+#define SYS_IPRST1_I3CS1RST_Msk          (0x1ul << SYS_IPRST1_I3CS1RST_Pos)                /*!< SYS_T::IPRST1: I3CS1RST Mask           */
 
 #define SYS_IPRST1_SPDHRST_Pos           (26)                                              /*!< SYS_T::IPRST1: SPDhRST Position        */
 #define SYS_IPRST1_SPDHRST_Msk           (0x1ul << SYS_IPRST1_SPDHRST_Pos)                 /*!< SYS_T::IPRST1: SPDHRST Mask            */
@@ -1446,6 +1450,9 @@ typedef struct
 
 #define SYS_TSDATA_TSDATA_Pos            (16)                                              /*!< SYS_T::TSDATA: TSDATA Position         */
 #define SYS_TSDATA_TSDATA_Msk            (0xffful << SYS_TSDATA_TSDATA_Pos)                /*!< SYS_T::TSDATA: TSDATA Mask             */
+
+#define SYS_SPDHCTL_HSADIS_Pos           (30)                                              /*!< SYS_T::SPDHCTL: HSADIS Position        */
+#define SYS_SPDHCTL_HSADIS_Msk           (0x1ul << SYS_SPDHCTL_HSADIS_Pos)                 /*!< SYS_T::SPDHCTL: HSADIS Mask            */
 
 #define SYS_SPDHCTL_SPDHEN_Pos           (31)                                              /*!< SYS_T::SPDHCTL: SPDHEN Position        */
 #define SYS_SPDHCTL_SPDHEN_Msk           (0x1ul << SYS_SPDHCTL_SPDHEN_Pos)                 /*!< SYS_T::SPDHCTL: SPDHEN Mask            */

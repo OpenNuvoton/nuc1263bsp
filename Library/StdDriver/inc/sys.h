@@ -56,8 +56,8 @@ extern "C"
 #define DAC_RST     ((0x4<<24)|SYS_IPRST1_DACRST_Pos)       /*!< DAC reset is one of the SYS_ResetModule parameter */
 #define ACMP01_RST  ((0x4<<24)|SYS_IPRST1_ACMP01RST_Pos)    /*!< ACMP01 reset is one of the SYS_ResetModule parameter */
 #define ACMP23_RST  ((0x4<<24)|SYS_IPRST1_ACMP23RST_Pos)    /*!< ACMP23 reset is one of the SYS_ResetModule parameter */
-#define I3C0_RST    ((0x4<<24)|SYS_IPRST1_I3C0RST_Pos)      /*!< I3C0 reset is one of the SYS_ResetModule parameter */
-#define I3C1_RST    ((0x4<<24)|SYS_IPRST1_I3C1RST_Pos)      /*!< I3C1 reset is one of the SYS_ResetModule parameter */
+#define I3CS0_RST   ((0x4<<24)|SYS_IPRST1_I3CS0RST_Pos)     /*!< I3CS0 reset is one of the SYS_ResetModule parameter */
+#define I3CS1_RST   ((0x4<<24)|SYS_IPRST1_I3CS1RST_Pos)     /*!< I3CS1 reset is one of the SYS_ResetModule parameter */
 #define SPDH_RST    ((0x4<<24)|SYS_IPRST1_SPDHRST_Pos)      /*!< SPDH reset is one of the SYS_ResetModule parameter */
 
 #define LLSI0_RST   ((0x8<<24)|SYS_IPRST2_LLSI0RST_Pos)     /*!< LLSI0 reset is one of the SYS_ResetModule parameter */
@@ -138,7 +138,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPA_MFPL_PA0MFP_SPI_MOSI_MUX (0x02UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for SPI_MOSI_MUX*/
 #define SYS_GPA_MFPL_PA0MFP_SPI0_MOSI    (0x04UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for SPI0_MOSI   */
 #define SYS_GPA_MFPL_PA0MFP_SPI2_MOSI    (0x05UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for SPI2_MOSI   */
-#define SYS_GPA_MFPL_PA0MFP_I3C0_SDA     (0x06UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for I3C0_SDA    */
+#define SYS_GPA_MFPL_PA0MFP_I3CS0_SDA    (0x06UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for I3CS0_SDA   */
 #define SYS_GPA_MFPL_PA0MFP_UART0_RXD    (0x07UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for UART0_RXD   */
 #define SYS_GPA_MFPL_PA0MFP_UART1_nRTS   (0x08UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for UART1_nRTS  */
 #define SYS_GPA_MFPL_PA0MFP_I2C2_SDA     (0x09UL<<SYS_GPA_MFPL_PA0MFP_Pos) /*!< GPA_MFPL PA0 setting for I2C2_SDA    */
@@ -152,7 +152,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPA_MFPL_PA1MFP_SPI_MISO_MUX (0x02UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for SPI_MISO_MUX*/
 #define SYS_GPA_MFPL_PA1MFP_SPI0_MISO    (0x04UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for SPI0_MISO   */
 #define SYS_GPA_MFPL_PA1MFP_SPI2_MISO    (0x05UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for SPI2_MISO   */
-#define SYS_GPA_MFPL_PA1MFP_I3C0_SCL     (0x06UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for I3C0_SCL    */
+#define SYS_GPA_MFPL_PA1MFP_I3CS0_SCL    (0x06UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for I3CS0_SCL   */
 #define SYS_GPA_MFPL_PA1MFP_UART0_TXD    (0x07UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for UART0_TXD   */
 #define SYS_GPA_MFPL_PA1MFP_UART1_nCTS   (0x08UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for UART1_nCTS  */
 #define SYS_GPA_MFPL_PA1MFP_I2C2_SCL     (0x09UL<<SYS_GPA_MFPL_PA1MFP_Pos) /*!< GPA_MFPL PA1 setting for I2C2_SCL    */
@@ -165,7 +165,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPA_MFPL_PA2MFP_SPI_CLK_MUX  (0x02UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI_CLK_MUX */
 #define SYS_GPA_MFPL_PA2MFP_SPI0_CLK     (0x04UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI0_CLK    */
 #define SYS_GPA_MFPL_PA2MFP_SPI2_CLK     (0x05UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for SPI2_CLK    */
-#define SYS_GPA_MFPL_PA2MFP_I3C1_SDA     (0x06UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for I3C1_SDA    */
+#define SYS_GPA_MFPL_PA2MFP_I3CS1_SDA    (0x06UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for I3CS1_SDA   */
 #define SYS_GPA_MFPL_PA2MFP_I2C0_SMBSUS  (0x07UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for I2C0_SMBSUS */
 #define SYS_GPA_MFPL_PA2MFP_UART1_RXD    (0x08UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for UART1_RXD   */
 #define SYS_GPA_MFPL_PA2MFP_I2C1_SDA     (0x09UL<<SYS_GPA_MFPL_PA2MFP_Pos) /*!< GPA_MFPL PA2 setting for I2C1_SDA    */
@@ -179,7 +179,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPA_MFPL_PA3MFP_SPI_SS_MUX   (0x02UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI_SS_MUX  */
 #define SYS_GPA_MFPL_PA3MFP_SPI0_SS      (0x04UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI0_SS     */
 #define SYS_GPA_MFPL_PA3MFP_SPI2_SS      (0x05UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for SPI2_SS     */
-#define SYS_GPA_MFPL_PA3MFP_I3C1_SCL     (0x06UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for I3C1_SCL    */
+#define SYS_GPA_MFPL_PA3MFP_I3CS1_SCL    (0x06UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for I3CS1_SCL   */
 #define SYS_GPA_MFPL_PA3MFP_I2C0_SMBAL   (0x07UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for I2C0_SMBAL  */
 #define SYS_GPA_MFPL_PA3MFP_UART1_TXD    (0x08UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for UART1_TXD   */
 #define SYS_GPA_MFPL_PA3MFP_I2C1_SCL     (0x09UL<<SYS_GPA_MFPL_PA3MFP_Pos) /*!< GPA_MFPL PA3 setting for I2C1_SCL    */
@@ -192,7 +192,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 /* PA.4 MFP */
 #define SYS_GPA_MFPL_PA4MFP_GPIO         (0x00UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for GPIO        */
 #define SYS_GPA_MFPL_PA4MFP_SPI0_I2SMCLK (0x04UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for SPI0_I2SMCLK*/
-#define SYS_GPA_MFPL_PA4MFP_I3C0_SDA     (0x06UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for I3C0_SDA    */
+#define SYS_GPA_MFPL_PA4MFP_I3CS0_SDA    (0x06UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for I3CS0_SDA   */
 #define SYS_GPA_MFPL_PA4MFP_UART0_nRTS   (0x07UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for UART0_nRTS  */
 #define SYS_GPA_MFPL_PA4MFP_UART0_RXD    (0x08UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for UART0_RXD   */
 #define SYS_GPA_MFPL_PA4MFP_I2C0_SDA     (0x09UL<<SYS_GPA_MFPL_PA4MFP_Pos) /*!< GPA_MFPL PA4 setting for I2C0_SDA    */
@@ -205,7 +205,7 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SYS_GPA_MFPL_PA5MFP_SPI1_I2SMCLK (0x02UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for SPI1_I2SMCLK*/
 #define SYS_GPA_MFPL_PA5MFP_SPI0_I2SMCLK (0x04UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for SPI0_I2SMCLK*/
 #define SYS_GPA_MFPL_PA5MFP_SPI2_I2SMCLK (0x05UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for SPI2_I2SMCLK*/
-#define SYS_GPA_MFPL_PA5MFP_I3C0_SCL     (0x06UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for I3C0_SCL    */
+#define SYS_GPA_MFPL_PA5MFP_I3CS0_SCL    (0x06UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for I3CS0_SCL   */
 #define SYS_GPA_MFPL_PA5MFP_UART0_nCTS   (0x07UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for UART0_nCTS  */
 #define SYS_GPA_MFPL_PA5MFP_UART0_TXD    (0x08UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for UART0_TXD   */
 #define SYS_GPA_MFPL_PA5MFP_I2C0_SCL     (0x09UL<<SYS_GPA_MFPL_PA5MFP_Pos) /*!< GPA_MFPL PA5 setting for I2C0_SCL    */
@@ -843,12 +843,12 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define I2C2_SMBAL_PC3           SYS_GPC_MFPL_PC3MFP_I2C2_SMBAL       /*!< GPC_MFPL PC3 setting for I2C2_SMBAL*/
 #define I2C2_SMBSUS_PB14         SYS_GPB_MFPH_PB14MFP_I2C2_SMBSUS     /*!< GPB_MFPH PB14 setting for I2C2_SMBSUS*/
 #define I2C2_SMBSUS_PC2          SYS_GPC_MFPL_PC2MFP_I2C2_SMBSUS      /*!< GPC_MFPL PC2 setting for I2C2_SMBSUS*/
-#define I3C0_SCL_PA5             SYS_GPA_MFPL_PA5MFP_I3C0_SCL         /*!< GPA_MFPL PA5 setting for I3C0_SCL*/
-#define I3C0_SCL_PA1             SYS_GPA_MFPL_PA1MFP_I3C0_SCL         /*!< GPA_MFPL PA1 setting for I3C0_SCL*/
-#define I3C0_SDA_PA0             SYS_GPA_MFPL_PA0MFP_I3C0_SDA         /*!< GPA_MFPL PA0 setting for I3C0_SDA*/
-#define I3C0_SDA_PA4             SYS_GPA_MFPL_PA4MFP_I3C0_SDA         /*!< GPA_MFPL PA4 setting for I3C0_SDA*/
-#define I3C1_SCL_PA3             SYS_GPA_MFPL_PA3MFP_I3C1_SCL         /*!< GPA_MFPL PA3 setting for I3C1_SCL*/
-#define I3C1_SDA_PA2             SYS_GPA_MFPL_PA2MFP_I3C1_SDA         /*!< GPA_MFPL PA2 setting for I3C1_SDA*/
+#define I3CS0_SCL_PA5            SYS_GPA_MFPL_PA5MFP_I3CS0_SCL        /*!< GPA_MFPL PA5 setting for I3CS0_SCL*/
+#define I3CS0_SCL_PA1            SYS_GPA_MFPL_PA1MFP_I3CS0_SCL        /*!< GPA_MFPL PA1 setting for I3CS0_SCL*/
+#define I3CS0_SDA_PA0            SYS_GPA_MFPL_PA0MFP_I3CS0_SDA        /*!< GPA_MFPL PA0 setting for I3CS0_SDA*/
+#define I3CS0_SDA_PA4            SYS_GPA_MFPL_PA4MFP_I3CS0_SDA        /*!< GPA_MFPL PA4 setting for I3CS0_SDA*/
+#define I3CS1_SCL_PA3            SYS_GPA_MFPL_PA3MFP_I3CS1_SCL        /*!< GPA_MFPL PA3 setting for I3CS1_SCL*/
+#define I3CS1_SDA_PA2            SYS_GPA_MFPL_PA2MFP_I3CS1_SDA        /*!< GPA_MFPL PA2 setting for I3CS1_SDA*/
 #define ICE_CLK_PF1              SYS_GPF_MFPL_PF1MFP_ICE_CLK          /*!< GPF_MFPL PF1 setting for ICE_CLK*/
 #define ICE_DAT_PF0              SYS_GPF_MFPL_PF0MFP_ICE_DAT          /*!< GPF_MFPL PF0 setting for ICE_DAT*/
 #define INT0_PA6                 SYS_GPA_MFPL_PA6MFP_INT0             /*!< GPA_MFPL PA6 setting for INT0*/
@@ -1216,12 +1216,12 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define I2C2_SMBAL_PC3_Msk      SYS_GPC_MFPL_PC3MFP_Msk        /*!< I2C2_SMBAL      PC3      MFP Mask */
 #define I2C2_SMBSUS_PB14_Msk    SYS_GPB_MFPH_PB14MFP_Msk       /*!< I2C2_SMBSUS     PB14     MFP Mask */
 #define I2C2_SMBSUS_PC2_Msk     SYS_GPC_MFPL_PC2MFP_Msk        /*!< I2C2_SMBSUS     PC2      MFP Mask */
-#define I3C0_SCL_PA5_Msk        SYS_GPA_MFPL_PA5MFP_Msk        /*!< I3C0_SCL        PA5      MFP Mask */
-#define I3C0_SCL_PA1_Msk        SYS_GPA_MFPL_PA1MFP_Msk        /*!< I3C0_SCL        PA1      MFP Mask */
-#define I3C0_SDA_PA0_Msk        SYS_GPA_MFPL_PA0MFP_Msk        /*!< I3C0_SDA        PA0      MFP Mask */
-#define I3C0_SDA_PA4_Msk        SYS_GPA_MFPL_PA4MFP_Msk        /*!< I3C0_SDA        PA4      MFP Mask */
-#define I3C1_SCL_PA3_Msk        SYS_GPA_MFPL_PA3MFP_Msk        /*!< I3C1_SCL        PA3      MFP Mask */
-#define I3C1_SDA_PA2_Msk        SYS_GPA_MFPL_PA2MFP_Msk        /*!< I3C1_SDA        PA2      MFP Mask */
+#define I3CS0_SCL_PA5_Msk       SYS_GPA_MFPL_PA5MFP_Msk        /*!< I3CS0_SCL       PA5      MFP Mask */
+#define I3CS0_SCL_PA1_Msk       SYS_GPA_MFPL_PA1MFP_Msk        /*!< I3CS0_SCL       PA1      MFP Mask */
+#define I3CS0_SDA_PA0_Msk       SYS_GPA_MFPL_PA0MFP_Msk        /*!< I3CS0_SDA       PA0      MFP Mask */
+#define I3CS0_SDA_PA4_Msk       SYS_GPA_MFPL_PA4MFP_Msk        /*!< I3CS0_SDA       PA4      MFP Mask */
+#define I3CS1_SCL_PA3_Msk       SYS_GPA_MFPL_PA3MFP_Msk        /*!< I3CS1_SCL       PA3      MFP Mask */
+#define I3CS1_SDA_PA2_Msk       SYS_GPA_MFPL_PA2MFP_Msk        /*!< I3CS1_SDA       PA2      MFP Mask */
 #define ICE_CLK_PF1_Msk         SYS_GPF_MFPL_PF1MFP_Msk        /*!< ICE_CLK         PF1      MFP Mask */
 #define ICE_DAT_PF0_Msk         SYS_GPF_MFPL_PF0MFP_Msk        /*!< ICE_DAT         PF0      MFP Mask */
 #define INT0_PA6_Msk            SYS_GPA_MFPL_PA6MFP_Msk        /*!< INT0            PA6      MFP Mask */
@@ -1596,12 +1596,12 @@ Example: If user want to set PA.0 as UART0_RXD and PA.1 as UART0_TXD in initial 
 #define SET_I2C2_SMBAL_PC3()     SYS->GPC_MFPL = (SYS->GPC_MFPL & (~I2C2_SMBAL_PC3_Msk)) | I2C2_SMBAL_PC3        /*!< Set PC3 function to I2C2_SMBAL       */
 #define SET_I2C2_SMBSUS_PB14()   SYS->GPB_MFPH = (SYS->GPB_MFPH & (~I2C2_SMBSUS_PB14_Msk)) | I2C2_SMBSUS_PB14    /*!< Set PB14 function to I2C2_SMBSUS     */
 #define SET_I2C2_SMBSUS_PC2()    SYS->GPC_MFPL = (SYS->GPC_MFPL & (~I2C2_SMBSUS_PC2_Msk)) | I2C2_SMBSUS_PC2      /*!< Set PC2 function to I2C2_SMBSUS      */
-#define SET_I3C0_SCL_PA5()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C0_SCL_PA5_Msk)) | I3C0_SCL_PA5            /*!< Set PA5 function to I3C0_SCL         */
-#define SET_I3C0_SCL_PA1()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C0_SCL_PA1_Msk)) | I3C0_SCL_PA1            /*!< Set PA1 function to I3C0_SCL         */
-#define SET_I3C0_SDA_PA0()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C0_SDA_PA0_Msk)) | I3C0_SDA_PA0            /*!< Set PA0 function to I3C0_SDA         */
-#define SET_I3C0_SDA_PA4()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C0_SDA_PA4_Msk)) | I3C0_SDA_PA4            /*!< Set PA4 function to I3C0_SDA         */
-#define SET_I3C1_SCL_PA3()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C1_SCL_PA3_Msk)) | I3C1_SCL_PA3            /*!< Set PA3 function to I3C1_SCL         */
-#define SET_I3C1_SDA_PA2()       SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3C1_SDA_PA2_Msk)) | I3C1_SDA_PA2            /*!< Set PA2 function to I3C1_SDA         */
+#define SET_I3CS0_SCL_PA5()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS0_SCL_PA5_Msk)) | I3CS0_SCL_PA5          /*!< Set PA5 function to I3CS0_SCL        */
+#define SET_I3CS0_SCL_PA1()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS0_SCL_PA1_Msk)) | I3CS0_SCL_PA1          /*!< Set PA1 function to I3CS0_SCL        */
+#define SET_I3CS0_SDA_PA0()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS0_SDA_PA0_Msk)) | I3CS0_SDA_PA0          /*!< Set PA0 function to I3CS0_SDA        */
+#define SET_I3CS0_SDA_PA4()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS0_SDA_PA4_Msk)) | I3CS0_SDA_PA4          /*!< Set PA4 function to I3CS0_SDA        */
+#define SET_I3CS1_SCL_PA3()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS1_SCL_PA3_Msk)) | I3CS1_SCL_PA3          /*!< Set PA3 function to I3CS1_SCL        */
+#define SET_I3CS1_SDA_PA2()      SYS->GPA_MFPL = (SYS->GPA_MFPL & (~I3CS1_SDA_PA2_Msk)) | I3CS1_SDA_PA2          /*!< Set PA2 function to I3CS1_SDA        */
 #define SET_ICE_CLK_PF1()        SYS->GPF_MFPL = (SYS->GPF_MFPL & (~ICE_CLK_PF1_Msk)) | ICE_CLK_PF1              /*!< Set PF1 function to ICE_CLK          */
 #define SET_ICE_DAT_PF0()        SYS->GPF_MFPL = (SYS->GPF_MFPL & (~ICE_DAT_PF0_Msk)) | ICE_DAT_PF0              /*!< Set PF0 function to ICE_DAT          */
 #define SET_INT0_PA6()           SYS->GPA_MFPL = (SYS->GPA_MFPL & (~INT0_PA6_Msk)) | INT0_PA6                    /*!< Set PA6 function to INT0             */

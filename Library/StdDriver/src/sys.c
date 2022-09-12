@@ -140,8 +140,8 @@ void SYS_ResetCPU(void)
   *             - \ref DAC_RST
   *             - \ref ACMP01_RST
   *             - \ref ACMP23_RST
-  *             - \ref I3C0_RST
-  *             - \ref I3C1_RST
+  *             - \ref I3CS0_RST
+  *             - \ref I3CS1_RST
   *             - \ref SPDH_RST
   *             - \ref TS_RST
   * @return     None

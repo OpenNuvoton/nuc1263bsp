@@ -71,7 +71,7 @@ typedef struct
      * |        |          |Note2: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[6]     |PDWKIF    |Power-down Mode Wake-up Interrupt Status
      * |        |          |Set by Power-down wake-up event, it indicates that resume from Power-down mode.
-     * |        |          |The flag is set if the EINT, VDET, GPIO, USBD, ACMP, UART, WDT, BOD, TMR, I2C or I3C wake-up occurred.
+     * |        |          |The flag is set if the EINT, VDET, GPIO, USBD, ACMP, UART, WDT, BOD, TMR, I2C or I3CS wake-up occurred.
      * |        |          |Note1: Write 1 to clear the bit to 0.
      * |        |          |Note2: This bit works only if PDWKIEN (CLK_PWRCTL[5]) set to 1.
      * |[7]     |PDEN      |System Power-down Enable (Write Protect)
@@ -193,12 +193,12 @@ typedef struct
      * |[23]    |BPWM3CKEN |BPWM3 Clock Enable Bit
      * |        |          |0 = BPWM3 clock Disabled.
      * |        |          |1 = BPWM3 clock Enabled.
-     * |[24]    |I3C0CKEN  |I3C0 Clock Enable Bit
-     * |        |          |0 = I3C0 Clock Disabled.
-     * |        |          |1 = I3C0 Clock Enabled.
-     * |[25]    |I3C1CKEN  |I3C1 Clock Enable Bit
-     * |        |          |0 = I3C1 Clock Disabled.
-     * |        |          |1 = I3C1 Clock Enabled.
+     * |[24]    |I3CS0CKEN |I3CS0 Clock Enable Bit
+     * |        |          |0 = I3CS0 Clock Disabled.
+     * |        |          |1 = I3CS0 Clock Enabled.
+     * |[25]    |I3CS1CKEN |I3CS1 Clock Enable Bit
+     * |        |          |0 = I3CS1 Clock Disabled.
+     * |        |          |1 = I3CS1 Clock Enabled.
      * |[26]    |SPDHCKEN  |SPD5 Hub Clock Enable Bit
      * |        |          |0 = SPD5 Hub clock Disabled.
      * |        |          |1 = SPD5 Hub clock Enabled.
@@ -719,11 +719,11 @@ typedef struct
 #define CLK_APBCLK0_BPWM3CKEN_Pos        (23)                                              /*!< CLK_T::APBCLK0: BPWM3CKEN Position     */
 #define CLK_APBCLK0_BPWM3CKEN_Msk        (0x1ul << CLK_APBCLK0_BPWM3CKEN_Pos)              /*!< CLK_T::APBCLK0: BPWM3CKEN Mask         */
 
-#define CLK_APBCLK0_I3C0CKEN_Pos         (24)                                              /*!< CLK_T::APBCLK0: I3C0CKEN Position      */
-#define CLK_APBCLK0_I3C0CKEN_Msk         (0x1ul << CLK_APBCLK0_I3C0CKEN_Pos)               /*!< CLK_T::APBCLK0: I3C0CKEN Mask          */
+#define CLK_APBCLK0_I3CS0CKEN_Pos        (24)                                              /*!< CLK_T::APBCLK0: I3CS0CKEN Position     */
+#define CLK_APBCLK0_I3CS0CKEN_Msk        (0x1ul << CLK_APBCLK0_I3CS0CKEN_Pos)              /*!< CLK_T::APBCLK0: I3CS0CKEN Mask         */
 
-#define CLK_APBCLK0_I3C1CKEN_Pos         (25)                                              /*!< CLK_T::APBCLK0: I3C1CKEN Position      */
-#define CLK_APBCLK0_I3C1CKEN_Msk         (0x1ul << CLK_APBCLK0_I3C1CKEN_Pos)               /*!< CLK_T::APBCLK0: I3C1CKEN Mask          */
+#define CLK_APBCLK0_I3CS1CKEN_Pos        (25)                                              /*!< CLK_T::APBCLK0: I3CS1CKEN Position     */
+#define CLK_APBCLK0_I3CS1CKEN_Msk        (0x1ul << CLK_APBCLK0_I3CS1CKEN_Pos)              /*!< CLK_T::APBCLK0: I3CS1CKEN Mask         */
 
 #define CLK_APBCLK0_SPDHCKEN_Pos         (26)                                              /*!< CLK_T::APBCLK0: SPDHCKEN Position      */
 #define CLK_APBCLK0_SPDHCKEN_Msk         (0x1ul << CLK_APBCLK0_SPDHCKEN_Pos)               /*!< CLK_T::APBCLK0: SPDHCKEN Mask          */

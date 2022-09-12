@@ -1,5 +1,5 @@
 /****************************************************************************//**
- * @file     startup_NUC1262.S
+ * @file     startup_NUC1263.S
  * @version  V3.00
  * @brief    CMSIS Device Startup File
  *
@@ -108,8 +108,8 @@ __Vectors:
     .long   Default_Handler
     .long   SPI2_IRQHandler
     .long   UART2_IRQHandler
-    .long   I3C0_IRQHandler
-    .long   I3C1_IRQHandler
+    .long   I3CS0_IRQHandler
+    .long   I3CS1_IRQHandler
     .long   DAC_IRQHandler
     .long   ACMP23_IRQHandler
     .long   TS_IRQHandler
@@ -358,8 +358,8 @@ Default_Handler:
     def_irq_handler LLSI5_IRQHandler
     def_irq_handler SPI2_IRQHandler
     def_irq_handler UART2_IRQHandler
-    def_irq_handler I3C0_IRQHandler
-    def_irq_handler I3C1_IRQHandler
+    def_irq_handler I3CS0_IRQHandler
+    def_irq_handler I3CS1_IRQHandler
     def_irq_handler DAC_IRQHandler
     def_irq_handler ACMP23_IRQHandler
     def_irq_handler TS_IRQHandler

@@ -159,8 +159,8 @@ HardFault_Handler\
     PUBWEAK LLSI5_IRQHandler
     PUBWEAK SPI2_IRQHandler
     PUBWEAK UART2_IRQHandler
-    PUBWEAK I3C0_IRQHandler
-    PUBWEAK I3C1_IRQHandler
+    PUBWEAK I3CS0_IRQHandler
+    PUBWEAK I3CS1_IRQHandler
     PUBWEAK DAC_IRQHandler
     PUBWEAK ACMP23_IRQHandler
     PUBWEAK TS_IRQHandler
@@ -208,8 +208,8 @@ LLSI4_IRQHandler
 LLSI5_IRQHandler
 SPI2_IRQHandler
 UART2_IRQHandler
-I3C0_IRQHandler
-I3C1_IRQHandler
+I3CS0_IRQHandler
+I3CS1_IRQHandler
 DAC_IRQHandler
 ACMP23_IRQHandler
 TS_IRQHandler

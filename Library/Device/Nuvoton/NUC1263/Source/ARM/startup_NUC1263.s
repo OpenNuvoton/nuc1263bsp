@@ -111,8 +111,8 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     DEFAULT_IRQHandler
                 DCD     SPI2_IRQHandler
                 DCD     UART2_IRQHandler
-                DCD     I3C0_IRQHandler
-                DCD     I3C1_IRQHandler
+                DCD     I3CS0_IRQHandler
+                DCD     I3CS1_IRQHandler
                 DCD     DAC_IRQHandler
                 DCD     ACMP23_IRQHandler
                 DCD     TS_IRQHandler
@@ -213,14 +213,14 @@ Default_Handler PROC
                 EXPORT  LLSI5_IRQHandler          [WEAK]
                 EXPORT  SPI2_IRQHandler           [WEAK]
                 EXPORT  UART2_IRQHandler          [WEAK]
-                EXPORT  I3C0_IRQHandler           [WEAK]
-                EXPORT  I3C1_IRQHandler           [WEAK]
+                EXPORT  I3CS0_IRQHandler          [WEAK]
+                EXPORT  I3CS1_IRQHandler          [WEAK]
                 EXPORT  DAC_IRQHandler            [WEAK]
                 EXPORT  ACMP23_IRQHandler         [WEAK]
                 EXPORT  TS_IRQHandler             [WEAK]
                 EXPORT  SPDH_IRQHandler           [WEAK]
-                EXPORT	DEFAULT_IRQHandler        [WEAK]                                                
-                
+                EXPORT  DEFAULT_IRQHandler        [WEAK]
+
 BOD_IRQHandler
 WDT_IRQHandler
 EINT024_IRQHandler
@@ -256,8 +256,8 @@ LLSI4_IRQHandler
 LLSI5_IRQHandler
 SPI2_IRQHandler
 UART2_IRQHandler
-I3C0_IRQHandler
-I3C1_IRQHandler
+I3CS0_IRQHandler
+I3CS1_IRQHandler
 DAC_IRQHandler
 ACMP23_IRQHandler
 TS_IRQHandler

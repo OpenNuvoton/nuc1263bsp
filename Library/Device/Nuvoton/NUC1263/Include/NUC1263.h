@@ -84,8 +84,8 @@ typedef enum IRQn
     LLSI5_IRQn                = 37,       /*!< LLSI5 Interrupt                                      */
     SPI2_IRQn                 = 42,       /*!< SPI2 Interrupt                                       */
     UART2_IRQn                = 43,       /*!< UART2 Interrupt                                      */
-    I3C0_IRQn                 = 44,       /*!< I3C0 Interrupt                                       */
-    I3C1_IRQn                 = 45,       /*!< I3C1 Interrupt                                       */
+    I3CS0_IRQn                = 44,       /*!< I3CS0 Interrupt                                      */
+    I3CS1_IRQn                = 45,       /*!< I3CS1 Interrupt                                      */
     DAC_IRQn                  = 46,       /*!< DAC Interrupt                                        */
     ACMP23_IRQn               = 47,       /*!< ACMP23 Interrupt                                     */
     TS_IRQn                   = 48,       /*!< Temperature Sensor Interrupt                         */

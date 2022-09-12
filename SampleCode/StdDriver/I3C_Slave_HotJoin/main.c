@@ -249,11 +249,11 @@ void SYS_Init(void)
     /* Initialization for sample code                                                                          */
     /*---------------------------------------------------------------------------------------------------------*/    
     /* Enable peripheral clock */
-    CLK_EnableModuleClock(I3C0_MODULE);
+    CLK_EnableModuleClock(I3CS0_MODULE);
 
     /* Set multi-function pins for I3C0 pin */
-    SET_I3C0_SDA_PA0();
-    SET_I3C0_SCL_PA1();
+    SET_I3CS0_SDA_PA0();
+    SET_I3CS0_SCL_PA1();
 }
 
 void UART_Init(void)
@@ -286,20 +286,20 @@ int main(void)
 
     /* Init UART0 for printf */
     UART_Init();
-    
+
     printf("\n\nCPU @ %d Hz\n", SystemCoreClock);
     printf("+-----------------------------------------------+\n");
     printf("|    I3C0 Slave Hot-Join Request Sample Code    |\n");
     printf("+-----------------------------------------------+\n");
 #if (ADAPTIVE_HOT_JOIN == 1)
     printf("# Initiate a Hot-Join request when a 7'h7E header on the bus.\n\n");
-#else    
+#else
     printf("# Initiate a Hot-Join request immediately after I3C0 enabled.\n\n");
-#endif    
-        
+#endif
+
     /* Reset I3C0 module */
-    SYS_ResetModule(I3C0_RST);
-    
+    SYS_ResetModule(I3CS0_RST);
+
     /* Initial I3C0 default settings */
     I3C0->SLVMID = I3C0_MID;
     I3C0->SLVPID = I3C0_PID;
@@ -308,12 +308,12 @@ int main(void)
 #else
     I3C_Open(I3C0, I3C0_SA, I3C_SUPPORT_IMMEDIATE_HJ);
 #endif
-    
+
     /* Enable I3C0 interrupts */
     g_u32IntSelMask = (I3C_INTEN_RESPQ_READY | I3C_INTEN_CCC_UPDATED | I3C_INTEN_DA_ASSIGNED |
                         I3C_INTEN_TRANSFER_ERR | I3C_INTEN_READ_REQUEST);
     I3C_ENABLE_INT(I3C0, g_u32IntSelMask);
-    NVIC_EnableIRQ(I3C0_IRQn);
+    NVIC_EnableIRQ(I3CS0_IRQn);
 
     printf("# I3C0 Slave settings:\n");
     printf("    - SDA on PA.0\n");
