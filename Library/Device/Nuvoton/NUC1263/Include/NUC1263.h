@@ -106,7 +106,7 @@ typedef enum IRQn
 #define __Vendor_SysTickConfig  0       /*!< Set to 1 if different SysTick Config is used         */
 
 
-#include "core_cm0.h"                   /*!< Cortex-M0 processor and core peripherals             */
+#include "core_cm23.h"                   /*!< Cortex-M23 processor and core peripherals             */
 #include "system_NUC1263.h"             /*!< NUC1263 System                                       */
 
 
