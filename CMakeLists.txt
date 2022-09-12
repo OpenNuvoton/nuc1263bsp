@@ -32,7 +32,7 @@ set(CMAKE_ASM_FLAGS "--cpu Cortex-M23 -g --16 --apcs=interwork --pd \"__MICROLIB
 set(CMAKE_EXECUTABLE_SUFFIX ".axf")
 
 
-project(m2354bsp)
+project(nuc1263bsp)
 
 set(BSP_DIR  ${CMAKE_CURRENT_LIST_DIR})
 
@@ -46,17 +46,27 @@ add_subdirectory(${BSP_DIR}/Library/StdDriver/src)
 add_subdirectory(${BSP_DIR}/Library/Device/Nuvoton/nuc1263/Source)
 
 # Build sample code
+add_subdirectory(${BSP_DIR}/MyCode/DAC/dac)
+#add_subdirectory(${BSP_DIR}/MyCode/FMC/CRC32)
+#add_subdirectory(${BSP_DIR}/MyCode/ACMP/Basic)
+#add_subdirectory(${BSP_DIR}/MyCode/ACMP/Compare)
+#add_subdirectory(${BSP_DIR}/MyCode/ACMP/Calibration)
+#add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_Loopback_v2)
+#add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_GCMode_v2)
+#add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_LoopbackPDMA)
+#add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_LoopbackSimple)
+#add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_EEPROM)
 
-add_subdirectory(${BSP_DIR}/SampleCode/Hard_Fault_Sample)
-add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
+#add_subdirectory(${BSP_DIR}/SampleCode/Hard_Fault_Sample)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
 
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_EEPROM)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_GCMode)
-add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Loopback)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Loopback)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Loopback_10bit)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Master)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Master_PDMA)
-add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_MultiBytes_Master)
+#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_MultiBytes_Master)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_SingleByte_Master)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Slave)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_Slave_PDMA)
