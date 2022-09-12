@@ -54,7 +54,7 @@ void SYS_Init(void)
 
     /* Select HCLK clock source as PLL/2 and HCLK source divider as 1 */
     CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
-    CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_PLL_DIV2;
+    CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
 
     /* Update System Core Clock */
     SystemCoreClockUpdate();
@@ -69,12 +69,18 @@ void SYS_Init(void)
     /* Enable ADC module clock */
     CLK->APBCLK0 |= CLK_APBCLK0_ADCCKEN_Msk ;
 
-    /* Enable VBG gain buffer */
-    SYS->IVSCTL |= SYS_IVSCTL_VBGUGEN_Msk;
+    /* Enable BOD for temperature sensor */
+    SYS->BODCTL |= SYS_BODCTL_BODEN_Msk;
 
-    /* Select ADC module clock source as HIRC/2 and ADC module clock divider as 4 */
-    CLK->CLKSEL1 = (CLK->CLKSEL1 & (~CLK_CLKSEL1_ADCSEL_Msk)) | CLK_CLKSEL1_ADCSEL_HIRC_DIV2;
-    CLK->CLKDIV0  = (CLK->CLKDIV0 & (~CLK_CLKDIV0_ADCDIV_Msk)) | CLK_CLKDIV0_ADC(4);
+    /* Enable band-gap VBG unity gain buffer */
+    SYS->IVSCTL |= SYS_IVSCTL_VBGUGEN_Msk;
+    SYS->TSCTL |= SYS_TSCTL_TSBGEN_Msk | SYS_TSCTL_TSEN_Msk;
+    /*Note: After TSBGEN is set, users should wait 200us stable time to enable DACEN(DACx_CTL[0]) or VREFEN (SYS_VREFCTL[0]).*/
+    CLK_SysTickDelay(200);
+
+    /* Select ADC module clock source as PCLK0 and ADC module clock divider as 3 */
+    CLK->CLKSEL1 = (CLK->CLKSEL1 & (~CLK_CLKSEL1_ADCSEL_Msk)) | CLK_CLKSEL1_ADCSEL_PCLK0;
+    CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_ADCDIV_Msk)) | CLK_CLKDIV0_ADC(3);
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
@@ -116,11 +122,11 @@ void ADC_FunctionTest()
     printf("+----------------------------------------------------------------------+\n");
     printf("|                  ADC for Band-gap test                               |\n");
     printf("+----------------------------------------------------------------------+\n");
-    printf("|   ADC clock source -> HIRC/2 = 24 MHz                                |\n");
-    printf("|   ADC clock divider          = 4                                     |\n");
-    printf("|   ADC clock                  = 24 MHz / 4 = 6 MHz                    |\n");
-    printf("|   ADC conversion time = 12 + ADC internal sampling time(9) = 21      |\n");
-    printf("|   ADC conversion rate = 6 MHz / 20 = 300 ksps                        |\n");
+    printf("|   ADC clock source -> PCLK0 = 48 MHz                                 |\n");
+    printf("|   ADC clock divider          = 3                                     |\n");
+    printf("|   ADC clock                  = 48 MHz / 3 = 16 MHz                   |\n");
+    printf("|   ADC conversion time = 12 + ADC internal sampling time(8)= 20       |\n");
+    printf("|   ADC conversion rate = 16 MHz / 20 = 800 ksps                       |\n");
     printf("+----------------------------------------------------------------------+\n");
 
     /* Set the ADC operation mode as single, input mode as single-end and enable the ADC converter */

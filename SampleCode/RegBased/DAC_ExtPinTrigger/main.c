@@ -10,12 +10,14 @@
 #include "NuMicro.h"
 
 
-static const uint16_t g_au16Sine[] = {2047, 2251, 2453, 2651, 2844, 3028, 3202, 3365, 3515, 3650, 3769, 3871, 3954,
-                                      4019, 4064, 4088, 4095, 4076, 4040, 3984, 3908, 3813, 3701, 3573, 3429, 3272,
-                                      3102, 2921, 2732, 2536, 2335, 2132, 1927, 1724, 1523, 1328, 1141,  962,  794,
-                                      639,  497,  371,  262,  171,   99,   45,   12,    0,    7,   35,   84,  151,
-                                      238,  343,  465,  602,  754,  919, 1095, 1281, 1475, 1674, 1876
-                                     };
+static const uint16_t g_au16Sine[] = {127, 139, 152, 164, 176, 187, 198, 208,
+                                    217, 225, 233, 239, 244, 249, 252, 253,
+                                    254, 253, 252, 249, 244, 239, 233, 225,
+                                    217, 208, 198, 187, 176, 164, 152, 139,
+                                    127, 115, 102, 90, 78, 67, 56, 46,
+                                    37, 29, 21, 15, 10, 5, 2, 1,
+                                    0, 1, 2, 5, 10, 15, 21, 29,
+                                    37, 46, 56, 67, 78, 90, 102, 115};
 
 static const uint32_t g_u32ArraySize = sizeof(g_au16Sine) / sizeof(uint16_t);
 static uint32_t g_u32Index = 0;
@@ -94,7 +96,7 @@ void SYS_Init(void)
 
     /* Set PB multi-function pins for UART0 RXD and TXD */
     //SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_RXD_PB12_Msk | UART0_TXD_PB13_Msk))) | UART0_RXD_PB12 | UART0_TXD_PB13;
-    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_TXD_PB13_Msk))) | UART0_TXD_PB13;;//UART0_RXD_PB12 pin conflicts with DAC0_OUT pin
+    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_TXD_PB13_Msk))) | UART0_TXD_PB13;//UART0_RXD_PB12 pin conflicts with DAC0_OUT pin
 
     /* Set multi-function pin for DAC voltage output */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & ~SYS_GPB_MFPH_PB12MFP_Msk) | DAC0_OUT_PB12;
