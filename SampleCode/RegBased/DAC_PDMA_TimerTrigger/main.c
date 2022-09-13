@@ -15,15 +15,17 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /* Define global variables and constants                                                                   */
 /*---------------------------------------------------------------------------------------------------------*/
-const uint16_t sine[] = {2047, 2251, 2453, 2651, 2844, 3028, 3202, 3365, 3515, 3650, 3769, 3871, 3954,
-                         4019, 4064, 4088, 4095, 4076, 4040, 3984, 3908, 3813, 3701, 3573, 3429, 3272,
-                         3102, 2921, 2732, 2536, 2335, 2132, 1927, 1724, 1523, 1328, 1141,  962,  794,
-                         639,  497,  371,  262,  171,   99,   45,   12,    0,    7,   35,   84,  151,
-                         238,  343,  465,  602,  754,  919, 1095, 1281, 1475, 1674, 1876
-                        };
+const uint16_t g_au16Sine[] = {127, 139, 152, 164, 176, 187, 198, 208,
+                                217, 225, 233, 239, 244, 249, 252, 253,
+                                254, 253, 252, 249, 244, 239, 233, 225,
+                                217, 208, 198, 187, 176, 164, 152, 139,
+                                127, 115, 102, 90, 78, 67, 56, 46,
+                                37, 29, 21, 15, 10, 5, 2, 1,
+                                0, 1, 2, 5, 10, 15, 21, 29,
+                                37, 46, 56, 67, 78, 90, 102, 115};
 
-static uint32_t index = 0;
-const uint32_t array_size = sizeof(sine) / sizeof(uint16_t);
+static uint32_t g_u32Index = 0;
+const uint32_t g_u32ArraySize = sizeof(g_au16Sine) / sizeof(uint16_t);
 
 /*---------------------------------------------------------------------------------------------------------*/
 /* Define functions prototype                                                                              */
@@ -92,10 +94,13 @@ void SYS_Init(void)
 
     /* Set PB multi-function pins for UART0 RXD and TXD */
     //SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_RXD_PB12_Msk | UART0_TXD_PB13_Msk))) | UART0_RXD_PB12 | UART0_TXD_PB13;
-    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_TXD_PB13_Msk))) | UART0_TXD_PB13;;//UART0_RXD_PB12 pin conflicts with DAC0_OUT pin
+    SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_TXD_PB13_Msk))) | UART0_TXD_PB13;//UART0_RXD_PB12 pin conflicts with DAC0_OUT pin
 
     /* Set multi-function pin for DAC voltage output */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & ~SYS_GPB_MFPH_PB12MFP_Msk) | DAC0_OUT_PB12;
+
+    /* Disable digital input path of analog pin DAC0_OUT to prevent leakage */
+    GPIO_DISABLE_DIGITAL_PATH(PB, (1ul << 12));
 
 }
 
@@ -119,8 +124,8 @@ void TIMER0_Init()
     /* Init TIMER0                                                                                             */
     /*---------------------------------------------------------------------------------------------------------*/
 
-    /* Set timer0 periodic time-out period is 10us if timer clock is 12 MHz */
-    TIMER0->CMP = 120;
+    /* Set timer0 periodic time-out period is 1000us if timer clock is 24 MHz */
+    TIMER0->CMP = 24000;
 
     /* Start timer counter in periodic mode and enable timer interrupt trigger DAC */
     TIMER0->CTL = TIMER_PERIODIC_MODE | TIMER_CTL_TRGDAC_Msk;
@@ -145,7 +150,7 @@ void DAC_FunctionTest(void)
     /* CH0 source request from DAC */
     PDMA->REQSEL0_3 = PDMA_DAC0_TX; //CH0_SEl=DAC
 
-    PDMA->DSCT[0].CTL=((array_size)<<16)//Transfer Count
+    PDMA->DSCT[0].CTL=((g_u32ArraySize)<<16)//Transfer Count
                        |(0x1<<12)//Transfer Width Selection(01=>16bit)
                        |(0x3<<10)//Destination Address Increment(11=>No increment (fixed address))
                        |(0x0<<8)//Source Address Increment(00=>Increment)
@@ -155,7 +160,7 @@ void DAC_FunctionTest(void)
                        |(0x1<<0);//PDMA Operation Mode Selection(01=>Basic Mode)
 
     /* Set source address */
-    PDMA->DSCT[0].SA=(uint32_t)&sine[index];
+    PDMA->DSCT[0].SA=(uint32_t)&g_au16Sine[g_u32Index];
 
     /* Set destination address */
     PDMA->DSCT[0].DA=(uint32_t)&DAC0->DAT;
@@ -166,12 +171,12 @@ void DAC_FunctionTest(void)
     /* Set the timer 0 trigger,enable DAC even trigger mode and enable D/A converter */
     DAC0->CTL = DAC_TIMER0_TRIGGER | DAC_CTL_TRGEN_Msk | DAC_CTL_DMAEN_Msk | DAC_CTL_DACEN_Msk;
 
-    /* When DAC controller APB clock speed is 72MHz and DAC conversion settling time is 8us,
-       the selected SETTLET value must be greater than 0x241.  */
-    DAC0->TCTL = 0x250;
+    /* When DAC controller APB clock speed is 72MHz and DAC conversion settling time is 1us,
+       the selected SETTLET value must be greater than 0x48.  */
+    DAC0->TCTL = 0x48;
 
     /* Set DAC 12-bit holding data */
-    DAC0->DAT = sine[index];
+    DAC0->DAT = g_au16Sine[g_u32Index];
 
     /* Clear the DAC conversion complete finish flag for safe */
     DAC0->STATUS = DAC_STATUS_FINISH_Msk;
@@ -192,7 +197,7 @@ void DAC_FunctionTest(void)
 
             /* Re-Set transfer count and basic operation mode */
             PDMA->DSCT[0].CTL &= ~(PDMA_DSCT_CTL_TXCNT_Msk | PDMA_DSCT_CTL_OPMODE_Msk);
-            PDMA->DSCT[0].CTL |= (PDMA_OP_BASIC | ((array_size - 1) << PDMA_DSCT_CTL_TXCNT_Pos));
+            PDMA->DSCT[0].CTL |= (PDMA_OP_BASIC | ((g_u32ArraySize - 1) << PDMA_DSCT_CTL_TXCNT_Pos));
         }
     }
 
