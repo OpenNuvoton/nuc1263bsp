@@ -150,7 +150,7 @@ extern void SystemInit(void);
 #include "wdt_reg.h"
 #include "wwdt_reg.h"
 #include "crc_reg.h"
-#include "i3c_reg.h"
+#include "i3cs_reg.h"
 
 
 /******************************************************************************/
@@ -235,8 +235,8 @@ extern void SystemInit(void);
 #define DAC2_BASE            (APB1_BASE     + 0xF0080UL)                 /*!< DAC2 Base Address                                */
 #define DAC3_BASE            (APB1_BASE     + 0xF00C0UL)                 /*!< DAC3 Base Address                                */
 
-#define I3C0_BASE           (APB1_BASE      + 0x70000)                   /*!< I3C0 Base Address                               */
-#define I3C1_BASE           (APB2_BASE      + 0x70000)                   /*!< I3C1 Base Address                               */
+#define I3CS0_BASE       	(APB1_BASE      + 0x70000)                   /*!< I3CS0 Base Address                               */
+#define I3CS1_BASE       	(APB2_BASE      + 0x70000)                   /*!< I3CS1 Base Address                               */
 
 /**@}*/ /* PERIPHERAL_BASE */
 
@@ -312,8 +312,8 @@ extern void SystemInit(void);
 #define DAC2                ((DAC_T *) DAC2_BASE)                       /*!< DAC2 Configuration Struct                         */
 #define DAC3                ((DAC_T *) DAC3_BASE)                       /*!< DAC3 Configuration Struct                         */
 
-#define I3C0                ((I3C_T *) I3C0_BASE)                       /*!< I3C0 Configuration Struct                         */
-#define I3C1                ((I3C_T *) I3C1_BASE)                       /*!< I3C1 Configuration Struct                         */
+#define I3CS0           	((I3CS_T *) I3CS0_BASE)                 	/*!< I3CS0 Configuration Struct                        */
+#define I3CS1             	((I3CS_T *) I3CS1_BASE)                  	/*!< I3CS1 Configuration Struct                        */
 
 /**@}*/ /* end of group PMODULE */
 
@@ -420,5 +420,5 @@ typedef volatile unsigned short vu16;
 #include "llsi.h"
 #include "dac.h"
 #include "acmp.h"
-#include "i3c.h"
+#include "i3cs.h"
 #endif

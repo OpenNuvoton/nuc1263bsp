@@ -92,10 +92,10 @@ extern "C"
 #define PDMA_SPI1_TX        18UL           /*!<DMA Connect to SPI1 TX  \hideinitializer */
 #define PDMA_SPI1_RX        19UL           /*!<DMA Connect to SPI1 RX  \hideinitializer */
 #define PDMA_ADC_RX         20UL           /*!<DMA Connect to ADC RX  \hideinitializer */
-#define PDMA_I3C0_TX        22UL           /*!<DMA Connect to I3C0 TX  \hideinitializer */
-#define PDMA_I3C0_RX        23UL           /*!<DMA Connect to I3C0 RX  \hideinitializer */
-#define PDMA_I3C1_TX        24UL           /*!<DMA Connect to I3C1 TX  \hideinitializer */
-#define PDMA_I3C1_RX        25UL           /*!<DMA Connect to I3C1 RX  \hideinitializer */
+#define PDMA_I3CS0_TX       22UL           /*!<DMA Connect to I3C0 TX  \hideinitializer */
+#define PDMA_I3CS0_RX       23UL           /*!<DMA Connect to I3C0 RX  \hideinitializer */
+#define PDMA_I3CS1_TX       24UL           /*!<DMA Connect to I3C1 TX  \hideinitializer */
+#define PDMA_I3CS1_RX       25UL           /*!<DMA Connect to I3C1 RX  \hideinitializer */
 #define PDMA_I2C0_TX        28UL           /*!<DMA Connect to I2C0 TX  \hideinitializer */
 #define PDMA_I2C0_RX        29UL           /*!<DMA Connect to I2C0 RX  \hideinitializer */
 #define PDMA_I2C1_TX        30UL           /*!<DMA Connect to I2C1 TX  \hideinitializer */
