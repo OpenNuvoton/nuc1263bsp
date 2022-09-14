@@ -89,8 +89,8 @@ __vector_table
     DCD     Default_Handler             ; Reserved
     DCD     SPI2_IRQHandler             ; SPI2 interrupt
     DCD     UART2_IRQHandler            ; UART2 interrupt
-    DCD     I3C0_IRQHandler             ; I3C0 interrupt
-    DCD     I3C1_IRQHandler             ; I3C1 interrupt
+    DCD     I3CS0_IRQHandler             ; I3C0 interrupt
+    DCD     I3CS1_IRQHandler             ; I3C1 interrupt
     DCD     DAC_IRQHandler              ; DAC interrupt
     DCD     ACMP23_IRQHandler           ; ACMP23 interrupt
     DCD     TS_IRQHandler               ; TS interrupt

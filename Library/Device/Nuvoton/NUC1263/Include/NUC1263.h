@@ -421,4 +421,5 @@ typedef volatile unsigned short vu16;
 #include "dac.h"
 #include "acmp.h"
 #include "i3cs.h"
+#include "ts.h"
 #endif
