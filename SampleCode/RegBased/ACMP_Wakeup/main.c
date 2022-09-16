@@ -48,8 +48,8 @@ int32_t main(void)
 
     /* Select VDDA as CRV source */
     ACMP_SELECT_CRV0_SRC(ACMP01, ACMP_VREF_CRV0SSEL_VDDA);
-    /* Select CRV level: VDDA * 9 / 24 */
-    ACMP_CRV0_SEL(ACMP01, 5);
+    /* Select CRV level: VDDA * 31 / 63 */
+    ACMP_CRV0_SEL(ACMP01, 31);
     /* Select CRV as the source of ACMP negative input */
     ACMP_SET_NEG_SRC(ACMP01, 0, ACMP_CTL_NEGSEL_CRV);
     /* Enable ACMP0 */
@@ -121,6 +121,8 @@ void SYS_Init(void)
 
     /* Enable UART0 module clock */
     CLK->APBCLK0 |= CLK_APBCLK0_UART0CKEN_Msk;
+    /* Enable ACMP module clock */
+    CLK->APBCLK0 |= CLK_APBCLK0_ACMP01CKEN_Msk;
 
     /* Select UART0 module clock source as HIRC/2 and UART0 module clock divider as 1 */
     CLK->CLKSEL1 = (CLK->CLKSEL1 & (~CLK_CLKSEL1_UART0SEL_Msk)) | CLK_CLKSEL1_UART0SEL_HIRC_DIV2;
@@ -131,6 +133,8 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Set multi-function pin for ACMP0 positive input pin */
     SET_ACMP0_P0_PB2();
+    /* Set PB2 as input */
+    PB->MODE = (PB->MODE & (~GPIO_MODE_MODE2_Msk)) | (GPIO_MODE_INPUT << 2 * 2);
 
     /* Set multi-function pin for ACMP0 output pin */
     SET_ACMP0_O_PB7();
