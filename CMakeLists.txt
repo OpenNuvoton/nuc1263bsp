@@ -46,7 +46,7 @@ add_subdirectory(${BSP_DIR}/Library/StdDriver/src)
 add_subdirectory(${BSP_DIR}/Library/Device/Nuvoton/nuc1263/Source)
 
 # Build sample code
-add_subdirectory(${BSP_DIR}/MyCode/DAC/dac)
+#add_subdirectory(${BSP_DIR}/MyCode/DAC/dac)
 #add_subdirectory(${BSP_DIR}/MyCode/FMC/CRC32)
 #add_subdirectory(${BSP_DIR}/MyCode/ACMP/Basic)
 #add_subdirectory(${BSP_DIR}/MyCode/ACMP/Compare)
@@ -58,7 +58,7 @@ add_subdirectory(${BSP_DIR}/MyCode/DAC/dac)
 #add_subdirectory(${BSP_DIR}/MyCode/I2C/I2C_EEPROM)
 
 #add_subdirectory(${BSP_DIR}/SampleCode/Hard_Fault_Sample)
-#add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_WindowCompare)
+add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/ACMP_Wakeup)
 
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_EEPROM)
 #add_subdirectory(${BSP_DIR}/SampleCode/StdDriver/I2C_GCMode)
@@ -84,6 +84,8 @@ add_subdirectory(${BSP_DIR}/MyCode/DAC/dac)
 #add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Slave_PDMA)
 #add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_SMBUS)
 #add_subdirectory(${BSP_DIR}/SampleCode/RegBased/I2C_Wakeup_Slave)
+add_subdirectory(${BSP_DIR}/SampleCode/RegBased/ACMP)
+add_subdirectory(${BSP_DIR}/SampleCode/RegBased/ACMP_Wakeup)
 
 
 
