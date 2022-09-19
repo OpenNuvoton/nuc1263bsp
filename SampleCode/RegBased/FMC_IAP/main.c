@@ -273,6 +273,10 @@ int32_t main(void)
         /* Erase LDROM, program LD sample code to LDROM, and verify LD sample code */
         FMC_LDROM_Test();
     }
+    else
+    {
+        goto lexit;
+    }
 
     /* Seek funciton table */
     for(u32Addr = FMC_LDROM_BASE + g_u32ImageSize - 4; u32Addr >= FMC_LDROM_BASE; u32Addr -= 4)
