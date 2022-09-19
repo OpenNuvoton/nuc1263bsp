@@ -82,6 +82,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Library/Library/wwdt.c|Library/Library/wdt.c|Library/Library/usbd.c|Library/Library/uart.c|Library/Library/timer.c|Library/Library/sys.c|Library/Library/spi.c|Library/Library/pdma.c|Library/Library/i2c.c|Library/Library/gpio.c|Library/Library/fmc.c|Library/Library/crc.c|Library/Library/clk.c|Library/Library/adc.c|Library/Library/acmp.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
