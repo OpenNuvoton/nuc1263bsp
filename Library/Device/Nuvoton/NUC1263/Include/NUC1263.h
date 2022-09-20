@@ -151,6 +151,7 @@ extern void SystemInit(void);
 #include "wwdt_reg.h"
 #include "crc_reg.h"
 #include "i3cs_reg.h"
+#include "spdh_reg.h"
 
 
 /******************************************************************************/
@@ -238,6 +239,8 @@ extern void SystemInit(void);
 #define I3CS0_BASE       	(APB1_BASE      + 0x70000)                   /*!< I3CS0 Base Address                               */
 #define I3CS1_BASE       	(APB2_BASE      + 0x70000)                   /*!< I3CS1 Base Address                               */
 
+#define SPDH_BASE            (APB1_BASE      + 0x90000)                  /*!< SPDH Base Address                               */
+
 /**@}*/ /* PERIPHERAL_BASE */
 
 /******************************************************************************/
@@ -314,6 +317,8 @@ extern void SystemInit(void);
 
 #define I3CS0           	((I3CS_T *) I3CS0_BASE)                 	/*!< I3CS0 Configuration Struct                        */
 #define I3CS1             	((I3CS_T *) I3CS1_BASE)                  	/*!< I3CS1 Configuration Struct                        */
+
+#define SPDH                ((SPDH_T *) SPDH_BASE)                      /*!< SPDH Configuration Struct                         */
 
 /**@}*/ /* end of group PMODULE */
 
@@ -422,4 +427,5 @@ typedef volatile unsigned short vu16;
 #include "acmp.h"
 #include "i3cs.h"
 #include "ts.h"
+#include "spdh.h"
 #endif
