@@ -244,7 +244,7 @@ void I2C_PDMA_MasterRx(uint32_t u32Status)
         }
         else
         {
-            I2C_START(I2C0);
+            I2C_SET_CONTROL_REG(I2C0, I2C_CTL_STA_SI);
         }
     }
     else if(u32Status == 0x10)                    /* Repeat START has been transmitted and prepare SLA+R */
@@ -534,8 +534,8 @@ int32_t main(void)
 
     printf("\nConfigure I2C0 as a Master, I2C1 as a Slave.\n");
     printf("The I/O connection I2C0 to I2C1:\n");
-    printf("I2C0_SDA(PB.4), I2C0_SCL(PA.5)\n");
-    printf("I2C1_SDA(PA.6), I2C1_SCL(PA.7)\n\n");
+    printf("I2C0_SDA(PC.0), I2C0_SCL(PC.1)\n");
+    printf("I2C1_SDA(PC.4), I2C1_SCL(PC.5)\n\n");
 
     /* Init I2C0, I2C1 */
     I2C0_Init();

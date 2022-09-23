@@ -241,7 +241,7 @@ void I2C_PDMA_MasterRx(uint32_t u32Status)
         }
         else
         {
-            I2C_START(I2C0);
+            I2C_SET_CONTROL_REG(I2C0, I2C_CTL_STA_SI);
         }
     }
     else if(u32Status == 0x10)                    /* Repeat START has been transmitted and prepare SLA+R */
