@@ -4,7 +4,7 @@
  * @brief    NUC1263 Series Peripheral Access Layer Header File
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 
 /**
@@ -23,7 +23,7 @@
   *
   * <b>Copyright Notice</b>
   *
-  * Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+  * Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
   */
 
 #ifndef __NUC1263_H__
