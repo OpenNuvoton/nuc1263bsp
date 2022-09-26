@@ -51,7 +51,7 @@ int32_t main(void)
     printf("  NOTE: Connect with a I2S slave device.\n");
     printf("        This sample code will transmit a TX value 50000 times, and then change to the next TX value.\n");
     printf("        When TX value or the received value changes, the new TX value or the current TX value and the new received value will be printed.\n");
-    printf("  Press any key to start ...");
+    printf("  Press any key to start ...\n");
     getchar();
     printf("\n");
 
