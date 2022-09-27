@@ -7,10 +7,10 @@
 
   <Targets>
     <Target>
-      <TargetName>ISP_RS485</TargetName>
+      <TargetName>Semihost</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6120000::V6.12::.\ARMCLANG</pCCUsed>
+      <pCCUsed>6180000::V6.18::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>ISP_RS485</OutputName>
+          <OutputName>Semihost</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -329,8 +329,8 @@
             <uC99>0</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
+            <v6Lang>5</v6Lang>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -338,9 +338,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Include;..\..\..\..\Library\StdDriver\inc;..\..\..\..\Library\CMSIS\Include</IncludePath>
+              <IncludePath>..\..\..\Library\Device\Nuvoton\NUC1263\Include;..\..\..\Library\StdDriver\inc;..\..\..\Library\CMSIS\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,12 +387,12 @@
             <File>
               <FileName>startup_NUC1263.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.s</FilePath>
+              <FilePath>..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.s</FilePath>
             </File>
             <File>
               <FileName>system_NUC1263.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\system_NUC1263.c</FilePath>
+              <FilePath>..\..\..\Library\Device\Nuvoton\NUC1263\Source\system_NUC1263.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -404,30 +404,17 @@
               <FileType>1</FileType>
               <FilePath>..\main.c</FilePath>
             </File>
-            <File>
-              <FileName>FMC_USER.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\FMC_USER.c</FilePath>
-            </File>
-            <File>
-              <FileName>ISP_USER.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\ISP_USER.c</FilePath>
-            </File>
-            <File>
-              <FileName>targetdev.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\targetdev.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart_transfer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\uart_transfer.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Library</GroupName>
+          <Files>
+            <File>
+              <FileName>retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Library\StdDriver\src\retarget.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>
@@ -438,5 +425,14 @@
     <components/>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Template</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
