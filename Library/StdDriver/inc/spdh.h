@@ -37,10 +37,10 @@ extern "C"
  #define LSCL_INT_LSDA_EXT_PULLUP    2UL       /*!< LSCL Internal and LSDA External Pull-Up resistor  \hideinitializer */
  #define LSCL_INT_LSDA_INT_PULLUP    3UL       /*!< LSCL Internal and LSDA Internal Pull-Up resistor  \hideinitializer */
 
- #define PULLUP_500    0x00000000UL            /*!< Pull-up resistor 0.5K(500) ohm  \hideinitializer */
- #define PULLUP_1K     0x00000001UL            /*!< Pull-up resistor 1K ohm  \hideinitializer */
- #define PULLUP_2K     0x00000010UL            /*!< Pull-up resistor 2K ohm  \hideinitializer */
- #define PULLUP_4K     0x00000011UL            /*!< Pull-up resistor 4K ohm  \hideinitializer */
+ #define PULLUP_500    0UL            /*!< Pull-up resistor 0.5K(500) ohm  \hideinitializer */
+ #define PULLUP_1K     1UL            /*!< Pull-up resistor 1K ohm  \hideinitializer */
+ #define PULLUP_2K     2UL            /*!< Pull-up resistor 2K ohm  \hideinitializer */
+ #define PULLUP_4K     3UL            /*!< Pull-up resistor 4K ohm  \hideinitializer */
 
 
 /*@}*/ /* end of group SPDH_EXPORTED_CONSTANTS */

@@ -70,8 +70,11 @@ typedef union
 
 
 int8_t LocalDev_Init(uint8_t u8DevAddr);
+int8_t LocalDev_CheckInterfaceSel(void);
 int8_t LocalDev_UpdateInterfaceSel(uint8_t u8InfSel);
+int8_t LocalDev_CheckIBIReg(void);
 void LocalDev_SPDHIRQHandler(void);
+
 
 #ifdef __cplusplus
 }

@@ -18,7 +18,8 @@
 
 
 //MR0 ~ MR63
-volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
+//volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
+uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
     0x51, //MR0,  Device Type; Most Significant Byte
     0x18, //MR1,  Device Type; Least Significant Byte
     0x10,/*0x11,*/ //MR2,  Device Revision
@@ -442,8 +443,6 @@ __INLINE int8_t DevReg_ClearAllEvent(void)
  */
 __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
 {
-    uint32_t i;
-
     if (g_au8DevRegAttr[u8RegAddr] == DEV_REG_ATTR_RW)
     {
         //write value to MRn register

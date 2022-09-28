@@ -13,18 +13,18 @@
 #include "LocalDevFw.h"
 
 volatile RESP_QUEUE_T     g_DevRespQue[I3CS_DEVICE_RESP_QUEUE_CNT] __attribute__((aligned(4)));
-static volatile uint32_t  s_DevRxBuf[I3CS_DEVICE_RX_BUF_CNT];
+static uint32_t  s_DevRxBuf[I3CS_DEVICE_RX_BUF_CNT];
 
 uint32_t        g_u32DevRespIntCnt;
-static volatile uint8_t   s_u8DevMRn;
+static uint8_t   s_u8DevMRn;
 static volatile uint8_t   s_u8DevCMD;
-static volatile uint8_t   s_u8DevIdx;
+static uint8_t   s_u8DevIdx;
 
 volatile uint32_t g_u32DeviceChangedToI3CMode = 0;
 uint32_t          g_u32DevPecValue;
 
 extern volatile uint32_t g_u32FifoClr;
-extern volatile uint8_t  g_au8DevReg[64];
+extern uint8_t  g_au8DevReg[64];
 
 
 static int8_t _DevSendIBIReq(void);
@@ -156,8 +156,8 @@ static int32_t _ReadHandler2B(I3CS_T * i3cs)
                 {
                     WRNLOG("R2R:MRn+1 Overflow\n");
                     return (-1);
-                    i3cs->CMDQUE = 0x00020028;//1 byte data only + 1 byte PEC, response T = 0 at byte 1, and TID is 5;
-                    i3cs->TXRXDAT = g_au8DevReg[s_u8DevMRn];
+                    //i3cs->CMDQUE = 0x00020028;//1 byte data only + 1 byte PEC, response T = 0 at byte 1, and TID is 5;
+                    //i3cs->TXRXDAT = g_au8DevReg[s_u8DevMRn];
                 }
                 else
                 {
@@ -694,7 +694,7 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
 
 void LocalDev_SPDHIRQHandler(void)
 {
-    uint32_t u32SpdhSts, u32HubDevCtrlCfg, u32I3CAddr;
+    uint32_t u32SpdhSts, u32HubDevCtrlCfg;
 
     u32SpdhSts = SPDH_GET_INT_STATUS();
 

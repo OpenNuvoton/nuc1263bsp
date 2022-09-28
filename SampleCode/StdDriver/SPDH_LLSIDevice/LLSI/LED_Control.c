@@ -22,9 +22,9 @@ volatile uint8_t s_u8StopFlashLED = 1;
 
 uint8_t g_u8OneShot_Flag = 0;
 
-void * const Mode_Function[15] = {FUNC_Off, FUNC_Static, FUNC_Breathing, FUNC_Strobe, FUNC_Cycling,
-                                  FUNC_Random, FUNC_Music, FUNC_Wave, FUNC_Spring, FUNC_Off,
-                                  FUNC_Off, FUNC_Off, FUNC_Off, FUNC_Water, FUNC_Rainbow};
+void * const Mode_Function[15] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
+                                  (void *)FUNC_Random, (void *)FUNC_Music, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
+                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow};
 
 /* Initial Serial LED Data Array */
 #define cStrip1_LED 300
@@ -193,7 +193,7 @@ void Set_LED_Data(volatile struct LED_Setting_Tag* LED_Setting)
 
 void Clear_LED_Data(volatile struct LED_Setting_Tag* LED_Setting)
 {
-    uint32_t i, j;
+    uint32_t i;
 
     for(i = 0; i < LED_Setting->Array_Size; i++)
     {
@@ -239,7 +239,7 @@ void LLSI_WriteData(uint16_t u16ByteSel, uint8_t u8Data)
 
 void LLSI_WriteBlockData(uint16_t u16ByteLen, uint8_t *pu8Data)
 {
-    uint32_t u32Idx, u32Idx1, u32Idx2;
+    uint32_t u32Idx, u32Idx1;
     /* debug log */
     printf("[LLSI_WriteBlockData]%d\n", u16ByteLen);
     
@@ -280,9 +280,6 @@ void LLSI_WriteBlockData(uint16_t u16ByteLen, uint8_t *pu8Data)
 
 void LLSI_StartFlashLED(uint8_t u8LLSIEnable)
 {
-    uint32_t u32Count = 0;
-    uint32_t i;
-
     if (u8LLSIEnable)
     {
         printf("[LLSI_StartFlashLED] start\n");
@@ -314,9 +311,9 @@ void LLSI_StartFlashLED(uint8_t u8LLSIEnable)
 /* return s_u8StopFlashLED value. */
 uint8_t LLSI_FlashLEDRoutine(void)
 {
-    uint32_t u32Count = 0;
+#if 0
     uint32_t i;
-
+#endif
     if (s_u8StopFlashLED == 1)
     {
         /* Below code does not be executed to write LLSI data. */
@@ -531,6 +528,7 @@ void FUNC_Music(volatile struct LED_Setting_Tag* LED_Setting)
     uint8_t POP_Color[3] = {0};
     uint32_t Unit_Volume = HDIV_Div((LED_Setting->Main_Volume * LED_Setting->LEDNum), 100);
     uint8_t JAZZ_Display[LED_Setting->LEDNum][3];
+
     printf("\n\tFUNC_Music\n");
     /* Init Array */
     for(j = 0; j < LED_Setting->LEDNum; j++)

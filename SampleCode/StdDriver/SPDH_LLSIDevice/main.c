@@ -157,8 +157,6 @@ void UART0_Init()
 /*---------------------------------------------------------------------------------------------------------*/
 int32_t main(void)
 {
-    uint32_t u32TestSel;
-    int32_t i32Err, i32TimeOutCnt;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -177,10 +175,10 @@ int32_t main(void)
     /* Initialize LLSI controller */
     LLSI_Initial();
 
-    printf("+-------------------------------------------------+\n");
-    printf("|        SPD Hub with LLSI Firmware code          |\n");
-    printf("+-------------------------------------------------+\n\n");
-    printf("    - I2C Static Address 0x%02x\n", I3CS1_SA);
+    printf("+-----------------------------------------------------+\n");
+    printf("| The Local LLSI device firmware code behind SPD5 Hub |\n");
+    printf("+-----------------------------------------------------+\n\n");
+    printf("    - I2C Static Address 0x%x\n", I3CS1_SA);
     while(1)
     {
         if (g_DetectedPowerDown)
@@ -212,10 +210,6 @@ int32_t main(void)
 
 void SPDH_IRQHandler(void)
 {
-    uint8_t u8StaticAddr;
-//    printf("\nSPDH_IRQHandler: \n");
-//    printf("SPDH->INTSTS: 0x%08X\n", SPDH->INTSTS);
-    
     /* Call the interrupt handler in SpdhLib */
     Hub_SPDHIRQHandler();
     /* Call the interrupt handler in LocalDevFw.c */
