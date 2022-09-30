@@ -69,8 +69,7 @@ int32_t SYS_Init(void)
     SET_I2C1_SCL_PC5();
     
     /* I2C clock pin enable schmitt trigger */
-    // PC->SMTEN |= GPIO_SMTEN_SMTEN5_Msk;
-    PC->SMTEN |= GPIO_SMTEN_SMTEN4_Msk | GPIO_SMTEN_SMTEN5_Msk;
+    PC->SMTEN |= GPIO_SMTEN_SMTEN5_Msk;
 
     return 0;
 }

@@ -47,8 +47,6 @@ int ParseCmd(unsigned char *buffer, uint8_t len)
     regcnf0 = *(uint32_t *)(response + 8);
     security = regcnf0 & 0x2;
 
-    printf("[%s][%d] lcmd: 0x%X.\n", __FUNCTION__, __LINE__, lcmd);
-    
     if(lcmd == CMD_SYNC_PACKNO)
     {
         g_packno = inpw(pSrc);
@@ -100,7 +98,7 @@ int ParseCmd(unsigned char *buffer, uint8_t len)
     }
     else if((lcmd == CMD_UPDATE_APROM) || (lcmd == CMD_ERASE_ALL))
     {
-        EraseAP(FMC_APROM_BASE, g_dataFlashAddr); // erase APROM
+        EraseAP(FMC_APROM_BASE, (g_apromSize < g_dataFlashAddr) ? g_apromSize : g_dataFlashAddr); // erase APROM // g_dataFlashAddr, g_apromSize
 
         if(lcmd == CMD_ERASE_ALL)
         {
@@ -186,7 +184,6 @@ int ParseCmd(unsigned char *buffer, uint8_t len)
         StartAddress += srclen;
         LastDataLen =  srclen;
     }
-    printf("[%s][%d] gcmd: 0x%X.\n", __FUNCTION__, __LINE__, gcmd);
 
 out:
     lcksum = Checksum(buffer, len);
