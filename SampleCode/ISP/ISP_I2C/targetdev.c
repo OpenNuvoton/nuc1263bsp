@@ -11,8 +11,8 @@
 
 uint32_t GetApromSize()
 {
-    //the smallest of APROM size is 2K
-    uint32_t size = 0x20000, data;
+    //the smallest of APROM size is 2K, Max 64K
+    uint32_t size = 0x800, data;
     int result;
 
     do
