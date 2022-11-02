@@ -9,11 +9,21 @@
 #ifndef __SPDH_REG_H__
 #define __SPDH_REG_H__
 
+ /******************************************************************************/
+ /*                Device Specific Peripheral registers structures             */
+ /******************************************************************************/
+
+ /** @addtogroup REGISTER Control Register
+
+   @{
+
+ */
+
 /*---------------------- SPDH Controller -------------------------*/
 /**
     @addtogroup SPD Hub Controller(SPDH)
     Memory Mapped Structure for SPDH Controller
-    @{ 
+    @{
 */
 
 typedef struct
@@ -38,7 +48,7 @@ typedef struct
 /**
     @addtogroup TIMER_CONST TIMER Bit Field Definition
     Constant Definitions for TIMER Controller
-    @{ 
+    @{
 */
 
 #define SPDH_CTL_HUBEN_Pos                (0)                                               /*!< SPDH_T::CTL: HUBEN Position           */
