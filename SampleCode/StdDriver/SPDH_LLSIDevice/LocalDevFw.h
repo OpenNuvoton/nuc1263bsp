@@ -21,11 +21,11 @@ extern "C"
 //#define DBGLOG printf
 #define DBGLOG(...)
 
-#define WRNLOG printf
-//#define WRNLOG(...)
+//#define WRNLOG printf
+#define WRNLOG(...)
 
-#define ERRLOG printf
-//#define ERRLOG(...)
+//#define ERRLOG printf
+#define ERRLOG(...)
 
 #define I3CS_CFG_CMD_QUEUE_EMPTY_THLD    (1UL)
 #define I3CS_CFG_RESP_QUEUE_FULL_THLD    (1UL)
