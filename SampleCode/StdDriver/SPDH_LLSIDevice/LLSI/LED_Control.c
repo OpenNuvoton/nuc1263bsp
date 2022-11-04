@@ -22,9 +22,9 @@ volatile uint8_t s_u8StopFlashLED = 1;
 
 uint8_t g_u8OneShot_Flag = 0;
 
-void * const Mode_Function[15] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
+void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
                                   (void *)FUNC_Random, (void *)FUNC_Music, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
-                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow};
+                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Off};
 
 /* Initial Serial LED Data Array */
 #define cStrip1_LED 300
@@ -34,7 +34,7 @@ __attribute__((aligned (4))) uint8_t Strip1LEDData[cStrip1_LED*3];
 __attribute__((aligned (4))) uint8_t au8RcvBuffer[cStrip1_LED*3];
 
 /* Initial Strip1 Setting */
-__attribute__((aligned (4))) volatile LED_Setting_T Strip1_LEDSetting = {0, 0, cStrip1_LED, 1, 255, 0, 0, 0xFF, 0, Dir_Forward, Type_GRB,
+__attribute__((aligned (4))) volatile LED_Setting_T Strip1_LEDSetting = {0, 0, cStrip1_LED, 1, 255, 0, 0, 0xFF, 0x80, Dir_Forward, Type_GRB,
                                                                          1, 1, 0, FUNC_Static, Strip1LEDData, 0, 0, 0, Music_POP, 0, cStrip1_LED*3};
 
 volatile LED_Setting_T *PDMA_Mapping[1] = {&Strip1_LEDSetting};
@@ -80,7 +80,7 @@ void LLSI_Initial(void)
     /* Enable module clock */
     CLK_EnableModuleClock(PDMA_MODULE);
     CLK_EnableModuleClock(LLSI0_MODULE);
-
+    CLK_EnableModuleClock(TMR0_MODULE);
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -221,6 +221,11 @@ void TMR0_IRQHandler(void)
 
     /* Add LED mode counter */
     Strip1_LEDSetting.TimeCounter++;
+    
+    if((Strip1_LEDSetting.TimeCounter & 0x1F)==0)
+    {
+        Strip1_LEDSetting.LLSI_Trigger = 1;
+    }
 }
 
 void LLSI_WriteData(uint16_t u16ByteSel, uint8_t u8Data)
@@ -351,8 +356,8 @@ uint8_t LLSI_FlashLEDRoutine(void)
         else
         {
             printf("\n\t[LLSI_FlashLEDRoutine] g_u8Strip1_Flash_OneShot:%d, g_u8OneShot_Flag:%d\n", g_u8Strip1_Flash_OneShot, g_u8OneShot_Flag);
-            //if(g_u8Strip1_Flash_OneShot && g_u8OneShot_Flag == 1)
-            if(g_u8Strip1_Flash_OneShot)
+            if(g_u8Strip1_Flash_OneShot && g_u8OneShot_Flag == 1)
+            //if(g_u8Strip1_Flash_OneShot)
             {
                 /* Clear done flag */
                 Strip1_LEDSetting.fPDMA_Done = 0;
@@ -368,15 +373,32 @@ uint8_t LLSI_FlashLEDRoutine(void)
                 {
                     *(Strip1_LEDSetting.LED_Data + i) = 0x0;
                 }
-
+            #endif
                 /* Strip 1 LED data */
                 Strip1_LEDSetting.Mode_FUNC(&Strip1_LEDSetting);
 
                 /* Set LED data */
                 Set_LED_Data(&Strip1_LEDSetting);
-            #endif
+
 
                 printf("[LLSI_FlashLEDRoutine] stop(L:%d)\n", __LINE__);
+                return s_u8StopFlashLED;
+            }else
+            {
+                if(Strip1_LEDSetting.LLSI_Trigger)
+                {
+                    /* Clear done flag */
+                    Strip1_LEDSetting.fPDMA_Done = 0;
+                    Strip1_LEDSetting.LLSI_Trigger = 0;
+
+                    /* Strip 1 LED data */
+                    Strip1_LEDSetting.Mode_FUNC(&Strip1_LEDSetting);
+
+                    /* Set LED data */
+                    Set_LED_Data(&Strip1_LEDSetting);
+                    printf("[LLSI_FlashLEDRoutine] stop(L:%d)\n", __LINE__);                    
+                }
+
                 return s_u8StopFlashLED;
             }
         }

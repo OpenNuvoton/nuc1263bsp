@@ -46,7 +46,7 @@ enum eColorTable
 
 struct LED_Setting_Tag;
 typedef void (*LED_FUNC)(volatile struct LED_Setting_Tag* LED_Setting);
-extern void * const Mode_Function[15];
+extern void * const Mode_Function[16];
 
 typedef struct LED_Setting_Tag
 {
@@ -72,6 +72,7 @@ typedef struct LED_Setting_Tag
     uint8_t   Music_Action;		// Music_POP
     uint8_t   LLSI_Num;
     uint32_t  Array_Size;
+    uint8_t   LLSI_Trigger;
 } LED_Setting_T;
 
 #define cStrip1_LED 300

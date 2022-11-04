@@ -694,14 +694,14 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
 
 void LocalDev_SPDHIRQHandler(void)
 {
-    uint32_t u32SpdhSts, u32HubDevCtrlCfg;
+    uint32_t u32SpdhSts, u32HubDevCtrlCfg, u32StartOffset, u32LLSISycFuncCtrl;
 
     u32SpdhSts = SPDH_GET_INT_STATUS();
 
     if(u32SpdhSts & SPDH_INTSTS_DDEVCTLIF_Msk)
     {
         DBGLOG("SPDH_IRQ: Device Received DEVCTRL CCC\n");
-        u32HubDevCtrlCfg = SPDH_GET_HUB_STATUS();
+        u32HubDevCtrlCfg = SPDH_GET_DEV_STATUS();
         if (u32HubDevCtrlCfg & SPDH_DSTS_PECSTS_Msk)
         {
             DBGLOG("Device DEVCTRL: PEC enabled.\n");
@@ -709,7 +709,6 @@ void LocalDev_SPDHIRQHandler(void)
             SPDH_ENABLE_DEV_CRC();
             /* Update MR18 register. */
             DevReg_PECEnable();
-           //printf("Enable PEC function in Hub's device\n");
         }
         else
         {
@@ -736,6 +735,44 @@ void LocalDev_SPDHIRQHandler(void)
             DBGLOG("Device DEVCTRL:  Clear All Event and pending IBI.\n");
             DevReg_ClearAllEvent();
         }
+
+        /* Check if byte 2 data for synchronous function is enabled. */
+        /* if RegMod is 0 */
+        if ((SPDH->HDEVCTRL0&BIT0) == 0)
+        {
+            /* Check StartOffset value */
+            u32StartOffset = (SPDH->HDEVCTRL0&0x18)>>SPDH_HDEVCTRL0_STAOFSET_Pos;
+            if (u32StartOffset < 3)
+            {
+                if (u32StartOffset == 0)
+                {
+                    u32LLSISycFuncCtrl = _GET_BYTE2(SPDH->HDEVCTRL1);
+                }
+                else if (u32StartOffset == 1)
+                {
+                    u32LLSISycFuncCtrl = _GET_BYTE1(SPDH->HDEVCTRL1);
+                }
+                else if (u32StartOffset == 2)
+                {
+                    u32LLSISycFuncCtrl = _GET_BYTE0(SPDH->HDEVCTRL1);
+                }
+                /* Check if byte 2 data for synchronous function is enabled. */
+                if (u32LLSISycFuncCtrl&BIT0)
+                {
+                    if (u32LLSISycFuncCtrl&BIT1)
+                    {
+                        /* Synchronous start to flash LED. */
+                        DevReg_WriteReg(36, 1);
+                    }
+                    else
+                    {
+                        /* Synchronous stop to flash LED. */
+                        DevReg_WriteReg(36, 0);
+                    }
+                }
+            }
+        }
+        
         SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DDEVCTLIF_Msk);
     }
     if(u32SpdhSts & SPDH_INTSTS_DDEVCAPIF_Msk)
@@ -796,8 +833,8 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
 
 	I3CS1->QUETHCTL  = ((I3CS_CFG_CMD_QUEUE_EMPTY_THLD-1) | ((I3CS_CFG_RESP_QUEUE_FULL_THLD-1)<<8));
 
-    /* Enable Hub INT Status */
-    SPDH_ENABLE_INT(0x6FF); //Hub received DEVCAP and DEVCTRL CCC, and IBI header
+    /* Enable Hub INT Status for local device */
+    SPDH_ENABLE_INT(0x4D5);
 
     /* Enable I3CS1 INT Status */
     I3CS1->INTSTSEN = 0xFFFFFFFF;//All event was enabled

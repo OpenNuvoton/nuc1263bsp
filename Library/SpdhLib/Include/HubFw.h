@@ -17,12 +17,12 @@ extern "C"
 #endif
 
 //#define DBGLOG printf
-#define DBGLOG(...)
+//#define DBGLOG(...)
 
-#define WRNLOG printf
+//#define WRNLOG printf
 //#define WRNLOG(...)
 
-#define ERRLOG printf
+//#define ERRLOG printf
 //#define ERRLOG(...)
 
 #define ADC_HSA_VALUE_HID0 620
