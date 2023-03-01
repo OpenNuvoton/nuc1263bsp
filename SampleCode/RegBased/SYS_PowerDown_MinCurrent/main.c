@@ -1,10 +1,10 @@
 /**************************************************************************//**
  * @file     main.c
  * @version  V3.00
- * @brief     Demonstrate how to minimize power consumption when entering power down mode.
+ * @brief    Demonstrate how to minimize power consumption when entering power down mode.
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "stdio.h"
 #include "NuMicro.h"
@@ -34,7 +34,7 @@
 //      <0=> Disable
 //      <1=> Enable
 */
-#define SET_LIRC       0
+#define SET_LIRC      0
 
 /*
 // <o0> LXT
@@ -42,7 +42,6 @@
 //      <1=> Enable
 */
 #define SET_LXT       0
-
 
 
 void PowerDownFunction(void);
@@ -91,9 +90,9 @@ void GPAB_IRQHandler(void)
     uint32_t u32PBINTSRC;
 
     /* To check if PB.3 interrupt occurred */
-    if(PB->INTSRC & BIT3)
+    if(GPIO_GET_INT_FLAG(PB, BIT3))
     {
-        PB->INTSRC = BIT3;
+        GPIO_CLR_INT_FLAG(PB, BIT3);
         printf("PB.3 INT occurred.\n");
     }
     else
@@ -109,11 +108,15 @@ void LvrSetting(void)
 {
     if(SET_LVR == 0)
     {
+        /* Disable LVR */
         SYS_DISABLE_LVR();
+        CLK_SysTickDelay(200);
     }
     else
     {
+        /* Enable LVR */
         SYS_ENABLE_LVR();
+        CLK_SysTickDelay(200);
     }
 }
 
@@ -121,10 +124,12 @@ void PorSetting(void)
 {
     if(SET_POR == 0)
     {
+        /* Disable POR */
         SYS_DISABLE_POR();
     }
     else
     {
+        /* Enable POR */
         SYS_ENABLE_POR();
     }
 }
@@ -135,6 +140,7 @@ int32_t LircSetting(void)
 
     if(SET_LIRC == 0)
     {
+        /* Disable LIRC and wait for LIRC stable flag is cleared */
         CLK->PWRCTL &= ~CLK_PWRCTL_LIRCEN_Msk;
         u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
         while( CLK->STATUS & CLK_STATUS_LIRCSTB_Msk )
@@ -148,8 +154,10 @@ int32_t LircSetting(void)
     }
     else
     {
+        /* Enable LIRC and wait for LIRC stable flag is set */
         CLK->PWRCTL |= CLK_PWRCTL_LIRCEN_Msk;
-        while( (CLK->STATUS & CLK_STATUS_LIRCSTB_Msk) == 0)
+        u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
+        while( (CLK->STATUS & CLK_STATUS_LIRCSTB_Msk) == 0 )
         {
             if(--u32TimeOutCnt == 0)
             {
@@ -168,6 +176,7 @@ int32_t LxtSetting(void)
 
     if(SET_LXT == 0)
     {
+        /* Disable LXT and wait for LXT stable flag is cleared */
         CLK->PWRCTL &= ~CLK_PWRCTL_LXTEN_Msk;
         u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
         while( CLK->STATUS & CLK_STATUS_LXTSTB_Msk )
@@ -181,7 +190,9 @@ int32_t LxtSetting(void)
     }
     else
     {
+        /* Enable LXT and wait for LXT stable flag is set */
         CLK->PWRCTL |= CLK_PWRCTL_LXTEN_Msk;
+        u32TimeOutCnt = SystemCoreClock; /* 1 second time-out */
         while( (CLK->STATUS & CLK_STATUS_LXTSTB_Msk) == 0 )
         {
             if(--u32TimeOutCnt == 0)
@@ -243,7 +254,7 @@ void SYS_Init(void)
 
 }
 
-void UART0_Init()
+void UART0_Init(void)
 {
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init UART                                                                                               */
@@ -286,15 +297,21 @@ int32_t main(void)
     printf("|  3. Disable LVR                                                   |\n");
     printf("|  4. Disable analog function, e.g. POR module                      |\n");
     printf("|  5. Disable unused clock, e.g. LIRC                               |\n");
-    printf("|  7. Enter to Power-Down                                           |\n");
-    printf("|  8. Wait for PB.3 falling-edge interrupt event to wake-up the MCU |\n");
+    printf("|  6. Enter to Power-Down                                           |\n");
+    printf("|  7. Wait for PB.3 falling-edge interrupt event to wake-up the MCU |\n");
     printf("+-------------------------------------------------------------------+\n\n");
+
+    /*
+        To measure Power-down current:
+        On NuMaker-NUC1263SD V1.0 board, remove components, e.g. Nu-Link2-Me, R6 and R7.
+        Remove R16 and then user can measure target chip power consumption by AMMETER connector.
+    */
 
     /* Set function pin to GPIO mode except UART pin to print message */
     SYS->GPA_MFPL = 0;
     SYS->GPA_MFPH = 0;
     SYS->GPB_MFPL = 0;
-    SYS->GPB_MFPH = (UART0_RXD_PB12 | UART0_TXD_PB13);
+    SYS->GPB_MFPH = UART0_TXD_PB13;
     SYS->GPC_MFPL = 0;
     SYS->GPC_MFPH = 0;
     SYS->GPD_MFPL = 0;
@@ -308,7 +325,7 @@ int32_t main(void)
     PD->MODE = 0xFFFFFFFF;
     PF->MODE = 0xFFFFFFFF;
 
-    /* Unlock protected registers for Power-down and wake-up setting */
+    /* Unlock protected registers for Power-down setting */
     SYS_UnlockReg();
 
     /* LVR setting */
@@ -323,7 +340,8 @@ int32_t main(void)
     /* LXT setting */
     if( LxtSetting() < 0 ) goto lexit;
 
-   /* Configure PB.3 as Quasi mode and enable interrupt by falling edge trigger */
+    /* Wake-up source configuration */
+    /* Configure PB.3 as Quasi mode and enable interrupt by falling edge trigger */
     PB->MODE = (PB->MODE & (~GPIO_MODE_MODE3_Msk)) | (GPIO_MODE_QUASI << GPIO_MODE_MODE3_Pos);
     PB->INTTYPE |= (GPIO_INTTYPE_EDGE << GPIO_INTTYPE_TYPE3_Pos);
     PB->INTEN |= GPIO_INTEN_FLIEN3_Msk;
