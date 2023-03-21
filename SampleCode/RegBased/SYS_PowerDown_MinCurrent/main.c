@@ -303,7 +303,7 @@ int32_t main(void)
 
     /*
         To measure Power-down current:
-        On NuMaker-NUC1263SD V1.0 board, remove components, e.g. Nu-Link2-Me, R6 and R7.
+        On NuMaker-NUC1263SD V1.0 board, remove components, e.g. Nu-Link2-Me and R7.
         Remove R16 and then user can measure target chip power consumption by AMMETER connector.
     */
 
@@ -318,7 +318,7 @@ int32_t main(void)
     SYS->GPD_MFPH = 0;
     SYS->GPF_MFPL = 0;
 
-    /* Configure all GPIO as Quasi-bidirectional Mode */
+    /* Configure all GPIO as Quasi-bidirectional Mode. They are default output high. */
     PA->MODE = 0xFFFFFFFF;
     PB->MODE = 0xFFFFFFFF;
     PC->MODE = 0xFFFFFFFF;
