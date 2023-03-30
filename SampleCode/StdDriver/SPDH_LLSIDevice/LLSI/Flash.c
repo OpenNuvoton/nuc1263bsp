@@ -14,7 +14,7 @@
 
 volatile uint8_t g_u8Strip1_Flash_OneShot = 0;
 
-void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint16_t PCNTSEL, uint8_t Color_R, uint8_t Color_G, uint8_t Color_B)
+void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint16_t PCNTSEL, uint8_t Color_R, uint8_t Color_G, uint8_t Color_B, uint8_t u8Speed)
 {
     Strip1_LEDSetting.AP_Sync = MODESEL;
     Strip1_LEDSetting.LEDNum = PCNTSEL;
@@ -28,5 +28,6 @@ void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint1
     Strip1_LEDSetting.Color_B = Color_B;
 
     Strip1_LEDSetting.LightingMode = LEDFUNSEL;
+    Strip1_LEDSetting.Speed = u8Speed;
     Strip1_LEDSetting.Mode_FUNC = (LED_FUNC)Mode_Function[Strip1_LEDSetting.LightingMode];
 }

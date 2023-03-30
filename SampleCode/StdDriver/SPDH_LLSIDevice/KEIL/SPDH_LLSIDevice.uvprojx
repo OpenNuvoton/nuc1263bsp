@@ -477,11 +477,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Library\StdDriver\src\i3cs.c</FilePath>
             </File>
-            <File>
-              <FileName>SpdhLib.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\..\Library\SpdhLib\SpdhLib.lib</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

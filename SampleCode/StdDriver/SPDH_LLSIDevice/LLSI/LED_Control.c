@@ -23,7 +23,7 @@ volatile uint8_t s_u8StopFlashLED = 1;
 uint8_t g_u8OneShot_Flag = 0;
 
 void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
-                                  (void *)FUNC_Random, (void *)FUNC_Music, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
+                                  (void *)FUNC_Random, (void *)FUNC_Off, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
                                   (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Off};
 
 /* Initial Serial LED Data Array */
@@ -290,6 +290,7 @@ void LLSI_StartFlashLED(uint8_t u8LLSIEnable)
         printf("[LLSI_StartFlashLED] start\n");
         s_u8StopFlashLED = 0;
         
+        Strip1_LEDSetting.TimeCounter = 0;
         /* Set Timer configuration */
         TIMER0_Initial();
         TIMER_Start(TIMER0);
@@ -380,7 +381,7 @@ uint8_t LLSI_FlashLEDRoutine(void)
                 /* Set LED data */
                 Set_LED_Data(&Strip1_LEDSetting);
 
-
+                g_u8OneShot_Flag = 0;
                 printf("[LLSI_FlashLEDRoutine] stop(L:%d)\n", __LINE__);
                 return s_u8StopFlashLED;
             }else
@@ -413,6 +414,7 @@ void FUNC_Off(volatile struct LED_Setting_Tag* LED_Setting)
     printf("\n\tFUNC_Off\n");
     /* Mapping Color to LED Format */
     Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, 0, 0, 0);
+    g_u8OneShot_Flag = 1;
 }
 
 void FUNC_Static(volatile struct LED_Setting_Tag* LED_Setting)

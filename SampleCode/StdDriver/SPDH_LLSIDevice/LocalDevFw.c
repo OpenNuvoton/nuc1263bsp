@@ -565,15 +565,8 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
 
     u32IntSts = I3CS_GET_INTSTS(i3cs);
 
-    if((u32IntSts&(I3CS_INTSTS_RXTH_Msk|I3CS_INTSTS_RESPRDY_Msk)) == (I3CS_INTSTS_RXTH_Msk|I3CS_INTSTS_RESPRDY_Msk)) // auto cleared
-    {
-        //printf("INT RXTHLD and RESPRDY(Read)\n");
-        s_DevRxBuf[0] = I3CS_GET_RXD(i3cs);
-        if(I3CS_ProcessRespQueue(i3cs) >= 0)
-            g_u32DevRespIntCnt = 1; //g_RespINTFlag = 1;
-    }
     // I3CS_INTSTS_RESPRDY_Msk
-    else if(u32IntSts&I3CS_INTSTS_RESPRDY_Msk) // auto cleared
+    if(u32IntSts&I3CS_INTSTS_RESPRDY_Msk) // auto cleared
     {
         //prepare read data
         s_DevRxBuf[0] = I3CS_GET_RXD(i3cs);
@@ -806,7 +799,7 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
     /* Unlock protected registers */
     SYS_UnlockReg();
 
-    /* Enable I3C Hub clock. */
+    /* Enable SPD5 Hub clock. */
     CLK->APBCLK0 |= BIT26;
 
     /* Enable I3C1 clock for Hub. */
@@ -834,7 +827,8 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
 	I3CS1->QUETHCTL  = ((I3CS_CFG_CMD_QUEUE_EMPTY_THLD-1) | ((I3CS_CFG_RESP_QUEUE_FULL_THLD-1)<<8));
 
     /* Enable Hub INT Status for local device */
-    SPDH_ENABLE_INT(0x4D5);
+    SPDH_ENABLE_INT(SPDH_INTEN_BUSRTOEN_Msk|SPDH_INTEN_DDEVCTLEN_Msk|SPDH_INTEN_DDEVCAPEN_Msk| \
+                    SPDH_INTEN_DSETHIDEN_Msk|SPDH_INTEN_DEVPCEN_Msk|SPDH_INTEN_DEVIHDEN_Msk);
 
     /* Enable I3CS1 INT Status */
     I3CS1->INTSTSEN = 0xFFFFFFFF;//All event was enabled
@@ -842,7 +836,7 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
 
     /* Enable I3CS1 INT */
     I3CS1->INTEN |= (I3CS_INTEN_RESPQ_READY | I3CS_INTEN_CCC_UPDATED | I3CS_INTEN_DA_ASSIGNED |
-                        I3CS_INTEN_TRANSFER_ERR | I3CS_INTEN_READ_REQUEST|I3CS_INTEN_RX_THLD);
+                        I3CS_INTEN_TRANSFER_ERR | I3CS_INTEN_READ_REQUEST|I3CS_INTEN_IBI_UPDATED);
     NVIC_EnableIRQ(SPDH_IRQn);
     NVIC_EnableIRQ(I3CS1_IRQn);
 

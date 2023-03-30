@@ -25,26 +25,10 @@ volatile uint32_t   g_u32IntSelMask = 0, g_u32IntOccurredMask = 0;
 
 void I3CSStatusHandler(void)
 {
-    RESP_QUEUE_T *pRespQ;
     uint32_t u32IntSts;
     uint32_t i, u32Buf;
 
     extern volatile RESP_QUEUE_T   g_DevRespQue[I3CS_DEVICE_RESP_QUEUE_CNT] __attribute__((aligned(4)));
-
-    pRespQ = (RESP_QUEUE_T *)&g_DevRespQue[0];
-
-    pRespQ->w = I3CS_GET_RESP_DATA(I3CS1);
-
-    if(pRespQ->b.STATUS != 0)
-    {
-        uint16_t u16Len; 
-        WRNLOG("\t[M]ERR STS 0x%x\n", pRespQ->b.STATUS);
-        
-        /* Clean incomplete data */
-        u16Len = pRespQ->b.LENGTH;
-        for(i=0; i<((u16Len+3)/4); i++)
-            u32Buf = I3CS1->TXRXDAT;
-    }
 
     u32IntSts = I3CS_GET_INTSTS(I3CS1);
     if (u32IntSts != 0)
@@ -55,12 +39,12 @@ void I3CSStatusHandler(void)
             if (u32IntSts&BIT11)
             {
                 WRNLOG("\t[M]I[I3C1]NT status: READ_REQ_RECV_STS, CMDQ is empty\n");
-                I3CS1->INTSTS = BIT11;
+                //I3CS1->INTSTS = BIT11;
             }
             if (u32IntSts & BIT9)
             {
                 WRNLOG("\t[M][I3C1]INT status: transfer error (RESP Q :0x%08x)\n", I3CS1->RESPQUE);
-                I3CS1->INTSTS = BIT9;
+                //I3CS1->INTSTS = BIT9;
 
                 //printf("\tSet I3CS0 RESUME ... \n");
                 //I3CS0->CTL |= I3CS_CTL_RESUME_Msk;
@@ -81,33 +65,53 @@ void I3CSStatusHandler(void)
             if (u32IntSts & BIT9)
             {
                 WRNLOG("\t[M][I3C1]INT status: transfer error (RESP Q :0x%08x)\n", I3CS1->RESPQUE);
-                I3CS1->INTSTS = BIT9;
+                //I3CS1->INTSTS = BIT9;
 
                 //printf("\tSet I3CS0 RESUME ... \n");
                 //I3CS0->CTL |= I3CS_CTL_RESUME_Msk;
             }
         }
 
-        if (I3CS1->CCCDEVS & BIT11)
-        {
-            WRNLOG("\t[M][I3C1]Dev status: Data not ready \n");
-            WRNLOG("[M][I3C1]cmd queue lv: 0x%08x\n", I3CS1->QUESTSLV);
-            /*
-               This bit is set when private read request from master is NACKED
-               because Command FIFI empty/Transmit FIFO threshold is not meet/Response FIFO full
-            */
-            /* Clear TX FIFO to avoid next read request get older data. */
-            if (g_u32FifoClr == 0)
-            {
-                g_u32FifoClr = 1;
-                _ResetTxFifoOnly(I3CS1);
-            }
-        }
-        else
-        {
-            g_u32FifoClr = 0;
-        }
     }
+}
+
+void SPDHIRQHandler(void)
+{
+    uint32_t u32SpdhSts;
+    uint8_t u8StaticAddr, u8LID;
+
+    u32SpdhSts = SPDH->INTSTS;
+
+    if(u32SpdhSts & SPDH_INTSTS_BUSRTOIF_Msk)
+    {
+        DBGLOG("SPDH_IRQ: BUS Reset Time-out\n");
+        SPDH->INTSTS = SPDH_INTSTS_BUSRTOIF_Msk;
+
+        /* Do chip reset by software, because Host sent bus reset to all device on the same bus. */
+        SYS_ResetChip();
+    }
+
+    if (u32SpdhSts & SPDH_INTSTS_DSETHIDIF_Msk)
+    {
+        DBGLOG("\nLocal device received SETHID\n");
+
+        u8LID = (I3CS1->DEVADDR & SPDH_DCTL_LID_Msk);
+        u8StaticAddr = (uint8_t)(u8LID | (SPDH->DCTL & SPDH_DCTL_HID_Msk));
+        DBGLOG("u8StaticAddr: 0x%08X\n", u8StaticAddr);
+
+        /* Change HID of I3C static address after received SETHID CCC command. */
+        I3CS1->DEVADDR = (I3CS1->DEVADDR &~I3CS_DEVADDR_SA_Msk) | (I3CS_DEVADDR_SAVALID_Msk | u8StaticAddr);
+        DBGLOG("I3C1->DEVADDR: 0x%08X\n", I3CS1->DEVADDR);
+        SPDH->INTSTS = SPDH_INTSTS_DSETHIDIF_Msk;
+    }
+
+    if (u32SpdhSts & SPDH_INTSTS_DEVPCIF_Msk)
+    {
+        DBGLOG("\n Local device has PEC error occurred.\n");
+
+        SPDH->INTSTS = SPDH_INTSTS_DEVPCIF_Msk;
+    }
+
 }
 
 void SYS_Init(void)
@@ -211,8 +215,8 @@ int32_t main(void)
 
 void SPDH_IRQHandler(void)
 {
-    /* Call the interrupt handler in SpdhLib */
-    Hub_SPDHIRQHandler();
+    /* Call the interrupt handler of SPDH */
+    SPDHIRQHandler();
     /* Call the interrupt handler in LocalDevFw.c */
     LocalDev_SPDHIRQHandler();
 
