@@ -35,5 +35,6 @@ void FUNC_Wave(volatile struct LED_Setting_Tag* LED_Setting);
 void FUNC_Spring(volatile struct LED_Setting_Tag* LED_Setting);
 void FUNC_Water(volatile struct LED_Setting_Tag* LED_Setting);
 void FUNC_Rainbow(volatile struct LED_Setting_Tag* LED_Setting);
+void FUNC_Double_Strobe(volatile struct LED_Setting_Tag* LED_Setting);
 
 #endif  /* __LED_Control_H__ */

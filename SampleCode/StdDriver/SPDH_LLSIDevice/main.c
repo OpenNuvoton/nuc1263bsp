@@ -26,7 +26,6 @@ volatile uint32_t   g_u32IntSelMask = 0, g_u32IntOccurredMask = 0;
 void I3CSStatusHandler(void)
 {
     uint32_t u32IntSts;
-    uint32_t i, u32Buf;
 
     extern volatile RESP_QUEUE_T   g_DevRespQue[I3CS_DEVICE_RESP_QUEUE_CNT] __attribute__((aligned(4)));
 

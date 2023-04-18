@@ -24,7 +24,7 @@ uint8_t g_u8OneShot_Flag = 0;
 
 void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
                                   (void *)FUNC_Random, (void *)FUNC_Off, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
-                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Off};
+                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Double_Strobe};
 
 /* Initial Serial LED Data Array */
 #define cStrip1_LED 300
@@ -907,4 +907,58 @@ void FUNC_Rainbow(volatile struct LED_Setting_Tag* LED_Setting)
         Set_Array(LED_Setting->LED_Data, LED_Setting->LEDNum, (uint8_t *)DisplayColor, LED_Setting->Brightness);
     else if(LED_Setting->Direction == Dir_Backward)
         Set_InverseArray(LED_Setting->LED_Data, LED_Setting->LEDNum, (uint8_t *)DisplayColor, LED_Setting->Brightness);
+}
+
+void FUNC_Double_Strobe(volatile struct LED_Setting_Tag* LED_Setting)
+{
+    uint32_t TempR, TempG, TempB;
+    printf("\n\tFUNC_Double_Strobe\n");
+    /* Reset CountingTime */
+    while(LED_Setting->TimeCounter >= (((5 * LED_Setting->Speed) + 275) * 6))
+    {
+        LED_Setting->TimeCounter -= (((5 * LED_Setting->Speed) + 275) * 6);
+
+        g_u8OneShot_Flag = 1;
+    }
+
+    /* Extinguish */
+    if(LED_Setting->TimeCounter < ((5 * LED_Setting->Speed) + 275))
+    {
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, 0, 0, 0);
+    }
+    /* Lighten */
+    else if((((5 * LED_Setting->Speed) + 275) <= LED_Setting->TimeCounter) && (LED_Setting->TimeCounter < (((5 * LED_Setting->Speed) + 275) * 2)))
+    {
+        /* Calculate Color */
+        TempR = HDIV_Div((LED_Setting->Color_R * LED_Setting->Brightness), 0xFF);
+        TempG = HDIV_Div((LED_Setting->Color_G * LED_Setting->Brightness), 0xFF);
+        TempB = HDIV_Div((LED_Setting->Color_B * LED_Setting->Brightness), 0xFF);
+
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, TempR, TempG, TempB);
+    }
+    /* Extinguish */
+    else if(((((5 * LED_Setting->Speed) + 275) * 2) <= LED_Setting->TimeCounter) && (LED_Setting->TimeCounter < (((5 * LED_Setting->Speed) + 275) * 3)))
+    {
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, 0, 0, 0);
+    }
+    /* Lighten */
+    else if(((((5 * LED_Setting->Speed) + 275) * 3) <= LED_Setting->TimeCounter) && (LED_Setting->TimeCounter < (((5 * LED_Setting->Speed) + 275) * 4)))
+    {
+        /* Calculate Color */
+        TempR = HDIV_Div((LED_Setting->Color_R * LED_Setting->Brightness), 0xFF);
+        TempG = HDIV_Div((LED_Setting->Color_G * LED_Setting->Brightness), 0xFF);
+        TempB = HDIV_Div((LED_Setting->Color_B * LED_Setting->Brightness), 0xFF);
+
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, TempR, TempG, TempB);
+    }
+    /* Extinguish */
+    else
+    {
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, 0, 0, 0);
+    }
 }
