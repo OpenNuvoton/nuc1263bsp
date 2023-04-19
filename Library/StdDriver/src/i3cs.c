@@ -39,7 +39,7 @@
   * @note       This API also enables all interrupt status and configures TX, RX FIFO and Response, Command Queue threshold to 0.
   */
 void I3CS_Open(I3CS_T *i3cs, uint8_t u8StaticAddr, uint32_t u32ModeSel)
-{        
+{            
     /* Enable chip's I3CS function */
     SYS->SPDHCTL &= ~SYS_SPDHCTL_SPDHEN_Msk;
     
@@ -259,11 +259,7 @@ int32_t I3CS_SendIBIRequest(I3CS_T *i3cs, uint8_t u8MandatoryData, uint32_t u32P
     /* Check if SIR function enabled */
     if(!(i3cs->SLVEVNTS&I3CS_SLVEVNTS_SIREN_Msk))
         return I3CS_STS_INVALID_STATE;
-    
-    /* Clear CmdQ and Tx buffer */
-    if(I3CS_ResetAndResume(i3cs, (I3CS_RESET_CMD_QUEUE | I3CS_RESET_TX_BUF), FALSE) != 0)
-        return I3CS_STS_INVALID_STATE;
-    
+        
     /* Check if payload length > 4-bytes */
     if(u8PayloadLen > 4)
         return I3CS_STS_INVALID_INPUT;
@@ -280,87 +276,20 @@ int32_t I3CS_SendIBIRequest(I3CS_T *i3cs, uint8_t u8MandatoryData, uint32_t u32P
 }
 
 /**
-  * @brief      Enable HJ Generation
-  *
-  * @param[in]  i3cs            The pointer of the specified I3CS module.
-  * @param[in]  u32ModeSel      Select the Hot-Join generation method. Valid values are:
-  *                                 - \ref I3CS_SUPPORT_ADAPTIVE_HJ
-  *                                 - \ref I3CS_SUPPORT_IMMEDIATE_HJ
-  *
-  * @retval     I3CS_STS_NO_ERR          No error
-  * @retval     I3CS_TIMEOUT_ERR         Enable/Disable I3CS time-out
-  * @retval     I3CS_STS_INVALID_INPUT   Invalid input parameter
-  *
-  * @details    This API is used to enable the specified HJ generation after enable I3CS controller again.
-  * @note       I3C Slave controller does not recognize the ENTDAA CCC after enabling the HJ generation.
-  */
-int32_t I3CS_EnableHJRequest(I3CS_T *i3cs, uint32_t u32ModeSel)
-{
-    volatile uint32_t u32Timeout;
-    
-    I3CS_ResetAndResume(i3cs, I3CS_RESET_ALL_QUEUE_AND_BUF, FALSE);
-    
-    /* Disable I3CS controller */
-    if(I3CS_Disable(i3cs) != I3CS_STS_NO_ERR)
-        return I3CS_TIMEOUT_ERR;
-        
-    /* Select the slave ability for enter I3CS mode */
-    if(u32ModeSel == I3CS_SUPPORT_ADAPTIVE_HJ)
-    {
-        /* Both ADAPTIVE and HJEN enabled: Slave generates a Hot-Join request until receive I3CS header 7'h7E on the bus */
-        i3cs->DEVCTL |= I3CS_DEVCTL_ADAPTIVE_Msk;
-        i3cs->SLVEVNTS |= I3CS_SLVEVNTS_HJEN_Msk;
-    }
-    else if(u32ModeSel == I3CS_SUPPORT_IMMEDIATE_HJ)
-    {
-        /* Only HJEN enabled: Slave generates a Hot-Join request immediately */
-        i3cs->DEVCTL &= ~I3CS_DEVCTL_ADAPTIVE_Msk;
-        i3cs->SLVEVNTS |= I3CS_SLVEVNTS_HJEN_Msk;
-    }
-    else
-    {
-        /* HJEN disabled: Slave supports ENTDAA CCC */
-        i3cs->DEVCTL |= I3CS_DEVCTL_ADAPTIVE_Msk;
-        i3cs->SLVEVNTS &= ~I3CS_SLVEVNTS_HJEN_Msk;
-        
-        /* Enable I3CS controller */
-        if(I3CS_Enable(i3cs) != I3CS_STS_NO_ERR)
-            return I3CS_TIMEOUT_ERR;
-        
-        return I3CS_STS_INVALID_INPUT;
-    }
-    
-    /* Enable I3CS controller */
-    if(I3CS_Enable(i3cs) != I3CS_STS_NO_ERR)
-        return I3CS_TIMEOUT_ERR;
-    
-    return I3CS_STS_NO_ERR;
-}
-
-/**
   * @brief      Disable HJ Generation
   *
   * @param[in]  i3cs                The pointer of the specified I3CS module.
   *
   * @retval     I3CS_STS_NO_ERR      No error
-  * @retval     I3CS_TIMEOUT_ERR     Enable/Disable I3CS time-out
   *
   * @details    This API is used to disable the HJ generation.
   * @note       I3C Slave controller can recognize the ENTDAA CCC after disabling the HJ generation.
   */
 int32_t I3CS_DisableHJRequest(I3CS_T *i3cs)
 {
-    /* Disable I3CS controller */
-    if(I3CS_Disable(i3cs) != I3CS_STS_NO_ERR)
-        return I3CS_TIMEOUT_ERR;
-    
     /* HJEN disabled: Slave supports ENTDAA CCC */
-    i3cs->DEVCTL |= I3CS_DEVCTL_ADAPTIVE_Msk;
     i3cs->SLVEVNTS &= ~I3CS_SLVEVNTS_HJEN_Msk;
-    
-    /* Enable I3CS controller */
-    if(I3CS_Enable(i3cs) != I3CS_STS_NO_ERR)
-        return I3CS_TIMEOUT_ERR;
+    i3cs->DEVCTL |= I3CS_DEVCTL_ADAPTIVE_Msk;
     
     return I3CS_STS_NO_ERR;
 }

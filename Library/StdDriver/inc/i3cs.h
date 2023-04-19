@@ -583,7 +583,8 @@ __STATIC_INLINE void    I3CS_DisableDMA(I3CS_T *i3cs);
   * @retval     I3CS_STS_NO_ERR     No error
   * @retval     I3CS_TIMEOUT_ERR    Enable I3CS time-out
   *
-  * @details    This function is used to enable I3CS controller.
+  * @details    This function is used to enable I3CS controller. \n
+  *             It's need some SCL to become active.
   */
 __STATIC_INLINE int32_t I3CS_Enable(I3CS_T *i3cs)
 {
@@ -594,7 +595,7 @@ __STATIC_INLINE int32_t I3CS_Enable(I3CS_T *i3cs)
     while(((i3cs->DEVCTL&I3CS_DEVCTL_SYNC_Msk) == I3CS_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
         return I3CS_TIMEOUT_ERR;
-    
+        
     return I3CS_STS_NO_ERR;
 }
 
@@ -606,17 +607,24 @@ __STATIC_INLINE int32_t I3CS_Enable(I3CS_T *i3cs)
   * @retval     I3CS_STS_NO_ERR     No error
   * @retval     I3CS_TIMEOUT_ERR    Disable I3CS time-out
   *
-  * @details    This function is used to disable I3CS controller.
+  * @details    This function is used to disable I3CS controller. \n
+  *             After executing this disable function, user must ensure that the ENABLE bit (I3CS_DEVICE[31]) has changed to 0 before executing the I3CS_Enable() function again.
   */
 __STATIC_INLINE int32_t I3CS_Disable(I3CS_T *i3cs)
 {
     volatile uint32_t u32Timeout;
-    
-    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
+        
+    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;    
     u32Timeout = (SystemCoreClock / 1000);
     while(((i3cs->DEVCTL&I3CS_DEVCTL_SYNC_Msk) == I3CS_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
-        return I3CS_TIMEOUT_ERR;
+        return I3CS_TIMEOUT_ERR;        
+    
+    /* Do not add time-out to check if disabled operation completed, 
+       it needs at least two bus SCL to complete the disable operation. */
+    /* Waiting for the disabled operation completed can prevent the I3CS from accidentally pulling SDA low 
+       when executing the enable I3CS controller again */
+    while(((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == I3CS_DEVCTL_ENABLE_Msk)) {}
         
     return I3CS_STS_NO_ERR;
 }
@@ -656,7 +664,6 @@ int32_t I3CS_ResetAndResume(I3CS_T *i3cs, uint32_t u32ResetMask, uint32_t u32Ena
 int32_t I3CS_ParseRespQueue(I3CS_T *i3cs, uint32_t *pu32RespQ);
 int32_t I3CS_SetCmdQueueAndData(I3CS_T *i3cs, uint8_t u8TID, uint32_t *pu32TxBuf, uint16_t u16WriteBytes);
 int32_t I3CS_SendIBIRequest(I3CS_T *i3cs, uint8_t u8MandatoryData, uint32_t u32PayloadData, uint8_t u8PayloadLen);
-int32_t I3CS_EnableHJRequest(I3CS_T *i3cs, uint32_t u32ModeSel); 
 int32_t I3CS_DisableHJRequest(I3CS_T *i3cs); 
 int32_t I3CS_RespErrorRecovery(I3CS_T *i3cs, uint32_t u32RespStatus);
 
