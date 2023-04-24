@@ -21,7 +21,7 @@
     ADAPTIVE_HOT_JOIN 1: Initiate a Hot-Join request when a 7'h7E header on the bus 
     ADAPTIVE_HOT_JOIN 0: Initiate a Hot-Join request immediately after I3C Slave enabled
 */ 
-#define ADAPTIVE_HOT_JOIN   (1)
+#define ADAPTIVE_HOT_JOIN   (0)
 #define I3CS0_SA            (0x68)
 #define I3CS0_MID           (0x8123UL)
 #define I3CS0_PID           (0xA13573C0UL)
@@ -277,6 +277,7 @@ int main(void)
     uint8_t     *pu8Data, u8TID;
     uint8_t     qn, u8RespQCnt;
     uint32_t    u32ActiveIntMask;
+    int32_t     iErrCode = I3CS_STS_NO_ERR;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -320,6 +321,7 @@ int main(void)
     printf("    - SCL on PA.1\n");
     printf("    - I2C Static Address 0x%02x\n", I3CS0_SA);
     printf("    - RespQ interrupt threshold %d\n", (uint32_t)(I3CS_GET_RESPQ_THLD(I3CS0) + 1));
+    printf("    - The first operation of the I3CS enable bit requires at least bus SCLx4 to become active\n");
     printf("# An I3C Master can write N-bytes data to Slave,\n");
     printf("  then perform a read request to receive the N-bytes data from Slave.\n");
     printf("    - The write data should be equal to the received data\n");
@@ -329,21 +331,16 @@ int main(void)
     printf("[ Halt ]\n");
     printf("    - Please make sure an I3C Master has initialed and supports Hot-Join request feature.\n");
     printf("    - Hit any key to enable I3C Slave and wiat 7'h7E on the bus to initiate a Hot-Join request.\n\n");
-    getchar();
-    
-    /* Enable I3CS0 controller */
-    I3CS_Enable(I3CS0);
-    printf("[ I3C0 Slave has enabled ]\n\n");
 #else
     printf("[ Halt ]\n");
     printf("    - Please make sure an I3C Master has initialed and supports Hot-Join request feature.\n");
     printf("    - Hit any key to enable I3C Slave to Initiate a Hot-Join request immediately.\n\n");
+#endif    
     getchar();
     
     /* Enable I3CS0 controller */
     I3CS_Enable(I3CS0);
-    printf("[ I3C0 Slave has enabled ]\n\n");
-#endif    
+    printf("[ Wait for the I3C Slave to issue a Hot-Join request ]\n\n");
         
     while(1)
     {
@@ -385,18 +382,16 @@ int main(void)
                             /* Set CmdQ and response data for a Master read request */
                             memcpy((uint8_t *)(&g_TxBuf[0]), (uint8_t *)(&g_RxBuf[0]), u16Len);
                             u8TID = (pu8Data[0] % 8);
-                            I3CS_SetCmdQueueAndData(I3CS0, u8TID, (uint32_t *)&g_TxBuf[0], u16Len);
-                            printf("[ Set TX %d-bytes and TID %d for Master read request ]\n\n", u16Len, u8TID);
+                            iErrCode = I3CS_SetCmdQueueAndData(I3CS0, u8TID, (uint32_t *)&g_TxBuf[0], u16Len);
+                            if(iErrCode != I3CS_STS_NO_ERR)
+                                printf("\tSet TX data error, %d.\n\n", iErrCode);
+                            else
+                                printf("[ Set TX %d-bytes and TID %d for Master read request ]\n\n", u16Len, u8TID);
                         }
                         else
                         {
                             /* Master read request -> Slave transmits data done */
-                            
-                            pu8Data = (uint8_t *)(&g_TxBuf[0]);
-                            printf("Slave transmits %d-bytes (TID %d):\n\thex: ", u16Len, (uint32_t)I3CS_GET_RESP_TID(g_RespQ[qn]));                        
-                            for(i=0; i<u16Len; i++)
-                                printf("%02x ", pu8Data[i]);
-                            printf("\n\n");
+                            printf("Slave transmits ID-%d done.\n\n", (uint32_t)I3CS_GET_RESP_TID(g_RespQ[qn]));                        
                         }
                         
                         qn++;                        

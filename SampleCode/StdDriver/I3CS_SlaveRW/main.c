@@ -262,7 +262,7 @@ void UART_Init(void)
     /* Configure UART0 and set UART0 Baudrate */
     UART_Open(UART0, 115200);
 }
-
+																
 /*---------------------------------------------------------------------------------------------------------*/
 /*  MAIN function                                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -272,6 +272,7 @@ int main(void)
     uint8_t     *pu8Data, u8TID;
     uint8_t     qn, u8RespQCnt;
     uint32_t    u32ActiveIntMask;
+    int32_t     iErrCode = I3CS_STS_NO_ERR;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -286,7 +287,7 @@ int main(void)
     printf("+----------------------------------------+\n");
     printf("|    I3C0 Slave Read/Write Sample Code   |\n");
     printf("+----------------------------------------+\n\n");
-        
+            
     /* Reset I3CS0 module */
     SYS_ResetModule(I3CS0_RST);
     
@@ -309,11 +310,13 @@ int main(void)
     printf("    - SCL on PA.1\n");
     printf("    - I2C Static Address 0x%02x\n", I3CS0_SA);
     printf("    - RespQ interrupt threshold %d\n", (uint32_t)(I3CS_GET_RESPQ_THLD(I3CS0) + 1));
+    printf("    - The first operation of the I3CS enable bit requires at least bus SCLx4 to become active\n");
     printf("# An I3C Master can write N-bytes data to Slave,\n");
     printf("  then perform a read request to receive the N-bytes data from Slave.\n");
     printf("    - The write data should be equal to the received data\n");
     printf("\n");
-    
+        
+        
     while(1)
     {
         while(g_u32IntOccurredMask != 0)
@@ -348,24 +351,19 @@ int main(void)
                                 printf("%02x ", pu8Data[i]);
                             printf("\n\n");
                             
-                            /* Clear CmdQ and Tx data for new transmit data */
-                            I3CS_ResetAndResume(I3CS0, (I3CS_RESET_CMD_QUEUE | I3CS_RESET_TX_BUF), FALSE);
-                            
                             /* Set CmdQ and response data for a Master read request */
                             memcpy((uint8_t *)(&g_TxBuf[0]), (uint8_t *)(&g_RxBuf[0]), u16Len);
                             u8TID = (pu8Data[0] % 8);
-                            I3CS_SetCmdQueueAndData(I3CS0, u8TID, (uint32_t *)&g_TxBuf[0], u16Len);
-                            printf("[ Set TX %d-bytes and TID %d for Master read request ]\n\n", u16Len, u8TID);
+                            iErrCode = I3CS_SetCmdQueueAndData(I3CS0, u8TID, (uint32_t *)&g_TxBuf[0], u16Len);
+                            if(iErrCode != I3CS_STS_NO_ERR)
+                                printf("\tSet TX data error, %d.\n\n", iErrCode);
+                            else
+                                printf("[ Set TX %d-bytes and TID %d for Master read request ]\n\n", u16Len, u8TID);
                         }
                         else
                         {
                             /* Master read request -> Slave transmits data done */
-                            
-                            pu8Data = (uint8_t *)(&g_TxBuf[0]);
-                            printf("Slave transmits %d-bytes (TID %d):\n\thex: ", u16Len, (uint32_t)I3CS_GET_RESP_TID(g_RespQ[qn]));                        
-                            for(i=0; i<u16Len; i++)
-                                printf("%02x ", pu8Data[i]);
-                            printf("\n\n");
+                            printf("Slave transmits ID-%d done.\n\n", (uint32_t)I3CS_GET_RESP_TID(g_RespQ[qn]));                        
                         }
                         
                         qn++;                        
