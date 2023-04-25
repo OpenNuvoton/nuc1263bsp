@@ -1058,9 +1058,6 @@
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\clk.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\SpdhLib\eeprom.a</name>
-        </file>
-        <file>
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\fmc.c</name>
         </file>
         <file>
@@ -1080,9 +1077,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\spdh.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\SpdhLib\SpdhLib_IAR.a</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\sys.c</name>

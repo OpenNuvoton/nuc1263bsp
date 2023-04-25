@@ -19,7 +19,7 @@ extern "C"
 #include "Flash.h"
 #include "LED_Control.h"
 
-#define MAX_DEVREG_LEN 64
+#define MAX_DEVREG_LEN (64)
 
 #define DEV_IBI_INTEN_ERROR BIT4
 

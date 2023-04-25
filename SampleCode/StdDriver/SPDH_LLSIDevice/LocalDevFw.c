@@ -29,53 +29,84 @@ extern uint8_t  g_au8DevReg[64];
 
 static int8_t _DevSendIBIReq(void);
 
-static int8_t _DevResetTxFifoOnly(I3CS_T * i3cs)
+int32_t Dev_FIFO_ResetAndResume(I3CS_T *i3cs, uint32_t u32ResetMask, uint32_t u32EnableResume)
 {
-    DBGLOG("\nI3CS%d DEVCTL: 0x%08x\n", i3cs->DEVCTL, (i3cs == I3CS0)?0:1);
-    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
-    while(i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) {}
+    uint8_t u8InHaltState = 0;
+    volatile uint32_t u32Timeout;
 
-    i3cs->RSTCTL = BIT3|BIT1;//BIT3:TX_FIFO_RST, BIT1: CMD_QUEUE_RST
-    DBGLOG("\nReset I3CS%d Tx/CMD FIFO ... ", (i3cs == I3CS0)?0:1);
-    while(i3cs->RSTCTL != 0) {}
-    DBGLOG("done\n");
+    if(I3CS_IS_SLAVE_BUSY(i3cs))
+        u8InHaltState = 1;
 
-    i3cs->DEVCTL |=  I3CS_DEVCTL_ENABLE_Msk;
-    while((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == 0) {}
-    DBGLOG("re-en(I3CS%d DEVCTL:0x%08x)\n", i3cs->DEVCTL, (i3cs == I3CS0)?0:1);
+    if(u32ResetMask)
+    {
+        if(u8InHaltState == 0)
+        {
+            /* Disable I3CS controller for reset buffer and queue */
+            if(I3CS_Disable(i3cs) != I3CS_STS_NO_ERR)
+                return I3CS_TIMEOUT_ERR;
+        }
 
-    WRNLOG("\nSet I3CS%d RESUME ...(#%d) \n", (i3cs == I3CS0)?0:1, __LINE__);
-    i3cs->DEVCTL |= I3CS_DEVCTL_RESUME_Msk;
-//    while((i3cs->DEVCTL&I3CS_CTL_RESUME_Msk) != 0) {}//wait for Host send GETSTATUS CCC, then RESUME bit is became to 0
-//    printf("resume done\n");
+        /* Reset specify source */
+        i3cs->RSTCTL = u32ResetMask;
+        u32Timeout = (SystemCoreClock / 1000);
 
-	i3cs->QUETHCTL  = ((I3CS_CFG_CMD_QUEUE_EMPTY_THLD-1) | ((I3CS_CFG_RESP_QUEUE_FULL_THLD-1)<<8));
+        while((i3cs->RSTCTL != 0) && (--u32Timeout)) {}
+        if(u32Timeout == 0)
+            return I3CS_TIMEOUT_ERR;
 
-    return 0;
+        if(u8InHaltState == 0)
+        {
+            /* Enable I3CS controller again */
+            if(I3CS_Enable(i3cs) != I3CS_STS_NO_ERR)
+                return I3CS_TIMEOUT_ERR;
+        }
+    }
+
+    if(u32EnableResume || u8InHaltState)
+    {
+        /* The application has to take necessary action to handle the error condition and
+            then set RESUME bit to resume the controller. */
+        /* Slave will receive GETSTATUS CCC to clear specify status in I3CS_CCCDEVS register. */
+        i3cs->DEVCTL |= I3CS_DEVCTL_RESUME_Msk;
+        //while((i3cs->DEVCTL&I3CS_DEVCTL_RESUME_Msk) == I3CS_DEVCTL_RESUME_Msk) {}
+
+        /* RESUME bit is auto-cleared once the controller is ready to accept new transfers. */
+    }
+
+    return I3CS_STS_NO_ERR;
 }
 
-static int8_t _DevResetRxFifoOnly(I3CS_T * i3cs)
+int32_t Dev_RespErrorRecovery(I3CS_T *i3cs, uint32_t u32RespStatus)
 {
-    DBGLOG("\nI3CS%d DEVCTL: 0x%08x\n", i3cs->DEVCTL, (i3cs == I3CS0)?0:1);
-    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
-    while(i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) {}
+    if(u32RespStatus != I3CS_STS_NO_ERR)
+    {
+        if(I3CS_IS_SLAVE_BUSY(i3cs))
+        {
+            switch(u32RespStatus)
+            {
+                case I3CS_RESP_CRC_ERR:
+                case I3CS_RESP_PARITY_ERR:
+                case I3CS_RESP_FRAME_ERRR:
+                case I3CS_RESP_FLOW_ERR:
+                    /* Reset RX FIFO -> apply resume */
+                    Dev_FIFO_ResetAndResume(i3cs, I3CS_RESET_RX_BUF, TRUE);
+                    break;
 
-    i3cs->RSTCTL = BIT4;//BIT4:RX_FIFO_RST
-    DBGLOG("\nReset I3CS%d Rx FIFO ... ", (i3cs == I3CS0)?0:1);
-    while(i3cs->RSTCTL != 0) {}
-    DBGLOG("done\n");
+                case I3CS_RESP_MASTER_TERMINATE_ERR:
+                    while((I3CS_GET_PRESENT_STATUS(i3cs) != 6)){}
+                    /* Reset TX FIFO and CMDQ Queue -> apply resume */
+                    Dev_FIFO_ResetAndResume(i3cs, (I3CS_RESET_TX_BUF | I3CS_RESET_CMD_QUEUE), TRUE);
+                    break;
 
-    i3cs->DEVCTL |=  I3CS_DEVCTL_ENABLE_Msk;
-    while((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == 0) {}
-    DBGLOG("re-en(I3CS%d DEVCTL:0x%08x)\n", i3cs->DEVCTL, (i3cs == I3CS0)?0:1);
+                default:
+                    /* Reset all FIFO and Queue */
+                    Dev_FIFO_ResetAndResume(i3cs, I3CS_RESET_ALL_QUEUE_AND_BUF, FALSE);
+                    break;
+            }
+        }
+    }
 
-    WRNLOG("\nSet I3CS%d RESUME ...(#%d) \n", (i3cs == I3CS0)?0:1, __LINE__);
-    i3cs->DEVCTL |= I3CS_DEVCTL_RESUME_Msk;
-//    while((i3cs->DEVCTL&I3CS_CTL_RESUME_Msk) != 0) {}//wait for Host send GETSTATUS CCC, then RESUME bit is became to 0
-//    printf("resume done\n");
-
-	i3cs->QUETHCTL  = ((I3CS_CFG_CMD_QUEUE_EMPTY_THLD-1) | ((I3CS_CFG_RESP_QUEUE_FULL_THLD-1)<<8));
-    return 0;
+    return I3CS_STS_NO_ERR;
 }
 
 static int32_t _ReadHandler(I3CS_T * i3cs)
@@ -270,7 +301,7 @@ static int32_t _BlockWriteHandler(I3CS_T * i3cs, uint16_t uLen)
     /* Read Rx data from data port */
     for(i=1; i<((uLen+3)/4); i++)
         s_DevRxBuf[i] = I3CS_GET_RXD(i3cs);
-    
+
     /* Check if block write was enabled */
     if (g_au8DevReg[47]&BIT0)
     {
@@ -295,7 +326,7 @@ static int32_t _BlockWriteHandler(I3CS_T * i3cs, uint16_t uLen)
             }
         }
     }
-    
+
     return 0;
 }
 
@@ -399,22 +430,90 @@ static int32_t I3CS_ProcessRespQueue(I3CS_T * i3cs)
     pRespQ->w = I3CS_GET_RESP_DATA(i3cs);
     u32RespErrSts = pRespQ->b.STATUS;
 
-    do{
-        if(u32RespErrSts == 0)
+    if(u32RespErrSts == 0)
+    {
+        if(pRespQ->b.RXRSP == 1)
         {
-            if(pRespQ->b.RXRSP == 1)
-            {
-                g_u32FifoClr = 0;
+            g_u32FifoClr = 0;
 
-                /*
-                    I2C mode: 1-byte addressing mode.
-                    I3C mode: 1-byte addressing mode when PEC mode was disabled,
-                              2-bytes addressing mode when PEC mode was enabled and support CMD while PEC mode enabled.
-                */
-                if (I3CS_IS_DA_VALID(I3CS0) == 0)
+            /*
+                I2C mode: 1-byte addressing mode.
+                I3C mode: 1-byte addressing mode when PEC mode was disabled,
+                          2-bytes addressing mode when PEC mode was enabled and support CMD while PEC mode enabled.
+            */
+            if (I3CS_IS_DA_VALID(i3cs) == 0)
+            {
+                /* I2C mode */
+                //1-byte addressing mode //only in I2C mode
+                if(pRespQ->b.LENGTH < 2)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
+                                        //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
                 {
-                    /* I2C mode */
-                    //1-byte addressing mode //only in I2C mode
+                    if (pRespQ->b.LENGTH != 0)
+                    {
+                        _ReadHandler(i3cs);
+                    }
+                    else
+                    {
+                        DBGLOG("Default read address pointer\n");
+                    }
+                }
+                else
+                {//write
+                    if (pRespQ->b.LENGTH == 2)
+                    {
+                        _WriteHandler(i3cs);
+                    }
+                    else
+                    {
+                        _BlockWriteHandler(i3cs, pRespQ->b.LENGTH);
+                    }
+                }
+//                printf("\tRX resp done(len:%d)\n",pRespQ->b.LENGTH);
+//                printf("len:%d\n",pRespQ->b.LENGTH);
+                ret = 0;
+            }
+            else
+            {
+                /* I3C mode */
+                /* PEC mode was disabled using 1-bytes addressing mode */
+                /* PEC mode was enabled using 2-bytes addressing mode */
+
+                if (SPDH_IS_DEV_PEC_ENABLE())//if PEC enalbed in I3C mode
+                {
+                    if(pRespQ->b.LENGTH < 4)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
+                                            //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
+                    {
+                        if (pRespQ->b.LENGTH != 0)
+                        {
+                            if (s_DevRxBuf[0]&BIT12)//check R/W bit
+                            {
+                                _ReadHandler2B(i3cs);
+                            }
+                            else
+                            {
+                                ERRLOG("\t[ERR]R bit and package length are not matched.(0x%08X)(L:%d)\n", s_DevRxBuf[0], __LINE__);
+                                s_DevRxBuf[0] = I3CS_GET_RXD(i3cs);
+                            }
+                        }
+                        else
+                        {
+                            DBGLOG("Default read address pointer\n");
+                        }
+                    }
+                    else
+                    {//write
+                        if ((s_DevRxBuf[0]&BIT12) == 0)//check R/W bit
+                        {
+                            _WriteHandler2B(i3cs);
+                        }
+                        else
+                        {
+                            ERRLOG("\t[ERR]W bit and package length are not matched.(0x%08X)(L:%d)\n", s_DevRxBuf[0], __LINE__);
+                        }
+                    }
+                }
+                else
+                {
                     if(pRespQ->b.LENGTH < 2)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
                                             //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
                     {
@@ -427,119 +526,39 @@ static int32_t I3CS_ProcessRespQueue(I3CS_T * i3cs)
                             DBGLOG("Default read address pointer\n");
                         }
                     }
-                    else{//write
-                        if (pRespQ->b.LENGTH == 2)
-                        {
-                            _WriteHandler(i3cs);
-                        }
-                        else
-                        {
-                            _BlockWriteHandler(i3cs, pRespQ->b.LENGTH);
-                        }
-                    }
-    //                printf("\tRX resp done(len:%d)\n",pRespQ->b.LENGTH);
-    //                printf("len:%d\n",pRespQ->b.LENGTH);
-                    ret = 0;
-                }
-                else
-                {
-                    /* I3C mode */
-                    /* PEC mode was disabled using 1-bytes addressing mode */
-                    /* PEC mode was enabled using 2-bytes addressing mode */
-
-                    if (SPDH_IS_DEV_PEC_ENABLE())//if PEC enalbed in I3C mode
-                    {
-                        if(pRespQ->b.LENGTH < 4)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
-                                                //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
-                        {
-                            if (pRespQ->b.LENGTH != 0)
-                            {
-                                if (s_DevRxBuf[0]&BIT12)//check R/W bit
-                                {
-                                    _ReadHandler2B(i3cs);
-                                }
-                                else
-                                {
-                                    ERRLOG("\t[ERR]R bit and package length are not matched.(0x%08X)(L:%d)\n", s_DevRxBuf[0], __LINE__);
-                                    s_DevRxBuf[0] = I3CS_GET_RXD(i3cs);
-                                    ERRLOG("\t[ERR]R bit and package length are not matched.(0x%08X)(L:%d)_2\n", s_DevRxBuf[0], __LINE__);
-                                }
-                            }
-                            else
-                            {
-                                DBGLOG("Default read address pointer\n");
-                            }
-                        }
-                        else{//write
-                            if ((s_DevRxBuf[0]&BIT12) == 0)//check R/W bit
-                            {
-                                _WriteHandler2B(i3cs);
-                            }
-                            else
-                            {
-                                ERRLOG("\t[ERR]W bit and package length are not matched.(0x%08X)(L:%d)\n", s_DevRxBuf[0], __LINE__);
-                            }
-                        }
-                    }
                     else
-                    {
-                        if(pRespQ->b.LENGTH < 2)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
-                                                //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
-                        {
-                            if (pRespQ->b.LENGTH != 0)
-                            {
-                                _ReadHandler(i3cs);
-                            }
-                            else
-                            {
-                                DBGLOG("Default read address pointer\n");
-                            }
-                        }
-                        else{//write
-                            _WriteHandler(i3cs);
-                        }
+                    {//write
+                        _WriteHandler(i3cs);
                     }
-                    //printf("\tRX resp done(len:%d)\n",pRespQ->b.LENGTH);
-                    ret = 0;
                 }
+                ret = 0;
             }
-            else
-            {
-                //printf("\tTX resp done\n");
-                ret = 1;
-            }
-            //printf("payload length:%d\n", pRespQ->b.LENGTH);
         }
         else
         {
-        /*
-            Note:
-            The Slave controller NACKs all transfers once it has encountered an error until RESUME bit
-            is set in the DEVICE_CTRL register from the Slave application and until the error status is cleared from the
-            CCC_DEVICE_STATUS register by GETSTATUS CCC.
-            For any other error status like underflow error or Master Early termination,
-            the Slave application is expected to reset the TX FIFO and CMD FIFO before applying the resume in DEVICE_CTRL register.
-        */
-            DBGLOG("\t[I3CS%d]Error status 0x%x\n", (i3cs==I3CS0)?0:1, pRespQ->b.STATUS);
-            if ((u32RespErrSts <= 1)||(u32RespErrSts == 6))
-            {
-                /*  Error Recovery Flow: Overflow/Parity/CRC/Frame error, reset RX FIFO. */
-                _DevResetRxFifoOnly(i3cs);
-            }
-//            else if (u32RespErrSts == 2)
-//            {
-//                /* parity error */
-//                //_DevResetRxFifoOnly(i3c);
-//            }
-            else
-            {
-                /*  Error Recovery Flow: Master Early termination, reset TX FIFO. */
-                _DevResetTxFifoOnly(i3cs);
-            }
-
-            ret = -1;
+            ret = 1;
         }
-    } while(0);
+    }
+    else
+    {
+    /*
+        Note:
+        The Slave controller NACKs all transfers once it has encountered an error until RESUME bit
+        is set in the DEVICE_CTRL register from the Slave application and until the error status is cleared from the
+        CCC_DEVICE_STATUS register by GETSTATUS CCC.
+        For any other error status like underflow error or Master Early termination,
+        the Slave application is expected to reset the TX FIFO and CMD FIFO before applying the resume in DEVICE_CTRL register.
+    */
+        DBGLOG("\t[I3CS%d]Error status 0x%x\n", (i3cs==I3CS0)?0:1, pRespQ->b.STATUS);
+        if(i3cs->CCCDEVS & I3CS_CCCDEVS_PROTERR_Msk)//Protocol error: This bit is set when the slave controller encouters a Parity/CRC error during write data transfer.
+        {
+            /* Set MR52[0]: PAR_ERROR_STATUS */
+            DevReg_SetParityErrStatus();
+            WRNLOG("[WARN]Parity error\n");
+        }
+        Dev_RespErrorRecovery(i3cs, pRespQ->b.STATUS);
+        ret = -1;
+    }
 
     return ret;
 }
@@ -571,19 +590,21 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
         //prepare read data
         s_DevRxBuf[0] = I3CS_GET_RXD(i3cs);
         if(I3CS_ProcessRespQueue(i3cs) >= 0)
-            g_u32DevRespIntCnt = 1; //g_RespINTFlag = 1;
+            g_u32DevRespIntCnt = 1;
     }
 
     // I3CS_INTSTS_DAA_Msk
     if(u32IntSts&I3CS_INTSTS_DAA_Msk) // write 1 cleared
     {
+        SPDH_ENABLE_DEV_SIR();
+
         /* Update MR18[5] NF_SEL bit as I3C basic protocol. */
         DevReg_EnableI3C();
 
         g_u32DeviceChangedToI3CMode = 1;
 
         DBGLOG("INT DYNAASTS (I3CS%d DA: 0x%02x)\n", (i3cs==I3CS0)?0:1, (uint32_t)I3CS_GET_I3CS_DA(i3cs));
-        i3cs->INTSTS = I3CS_INTSTS_DAA_Msk;
+        I3CS_CLEAR_DA_ASSIGNED_STATUS(i3cs);
 
         __NOP();
         /* To check if mode of device behind Hub and I3C slave is matched? */
@@ -591,15 +612,27 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
         {
             WRNLOG("[WARN] Mode of device behind Hub and I3C slave is not matched.(#%d)\n\n", __LINE__);
         }
-        //break;
     }
 
-    if(u32IntSts&I3CS_INTSTS_IBIUPD_Msk)
+    if(u32IntSts & I3CS_INTSTS_READREQ_Msk)
+    {
+        DBGLOG("INT READ_REQUEST\n");
+        I3CS_CLEAR_READ_REQUEST_STATUS(i3cs);
+    }
+
+
+    if(u32IntSts & I3CS_INTSTS_TFRERR_Msk)
+    {
+        DBGLOG("INT TRANSFER_ERR\n");
+        I3CS_CLEAR_TRANSFER_ERR_STATUS(i3cs);
+    }
+
+    if(u32IntSts & I3CS_INTSTS_IBIUPD_Msk)
     {
         uint32_t u32IBICompleSts;
-        u32IBICompleSts = inpw(I3CS1_BASE+0x98);
-        DBGLOG("SLV_IBI_RESP: 0x%08X\n", inpw(I3CS1_BASE+0x98));
-        if ((u32IBICompleSts&7) == 1)
+        u32IBICompleSts = i3cs->SIRRESP;
+        DBGLOG("SLV_IBI_RESP: 0x%08X\n", i3cs->SIRRESP);
+        if ((u32IBICompleSts & I3CS_SIRRESP_IBISTS_Msk) == I3CS_IBI_ACCEPTED)
         {
             DBGLOG("IBI accepted by the Master (ACK response received)\n");
             /* Clear pending status to 0 */
@@ -607,28 +640,21 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
             /* Clear MR48[7] : IBI_STATUS */
             DevReg_ClearIBIStatus();
         }
-        else if ((u32IBICompleSts&7) == 2)
+        else if ((u32IBICompleSts & I3CS_SIRRESP_IBISTS_Msk) == I3CS_IBI_MASTER_TERMINATE)
         {
             DBGLOG("Master Early Terminate (only for SIR with Data)\n");
         }
-        else if ((u32IBICompleSts&7) == 3)
+        else if ((u32IBICompleSts & I3CS_SIRRESP_IBISTS_Msk) == I3CS_IBI_NOT_ATTEMPTED)
         {
             DBGLOG("IBI Not Attempted\n");
         }
-    }
-
-    if(i3cs->CCCDEVS & BIT5)//Protocol error: This bit is set when the slave controller encouters a Parity/CRC error during write data transfer.
-    {
-        /* Set MR52[0]: PAR_ERROR_STATUS */
-        DevReg_SetParityErrStatus();
-        WRNLOG("[WARN]Parity error\n");
     }
 
     if(u32IntSts&I3CS_INTSTS_CCCUPD_Msk)// write 1 cleared
     {
         DBGLOG("INT CCCUPD (I3CS%d DA: 0x%02x)\n", (i3cs==I3CS0)?0:1, (uint32_t)I3CS_GET_I3CS_DA(i3cs));
         /* This interrupt is generated if any of the CCC registers are updated by I3C master through CCC commands. */
-        if(i3cs->SLVEVNTS & BIT0)
+        if(i3cs->SLVEVNTS & I3CS_SLVEVNTS_SIREN_Msk)
         {
             /* SIR_EN(SLV_EVENT_STATUS[0]), Slave Interrupt Request Enable, this bit is set by ENEC */
             /* Set MR27[4]: IBI_ERROR_EN, In Band Error Interrupt Enable */
@@ -640,46 +666,7 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
             /* Clear MR27[4]: IBI_ERROR_EN, In Band Error Interrupt Enable */
             DevReg_IBIDisable();
         }
-        i3cs->INTSTS = I3CS_INTEN_CCCUPD_Msk;
-    }
-
-    if(i3cs->CCCDEVS & BIT9)//(Slave_BUSY == TRUE) // Halt state
-    {
-        i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
-        while(i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) {}
-
-        i3cs->RSTCTL = 0x1E;
-        DBGLOG("\n[SlvBusy]Reset I3C%d all FIFO ... ", (i3cs==I3CS0)?0:1);
-        while(i3cs->RSTCTL != 0) {}
-        DBGLOG("done\n");
-
-        i3cs->DEVCTL |=  I3CS_DEVCTL_ENABLE_Msk;
-        while((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == 0) {}
-
-        WRNLOG("\nSet I3C%d RESUME ...(#%d) ", (i3cs==I3CS0)?0:1, __LINE__);
-        i3cs->DEVCTL |= I3CS_DEVCTL_RESUME_Msk;
-//            while((i3cs->DEVCTL&I3CS_CTL_RESUME_Msk) != 0) {}
-//            printf("done\n");
-    }
-
-    u32PresentSts = ((i3cs->PRESENTS>>8)&0x1F);
-    if(u32PresentSts == 6) // Halt state
-    {
-        i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
-        while(i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) {}
-
-        i3cs->RSTCTL = 0x1E;
-        DBGLOG("\n[TransferHalt]Reset I3C%d all FIFO ... ", (i3cs==I3CS0)?0:1);
-        while(i3cs->RSTCTL != 0) {}
-        DBGLOG("done\n");
-
-        i3cs->DEVCTL |=  I3CS_DEVCTL_ENABLE_Msk;
-        while((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == 0) {}
-
-        WRNLOG("\nSet I3CS%d RESUME ...(#%d) ", (i3cs==I3CS0)?0:1, __LINE__);
-        i3cs->DEVCTL |= I3CS_DEVCTL_RESUME_Msk;
-//            while((i3cs->DEVCTL&I3CS_CTL_RESUME_Msk) != 0) {}
-//            printf("done\n");
+        I3CS_CLEAR_CCC_UPDATED_STATUS(i3cs);
     }
 
     return 0;
@@ -765,7 +752,7 @@ void LocalDev_SPDHIRQHandler(void)
                 }
             }
         }
-        
+
         SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DDEVCTLIF_Msk);
     }
     if(u32SpdhSts & SPDH_INTSTS_DDEVCAPIF_Msk)
@@ -780,7 +767,7 @@ void LocalDev_SPDHIRQHandler(void)
         SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DEVIHDIF_Msk);
 
         /* if pending status is 0x1, then re-send the IBI request */
-        
+
         if (SPDH_IS_DEV_INT_STATUS(SPDH_DSTS_PENDIBI_Msk))
         {
             DBGLOG("\nre-send the IBI request\n");
@@ -804,7 +791,7 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
 
     /* Enable I3C1 clock for Hub. */
     CLK->APBCLK0 |= BIT25;
-    
+
     /* Set LID. */
     SPDH_SET_DEV_LID(((u8DevAddr)&SPDH_DCTL_LID_Msk)>>SPDH_DCTL_LID_Pos);
 
@@ -829,6 +816,14 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
     /* Enable Hub INT Status for local device */
     SPDH_ENABLE_INT(SPDH_INTEN_BUSRTOEN_Msk|SPDH_INTEN_DDEVCTLEN_Msk|SPDH_INTEN_DDEVCAPEN_Msk| \
                     SPDH_INTEN_DSETHIDEN_Msk|SPDH_INTEN_DEVPCEN_Msk|SPDH_INTEN_DEVIHDEN_Msk);
+
+    #if (SPDH_DETECT_POWER_DOWN == 1)
+    SPDH_ENABLE_INT(SPDH_INTEN_PWRDTOEN_Msk|SPDH_INTEN_WKUPEN_Msk);
+    SPDH_SetPowerDownTimeout(1, 0x7F);
+    #endif
+
+    /* (221+1) *16384*13.8 = 50194022 ns = 50 ms */
+    SPDH_SetBusResetTimeout(TRUE, 221);
 
     /* Enable I3CS1 INT Status */
     I3CS1->INTSTSEN = 0xFFFFFFFF;//All event was enabled
