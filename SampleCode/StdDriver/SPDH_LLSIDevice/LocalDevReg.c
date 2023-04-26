@@ -18,8 +18,7 @@
 
 
 //MR0 ~ MR63
-//volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
-uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
+volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
     0x51, //MR0,  Device Type; Most Significant Byte
     0xFF, //MR1,  Device Type; Least Significant Byte
     0x01,/*0x11,*/ //MR2,  Device Revision
@@ -76,7 +75,7 @@ uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
     0x00, //MR53, Reserved
     0x00, //MR54, Reserved
     0x80, //MR55, LED speed
-    0x00, //MR56, Reserved
+    0xFF, //MR56, LED Brightness
     0x00, //MR57, Reserved
     0x00, //MR58, Reserved
     0x00, //MR59, Reserved
@@ -144,7 +143,7 @@ volatile uint8_t g_au8DevRegAttr[MAX_DEVREG_LEN] = {
     DEV_REG_ATTR_RV, //MR53, Reserved
     DEV_REG_ATTR_RV, //MR54, Reserved
     DEV_REG_ATTR_RW, //MR55, LED speed
-    DEV_REG_ATTR_RV, //MR56, Reserved
+    DEV_REG_ATTR_RW, //MR56, LED Brightness
     DEV_REG_ATTR_RV, //MR57, Reserved
     DEV_REG_ATTR_RV, //MR58, Reserved
     DEV_REG_ATTR_RV, //MR59, Reserved
@@ -212,7 +211,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
     0x0, //MR53, Reserved
     0x0, //MR54, Reserved
     0xFF, //MR55, LED speed
-    0x0, //MR56, Reserved
+    0xFF, //MR56, LED Brightness
     0x0, //MR57, Reserved
     0x0, //MR58, Reserved
     0x0, //MR59, Reserved
@@ -328,21 +327,21 @@ __INLINE int8_t DevReg_ClearIBIStatus(void)
 __INLINE int8_t DevReg_GetIBIntEn(void)
 {
     /* Get MR27[4:0] : IBI_STATUS */
-    
+
     return (READ_DEV_REG_D(27)&0xF);
 }
 
 __INLINE int8_t DevReg_IsIBIntEn(uint8_t u8IntMsk)
 {
     /* Get MR27[4:0] : IBI_STATUS */
-    
+
     return ((READ_DEV_REG_D(27)&u8IntMsk)?1:0);
 }
 
 __INLINE int8_t DevReg_GetErrorStatus(void)
 {
     /* Get MR52 : ERROR_STATUS */
-    
+
     return (READ_DEV_REG_D(52));
 }
 
@@ -471,7 +470,7 @@ __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
             {
                 /* Read setting from MR register */
                 //void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint16_t PCNTSEL)
-                ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55]);
+                ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55], g_au8DevReg[56]);
                 /* Trigger LLSI to flash LED */
                 LLSI_StartFlashLED(1);
             }
@@ -484,7 +483,7 @@ __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
         else if (u8RegAddr == 43)
         {
             /* Write LED number by pixel count. */
-            ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55]);
+            ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55], g_au8DevReg[56]);
             LLSI_WriteData(((g_au8DevReg[42]&0x3)<<8)|g_au8DevReg[41], u8Value);
         }
     }

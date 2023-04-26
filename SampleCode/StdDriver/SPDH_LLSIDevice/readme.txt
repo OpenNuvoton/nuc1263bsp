@@ -33,6 +33,8 @@ MR43	LLSI Data
 MR44	Color R
 MR45	Color G
 MR46	Color B
+MR55    LED Speed
+MR56    LED Brightness
 
 Bit Field Name	Register/Bit	Description
 --------------------------------------------------------------------------------------------------------------------------
@@ -56,6 +58,7 @@ LEDFUNESEL	MR38[3:0]	Display type selection for build-in mode
 				8: Spring
 				13: Water
 				14: Rainbow
+                                15: Double Strobe
 				Others: Off
 
 PCNTSEL	        MR39[7:0],	LED pixels selection
@@ -124,7 +127,7 @@ The HID value is decided by the SPD5 Hub.
 If the HID is 0 and LID is 6, then the host device can do write and read operation with 0x60 address.
 
 User can modify the slave address with below definition in main.c.
-#define I3CS1_SA         (0x67) /* LID is 6, default HID is 111 before received SETHID CCC command */
+#define I3CS1_SA         (0x67) /* 0110 0111b, LID is 1100b, default HID is 111b before received SETHID CCC command */
 
 
 I2C Protocol

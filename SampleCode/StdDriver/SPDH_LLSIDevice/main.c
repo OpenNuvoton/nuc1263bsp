@@ -9,68 +9,45 @@
 #include <stdio.h>
 #include "NuMicro.h"
 
-#include "HubFw.h"
 #include "LocalDevReg.h"
 #include "LocalDevFw.h"
 
-#define I3CS1_SA         (0x67) /* LID is 6, default HID is 111 before received SETHID CCC command */
+#define I3CS1_SA         (0x67) /* 0110 0111b, LID is 1100b, default HID is 111b before received SETHID CCC command */
 
+#if (SPDH_DETECT_POWER_DOWN == 1)
 volatile uint32_t g_DetectedPowerDown = 0;
+#endif
 
 volatile uint32_t g_u32FifoClr = 0;
 
-extern int8_t _ResetTxFifoOnly(I3CS_T * i3c);
-extern int8_t _ResetRxFifoOnly(I3CS_T * i3c);
-volatile uint32_t   g_u32IntSelMask = 0, g_u32IntOccurredMask = 0;
-
 void I3CSStatusHandler(void)
 {
-    uint32_t u32IntSts;
-
-    extern volatile RESP_QUEUE_T   g_DevRespQue[I3CS_DEVICE_RESP_QUEUE_CNT] __attribute__((aligned(4)));
-
-    u32IntSts = I3CS_GET_INTSTS(I3CS1);
-    if (u32IntSts != 0)
-    {
-        if (u32IntSts != 0x9)
-        {
-            WRNLOG("\t[M][I3C1]INT STS 0x%x\n", u32IntSts);
-            if (u32IntSts&BIT11)
-            {
-                WRNLOG("\t[M]I[I3C1]NT status: READ_REQ_RECV_STS, CMDQ is empty\n");
-                //I3CS1->INTSTS = BIT11;
-            }
-            if (u32IntSts & BIT9)
-            {
-                WRNLOG("\t[M][I3C1]INT status: transfer error (RESP Q :0x%08x)\n", I3CS1->RESPQUE);
-                //I3CS1->INTSTS = BIT9;
-
-                //printf("\tSet I3CS0 RESUME ... \n");
-                //I3CS0->CTL |= I3CS_CTL_RESUME_Msk;
-            }
-        }
-    }
-    if (I3CS1->CCCDEVS != 0)
+    if (I3CS1->CCCDEVS != I3CS_STS_NO_ERR)
     {
         WRNLOG("\t[M][I3C1]Dev status 0x%x\n", I3CS1->CCCDEVS);
-        if (I3CS1->CCCDEVS & BIT12)
-            WRNLOG("\t[M][I3C1]Dev status: Buffer not available \n");
-        if (I3CS1->CCCDEVS & BIT5)
+        if (I3CS1->CCCDEVS & I3CS_CCCDEVS_BFNAVAIL_Msk)
         {
-            WRNLOG("\t[M][I3C1]Dev status: protocol error(parity error)(RESP Q :0x%08x)\n", I3CS1->RESPQUE);
-
-            //while((I3CS0->CTL&I3CS_CTL_RESUME_Msk) != 0) {}//wait for Host send GETSTATUS CCC, then RESUME bit is became to 0
-            //printf("done\n");
-            if (u32IntSts & BIT9)
-            {
-                WRNLOG("\t[M][I3C1]INT status: transfer error (RESP Q :0x%08x)\n", I3CS1->RESPQUE);
-                //I3CS1->INTSTS = BIT9;
-
-                //printf("\tSet I3CS0 RESUME ... \n");
-                //I3CS0->CTL |= I3CS_CTL_RESUME_Msk;
-            }
+            WRNLOG("\t[M][I3C1]Dev status: Buffer not available \n");
         }
 
+        if (I3CS1->CCCDEVS & I3CS_CCCDEVS_PROTERR_Msk)
+        {
+            WRNLOG("\t[M][I3C1]Dev status: protocol error(parity error)(RESP Q :0x%08x)\n", I3CS1->RESPQUE);
+        }
+
+        if (I3CS1->CCCDEVS & I3CS_CCCDEVS_DATNRDY_Msk)
+        {
+            WRNLOG("\t[M][I3C1]Dev status: Data not ready \n");
+            WRNLOG("[M][I3C1]cmd queue lv: 0x%08x\n", I3CS1->QUESTSLV);
+            /*
+               This bit is set when private read request from master is NACKED
+               because Command FIFO empty/Transmit FIFO threshold is not meet/Response FIFO full
+            */
+            /* Host needs to send read command again because last read data was lost.
+               But if next command is write command, slave cannot write the same data to TX FIFO.
+               limitation: The next write command cannot to assign a different MRn.
+            */
+        }
     }
 }
 
@@ -89,6 +66,17 @@ void SPDHIRQHandler(void)
         /* Do chip reset by software, because Host sent bus reset to all device on the same bus. */
         SYS_ResetChip();
     }
+
+    #if (SPDH_DETECT_POWER_DOWN == 1)
+    if (u32SpdhSts & SPDH_INTSTS_PWRDTOIF_Msk)
+    {
+        DBGLOG_HUB("SPDH_IRQ: Power Down Detect\n");
+        DBGLOG_HUB("\nHub need enter power down now~~\n");
+        SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_PWRDTOIF_Msk);
+
+        g_DetectedPowerDown = 1;
+    }
+    #endif
 
     if (u32SpdhSts & SPDH_INTSTS_DSETHIDIF_Msk)
     {
@@ -126,7 +114,7 @@ void SYS_Init(void)
 
     /* Set core clock to 72MHz */
     CLK_SetCoreClock(72000000);
-    
+
     /* Enable UART0 module clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(TMR0_MODULE);
@@ -185,6 +173,7 @@ int32_t main(void)
     printf("    - I2C Static Address 0x%x\n", I3CS1_SA);
     while(1)
     {
+        #if (SPDH_DETECT_POWER_DOWN == 1)
         if (g_DetectedPowerDown)
         {
             g_DetectedPowerDown = 0;
@@ -193,6 +182,7 @@ int32_t main(void)
             //system enter pwoer down now
             CLK_PowerDown();
         }
+        #endif
 
         /* Check and handle I3CS status */
         I3CSStatusHandler();
@@ -206,7 +196,7 @@ int32_t main(void)
             /* Update LLSIEN(MR36[0]) as 0 while flash LED has finished. */
             DevReg_LLSIEnable(0);
         }
-        
+
         /* Check if need to send IBI request. */
         LocalDev_CheckIBIReg();
     }
