@@ -10,6 +10,7 @@
 #include "NuMicro.h"
 
 #include "LocalDevReg.h"
+#include "MR_Register_LLSI.h"
 
 #define DEV_REG_ATTR_R   0
 #define DEV_REG_ATTR_RW  1
@@ -19,70 +20,70 @@
 
 //MR0 ~ MR63
 volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
-    0x51, //MR0,  Device Type; Most Significant Byte
-    0xFF, //MR1,  Device Type; Least Significant Byte
-    0x01,/*0x11,*/ //MR2,  Device Revision
-    0xFF, //MR3,  Vendor ID byte 0
-    0xFF, //MR4,  Vendor ID byte 1
-    0x00, //MR5,  Reserved
-    0x00, //MR6,  Reserved
-    0x00, //MR7,  Reserved
-    0x00, //MR8,  Reserved
-    0x00, //MR9,  Reserved
-    0x00, //MR10, Reserved
-    0x00, //MR11, Reserved
-    0x00, //MR12, Reserved
-    0x00, //MR13, Reserved
-    0x00, //MR14, Reserved
-    0x00, //MR15, Reserved
-    0x00, //MR16, Reserved
-    0x00, //MR17, Reserved
-    0x00, //MR18, Device Configuration
-    0x00, //MR19, Reserved
-    0x00, //MR20, Clear Register Command
-    0x00, //MR21, Reserved
-    0x00, //MR22, Reserved
-    0x00, //MR23, Reserved
-    0x00, //MR24, Reserved
-    0x00, //MR25, Reserved
-    0x00, //MR26, Reserved
-    0x00, //MR27, Interrupt Configuration
-    0x00, //MR28, Reserved
-    0x00, //MR29, Reserved
-    0x00, //MR30, Reserved
-    0x00, //MR31, Reserved
-    0x00, //MR32, Reserved
-    0x00, //MR33, Reserved
-    0x00, //MR34, Reserved
-    0x00, //MR35, Reserved
-    0x00, //MR36, LLSI Enable
-    0x00, //MR37, LLSI Transfer Mode and Frequency Selection
-    0x01, //MR38, LLSI Build-in Mode LED Function Selection, default is static mode
-    0x0A, //MR39, LLSI Pixel Count Selection 0, defaule is 10 LEDs
-    0x00, //MR40, LLSI Pixel Count Selection 1
-    0x00, //MR41, LLSI Data Byte Selection 0
-    0x00, //MR42, LLSI Data Byte Selection 1
-    0x00, //MR43, LLSI Data
-    0x00, //MR44, Color R
-    0xFF, //MR45, Color G, default is green color
-    0x00, //MR46, Color B
-    0x00, //MR47, Write Mode
-    0x00, //MR48, Device Status
-    0x00, //MR49, Reserved
-    0x00, //MR50, Reserved
-    0x00, //MR51, Reserved
-    0x00, //MR52, Error Status
-    0x00, //MR53, Reserved
-    0x00, //MR54, Reserved
-    0x80, //MR55, LED speed
-    0xFF, //MR56, LED Brightness
-    0x00, //MR57, Reserved
-    0x00, //MR58, Reserved
-    0x00, //MR59, Reserved
-    0x00, //MR60, Reserved
-    0x00, //MR61, Reserved
-    0x00, //MR62, Reserved
-    0x00 //MR63, Reserved
+    MR0_REG,    //MR0,  Device Type; Most Significant Byte
+    MR1_REG,    //MR1,  Device Type; Least Significant Byte
+    MR2_REG,    //MR2,  Device Revision
+    MR3_REG,    //MR3,  Vendor ID byte 0
+    MR4_REG,    //MR4,  Vendor ID byte 1
+    MR5_REG,    //MR5,  Reserved
+    MR6_REG,    //MR6,  Reserved
+    MR7_REG,    //MR7,  Reserved
+    MR8_REG,    //MR8,  Reserved
+    MR9_REG,    //MR9,  Reserved
+    MR10_REG,   //MR10, Reserved
+    MR11_REG,   //MR11, Reserved
+    MR12_REG,   //MR12, Reserved
+    MR13_REG,   //MR13, Reserved
+    MR14_REG,   //MR14, Reserved
+    MR15_REG,   //MR15, Reserved
+    MR16_REG,   //MR16, Reserved
+    MR17_REG,   //MR17, Reserved
+    MR18_REG,   //MR18, Device Configuration
+    MR19_REG,   //MR19, Reserved
+    MR20_REG,   //MR20, Clear Register Command
+    MR21_REG,   //MR21, Reserved
+    MR22_REG,   //MR22, Reserved
+    MR23_REG,   //MR23, Reserved
+    MR24_REG,   //MR24, Reserved
+    MR25_REG,   //MR25, Reserved
+    MR26_REG,   //MR26, Reserved
+    MR27_REG,   //MR27, Interrupt Configuration
+    MR28_REG,   //MR28, Reserved
+    MR29_REG,   //MR29, Reserved
+    MR30_REG,   //MR30, Reserved
+    MR31_REG,   //MR31, Reserved
+    MR32_REG,   //MR32, Reserved
+    MR33_REG,   //MR33, Reserved
+    MR34_REG,   //MR34, Reserved
+    MR35_REG,   //MR35, Reserved
+    MR36_REG,   //MR36, LLSI Enable
+    MR37_REG,   //MR37, LLSI Transfer Mode and Frequency Selection
+    MR38_REG,   //MR38, LLSI Build-in Mode LED Function Selection, default is static mode
+    MR39_REG,   //MR39, LLSI Pixel Count Selection 0, defaule is 10 LEDs
+    MR40_REG,   //MR40, LLSI Pixel Count Selection 1
+    MR41_REG,   //MR41, LLSI Data Byte Selection 0
+    MR42_REG,   //MR42, LLSI Data Byte Selection 1
+    MR43_REG,   //MR43, LLSI Data
+    MR44_REG,   //MR44, Color R
+    MR45_REG,   //MR45, Color G, default is green color
+    MR46_REG,   //MR46, Color B
+    MR47_REG,   //MR47, Write Mode
+    MR48_REG,   //MR48, Device Status
+    MR49_REG,   //MR49, Reserved
+    MR50_REG,   //MR50, Reserved
+    MR51_REG,   //MR51, Reserved
+    MR52_REG,   //MR52, Error Status
+    MR53_REG,   //MR53, Reserved
+    MR54_REG,   //MR54, Reserved
+    MR55_REG,   //MR55, LED Speed
+    MR56_REG,   //MR56, LED Brightness
+    MR57_REG,   //MR57, Reserved
+    MR58_REG,   //MR58, Reserved
+    MR59_REG,   //MR59, Reserved
+    MR60_REG,   //MR60, Reserved
+    MR61_REG,   //MR61, Reserved
+    MR62_REG,   //MR62, Reserved
+    MR63_REG,   //MR63, Reserved
     };
 
 //MR0 ~ MR63
@@ -142,7 +143,7 @@ volatile uint8_t g_au8DevRegAttr[MAX_DEVREG_LEN] = {
     DEV_REG_ATTR_R, //Error Status
     DEV_REG_ATTR_RV, //MR53, Reserved
     DEV_REG_ATTR_RV, //MR54, Reserved
-    DEV_REG_ATTR_RW, //MR55, LED speed
+    DEV_REG_ATTR_RW, //MR55, LED Speed
     DEV_REG_ATTR_RW, //MR56, LED Brightness
     DEV_REG_ATTR_RV, //MR57, Reserved
     DEV_REG_ATTR_RV, //MR58, Reserved
@@ -210,7 +211,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
     0x0, //Error Status
     0x0, //MR53, Reserved
     0x0, //MR54, Reserved
-    0xFF, //MR55, LED speed
+    0xFF, //MR55, LED Speed
     0xFF, //MR56, LED Brightness
     0x0, //MR57, Reserved
     0x0, //MR58, Reserved

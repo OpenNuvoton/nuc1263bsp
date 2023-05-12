@@ -412,6 +412,16 @@
               <FileType>1</FileType>
               <FilePath>..\LocalDevFw.c</FilePath>
             </File>
+            <File>
+              <FileName>MR_Register_LLSI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\MR_Register_LLSI.h</FilePath>
+            </File>
+            <File>
+              <FileName>readme.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\readme.txt</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
