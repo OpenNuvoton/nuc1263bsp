@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:NUC1263SD4AE$SVD\Nuvoton\NUC1263AE.svd</SFDFile>
+          <SFDFile>C:\1263.SFR</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>DEBUG_ENABLE_SEMIHOSTxxx</Define>
+              <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Include;..\..\..\..\Library\StdDriver\inc;..\..\..\..\Library\CMSIS\Include;..\..\..\..\Library\SpdhLib\Include;..\LLSI</IncludePath>
+              <IncludePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Include;..\..\..\..\Library\StdDriver\inc;..\..\..\..\Library\CMSIS\Include;..\..\..\..\Library\SPDHLib\Include;..\LLSI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -418,9 +418,9 @@
               <FilePath>..\MR_Register_LLSI.h</FilePath>
             </File>
             <File>
-              <FileName>readme.txt</FileName>
+              <FileName>readme.md</FileName>
               <FileType>5</FileType>
-              <FilePath>..\readme.txt</FilePath>
+              <FilePath>..\readme.md</FilePath>
             </File>
           </Files>
         </Group>
@@ -478,14 +478,14 @@
               <FilePath>..\..\..\..\Library\StdDriver\src\timer.c</FilePath>
             </File>
             <File>
-              <FileName>spdh.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Library\StdDriver\src\spdh.c</FilePath>
-            </File>
-            <File>
               <FileName>i3cs.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Library\StdDriver\src\i3cs.c</FilePath>
+            </File>
+            <File>
+              <FileName>spdh_device.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\..\Library\SPDHLib\spdh_device.lib</FilePath>
             </File>
           </Files>
         </Group>

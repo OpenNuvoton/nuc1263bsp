@@ -9,6 +9,7 @@
 #include "stdio.h"
 #include "NuMicro.h"
 
+#include "spdh_device.h"
 #include "LocalDevReg.h"
 #include "MR_Register_LLSI.h"
 
@@ -84,7 +85,7 @@ volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
     MR61_REG,   //MR61, Reserved
     MR62_REG,   //MR62, Reserved
     MR63_REG,   //MR63, Reserved
-    };
+};
 
 //MR0 ~ MR63
 volatile uint8_t g_au8DevRegAttr[MAX_DEVREG_LEN] = {
@@ -232,7 +233,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
  * @details Read the device register value.
  *
  */
-#define READ_DEV_REG_D(u8RegAddr) (g_au8DevReg[(u8RegAddr)])
+#define READ_DEV_REG_D(u8RegAddr)   (g_au8DevReg[(u8RegAddr)])
 
 /**
  * @brief Read the specific address register value of device
@@ -244,7 +245,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
  * @details Read the device register value.
  *
  */
-#define READ_DEV_REG(u8RegAddr) (g_au8DevReg[(u8RegAddr)])
+#define READ_DEV_REG(u8RegAddr)     (g_au8DevReg[(u8RegAddr)])
 
 /**
  * @brief Write the specific address register value of device directly
@@ -568,5 +569,3 @@ __INLINE int8_t DevReg_LLSIEnable(uint8_t u8Enable)
 
     return 0;
 }
-
-

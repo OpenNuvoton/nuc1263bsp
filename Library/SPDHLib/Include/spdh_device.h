@@ -1,15 +1,13 @@
 /**************************************************************************//**
- * @file     spdh.h
+ * @file     spdh_device.h
  * @version  V3.00
- * $Revision: 6 $
- * $Date: 16/10/25 4:25p $
  * @brief    SPDH driver header file
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
-#ifndef __SPDH_H__
-#define __SPDH_H__
+#ifndef __SPDH_DEVICE_H__
+#define __SPDH_DEVICE_H__
 
 #ifdef __cplusplus
 extern "C"
@@ -60,9 +58,9 @@ extern "C"
  *
  * @return      None
  *
- * @details     This macro sets the pull-up configuration for local bus(LSCL and LSDA) of SPD5 Hub.
+ * @details     This function sets the pull-up configuration for local bus(LSCL and LSDA) of SPD5 Hub.
  */
-#define SPDH_SET_LBUS(u32PullUpSel) ((uint32_t)(SPDH->CTL = (SPDH->CTL &~(SPDH_CTL_LPUSEL_Msk)) | ((u32PullUpSel) << SPDH_CTL_LPUSEL_Pos)))
+void SPDH_SetLocalBusCfg(uint32_t u32PullUpSel);
 
 
 /**
@@ -82,109 +80,10 @@ extern "C"
  *
  * @return      None
  *
- * @details     This macro sets the pull-up resistor for local bus(LSCL and LSDA) of SPD5 Hub.
+ * @details     This function sets the pull-up resistor for local bus(LSCL and LSDA) of SPD5 Hub.
  */
-#define SPDH_SET_LBUS_PULLUP(u32SdaPullUp, u32SclPullUp) ((uint32_t)(SPDH->CTL = (SPDH->CTL &~(SPDH_CTL_LSDAPUS_Msk|SPDH_CTL_LSCLPUS_Msk)) | \
-                                                         ((u32SdaPullUp) << SPDH_CTL_LSDAPUS_Pos)|((u32SclPullUp) << SPDH_CTL_LSCLPUS_Pos)))
+void SPDH_SetLocalBusPullUp(uint32_t u32SdaPullUp, uint32_t u32SclPullUp);
 
-
-/**
- * @brief       Enable SPD5 Hub
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro enables SPD5 Hub.
- * @note        This macro needs to be called before setting I3CS0 enable bit.
- */
-#define SPDH_ENABLE_HUB() (SPDH->CTL |= (SPDH_CTL_HUBEN_Msk|SPDH_CTL_SIRENVAL_Msk))
-
-
-/**
- * @brief       Disable SPD5 Hub
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro disables SPD5 Hub.
- */
-#define SPDH_DISABLE_HUB() (SPDH->CTL &= ~SPDH_CTL_HUBEN_Msk)
-
-
-/**
- * @brief       Enable slave interrupt request of SPD5 Hub
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro enables slave interrupt request of SPD5 Hub.
- * @note        This macro needs to be called before setting I3CS0 enable bit.
- */
-#define SPDH_ENABLE_HUB_SIR() (SPDH->CTL &= ~SPDH_CTL_SIRENVAL_Msk)
-
-
-/**
- * @brief       Disable slave interrupt request of SPD5 Hub
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro disables slave interrupt request of SPD5 Hub.
- * @note        This macro needs to be called before setting I3CS0 enable bit.
- */
-#define SPDH_DISABLE_HUB_SIR() (SPDH->CTL |= SPDH_CTL_SIRENVAL_Msk)
-
-
-/**
- * @brief       Enable SPD5 Hub CRC function
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro enables SPD5 Hub CRC function.
- */
-#define SPDH_ENABLE_HUB_CRC() (SPDH->CTL |= SPDH_CTL_CRCEN_Msk)
-
-
-/**
- * @brief       Disable SPD5 Hub CRC function
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro disables SPD5 Hub CRC function.
- */
-#define SPDH_DISABLE_HUB_CRC() (SPDH->CTL &= ~SPDH_CTL_CRCEN_Msk)
-
-
-/**
- * @brief       Set SPD5 Hub HID
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro sets the HID value of SPD5 Hub.
- */
-#define SPDH_SET_HUB_HID(u32Hid) (SPDH->HID = (u32Hid))
-
-
-/**
- * @brief       Set DEVCAP value of SPD5 Hub
- *
- * @param[in]   None
- *
- * @retval      None
- *
- * @details     This macro sets the DEVCAP value of SPD5 Hub.
- */
-#define SPDH_SET_HUB_DEVCAP(u32Value) (SPDH->HCAP = (u32Value))
 
 
 /**
@@ -207,9 +106,9 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro enables specified SPD5 Hub interrupt.
+ * @details     This function enables specified SPD5 Hub interrupt.
  */
-#define SPDH_ENABLE_INT(u32IntSel) (SPDH->INTEN |= (u32IntSel))
+void SPDH_EnableINT(uint32_t u32IntSel);
 
 
 /**
@@ -232,9 +131,9 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro disables specified SPD5 Hub interrupt.
+ * @details     This function disables specified SPD5 Hub interrupt.
  */
-#define SPDH_DISABLE_INT(u32IntSel) (SPDH->INTEN &= (~(u32IntSel)))
+void SPDH_DisableINT(uint32_t u32IntSel);
 
 
 /**
@@ -244,9 +143,9 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro get specified interrupt status.
+ * @details     This function get specified interrupt status.
  */
-#define SPDH_GET_INT_STATUS() ((uint32_t)(SPDH->INTSTS))
+uint32_t SPDH_GetINTStatus(void);
 
 
 /**
@@ -270,93 +169,9 @@ extern "C"
  * @retval      0 The specified interrupt is not happened.
  *              1 The specified interrupt is happened.
  *
- * @details     This macro get specified interrupt flag.
+ * @details     This function get specified interrupt flag.
  */
-#define SPDH_GET_INT_FLAG(u32IntFlag) ((SPDH->INTSTS & (u32IntFlag))?1:0)
-
-
-/**
- * @brief       Get SPD5 Hub status
- *
- * @param[in]   None
- *
- * @return      The SPD5 Hub status
- *
- * @details     This macro gets the SPD5 Hub status.
- */
-#define SPDH_GET_HUB_STATUS() (SPDH->STS)
-
-
-/**
- * @brief       Check The Specified SPD5 Hub status
- *
- * @param[in]   u32StsMsk     The status mask, should be
- *                            - \ref SPDH_STS_PECSTS_Msk   : PEC enable status
- *                            - \ref SPDH_STS_PARDIS_Msk   : Parity disable bit
- *                            - \ref SPDH_STS_IBICLR_Msk   : IBI clear bit
- *                            - \ref SPDH_STS_PECCHK_Msk   : PEC check result
- *                            - \ref SPDH_STS_MODE_Msk     : I3C/I2C MODE status
- *                            - \ref SPDH_STS_IBIHEAD_Msk  : IBI Header status
- *                            - \ref SPDH_STS_PENDIBI_Msk  : Pending in band interrupt status
- *                            - \ref SPDH_STS_PROERR_Msk   : Protocol error
- *                            - \ref SPDH_STS_PECERR_Msk   : PEC error 
- *
- * @retval      0 The specified status is not happened.
- *              1 The specified status is happened.
- *
- * @details     This macro checks the SPD5 Hub status.
- */
-#define SPDH_IS_HUB_INT_STATUS(u32StsMsk) ((SPDH->STS & (u32StsMsk))?1:0)
-
-/**
- * @brief       Get SPD5 Hub protocol mode
- *
- * @param[in]   None
- *
- * @retval      0    I2C mode.
- * @retval      1    I3C mode.
- *
- * @details     This macro gets the prototcol mode of SPD5 Hub.
- */
-#define SPDH_GET_HUB_MODE() ((uint32_t)((SPDH->STS & SPDH_STS_MODE_Msk) >> SPDH_STS_MODE_Pos))
-
-
-/**
- *    @brief        Check the PEC mode of SPD5 Hub is enabled.
- *
- *    @param[in]    None
- *
- *    @retval       0 PEC is not enabled
- *    @retval       1 PEC is enabled
- *
- *    @details      This macro returns PEC enable status register bit value.
- *                  It indicates if PEC of SPD5 Hub is enabled nor not.
- */
-#define SPDH_IS_HUB_PEC_ENABLE() ((uint32_t)(SPDH->STS & SPDH_STS_PECSTS_Msk) >> SPDH_STS_PECSTS_Pos)
-
-
-/**
- * @brief       Clear the PEC error status of SPD5 Hub
- *
- * @param[in]   None
- *
- * @return      None
- *
- * @details     This macro clears the PEC error status of SPD5 Hub.
- */
-#define SPDH_CLEAR_HUB_PEC_ERR() ((uint32_t)(SPDH->CTL = SPDH_CTL_PECCLR_Msk)
-
-
-/**
- * @brief       Clear the global event status of SPD5 Hub
- *
- * @param[in]   None
- *
- * @return      None
- *
- * @details     This macro clears the global event status of SPD5 Hub.
- */
-#define SPDH_CLEAR_HUB_EVENT() ((uint32_t)(SPDH->CTL = SPDH_CTL_EVENTCLR_Msk)
+uint32_t SPDH_GetINTFlag(uint32_t u32IntFlag);
 
 
 /**
@@ -380,9 +195,9 @@ extern "C"
  * @retval      0 The specified interrupt is not happened.
  *              1 The specified interrupt is happened.
  *
- * @details     This macro clear specified interrupt flag.
+ * @details     This function clear specified interrupt flag.
  */
-#define SPDH_CLEAR_INT_FLAG(u32IntFlag) (SPDH->INTSTS = (u32IntFlag))
+void SPDH_ClearINTFlag(uint32_t u32IntFlag);
 
 
 /**
@@ -392,10 +207,10 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro enables slave interrupt request of SPD5 Hub local device.
- * @note        This macro needs to be called before setting I3C1 enable bit.
+ * @details     This function enables slave interrupt request of SPD5 Hub local device.
+ * @note        This function needs to be called before setting I3C1 enable bit.
  */
-#define SPDH_ENABLE_DEV_SIR() (SPDH->DCTL &= ~SPDH_DCTL_SIRENVAL_Msk)
+void SPDH_EnableDEVSIR(void);
 
 
 /**
@@ -405,10 +220,10 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro disables slave interrupt request of SPD5 Hub local device.
- * @note        This macro needs to be called before setting I3C1 enable bit.
+ * @details     This function disables slave interrupt request of SPD5 Hub local device.
+ * @note        This function needs to be called before setting I3C1 enable bit.
  */
-#define SPDH_DISABLE_DEV_SIR() (SPDH->DCTL |= SPDH_DCTL_SIRENVAL_Msk)
+void SPDH_DisableDEVSIR(void);
 
 
 /**
@@ -418,9 +233,9 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro enables CRC function of SPD5 Hub local device.
+ * @details     This function enables CRC function of SPD5 Hub local device.
  */
-#define SPDH_ENABLE_DEV_CRC() (SPDH->DCTL |= SPDH_DCTL_CRCEN_Msk)
+void SPDH_EnableDEVCRC(void);
 
 
 /**
@@ -430,9 +245,9 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro disables CRC function of SPD5 Hub local device.
+ * @details     This function disables CRC function of SPD5 Hub local device.
  */
-#define SPDH_DISABLE_DEV_CRC() (SPDH->DCTL &= ~SPDH_DCTL_CRCEN_Msk)
+void SPDH_DisableDEVCRC(void);
 
 
 /**
@@ -442,9 +257,9 @@ extern "C"
  *
  * @return      Status of SPD5 Hub local device
  *
- * @details     This macro gets the status of device behind SPD5 Hub.
+ * @details     This function gets the status of device behind SPD5 Hub.
  */
-#define SPDH_GET_DEV_STATUS() (SPDH->DSTS)
+uint32_t SPDH_GetDEVStatus(void);
 
 
 /**
@@ -464,9 +279,10 @@ extern "C"
  * @retval      0 The specified status is not happened.
  *              1 The specified status is happened.
  *
- * @details     This macro checks the status of device behind SPD5 Hub.
+ * @details     This function checks the status of device behind SPD5 Hub.
  */
-#define SPDH_IS_DEV_INT_STATUS(u32StsMsk) ((SPDH->DSTS & (u32StsMsk))?1:0)
+uint32_t SPDH_IsDEVINTStatus(uint32_t u32StsMsk);
+
 
 /**
  * @brief       Get the Protocol Mode of SPD5 Hub local device
@@ -476,9 +292,9 @@ extern "C"
  * @retval      0    I2C mode.
  * @retval      1    I3C mode.
  *
- * @details     This macro gets the protocol mode of device behind SPD5 Hub.
+ * @details     This function gets the protocol mode of device behind SPD5 Hub.
  */
-#define SPDH_GET_DEV_MODE() ((uint32_t)((SPDH->DSTS & SPDH_DSTS_MODE_Msk) >> SPDH_DSTS_MODE_Pos))
+uint32_t SPDH_GetDEVMode(void);
 
 
 /**
@@ -489,34 +305,10 @@ extern "C"
  *    @retval       0 PEC is not enabled
  *    @retval       1 PEC is enabled
  *
- *    @details      This macro returns PEC enable status register bit value.
+ *    @details      This function returns PEC enable status register bit value.
  *                  It indicates if PEC of device behind SPD5 Hub is enabled nor not.
  */
-#define SPDH_IS_DEV_PEC_ENABLE() ((uint32_t)(SPDH->DSTS & SPDH_DSTS_PECSTS_Msk) >> SPDH_DSTS_PECSTS_Pos)
-
-
-/**
- * @brief       Clear the PEC error status of SPD5 Hub local device
- *
- * @param[in]   None
- *
- * @return      None
- *
- * @details     This macro clears the PEC error status of device behind SPD5 Hub.
- */
-#define SPDH_CLEAR_DEV_PEC_ERR() ((uint32_t)(SPDH->DCTL = SPDH_DCTL_PECCLR_Msk)
-
-
-/**
- * @brief       Clear the global event status of SPD5 Hub local device
- *
- * @param[in]   None
- *
- * @return      None
- *
- * @details     This macro clears the global event status of device behind SPD5 Hub.
- */
-#define SPDH_CLEAR_DEV_EVENT() ((uint32_t)(SPDH->DCTL = SPDH_DCTL_EVENTCLR_Msk)
+uint32_t SPDH_IsDEVPECEnable(void); 
 
 
 /**
@@ -526,41 +318,102 @@ extern "C"
  *
  * @retval      None
  *
- * @details     This macro gets the HID value of device behind SPD5 Hub.
+ * @details     This function gets the HID value of device behind SPD5 Hub.
  */
-#define SPDH_GET_DEV_HID() (SPDH->DCTL & SPDH_DCTL_HID_Msk)
+uint32_t SPDH_GetDEVHID(void);
 
 
 /**
  * @brief       Set LID of SPD5 Hub local device
  *
- * @param[in]   None
+ * @param[in]   4-bits LID
  *
  * @retval      None
  *
- * @details     This macro sets the LID value of device behind SPD5 Hub.
+ * @details     This function sets the LID value of device behind SPD5 Hub.
  */
-#define SPDH_SET_DEV_LID(u32Lid) (SPDH->DCTL = ((SPDH->DCTL & ~SPDH_DCTL_LID_Msk) | ((u32Lid) << SPDH_DCTL_LID_Pos)))
+void SPDH_SetDEVLID(uint8_t u8LID);
 
 
 /**
  * @brief       Set DEVCAP value of SPD5 Hub local device
  *
+ * @param[in]   DEVCAP value of HUB's device
+ *
+ * @retval      None
+ *
+ * @details     This function sets the DEVCAP value of device behind SPD5 Hub.
+ */
+void SPDH_SetDEVDEVCAP(uint32_t u32Value);
+
+
+/**
+ * @brief       Get DEVCTRL0 value
+ *
  * @param[in]   None
  *
  * @retval      None
  *
- * @details     This macro sets the DEVCAP value of device behind SPD5 Hub.
+ * @details     This function gets the DEVCTRL0 value.
  */
-#define SPDH_SET_DEV_DEVCAP(u32Value) (SPDH->DCAP = (u32Value))
+uint32_t SPDH_GetDEVCTRL0(void);
+
+
+/**
+ * @brief       Get DEVCTRL1 value
+ *
+ * @param[in]   None
+ *
+ * @retval      None
+ *
+ * @details     This function gets the DEVCTRL1 value.
+ */
+uint32_t SPDH_GetDEVCTRL1(void);
 
 
 
-/*---------------------------------------------------------------------------------------------------------*/
-/* Define SPDH functions prototype                                                                          */
-/*---------------------------------------------------------------------------------------------------------*/
+/**
+ * @brief       Set bus reset timeout counter
+ *
+ * @param[in]   u32TimeOutCnt    timeout counter. Valid value range is from 0 to 255.
+ *                               tTIMEOUT = (u32TimeOutCnt+1) x 16384 (14-bit) x TPCLK
+ *
+ * @param[in]   u32OnOff         Enable/disable timeout function
+ *
+ * @return      None
+ *
+ * @details     This function sets bus reset timeout counter.
+ */
 void SPDH_SetBusResetTimeout(uint32_t u32OnOff, uint32_t u32TimeOutCnt);
+
+
+/**
+ * @brief       Set HSDA switch timeout counter
+ *
+ * @param[in]   u32TimeOutCnt     timeout counter. Valid value range is from 0 to 63.
+ *                                tTIMEOUT = ((u32TimeOutCnt+1) x 16384 (14-bit) x TPCLK
+ *
+ * @param[in]   u32OnOff          Enable/disable timeout function
+ *
+ * @return      None
+ *
+ * @details     This function sets HSDA switch timeout counter.
+ */
 void SPDH_SetHSDASwitchTimeout(uint32_t u32OnOff, uint32_t u32TimeOutCnt);
+
+
+/**
+ * @brief       Set power down timeout counter
+ *
+ * @param[in]   u32TimeOutCnt     timeout counter. Valid value range is from 0 to 255.
+ *                                tTIMEOUT = (u32TimeOutCnt+1) x 65536 (16-bit) x TPCLK
+ *
+ * @param[in]   u32OnOff          Enable/disable timeout function
+ *
+ * @return      None
+ *
+ * @details     This function sets power down detect timeout counter.
+ */
 void SPDH_SetPowerDownTimeout(uint32_t u32OnOff, uint32_t u32TimeOutCnt);
 
 /*@}*/ /* end of group SPDH_EXPORTED_FUNCTIONS */
@@ -573,5 +426,5 @@ void SPDH_SetPowerDownTimeout(uint32_t u32OnOff, uint32_t u32TimeOutCnt);
 }
 #endif
 
-#endif //__SPDH_H__
+#endif //__SPDH_DEVICE_H__
 

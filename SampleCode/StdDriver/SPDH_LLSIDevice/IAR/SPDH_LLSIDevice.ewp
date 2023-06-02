@@ -1096,7 +1096,7 @@
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\retarget.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\spdh.c</name>
+            <name>$PROJ_DIR$\..\..\..\..\Library\SPDHLib\spdh_device_IAR.a</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\Library\StdDriver\src\sys.c</name>

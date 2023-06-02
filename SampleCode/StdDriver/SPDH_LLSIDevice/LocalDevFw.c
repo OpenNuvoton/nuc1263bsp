@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "NuMicro.h"
 
+#include "spdh_device.h"
 #include "LocalDevReg.h"
 #include "LocalDevFw.h"
 
@@ -128,7 +129,7 @@ static int32_t _ReadHandler(I3CS_T * i3cs)
 static int32_t _ReadHandler2B(I3CS_T * i3cs)
 {
 
-    if (SPDH_IS_DEV_PEC_ENABLE())//if PEC enalbed in I3C mode
+    if (SPDH_IsDEVPECEnable())//if PEC enalbed in I3C mode
     {
         /* 2-bytes addressing mode and PEC enabled */
         /*
@@ -332,7 +333,7 @@ static int32_t _BlockWriteHandler(I3CS_T * i3cs, uint16_t uLen)
 
 static int32_t _WriteHandler2B(I3CS_T * i3cs)
 {
-    if (SPDH_IS_DEV_PEC_ENABLE())//if PEC enalbed in I3C mode
+    if (SPDH_IsDEVPECEnable())//if PEC enalbed in I3C mode
     {
         /* 2-bytes addressing mode and PEC enabled */
         /*
@@ -478,7 +479,7 @@ static int32_t I3CS_ProcessRespQueue(I3CS_T * i3cs)
                 /* PEC mode was disabled using 1-bytes addressing mode */
                 /* PEC mode was enabled using 2-bytes addressing mode */
 
-                if (SPDH_IS_DEV_PEC_ENABLE())//if PEC enalbed in I3C mode
+                if (SPDH_IsDEVPECEnable())//if PEC enalbed in I3C mode
                 {
                     if(pRespQ->b.LENGTH < 4)//read: -O0: cannot write data to TXRXD register before send FIFO out. So response NACK.
                                             //      -O3: can write data to TXRXD register before send FIFO out. So response correct data.
@@ -596,7 +597,7 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
     // I3CS_INTSTS_DAA_Msk
     if(u32IntSts&I3CS_INTSTS_DAA_Msk) // write 1 cleared
     {
-        SPDH_ENABLE_DEV_SIR();
+        SPDH_EnableDEVSIR();
 
         /* Update MR18[5] NF_SEL bit as I3C basic protocol. */
         DevReg_EnableI3C();
@@ -608,7 +609,7 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
 
         __NOP();
         /* To check if mode of device behind Hub and I3C slave is matched? */
-        if (SPDH_GET_DEV_MODE() == 0)
+        if (SPDH_GetDEVMode() == 0)
         {
             WRNLOG("[WARN] Mode of device behind Hub and I3C slave is not matched.(#%d)\n\n", __LINE__);
         }
@@ -674,19 +675,62 @@ static uint32_t I3CS_ParseIntStatus(I3CS_T * i3cs)
 
 void LocalDev_SPDHIRQHandler(void)
 {
+    uint8_t u8StaticAddr, u8LID;
     uint32_t u32SpdhSts, u32HubDevCtrlCfg, u32StartOffset, u32LLSISycFuncCtrl;
 
-    u32SpdhSts = SPDH_GET_INT_STATUS();
+    u32SpdhSts = SPDH_GetINTStatus();
 
+    if(u32SpdhSts & SPDH_INTSTS_BUSRTOIF_Msk)
+    {
+        DBGLOG("\nSPDH_IRQ: BUS Reset Time-out Event\n");
+        SPDH_ClearINTFlag(SPDH_INTSTS_BUSRTOIF_Msk);
+
+        /* Do chip reset by software, because Host sent bus reset to all device on the same bus. */
+        //SYS_ResetChip();
+    }
+
+#if (SPDH_DETECT_POWER_DOWN == 1)
+    if(u32SpdhSts & SPDH_INTSTS_PWRDTOIF_Msk)
+    {
+        DBGLOG("\nSPDH_IRQ: Power Down Detect\n");
+        SPDH_ClearINTFlag(SPDH_INTSTS_PWRDTOIF_Msk);
+
+        g_DetectedPowerDown = 1;
+    }
+#endif
+
+    if(u32SpdhSts & SPDH_INTSTS_DSETHIDIF_Msk)
+    {
+        DBGLOG("\nSPDH_IRQ: Received SETHID CCC\n");
+
+        u8LID = (I3CS1->DEVADDR & SPDH_DCTL_LID_Msk);
+        u8StaticAddr = (uint8_t)(u8LID | SPDH_GetDEVHID());
+        DBGLOG("u8StaticAddr: 0x%08X\n", u8StaticAddr);
+
+        /* Change HID of I3C static address after received SETHID CCC command. */
+        I3CS1->DEVADDR = (I3CS1->DEVADDR &~I3CS_DEVADDR_SA_Msk) | (I3CS_DEVADDR_SAVALID_Msk | u8StaticAddr);
+        DBGLOG("I3C1->DEVADDR: 0x%08X\n", I3CS1->DEVADDR);
+        
+        SPDH_ClearINTFlag(SPDH_INTSTS_DSETHIDIF_Msk);
+    }
+
+    if(u32SpdhSts & SPDH_INTSTS_DEVPCIF_Msk)
+    {
+        DBGLOG("\nSPDH_IRQ: PEC Error Occurred\n");
+        SPDH_ClearINTFlag(SPDH_INTSTS_DEVPCIF_Msk);
+    }
+
+    
+    
     if(u32SpdhSts & SPDH_INTSTS_DDEVCTLIF_Msk)
     {
-        DBGLOG("SPDH_IRQ: Device Received DEVCTRL CCC\n");
-        u32HubDevCtrlCfg = SPDH_GET_DEV_STATUS();
+        DBGLOG("\nSPDH_IRQ: Received DEVCTRL CCC\n");
+        u32HubDevCtrlCfg = SPDH_GetDEVStatus();
         if (u32HubDevCtrlCfg & SPDH_DSTS_PECSTS_Msk)
         {
             DBGLOG("Device DEVCTRL: PEC enabled.\n");
             /* Enable PEC function in Hub's device. */
-            SPDH_ENABLE_DEV_CRC();
+            SPDH_EnableDEVCRC();
             /* Update MR18 register. */
             DevReg_PECEnable();
         }
@@ -694,7 +738,7 @@ void LocalDev_SPDHIRQHandler(void)
         {
             DBGLOG("Device DEVCTRL: PEC disabled.\n");
             /* Disable PEC function in Hub,s device. */
-            SPDH_DISABLE_DEV_CRC();
+            SPDH_DisableDEVCRC();
             /* Update MR18 register. */
             DevReg_PECDisable();
         }
@@ -718,23 +762,23 @@ void LocalDev_SPDHIRQHandler(void)
 
         /* Check if byte 2 data for synchronous function is enabled. */
         /* if RegMod is 0 */
-        if ((SPDH->HDEVCTRL0&BIT0) == 0)
+        if ((SPDH_GetDEVCTRL0()&SPDH_HDEVCTRL0_REGMOD_Msk) == 0)
         {
             /* Check StartOffset value */
-            u32StartOffset = (SPDH->HDEVCTRL0&0x18)>>SPDH_HDEVCTRL0_STAOFSET_Pos;
+            u32StartOffset = (SPDH_GetDEVCTRL0()&SPDH_HDEVCTRL0_STAOFSET_Msk)>>SPDH_HDEVCTRL0_STAOFSET_Pos;
             if (u32StartOffset < 3)
             {
                 if (u32StartOffset == 0)
                 {
-                    u32LLSISycFuncCtrl = _GET_BYTE2(SPDH->HDEVCTRL1);
+                    u32LLSISycFuncCtrl = _GET_BYTE2(SPDH_GetDEVCTRL1());
                 }
                 else if (u32StartOffset == 1)
                 {
-                    u32LLSISycFuncCtrl = _GET_BYTE1(SPDH->HDEVCTRL1);
+                    u32LLSISycFuncCtrl = _GET_BYTE1(SPDH_GetDEVCTRL1());
                 }
                 else if (u32StartOffset == 2)
                 {
-                    u32LLSISycFuncCtrl = _GET_BYTE0(SPDH->HDEVCTRL1);
+                    u32LLSISycFuncCtrl = _GET_BYTE0(SPDH_GetDEVCTRL1());
                 }
                 /* Check if byte 2 data for synchronous function is enabled. */
                 if (u32LLSISycFuncCtrl&BIT0)
@@ -753,24 +797,25 @@ void LocalDev_SPDHIRQHandler(void)
             }
         }
 
-        SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DDEVCTLIF_Msk);
+        SPDH_ClearINTFlag(SPDH_INTSTS_DDEVCTLIF_Msk);
     }
+    
     if(u32SpdhSts & SPDH_INTSTS_DDEVCAPIF_Msk)
     {
-        DBGLOG("SPDH_IRQ: Device Receive DEVCAP CCC\n");
-        SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DDEVCAPIF_Msk);
+        DBGLOG("\nSPDH_IRQ: Received DEVCAP CCC\n");
+        SPDH_ClearINTFlag(SPDH_INTSTS_DDEVCAPIF_Msk);
     }
 
-    if (u32SpdhSts & SPDH_INTSTS_DEVIHDIF_Msk)
+    if(u32SpdhSts & SPDH_INTSTS_DEVIHDIF_Msk)
     {
-        DBGLOG("\nDevice received IBI header\n");
-        SPDH_CLEAR_INT_FLAG(SPDH_INTSTS_DEVIHDIF_Msk);
+        DBGLOG("\nSPDH_IRQ: Received IBI Header\n");
+        SPDH_ClearINTFlag(SPDH_INTSTS_DEVIHDIF_Msk);
 
         /* if pending status is 0x1, then re-send the IBI request */
 
-        if (SPDH_IS_DEV_INT_STATUS(SPDH_DSTS_PENDIBI_Msk))
+        if (SPDH_IsDEVINTStatus(SPDH_DSTS_PENDIBI_Msk))
         {
-            DBGLOG("\nre-send the IBI request\n");
+            DBGLOG("\nRe-send the IBI request\n");
             _DevSendIBIReq();
         }
     }
@@ -793,13 +838,13 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
     CLK->APBCLK0 |= BIT25;
 
     /* Set LID. */
-    SPDH_SET_DEV_LID(((u8DevAddr)&SPDH_DCTL_LID_Msk)>>SPDH_DCTL_LID_Pos);
+    SPDH_SetDEVLID(((u8DevAddr)&SPDH_DCTL_LID_Msk)>>SPDH_DCTL_LID_Pos);
 
     /* Disable Hot-join function before I3CS was enabled. */
     I3CS1->SLVEVNTS &= ~I3CS_SLVEVNTS_HJEN_Msk;
 
     /* Disable SIR. */
-    SPDH_DISABLE_DEV_SIR();
+    SPDH_DisableDEVSIR();
 
     I3CS_Open(I3CS1, u8DevAddr, 8);
 
@@ -814,11 +859,11 @@ int8_t LocalDev_Init(uint8_t u8DevAddr)
 	I3CS1->QUETHCTL  = ((I3CS_CFG_CMD_QUEUE_EMPTY_THLD-1) | ((I3CS_CFG_RESP_QUEUE_FULL_THLD-1)<<8));
 
     /* Enable Hub INT Status for local device */
-    SPDH_ENABLE_INT(SPDH_INTEN_BUSRTOEN_Msk|SPDH_INTEN_DDEVCTLEN_Msk|SPDH_INTEN_DDEVCAPEN_Msk| \
+    SPDH_EnableINT(SPDH_INTEN_BUSRTOEN_Msk|SPDH_INTEN_DDEVCTLEN_Msk|SPDH_INTEN_DDEVCAPEN_Msk| \
                     SPDH_INTEN_DSETHIDEN_Msk|SPDH_INTEN_DEVPCEN_Msk|SPDH_INTEN_DEVIHDEN_Msk);
 
     #if (SPDH_DETECT_POWER_DOWN == 1)
-    SPDH_ENABLE_INT(SPDH_INTEN_PWRDTOEN_Msk|SPDH_INTEN_WKUPEN_Msk);
+    SPDH_EnableINT(SPDH_INTEN_PWRDTOEN_Msk|SPDH_INTEN_WKUPEN_Msk);
     SPDH_SetPowerDownTimeout(1, 0x7F);
     #endif
 
@@ -850,7 +895,7 @@ int8_t LocalDev_ResetInit(uint32_t u32I3cAddr)
     I3CS1->SLVEVNTS &= ~BIT3;
 
     /* Disable SIR. */
-    SPDH_DISABLE_DEV_SIR();
+    SPDH_DisableDEVSIR();
 
     /* Enable I3CS. */
     I3CS1->DEVCTL |= I3CS_DEVCTL_ENABLE_Msk|BIT27;
@@ -912,7 +957,7 @@ int8_t LocalDev_CheckInterfaceSel(void)
             DBGLOG("I3C slave Back to I2C mode.\n\n");
 
             /* To check if mode of device behind Hub and I3C slave is matched? */
-            if (SPDH_GET_DEV_MODE() == 1)
+            if (SPDH_GetDEVMode() == 1)
             {
                 WRNLOG("[WARN] Mode of device behide Hub and I3C slave is not matched.\n\n");
             }
@@ -924,7 +969,7 @@ int8_t LocalDev_CheckInterfaceSel(void)
 static int8_t _DevSendIBIReq(void)
 {
     DBGLOG("\nI3C device re-sends the IBI request\n");
-    if (SPDH_IS_DEV_PEC_ENABLE())
+    if (SPDH_IsDEVPECEnable())
     {
         /* PEC enabled case: */
         I3CS1->SIRDAT = g_au8DevReg[52]|g_au8DevReg[51];// IBI payload should be MR51 and MR52.
