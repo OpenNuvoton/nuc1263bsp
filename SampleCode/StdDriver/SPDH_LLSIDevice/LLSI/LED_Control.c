@@ -18,26 +18,26 @@
 
 #define printf(...)
 
-volatile uint8_t s_u8StopFlashLED = 1;
-
-uint8_t g_u8OneShot_Flag = 0;
-
-void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
-                                  (void *)FUNC_Random, (void *)FUNC_Off, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
-                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Double_Strobe};
 
 /* Initial Serial LED Data Array */
-#define cStrip1_LED 300
-__attribute__((aligned (4))) uint8_t Strip1LEDData[cStrip1_LED*3];
+__attribute__((aligned (4))) uint8_t Strip1LEDData[(cStrip1_LED * 3)];
 
 /* Initial Receive LED Data Array */
-__attribute__((aligned (4))) uint8_t au8RcvBuffer[cStrip1_LED*3];
+__attribute__((aligned (4))) uint8_t au8RcvBuffer[(cStrip1_LED * 3)];
 
 /* Initial Strip1 Setting */
 __attribute__((aligned (4))) volatile LED_Setting_T Strip1_LEDSetting = {0, 0, cStrip1_LED, 1, 255, 0, 0, 0xFF, 0x80, Dir_Forward, Type_GRB,
-                                                                         1, 1, 0, FUNC_Static, Strip1LEDData, 0, 0, 0, Music_POP, 0, cStrip1_LED*3};
+                                                                         1, 1, 0, FUNC_Static, Strip1LEDData, 0, 0, 0, Music_POP, 0, (cStrip1_LED*3)};
+
+volatile uint8_t s_u8StopFlashLED = 1;
+uint8_t g_u8OneShot_Flag = 0;
 
 volatile LED_Setting_T *PDMA_Mapping[1] = {&Strip1_LEDSetting};
+
+/* Lighting Effect Mode */
+void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
+                                  (void *)FUNC_Random, (void *)FUNC_Off, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
+                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Double_Strobe};
 
 uint8_t LLSI_FlashLEDRoutine(void);
 
@@ -88,8 +88,8 @@ void LLSI_Initial(void)
     LLSI0_MFP_Setting();    // Strip1
 
     /* Set LLSI configuration */
-    //LLSI_Open(LLSI0, LLSI_MODE_SW, LLSI_FORMAT_GRB, HCLK_CLK, 1250, 400, 850, 50000, cStrip1_LED, LLSI_IDLE_LOW);
-    LLSI_Open(LLSI0, LLSI_MODE_SW, LLSI_FORMAT_RGB, HCLK_CLK, 1200, 300, 900, 50000, cStrip1_LED, LLSI_IDLE_LOW);
+    //LLSI_Open(LLSI0, LLSI_MODE_SW, LLSI_FORMAT_GRB, SystemCoreClock, 1250, 400, 850, 50000, cStrip1_LED, LLSI_IDLE_LOW);
+    LLSI_Open(LLSI0, LLSI_MODE_SW, LLSI_FORMAT_RGB, SystemCoreClock, 1200, 300, 900, 50000, cStrip1_LED, LLSI_IDLE_LOW);
 
     /* Enable reset command function */
     LLSI_ENABLE_RESET_COMMAND(LLSI0);
@@ -204,30 +204,6 @@ void Clear_LED_Data(volatile struct LED_Setting_Tag* LED_Setting)
     Set_LED_Data(LED_Setting);
 }
 
-void TIMER0_Initial(void)
-{
-    /* Open Timer0 in periodic mode, enable interrupt and 1 interrupt tick per 1 ms */
-    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 1000);
-    TIMER_EnableInt(TIMER0);
-
-    /* Enable Timer0 NVIC */
-    NVIC_EnableIRQ(TMR0_IRQn);
-}
-
-void TMR0_IRQHandler(void)
-{
-    /* Clear interrupt flag */
-    TIMER_ClearIntFlag(TIMER0);
-
-    /* Add LED mode counter */
-    Strip1_LEDSetting.TimeCounter++;
-    
-    if((Strip1_LEDSetting.TimeCounter & 0x1F)==0)
-    {
-        Strip1_LEDSetting.LLSI_Trigger = 1;
-    }
-}
-
 void LLSI_WriteData(uint16_t u16ByteSel, uint8_t u8Data)
 {
     if (u16ByteSel < (sizeof(Strip1LEDData)/sizeof(uint8_t)))
@@ -244,6 +220,12 @@ void LLSI_WriteData(uint16_t u16ByteSel, uint8_t u8Data)
 
 void LLSI_WriteBlockData(uint16_t u16ByteLen, uint8_t *pu8Data)
 {
+#if 1
+    volatile uint32_t i;
+    
+    for (i=0; i<u16ByteLen; i++)
+        *(au8RcvBuffer + i) = pu8Data[i];
+#else    
     uint32_t u32Idx, u32Idx1;
     /* debug log */
     printf("[LLSI_WriteBlockData]%d\n", u16ByteLen);
@@ -281,6 +263,40 @@ void LLSI_WriteBlockData(uint16_t u16ByteLen, uint8_t *pu8Data)
         printf("[%d]%d ", u32Idx, *(au8RcvBuffer + u32Idx));
     }
     printf("\n");
+#endif    
+}
+
+static void TIMER0_Initial(void)
+{
+    static uint8_t u8Timer0InitDone = 0;
+    
+    if (u8Timer0InitDone != 0)
+        return ;
+    
+    /* Open Timer0 in periodic mode, enable interrupt and 1 interrupt tick per 1 ms */
+    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 1000);
+    TIMER_EnableInt(TIMER0);
+
+    /* Enable Timer0 NVIC */
+    NVIC_EnableIRQ(TMR0_IRQn);
+    
+    TIMER_Start(TIMER0);
+    
+    u8Timer0InitDone = 1;
+}
+
+void TMR0_IRQHandler(void)
+{
+    /* Clear interrupt flag */
+    TIMER_ClearIntFlag(TIMER0);
+
+    /* Add LED mode counter */
+    Strip1_LEDSetting.TimeCounter++;
+    
+    if ((Strip1_LEDSetting.TimeCounter&0x1F) == 0)
+    {
+        Strip1_LEDSetting.LLSI_Trigger = 1;
+    }
 }
 
 void LLSI_StartFlashLED(uint8_t u8LLSIEnable)
@@ -291,18 +307,21 @@ void LLSI_StartFlashLED(uint8_t u8LLSIEnable)
         s_u8StopFlashLED = 0;
         
         Strip1_LEDSetting.TimeCounter = 0;
+        
         /* Set Timer configuration */
         TIMER0_Initial();
-        TIMER_Start(TIMER0);
+        
+        /* Use TIMER0 counter as seed of random function */
+        srand(TIMER0->CNT);
+
+        /* Set CMP value to clear TIMER0 CNT to 0 */
+        TIMER_SET_CMP_VALUE(TIMER0, TIMER0->CMP);
 #if 0
         /* Clear Color Data */
         Clear_LED_Data(&Strip1_LEDSetting);
 #endif
-        /* Use TIMER0 counter as seed of random function */
-        srand(TIMER0->CNT);
         
         LLSI_FlashLEDRoutine();
-
     }
     else
     {

@@ -134,7 +134,7 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4101</DriverSelection>
+            <DriverSelection>4100</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2V8M.DLL</Flash2>
@@ -403,14 +403,14 @@
               <FilePath>..\main.c</FilePath>
             </File>
             <File>
-              <FileName>LocalDevReg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LocalDevReg.c</FilePath>
-            </File>
-            <File>
               <FileName>LocalDevFw.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LocalDevFw.c</FilePath>
+            </File>
+            <File>
+              <FileName>LocalDevReg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LocalDevReg.c</FilePath>
             </File>
             <File>
               <FileName>MR_Register_LLSI.h</FileName>
@@ -421,6 +421,26 @@
               <FileName>readme.md</FileName>
               <FileType>5</FileType>
               <FilePath>..\readme.md</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LLSI</GroupName>
+          <Files>
+            <File>
+              <FileName>Flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LLSI\Flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>HDIV.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LLSI\HDIV.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED_Control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LLSI\LED_Control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -486,26 +506,6 @@
               <FileName>spdh_device.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\Library\SPDHLib\spdh_device.lib</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>LLSI</GroupName>
-          <Files>
-            <File>
-              <FileName>Flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LLSI\Flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>HDIV.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LLSI\HDIV.c</FilePath>
-            </File>
-            <File>
-              <FileName>LED_Control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LLSI\LED_Control.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -133,6 +133,9 @@
 //      <o.1> [1] Flash Frequency Selection  
 //          <0=> One Shot
 //          <1=> Continuous
+//      <o.2> [2] Direction Selection  
+//          <0=> Forward         
+//          <1=> Backward
 // </h>
 #define MR37_REG    0x00
 
@@ -155,7 +158,7 @@
 //          <12=> Off
 //          <13=> Water
 //          <14=> Rainbow
-//          <15=> Off
+//          <15=> Double Strobe
 // </h>
 #define MR38_REG    0x01
 
@@ -178,13 +181,13 @@
 #define MR41_REG    0x00
 
 
-// <o> MR42 - LLSI Data Byte Selection 1, BYTESEL[8]
-// <i> LLSI Data Byte Selection Bit[8].
-//      <0x00-0x1:0x1>
+// <o> MR42 - LLSI Data Byte Selection 1, BYTESEL[10:8]
+// <i> LLSI Data Byte Selection Bit[10:8].
+//      <0x00-0x7:0x1>
 #define MR42_REG    0x00
 
 
-// <o> MR43 - LLSI Data
+// <o> MR43 - LLSI Sync. Data
 // <i> 10 LED need (10*3) bytes(RGB) = 30 bytes data, max 300 LED need (300*3) bytes = 900 bytes.
 //      <0x00-0xFF:0x1>
 #define MR43_REG    0x00
@@ -206,11 +209,10 @@
 #define MR46_REG    0x00
 
 
-// <h> MR47 - Write Mode
-//      <o.0> [0] Block Write Enable  
-//          <0=> Block write mode disabled 
-//          <1=> Block write mode enabled
-// </h>
+// <o> MR47 - Block Write
+// <i> Set the first byte (6-bit) for block write size, then block mode, LED counts and all LED data.
+// <i> Master to update 3 LEDs data : Write [SlaveAddr+W-bit] + Data:0x2f-0x0d-0x00-0x00-03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
+//      <0x00-0x3F:0x1>
 #define MR47_REG    0x00
 
 

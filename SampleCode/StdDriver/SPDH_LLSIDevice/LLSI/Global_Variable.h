@@ -11,25 +11,26 @@
 #include <stdint.h>
 #include "NuMicro.h"
 
-#define HCLK_CLK 72000000
+#define cStrip1_LED     20  /* Maximum number of LED */
+
 
 enum eLEDType
 {
-		Type_GRB = 0,
-		Type_RGB = 1,
+    Type_GRB = 0,
+    Type_RGB = 1,
 };
 
 enum eDirection
 {
-		Dir_Forward = 0,
-		Dir_Backward = 1,
+    Dir_Forward = 0,
+    Dir_Backward = 1,
 };
 
 enum eMusicAction
 {
-		Music_POP = 0x01,
-		Music_JAZZ = 0x02,
-		Music_Mixed = 0x03,
+    Music_POP = 0x01,
+    Music_JAZZ = 0x02,
+    Music_Mixed = 0x03,
 };
 
 enum eColorTable
@@ -75,9 +76,7 @@ typedef struct LED_Setting_Tag
     uint8_t   LLSI_Trigger;
 } LED_Setting_T;
 
-#define cStrip1_LED 300
 extern __attribute__((aligned (4))) volatile LED_Setting_T Strip1_LEDSetting;
-
 extern uint8_t g_u8OneShot_Flag;
 
 #endif  /* __Global_Variable__ */

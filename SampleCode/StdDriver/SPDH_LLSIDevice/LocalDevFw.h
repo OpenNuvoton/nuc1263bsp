@@ -27,15 +27,14 @@ extern "C"
 //#define ERRLOG printf
 #define ERRLOG(...)
 
-#define SPDH_DETECT_POWER_DOWN (0)
+#define SPDH_DETECT_POWER_DOWN          (0)
+
 
 #define I3CS_CFG_CMD_QUEUE_EMPTY_THLD    (1UL)
 #define I3CS_CFG_RESP_QUEUE_FULL_THLD    (1UL)
-
 #define I3CS_DEVICE_RESP_QUEUE_CNT       (2UL)
 
 
-#define I3CS_GET_INTSTS(i3cs)                     ((i3cs)->INTSTS)
 #define I3CS_GET_RXD(i3cs)                        ((i3cs)->TXRXDAT)
 
 
@@ -50,7 +49,7 @@ typedef union
         uint32_t TID:3;             /*!< bit:  3.. 5  Transmit Transaction ID */
         uint32_t _reserved:10;      /*!< bit:  6..15  Reserved */
         uint32_t LENGTH:16;         /*!< bit: 16..31  Data Length (byte) */
-    } b;                            /*!< Structure used for bit  access */
+    } b;                            /*!< Structure used for bit access */
     uint32_t w;                     /*!< Type used for word access */
 } CMD_QUEUE_T;
 
@@ -66,18 +65,17 @@ typedef union
         uint32_t TID:3;             /*!< bit: 24..26  Transmit Transaction ID */
         uint32_t RXRSP:1;           /*!< bit:     27  Transaction Type */
         uint32_t STATUS:4;          /*!< bit: 28..31  Response Status */
-    } b;                            /*!< Structure used for bit  access */
+    } b;                            /*!< Structure used for bit access */
     uint32_t w;                     /*!< Type used for word access */
 } RESP_QUEUE_T;
 
 
 int8_t LocalDev_Init(uint8_t u8DevAddr);
 int8_t LocalDev_CheckInterfaceSel(void);
-int8_t LocalDev_UpdateInterfaceSel(uint8_t u8InfSel);
 int8_t LocalDev_CheckIBIReg(void);
-void LocalDev_SPDHIRQHandler(void);
-int32_t Dev_FIFO_ResetAndResume(I3CS_T *i3cs, uint32_t u32ResetMask, uint32_t u32EnableResume);
-int32_t Dev_RespErrorRecovery(I3CS_T *i3cs, uint32_t u32RespStatus);
+int32_t LocalDev_FIFOResetAndResume(I3CS_T *i3cs, uint32_t u32ResetMask, uint32_t u32EnableResume);
+int32_t LocalDev_RespErrorRecovery(I3CS_T *i3cs, uint32_t u32RespStatus);
+
 
 #ifdef __cplusplus
 }

@@ -14,21 +14,27 @@
 
 volatile uint8_t g_u8Strip1_Flash_OneShot = 0;
 
-void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint16_t PCNTSEL, uint8_t Color_R, uint8_t Color_G, uint8_t Color_B, uint8_t u8Speed, uint8_t u8Brightness)
+void ReadStoredSetting(uint8_t *pSetting, uint8_t u8IsCont)
 {
-    Strip1_LEDSetting.AP_Sync = MODESEL;
-    Strip1_LEDSetting.LEDNum = PCNTSEL;
-    if(FRESEL == 0)
+    LED_Setting_T *pLEDSetting = (LED_Setting_T *)pSetting;
+    
+    if (pSetting == NULL)
+        return ;
+        
+    if (u8IsCont == 0)
         g_u8Strip1_Flash_OneShot = 1;
     else
         g_u8Strip1_Flash_OneShot = 0;
+    
+    Strip1_LEDSetting.AP_Sync   = pLEDSetting->AP_Sync;
+    Strip1_LEDSetting.LEDNum    = pLEDSetting->LEDNum;
+    Strip1_LEDSetting.Direction = pLEDSetting->Direction;
 
-    Strip1_LEDSetting.Color_R = Color_R;
-    Strip1_LEDSetting.Color_G = Color_G;
-    Strip1_LEDSetting.Color_B = Color_B;
-
-    Strip1_LEDSetting.LightingMode = LEDFUNSEL;
-    Strip1_LEDSetting.Speed = u8Speed;
-    Strip1_LEDSetting.Brightness = u8Brightness;
-    Strip1_LEDSetting.Mode_FUNC = (LED_FUNC)Mode_Function[Strip1_LEDSetting.LightingMode];
+    Strip1_LEDSetting.LightingMode = pLEDSetting->LightingMode;
+    Strip1_LEDSetting.Color_R      = pLEDSetting->Color_R;
+    Strip1_LEDSetting.Color_G      = pLEDSetting->Color_G;
+    Strip1_LEDSetting.Color_B      = pLEDSetting->Color_B;
+    Strip1_LEDSetting.Speed        = pLEDSetting->Speed;
+    Strip1_LEDSetting.Brightness   = pLEDSetting->Brightness;
+    Strip1_LEDSetting.Mode_FUNC    = (LED_FUNC)Mode_Function[Strip1_LEDSetting.LightingMode];
 }

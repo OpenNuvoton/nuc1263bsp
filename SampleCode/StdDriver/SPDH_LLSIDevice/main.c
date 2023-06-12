@@ -9,12 +9,10 @@
 #include <stdio.h>
 #include "NuMicro.h"
 
-#include "spdh_device.h"
 #include "LocalDevReg.h"
 #include "LocalDevFw.h"
 
-
-#define I3CS1_SA         (0x67) /* 0110 0111b, LID is 1100b, default HID is 111b before received SETHID CCC command */
+#define I3CS1_SA        (0x67)  /* 01100111: SA[6:3] LID is 1100b, SA[2:0] HID is default 111b before received SETHID CCC command */
 
 
 #if (SPDH_DETECT_POWER_DOWN == 1)
@@ -23,11 +21,12 @@ volatile uint32_t g_DetectedPowerDown = 0;
 
 volatile uint32_t g_u32FifoClr = 0;
 
-void I3CSStatusHandler(void)
+static void ProcessDeviceStatus(void)
 {
     if (I3CS1->CCCDEVS != I3CS_STS_NO_ERR)
     {
         WRNLOG("\t[M][I3C1]Dev status 0x%x\n", I3CS1->CCCDEVS);
+        
         if (I3CS1->CCCDEVS & I3CS_CCCDEVS_BFNAVAIL_Msk)
         {
             WRNLOG("\t[M][I3C1]Dev status: Buffer not available \n");
@@ -115,7 +114,7 @@ int32_t main(void)
     /* Init UART0 for printf */
     UART0_Init();
 
-    printf("\n\nCPU @ %d Hz\n", SystemCoreClock);
+    printf("\n\nCPU @ %d Hz new\n", SystemCoreClock);
 
     /* Initialize local device */
     LocalDev_Init(I3CS1_SA);
@@ -127,9 +126,10 @@ int32_t main(void)
     printf("| The Local LLSI device firmware code behind SPD5 Hub |\n");
     printf("+-----------------------------------------------------+\n\n");
     printf("    - I2C Static Address 0x%x\n", I3CS1_SA);
+
     while(1)
     {
-        #if (SPDH_DETECT_POWER_DOWN == 1)
+#if (SPDH_DETECT_POWER_DOWN == 1)
         if (g_DetectedPowerDown)
         {
             g_DetectedPowerDown = 0;
@@ -138,10 +138,10 @@ int32_t main(void)
             //system enter pwoer down now
             CLK_PowerDown();
         }
-        #endif
+#endif
 
         /* Check and handle I3CS status */
-        I3CSStatusHandler();
+        ProcessDeviceStatus();
 
         /* Check if interface has changed from I3C to I2C mode.  */
         LocalDev_CheckInterfaceSel();
@@ -156,10 +156,4 @@ int32_t main(void)
         /* Check if need to send IBI request. */
         LocalDev_CheckIBIReg();
     }
-}
-
-void SPDH_IRQHandler(void)
-{
-    /* Call the interrupt handler in LocalDevFw.c */
-    LocalDev_SPDHIRQHandler();
 }

@@ -78,7 +78,7 @@
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state>NUC126AE series	Nuvoton NUC126AE series</state>
+                    <state>NUC1263AE series	Nuvoton NUC1263AE series</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -117,7 +117,7 @@
                 <option>
                     <name>GBECoreSlave</name>
                     <version>28</version>
-                    <state>34</state>
+                    <state>58</state>
                 </option>
                 <option>
                     <name>OGUseCmsis</name>
@@ -134,11 +134,11 @@
                 <option>
                     <name>CoreVariant</name>
                     <version>28</version>
-                    <state>34</state>
+                    <state>58</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state>NUC126AE series	Nuvoton NUC126AE series</state>
+                    <state>NUC1263AE series	Nuvoton NUC1263AE series</state>
                 </option>
                 <option>
                     <name>FPU2</name>
@@ -157,7 +157,7 @@
                 <option>
                     <name>GFPUCoreSlave2</name>
                     <version>28</version>
-                    <state>34</state>
+                    <state>58</state>
                 </option>
                 <option>
                     <name>OGCMSISPackSelectDevice</name>
@@ -353,7 +353,7 @@
                     <state>$PROJ_DIR$\..\..\..\..\Library\Device\Nuvoton\NUC1263\Include</state>
                     <state>$PROJ_DIR$\..\..\..\..\Library\StdDriver\inc</state>
                     <state>$PROJ_DIR$\..\..\..\..\Library\SpdhLib\Include</state>
-                    <state>$PROJ_DIR$\..\..\..\..\SampleCode\StdDriver\SPDH_LLSIDevice\LLSI</state>
+                    <state>$PROJ_DIR$\..\LLSI</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>

@@ -4,7 +4,7 @@
  * @brief    To access the volatile register of device.
  *
  * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2022 Nuvoton Technology Corp. All rights reserved.
+ * @copyright Copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "stdio.h"
 #include "NuMicro.h"
@@ -68,7 +68,7 @@ volatile uint8_t g_au8DevReg[MAX_DEVREG_LEN] = {
     MR44_REG,   //MR44, Color R
     MR45_REG,   //MR45, Color G, default is green color
     MR46_REG,   //MR46, Color B
-    MR47_REG,   //MR47, Write Mode
+    MR47_REG,   //MR47, Block Write Size
     MR48_REG,   //MR48, Device Status
     MR49_REG,   //MR49, Reserved
     MR50_REG,   //MR50, Reserved
@@ -199,7 +199,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
     0xFF, //MR39, LLSI Pixel Count Selection 0
     0x1, //MR40, LLSI Pixel Count Selection 1
     0xFF, //MR41, LLSI Data Byte Selection 0
-    0x3, //MR42, LLSI Data Byte Selection 1
+    0x7, //MR42, LLSI Data Byte Selection 1
     0xFF, //MR43, LLSI Data
     0xFF, //MR44, Color R
     0xFF, //MR45, Color G
@@ -288,6 +288,7 @@ volatile uint8_t g_au8DevRegWriteMsk[MAX_DEVREG_LEN] = {
  *
  */
 #define SET_DEV_REG_BIT_D(u8RegAddr, u8Bit) (g_au8DevReg[(u8RegAddr)] |= (1 << (u8Bit)))
+
 
 __INLINE int8_t DevReg_EnableI2C(void)
 {
@@ -463,37 +464,13 @@ __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
             }
             //update MRn register
             g_au8DevReg[u8RegAddr] = u8Value & g_au8DevRegWriteMsk[u8RegAddr];
-            return 0;
-        }
-        else if (u8RegAddr == 36)
-        {
-            //bit 0: LLSI enable bit
-            if (u8Value & BIT0)
-            {
-                /* Read setting from MR register */
-                //void ReadStoredSetting(uint8_t MODESEL, uint8_t FRESEL, uint8_t LEDFUNSEL, uint16_t PCNTSEL)
-                ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55], g_au8DevReg[56]);
-                /* Trigger LLSI to flash LED */
-                LLSI_StartFlashLED(1);
-            }
-            else
-            {
-                /* Stop to flash LED */
-                LLSI_StartFlashLED(0);
-            }
-        }
-        else if (u8RegAddr == 43)
-        {
-            /* Write LED number by pixel count. */
-            ReadStoredSetting(g_au8DevReg[37]&BIT0, g_au8DevReg[37]&BIT1, g_au8DevReg[38]&0xF, ((g_au8DevReg[40]&0x1)<<8)|(g_au8DevReg[39]&0xFF), g_au8DevReg[44], g_au8DevReg[45], g_au8DevReg[46], g_au8DevReg[55], g_au8DevReg[56]);
-            LLSI_WriteData(((g_au8DevReg[42]&0x3)<<8)|g_au8DevReg[41], u8Value);
         }
     }
     else if (g_au8DevRegAttr[u8RegAddr] == DEV_REG_ATTR_W)
     {
         if (u8RegAddr == 19)
         {
-            #if 0
+#if 0
             //bit 0 to 3 is 1O
             if (u8Value & BIT0)
             {
@@ -525,8 +502,7 @@ __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
             }
             //bit 4 to 7 are RV
             g_au8HubReg[u8RegAddr] = u8Value & 0xF;
-            #endif
-            return 0;
+#endif
         }
         else if (u8RegAddr == 20)
         {
@@ -548,7 +524,6 @@ __INLINE int8_t DevReg_WriteReg(uint8_t u8RegAddr, uint8_t u8Value)
 
             //write value to MRn register
             g_au8DevReg[u8RegAddr] = u8Value & g_au8DevRegWriteMsk[u8RegAddr];
-            return 0;
         }
     }
 
