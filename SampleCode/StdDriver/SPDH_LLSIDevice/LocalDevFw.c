@@ -719,14 +719,14 @@ static int32_t _MasterBlockWriteHandler(I3CS_T *i3cs, uint16_t uLen)
     
     /*
         *** LED pixel x 3 ***
-        [ Host Write ] 47-13-0x00-0x00-0x03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
-                          ============================================================== ~ 2nd byte = 13, block size
+        [ Host Write ] 47-12-0x00-0x00-0x03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
+                          === ~ 2nd byte, block size = 12 
                              ==== ~ block mode, RSVD         
                                   ========= ~ number of LED         
                                             ============================================ ~ 9 bytes RGB ddata (R-G-B x3)
     */
     
-    if (block_size == (uLen-1))
+    if (block_size == (uLen-2))
     {    
         if (MRn == 47)
         {

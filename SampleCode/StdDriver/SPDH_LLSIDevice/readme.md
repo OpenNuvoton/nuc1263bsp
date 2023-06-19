@@ -174,8 +174,8 @@ After that, the host device need to do write and read operation to LLSI device w
 2. Select one-shot flash 
 <br>[ Host Write ] FRESEL (MR37[1]) 0
 3. Enter block write mode to set all LED colors. 
-<br>Host will send 47 (MR index, 1-byte), 13 (block size, 1-byte), 0 (block mode, 1-byte), 3 (LED pixels, 2-bytes) and sequent 30 bytes (color data) to set LED-0 Red, LED-1 Green, LED-2 Blue.
-<br>[ Host Write ] BLKWR (MR47[5:0]) 13, then 0x00-0x00-0x03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
+<br>Host will send 47 (MR index, 1-byte), 12 (block size, 1-byte), 0 (block mode, 1-byte), 3 (LED pixels, 2-bytes) and sequent 9 bytes (color data) to set LED-0 Red, LED-1 Green, LED-2 Blue.
+<br>[ Host Write ] BLKWR (MR47[5:0]) 12, then 0x00-0x00-0x03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
 4. Start to flash LED strip 
 <br>[ Host Write ] LLSIEN (MR36[0]) 1
 
@@ -183,7 +183,7 @@ After that, the host device need to do write and read operation to LLSI device w
 | Address + RnW | Data Paylod | Description
 | ------------- | ----------- | -----------
 | SA/DA + W=0  	| 0x25-0x01	  | Write MR37 0x01 to select one-shot flash in synchronous mode
-| SA/DA + W=0 	| 0x2f-0x0d-0x00-0x00-03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff | Write MR47 to update LED0&1&2 data
+| SA/DA + W=0 	| 0x2f-0x0c-0x00-0x00-03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff | Write MR47 to update LED0&1&2 data
 | SA/DA + W=0  	| 0x24-0x01	  | Write MR36 0x01 to flash LED strip
 
 
