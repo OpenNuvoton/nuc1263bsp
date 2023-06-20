@@ -58,7 +58,7 @@ void ApplyLEDSetting(void)
       
     s_LEDSetting.AP_Sync    = LED_CFG_MODE;    
     s_LEDSetting.LEDNum     = LED_CFG_NUM;;
-    s_LEDSetting.Direction  = LED_CFG_DIR;;
+    s_LEDSetting.Direction  = (LED_CFG_DIR==0)? Dir_Forward:Dir_Backward;
         
     s_LEDSetting.LightingMode = LED_CFG_EFFECT;
     s_LEDSetting.Color_R      = LED_CFG_COLOR_R;

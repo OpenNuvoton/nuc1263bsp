@@ -55,7 +55,7 @@ The host can write the MRn registers of LLSI device through I2C or I3C interface
 | GDATA	         	  | MR45[7:0]	    | Color G-data for lighting effects in Static, Breathing, Strobe, Spring and Double Strobe mode <br> *NOTE: For Build-in Mode only
 | BDATA	         	  | MR46[7:0]	    | Color B-data for lighting effects in Static, Breathing, Strobe, Spring and Double Strobe mode <br> *NOTE: For Build-in Mode only
 | BLKWR         	  | MR47[5:0]	    | Block write mode to update LED strip data. Set the first byte (6-bit) for block write size, then block mode, LED counts and all LED data <br> *NOTE: For Sync. Mode only
-| SPEED	         	  | MR55[7:0]	    | Adjust the lighting effect speed <br> *NOTE: For Build-in Mode only
+| SPEED	         	  | MR55[7:0]	    | Adjust the lighting effect speed on Breathing, Strobe, Cycling, Random, Wave, Spring, Water, Rainbow and Double Strobe mode <br> *NOTE-1: Large value result in slow effect <br> *NOTE-2: For Build-in Mode only
 | BRIGHTNESS       	  | MR56[7:0]	    | Adjust the lighting effect brightness <br> *NOTE: For Build-in Mode only
 
 

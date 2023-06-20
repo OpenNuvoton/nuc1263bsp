@@ -211,7 +211,7 @@
 
 // <o> MR47 - Block Write
 // <i> Set the first byte (6-bit) for block write size, then block mode, LED counts and all LED data.
-// <i> Master to update 3 LEDs data : Write [SlaveAddr+W-bit] + Data:0x2f-0x0d-0x00-0x00-03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
+// <i> Master to update 3 LEDs data : Write [SlaveAddr+W-bit] + Data:0x2f-0x0c-0x00-0x00-03-0xff-0x00-0x00-0x00-0xff-0x00-0x00-0x00-0xff
 //      <0x00-0x3F:0x1>
 #define MR47_REG    0x00
 
@@ -249,8 +249,10 @@
 
 
 // <o> MR55 - LED Speed
+// <i> 1. Adjust the lighting effect speed on Breathing, Strobe, Cycling, Random, Wave, Spring, Water, Rainbow and Double Strobe mode/
+// <i> 2. Large value result in slow effect.
 //      <0x00-0xFF:0x1>
-#define MR55_REG    0x80
+#define MR55_REG    0xFF
 
 
 // <o> MR56 - LED Brightness
