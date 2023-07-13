@@ -37,7 +37,8 @@ volatile LED_Setting_T *PDMA_Mapping[1] = {&Strip1_LEDSetting};
 /* Lighting Effect Mode */
 void * const Mode_Function[16] = {(void *)FUNC_Off, (void *)FUNC_Static, (void *)FUNC_Breathing, (void *)FUNC_Strobe, (void *)FUNC_Cycling,
                                   (void *)FUNC_Random, (void *)FUNC_Off, (void *)FUNC_Wave, (void *)FUNC_Spring, (void *)FUNC_Off,
-                                  (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Off, (void *)FUNC_Water, (void *)FUNC_Rainbow, (void *)FUNC_Double_Strobe};
+                                  (void *)FUNC_Off, (void *)FUNC_BreathingRainbow, (void *)FUNC_StrobeRainbow, (void *)FUNC_Water, (void *)FUNC_Rainbow,
+                                  (void *)FUNC_Double_Strobe};
 
 uint8_t LLSI_FlashLEDRoutine(void);
 
@@ -803,6 +804,69 @@ void FUNC_Spring(volatile struct LED_Setting_Tag* LED_Setting)
         Set_Array(LED_Setting->LED_Data, LED_Setting->LEDNum, (uint8_t *)(DisplayColor+cMeteor_LED), LED_Setting->Brightness);
     else if(LED_Setting->Direction == Dir_Backward)
         Set_InverseArray(LED_Setting->LED_Data, LED_Setting->LEDNum, (uint8_t *)(DisplayColor+cMeteor_LED), LED_Setting->Brightness);
+}
+
+void FUNC_BreathingRainbow(volatile struct LED_Setting_Tag* LED_Setting)
+{
+    uint32_t Temp, TempR, TempG, TempB;
+    static uint8_t u8ColorIndex = eColorRed;
+    printf("\n\tFUNC_BreathingRainbow\n");
+    /* Calculate Color */
+    Temp = HDIV_Mod(HDIV_Div(LED_Setting->TimeCounter, 8 + HDIV_Div(LED_Setting->Speed, 10)), BreathingArraySize);
+    TempR = HDIV_Div((RainbowColor[u8ColorIndex][0] * LED_Setting->Brightness * *(BreathingBright + Temp)), 0xFF*100);
+    TempG = HDIV_Div((RainbowColor[u8ColorIndex][1] * LED_Setting->Brightness * *(BreathingBright + Temp)), 0xFF*100);
+    TempB = HDIV_Div((RainbowColor[u8ColorIndex][2] * LED_Setting->Brightness * *(BreathingBright + Temp)), 0xFF*100);
+
+    /* Mapping Color to LED Format */
+    Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, TempR, TempG, TempB);
+
+    /* Reset CountingTime */
+    if(LED_Setting->TimeCounter >= ((8 + HDIV_Div(LED_Setting->Speed, 10)) * BreathingArraySize))
+    {
+        LED_Setting->TimeCounter -= (8 + HDIV_Div(LED_Setting->Speed, 10)) * BreathingArraySize;
+
+        /* If color index is overflow, reset color index. */
+        u8ColorIndex = (u8ColorIndex >= (RainbowSize - 1)) ? eColorRed : (u8ColorIndex + 1);
+
+        if(u8ColorIndex == (RainbowSize - 1))
+            g_u8OneShot_Flag = 1;
+    }
+}
+
+void FUNC_StrobeRainbow(volatile struct LED_Setting_Tag* LED_Setting)
+{
+    uint32_t TempR, TempG, TempB;
+    static uint8_t u8ColorIndex = eColorRed;
+    printf("\n\tFUNC_StrobeRainbow\n");
+    /* Reset CountingTime */
+    while(LED_Setting->TimeCounter >= (((5 * LED_Setting->Speed) + 275) * 2))
+    {
+        LED_Setting->TimeCounter -= (((5 * LED_Setting->Speed) + 275) * 2);
+
+        /* If color index is overflow, reset color index. */
+        u8ColorIndex = (u8ColorIndex >= (RainbowSize - 1)) ? eColorRed : (u8ColorIndex + 1);
+
+        if(u8ColorIndex == (RainbowSize - 1))
+            g_u8OneShot_Flag = 1;
+    }
+
+    /* Extinguish */
+    if(LED_Setting->TimeCounter < ((5 * LED_Setting->Speed) + 275))
+    {
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, 0, 0, 0);
+    }
+    /* Lighten */
+    else
+    {
+        /* Calculate Color */
+        TempR = HDIV_Div((RainbowColor[u8ColorIndex][0] * LED_Setting->Brightness), 0xFF);
+        TempG = HDIV_Div((RainbowColor[u8ColorIndex][1] * LED_Setting->Brightness), 0xFF);
+        TempB = HDIV_Div((RainbowColor[u8ColorIndex][2] * LED_Setting->Brightness), 0xFF);
+
+        /* Mapping Color to LED Format */
+        Set_Single(LED_Setting->LED_Data, LED_Setting->LEDNum, TempR, TempG, TempB);
+    }
 }
 
 void FUNC_Water(volatile struct LED_Setting_Tag* LED_Setting)
