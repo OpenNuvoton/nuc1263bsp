@@ -64,7 +64,8 @@ void ADC_Open(ADC_T *adc,
             SYS_UnlockReg();
         }
         /* Enable HSA Resistor */
-        outpw(SYS_BASE + 0x150, inpw(SYS_BASE + 0x150) | BIT30);
+        //outpw(SYS_BASE + 0x150, inpw(SYS_BASE + 0x150) | BIT30);
+        SYS->SPDHCTL &= (~SYS_SPDHCTL_HSADIS_Msk);
 
         if (u32RegLockState)
         {
