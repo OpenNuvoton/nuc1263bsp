@@ -118,9 +118,9 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Interrupt Type Constant Definitions                                                                    */
 /*---------------------------------------------------------------------------------------------------------*/
-#define PDMA_INT_TRANS_DONE 0x00000000UL            /*!<Transfer Done Interrupt  \hideinitializer */
-#define PDMA_INT_TEMPTY     0x00000001UL            /*!<Table Empty Interrupt  \hideinitializer */
-#define PDMA_INT_TIMEOUT    0x00000002UL            /*!<Timeout Interrupt  \hideinitializer */
+#define PDMA_INT_TRANS_DONE 0x00000001UL            /*!<Transfer Done Interrupt  \hideinitializer */
+#define PDMA_INT_TEMPTY     0x00000002UL            /*!<Table Empty Interrupt  \hideinitializer */
+#define PDMA_INT_TIMEOUT    0x00000004UL            /*!<Timeout Interrupt  \hideinitializer */
 
 
 /*@}*/ /* end of group PDMA_EXPORTED_CONSTANTS */
