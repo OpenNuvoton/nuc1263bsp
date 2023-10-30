@@ -49,8 +49,8 @@ typedef struct
      * |        |          |10 = Px.n is in Open-drain Output mode.
      * |        |          |11 = Px.n is in Quasi-bidirectional mode.
      * |        |          |Note1: The initial value of this field is defined by CIOINI (CONFIG0 [10]).
-     * |        |          |If CIOINI is set to 1, the default value is 0xFFFF_FFFF and all pins will be quasi-bidirectional mode after chip powered on.
-     * |        |          |If CIOINI is set to 0, the default value is 0x0000_0000 and all pins will be input mode after chip powered on.
+     * |        |          |If CIOINI is set to 1, the default value is 0xFFFF_FFFF and all pins will be input mode after chip powered on.
+     * |        |          |If CIOINI is set to 0, the default value is 0x0000_0000 and all pins will be quasi-bidirectional mode after chip powered on.
      * |        |          |Note2:
      * |        |          |n = 0~11 for port A.
      * |        |          |n = 0~15 for port B.
@@ -247,10 +247,10 @@ typedef struct
      * |        |          |This function is used for port A and port F.
      * |        |          |n=0~3, 8~11 for port A.
      * |        |          |n=4~6 for port F.
-     * |        |          |Note 2: Ultra higher slew rate function is used to match I3C and SPI application when releate pins are in 1.8V domain. 
+     * |        |          |Note 2: Ultra higher slew rate function is used to match I3C and SPI application when relate pins are in 1.8V domain.
      * |        |          |Both UHSREN[n] and HSREN[n] need to be set to 1.
      * @var GPIO_T::PUSEL
-     * Offset: 0x30/0x70/0xB0/0xF0/0x170  PA-F Pull-up  Selection Register
+     * Offset: 0x30/0x70/0xB0/0xF0/0x170  PA-F Pull-up Selection Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
@@ -959,52 +959,52 @@ typedef struct
 #define GPIO_SLEWCTL_UHSREN15_Msk        (0x1ul << GPIO_SLEWCTL_UHSREN15_Pos)              /*!< GPIO_T::SLEWCTL: HSREN15 Mask          */
 
 #define GPIO_PUSEL_PUSEL0_Pos            (0)                                               /*!< GPIO_T::PUSEL: PUSEL0 Position         */
-#define GPIO_PUSEL_PUSEL0_Msk            (0x3ul << GPIO_PUSEL_PUSEL0_Pos)                  /*!< GPIO_T::PUSEL: PUSEL0 Mask             */
+#define GPIO_PUSEL_PUSEL0_Msk            (0x1ul << GPIO_PUSEL_PUSEL0_Pos)                  /*!< GPIO_T::PUSEL: PUSEL0 Mask             */
 
 #define GPIO_PUSEL_PUSEL1_Pos            (2)                                               /*!< GPIO_T::PUSEL: PUSEL1 Position         */
-#define GPIO_PUSEL_PUSEL1_Msk            (0x3ul << GPIO_PUSEL_PUSEL1_Pos)                  /*!< GPIO_T::PUSEL: PUSEL1 Mask             */
+#define GPIO_PUSEL_PUSEL1_Msk            (0x1ul << GPIO_PUSEL_PUSEL1_Pos)                  /*!< GPIO_T::PUSEL: PUSEL1 Mask             */
 
 #define GPIO_PUSEL_PUSEL2_Pos            (4)                                               /*!< GPIO_T::PUSEL: PUSEL2 Position         */
-#define GPIO_PUSEL_PUSEL2_Msk            (0x3ul << GPIO_PUSEL_PUSEL2_Pos)                  /*!< GPIO_T::PUSEL: PUSEL2 Mask             */
+#define GPIO_PUSEL_PUSEL2_Msk            (0x1ul << GPIO_PUSEL_PUSEL2_Pos)                  /*!< GPIO_T::PUSEL: PUSEL2 Mask             */
 
 #define GPIO_PUSEL_PUSEL3_Pos            (6)                                               /*!< GPIO_T::PUSEL: PUSEL3 Position         */
-#define GPIO_PUSEL_PUSEL3_Msk            (0x3ul << GPIO_PUSEL_PUSEL3_Pos)                  /*!< GPIO_T::PUSEL: PUSEL3 Mask             */
+#define GPIO_PUSEL_PUSEL3_Msk            (0x1ul << GPIO_PUSEL_PUSEL3_Pos)                  /*!< GPIO_T::PUSEL: PUSEL3 Mask             */
 
 #define GPIO_PUSEL_PUSEL4_Pos            (8)                                               /*!< GPIO_T::PUSEL: PUSEL4 Position         */
-#define GPIO_PUSEL_PUSEL4_Msk            (0x3ul << GPIO_PUSEL_PUSEL4_Pos)                  /*!< GPIO_T::PUSEL: PUSEL4 Mask             */
+#define GPIO_PUSEL_PUSEL4_Msk            (0x1ul << GPIO_PUSEL_PUSEL4_Pos)                  /*!< GPIO_T::PUSEL: PUSEL4 Mask             */
 
 #define GPIO_PUSEL_PUSEL5_Pos            (10)                                              /*!< GPIO_T::PUSEL: PUSEL5 Position         */
-#define GPIO_PUSEL_PUSEL5_Msk            (0x3ul << GPIO_PUSEL_PUSEL5_Pos)                  /*!< GPIO_T::PUSEL: PUSEL5 Mask             */
+#define GPIO_PUSEL_PUSEL5_Msk            (0x1ul << GPIO_PUSEL_PUSEL5_Pos)                  /*!< GPIO_T::PUSEL: PUSEL5 Mask             */
 
 #define GPIO_PUSEL_PUSEL6_Pos            (12)                                              /*!< GPIO_T::PUSEL: PUSEL6 Position         */
-#define GPIO_PUSEL_PUSEL6_Msk            (0x3ul << GPIO_PUSEL_PUSEL6_Pos)                  /*!< GPIO_T::PUSEL: PUSEL6 Mask             */
+#define GPIO_PUSEL_PUSEL6_Msk            (0x1ul << GPIO_PUSEL_PUSEL6_Pos)                  /*!< GPIO_T::PUSEL: PUSEL6 Mask             */
 
 #define GPIO_PUSEL_PUSEL7_Pos            (14)                                              /*!< GPIO_T::PUSEL: PUSEL7 Position         */
-#define GPIO_PUSEL_PUSEL7_Msk            (0x3ul << GPIO_PUSEL_PUSEL7_Pos)                  /*!< GPIO_T::PUSEL: PUSEL7 Mask             */
+#define GPIO_PUSEL_PUSEL7_Msk            (0x1ul << GPIO_PUSEL_PUSEL7_Pos)                  /*!< GPIO_T::PUSEL: PUSEL7 Mask             */
 
 #define GPIO_PUSEL_PUSEL8_Pos            (16)                                              /*!< GPIO_T::PUSEL: PUSEL8 Position         */
-#define GPIO_PUSEL_PUSEL8_Msk            (0x3ul << GPIO_PUSEL_PUSEL8_Pos)                  /*!< GPIO_T::PUSEL: PUSEL8 Mask             */
+#define GPIO_PUSEL_PUSEL8_Msk            (0x1ul << GPIO_PUSEL_PUSEL8_Pos)                  /*!< GPIO_T::PUSEL: PUSEL8 Mask             */
 
 #define GPIO_PUSEL_PUSEL9_Pos            (18)                                              /*!< GPIO_T::PUSEL: PUSEL9 Position         */
-#define GPIO_PUSEL_PUSEL9_Msk            (0x3ul << GPIO_PUSEL_PUSEL9_Pos)                  /*!< GPIO_T::PUSEL: PUSEL9 Mask             */
+#define GPIO_PUSEL_PUSEL9_Msk            (0x1ul << GPIO_PUSEL_PUSEL9_Pos)                  /*!< GPIO_T::PUSEL: PUSEL9 Mask             */
 
 #define GPIO_PUSEL_PUSEL10_Pos           (20)                                              /*!< GPIO_T::PUSEL: PUSEL10 Position        */
-#define GPIO_PUSEL_PUSEL10_Msk           (0x3ul << GPIO_PUSEL_PUSEL10_Pos)                 /*!< GPIO_T::PUSEL: PUSEL10 Mask            */
+#define GPIO_PUSEL_PUSEL10_Msk           (0x1ul << GPIO_PUSEL_PUSEL10_Pos)                 /*!< GPIO_T::PUSEL: PUSEL10 Mask            */
 
 #define GPIO_PUSEL_PUSEL11_Pos           (22)                                              /*!< GPIO_T::PUSEL: PUSEL11 Position        */
-#define GPIO_PUSEL_PUSEL11_Msk           (0x3ul << GPIO_PUSEL_PUSEL11_Pos)                 /*!< GPIO_T::PUSEL: PUSEL11 Mask            */
+#define GPIO_PUSEL_PUSEL11_Msk           (0x1ul << GPIO_PUSEL_PUSEL11_Pos)                 /*!< GPIO_T::PUSEL: PUSEL11 Mask            */
 
 #define GPIO_PUSEL_PUSEL12_Pos           (24)                                              /*!< GPIO_T::PUSEL: PUSEL12 Position        */
-#define GPIO_PUSEL_PUSEL12_Msk           (0x3ul << GPIO_PUSEL_PUSEL12_Pos)                 /*!< GPIO_T::PUSEL: PUSEL12 Mask            */
+#define GPIO_PUSEL_PUSEL12_Msk           (0x1ul << GPIO_PUSEL_PUSEL12_Pos)                 /*!< GPIO_T::PUSEL: PUSEL12 Mask            */
 
 #define GPIO_PUSEL_PUSEL13_Pos           (26)                                              /*!< GPIO_T::PUSEL: PUSEL13 Position        */
-#define GPIO_PUSEL_PUSEL13_Msk           (0x3ul << GPIO_PUSEL_PUSEL13_Pos)                 /*!< GPIO_T::PUSEL: PUSEL13 Mask            */
+#define GPIO_PUSEL_PUSEL13_Msk           (0x1ul << GPIO_PUSEL_PUSEL13_Pos)                 /*!< GPIO_T::PUSEL: PUSEL13 Mask            */
 
 #define GPIO_PUSEL_PUSEL14_Pos           (28)                                              /*!< GPIO_T::PUSEL: PUSEL14 Position        */
-#define GPIO_PUSEL_PUSEL14_Msk           (0x3ul << GPIO_PUSEL_PUSEL14_Pos)                 /*!< GPIO_T::PUSEL: PUSEL14 Mask            */
+#define GPIO_PUSEL_PUSEL14_Msk           (0x1ul << GPIO_PUSEL_PUSEL14_Pos)                 /*!< GPIO_T::PUSEL: PUSEL14 Mask            */
 
 #define GPIO_PUSEL_PUSEL15_Pos           (30)                                              /*!< GPIO_T::PUSEL: PUSEL15 Position        */
-#define GPIO_PUSEL_PUSEL15_Msk           (0x3ul << GPIO_PUSEL_PUSEL15_Pos)                 /*!< GPIO_T::PUSEL: PUSEL15 Mask            */
+#define GPIO_PUSEL_PUSEL15_Msk           (0x1ul << GPIO_PUSEL_PUSEL15_Pos)                 /*!< GPIO_T::PUSEL: PUSEL15 Mask            */
 
 #define GPIO_DBCTL_DBCLKSEL_Pos          (0)                                               /*!< GPIO_DBCTL_T::DBCTL: DBCLKSEL Position */
 #define GPIO_DBCTL_DBCLKSEL_Msk          (0xful << GPIO_DBCTL_DBCLKSEL_Pos)                /*!< GPIO_DBCTL_T::DBCTL: DBCLKSEL Mask     */

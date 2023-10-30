@@ -196,13 +196,6 @@ void UART_Open(UART_T* uart, uint32_t u32baudrate)
             return;
     }
 
-
-    /* Get PLL clock frequency if UART clock source selection is PLL/2 */
-    if(u8UartClkSrcSel == 1ul)
-    {
-        au32ClkTbl[u8UartClkSrcSel] = (CLK_GetPLLClockFreq()>>1);
-    }
-
     /* Select UART function */
     uart->FUNCSEL = UART_FUNCSEL_UART;
 

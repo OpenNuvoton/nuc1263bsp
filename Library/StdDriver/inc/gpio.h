@@ -343,7 +343,7 @@ extern "C"
 
 /**
   * @brief       Set GPIO Interrupt Clock on bit
-  * @param[in]   port        Not used in NUC1262.
+  * @param[in]   port        Not used in NUC1263.
   * @return      None
   * @details     Set the I/O pins edge detection circuit always active after reset for specified port.
   */
@@ -351,7 +351,7 @@ extern "C"
 
 /**
   * @brief       Clear GPIO Interrupt Clock on bit
-  * @param[in]   port        Not used in NUC1262.
+  * @param[in]   port        Not used in NUC1263.
   * @return      None
   * @details     Set edge detection circuit active only if I/O pin edge interrupt enabled for specified port.
   */
