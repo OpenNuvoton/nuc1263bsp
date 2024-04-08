@@ -5,19 +5,24 @@
  *           SPI0 will be configured as Master mode and SPI1 will be configured as Slave mode.
  *           Both TX PDMA function and RX PDMA function will be enabled.
  *
- * @note
  * @copyright SPDX-License-Identifier: Apache-2.0
  * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
 #include "NuMicro.h"
 
+// *** <<< Use Configuration Wizard in Context Menu >>> ***
+// <o> GPIO Slew Rate Control
+// <0=> Basic <1=> Higher <2=> Ultra higher
+#define SlewRateMode    0
+// *** <<< end of configuration section >>> ***
+
 #define SPI_MASTER_TX_DMA_CH 0
 #define SPI_MASTER_RX_DMA_CH 1
 #define SPI_SLAVE_TX_DMA_CH  2
 #define SPI_SLAVE_RX_DMA_CH  3
 
-#define TEST_COUNT  64
+#define TEST_COUNT      64
 
 /* Function prototype declaration */
 void SYS_Init(void);
@@ -41,6 +46,7 @@ int main(void)
 
     /* Reset UART0 module */
     SYS_ResetModule(UART0_RST);
+
     /* Configure UART0: 115200, 8-bit word, no parity bit, 1 stop bit. */
     UART_Open(UART0, 115200);
 
@@ -74,10 +80,10 @@ int main(void)
 
 void SYS_Init(void)
 {
-
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Enable HIRC clock */
     CLK_EnableXtalRC(CLK_PWRCTL_HIRCEN_Msk);
 
@@ -111,16 +117,37 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Set PB multi-function pins for UART0 RXD and TXD */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_RXD_PB12_Msk | UART0_TXD_PB13_Msk))) | UART0_RXD_PB12 | UART0_TXD_PB13;
 
     /* Configure SPI0 related multi-function pins. GPA[3:0] : SPI0_SS, SPI0_CLK, SPI0_MISO, SPI0_MOSI. */
     SYS->GPA_MFPL &= ~(SYS_GPA_MFPL_PA0MFP_Msk | SYS_GPA_MFPL_PA1MFP_Msk | SYS_GPA_MFPL_PA2MFP_Msk | SYS_GPA_MFPL_PA3MFP_Msk);
-    SYS->GPA_MFPL |= SYS_GPA_MFPL_PA0MFP_SPI0_MOSI | SYS_GPA_MFPL_PA1MFP_SPI0_MISO | SYS_GPA_MFPL_PA2MFP_SPI0_CLK | SYS_GPA_MFPL_PA3MFP_SPI0_SS;
+    SYS->GPA_MFPL |= (SYS_GPA_MFPL_PA0MFP_SPI0_MOSI | SYS_GPA_MFPL_PA1MFP_SPI0_MISO | SYS_GPA_MFPL_PA2MFP_SPI0_CLK | SYS_GPA_MFPL_PA3MFP_SPI0_SS);
 
     /* Configure SPI1 related multi-function pins. GPC[3:0] : SPI1_MISO, SPI1_MOSI, SPI1_CLK, SPI1_SS. */
     SYS->GPC_MFPL &= ~(SYS_GPC_MFPL_PC0MFP_Msk | SYS_GPC_MFPL_PC1MFP_Msk | SYS_GPC_MFPL_PC2MFP_Msk | SYS_GPC_MFPL_PC3MFP_Msk);
-    SYS->GPC_MFPL |= SYS_GPC_MFPL_PC0MFP_SPI1_SS | SYS_GPC_MFPL_PC1MFP_SPI1_CLK | SYS_GPC_MFPL_PC2MFP_SPI1_MOSI | SYS_GPC_MFPL_PC3MFP_SPI1_MISO;
+    SYS->GPC_MFPL |= (SYS_GPC_MFPL_PC0MFP_SPI1_SS | SYS_GPC_MFPL_PC1MFP_SPI1_CLK | SYS_GPC_MFPL_PC2MFP_SPI1_MOSI | SYS_GPC_MFPL_PC3MFP_SPI1_MISO);
+
+#if (SlewRateMode == 0)
+    /* Enable SPI0 I/O basic slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_NORMAL);
+
+    /* Enable SPI1 I/O basic slew rate */
+    GPIO_SetSlewCtl(PC, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_NORMAL);
+#elif (SlewRateMode == 1)
+    /* Enable SPI0 I/O higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_HIGH);
+
+    /* Enable SPI1 I/O higher slew rate */
+    GPIO_SetSlewCtl(PC, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_HIGH);
+#elif (SlewRateMode == 2)
+    /* Enable SPI0 I/O ultra higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_ULTRA_HIGH);
+
+    /* Enable SPI1 I/O ultra higher slew rate */
+    GPIO_SetSlewCtl(PC, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_ULTRA_HIGH);
+#endif
 }
 
 

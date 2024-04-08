@@ -11,8 +11,14 @@
 #include <stdio.h>
 #include "NuMicro.h"
 
-#define TEST_NUMBER 3   /* page numbers */
-#define TEST_LENGTH 256 /* length */
+// *** <<< Use Configuration Wizard in Context Menu >>> ***
+// <o> GPIO Slew Rate Control
+// <0=> Basic <1=> Higher <2=> Ultra higher
+#define SlewRateMode    0
+// *** <<< end of configuration section >>> ***
+
+#define TEST_NUMBER     3   /* page numbers */
+#define TEST_LENGTH     256 /* length */
 
 #define SPI_FLASH_PORT  SPI1
 
@@ -279,6 +285,7 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Enable HIRC clock */
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk;
 
@@ -320,6 +327,7 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Set PB multi-function pins for UART0 RXD and TXD */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_RXD_PB12_Msk | UART0_TXD_PB13_Msk))) | UART0_RXD_PB12 | UART0_TXD_PB13;
 
@@ -328,6 +336,22 @@ void SYS_Init(void)
     SET_SPI1_CLK_PA9();
     SET_SPI1_MISO_PA10();
     SET_SPI1_MOSI_PA11();
+
+    PA->SLEWCTL &= ~((GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN8_Pos) | (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN9_Pos) |
+                     (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN10_Pos) | (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN11_Pos));
+#if (SlewRateMode == 0)
+    /* Enable SPI1 I/O basic slew rate */
+    PA->SLEWCTL |= (GPIO_SLEWCTL_NORMAL << GPIO_SLEWCTL_HSREN8_Pos) | (GPIO_SLEWCTL_NORMAL << GPIO_SLEWCTL_HSREN9_Pos) |
+                   (GPIO_SLEWCTL_NORMAL << GPIO_SLEWCTL_HSREN10_Pos) | (GPIO_SLEWCTL_NORMAL << GPIO_SLEWCTL_HSREN11_Pos);
+#elif (SlewRateMode == 1)
+    /* Enable SPI1 I/O higher slew rate */
+    PA->SLEWCTL |= (GPIO_SLEWCTL_HIGH << GPIO_SLEWCTL_HSREN8_Pos) | (GPIO_SLEWCTL_HIGH << GPIO_SLEWCTL_HSREN9_Pos) |
+                   (GPIO_SLEWCTL_HIGH << GPIO_SLEWCTL_HSREN10_Pos) | (GPIO_SLEWCTL_HIGH << GPIO_SLEWCTL_HSREN11_Pos);
+#elif (SlewRateMode == 2)
+    /* Enable SPI1 I/O ultra higher slew rate */
+    PA->SLEWCTL |= (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN8_Pos) | (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN9_Pos) |
+                   (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN10_Pos) | (GPIO_SLEWCTL_ULTRA_HIGH << GPIO_SLEWCTL_HSREN11_Pos);
+#endif
 }
 
 void UART_Init(void)
@@ -464,7 +488,7 @@ int main(void)
             SpiFlash_ChipErase();
 
             /* Wait ready */
-            if( SpiFlash_WaitReady() < 0 ) return -1;
+            if(SpiFlash_WaitReady() < 0) goto lexit;
 
             printf("[OK]\n");
 
@@ -481,7 +505,7 @@ int main(void)
             {
                 /* page program */
                 SpiFlash_NormalPageProgram(u32FlashAddress, s_au8SrcArray);
-                if( SpiFlash_WaitReady() < 0 ) return -1;
+                if(SpiFlash_WaitReady() < 0) goto lexit;
                 u32FlashAddress += 0x100;
             }
 

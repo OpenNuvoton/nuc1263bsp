@@ -11,10 +11,17 @@
 #include <stdio.h>
 #include "NuMicro.h"
 
-#define SW_SWITCH   0   /* SPI mux selection. 1 = software switch; 0 = hardware auto */
+// *** <<< Use Configuration Wizard in Context Menu >>> ***
+// <o> GPIO Slew Rate Control
+// <0=> Basic <1=> Higher <2=> Ultra higher
+#define SlewRateMode    0
+// <o> SPI Mux Selection
+// <0=> Hardware auto <1=> Software switch
+#define SW_SWITCH       0
+// *** <<< end of configuration section >>> ***
 
-#define TEST_NUMBER 3   /* page numbers */
-#define TEST_LENGTH 256 /* length */
+#define TEST_NUMBER     3   /* page numbers */
+#define TEST_LENGTH     256 /* length */
 
 #define SPI_FLASH_PORT  SPI1
 
@@ -238,6 +245,7 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Enable HIRC clock */
     CLK_EnableXtalRC(CLK_PWRCTL_HIRCEN_Msk);
 
@@ -268,6 +276,7 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
+
     /* Set PB multi-function pins for UART0 RXD and TXD */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_RXD_PB12_Msk | UART0_TXD_PB13_Msk))) | UART0_RXD_PB12 | UART0_TXD_PB13;
 
@@ -282,6 +291,26 @@ void SYS_Init(void)
     SET_SPI_CLK_MUX_PA2();
     SET_SPI_MISO_MUX_PA1();
     SET_SPI_MOSI_MUX_PA0();
+
+#if (SlewRateMode == 0)
+    /* Enable SPI1 I/O basic slew rate */
+    GPIO_SetSlewCtl(PA, BIT8 | BIT9 | BIT10 | BIT11, GPIO_SLEWCTL_NORMAL);
+
+    /* Enable SPI_MUX I/O basic slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_NORMAL);
+#elif (SlewRateMode == 1)
+    /* Enable SPI1 I/O higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT8 | BIT9 | BIT10 | BIT11, GPIO_SLEWCTL_HIGH);
+
+    /* Enable SPI_MUX I/O higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_HIGH);
+#elif (SlewRateMode == 2)
+    /* Enable SPI1 I/O ultra higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT8 | BIT9 | BIT10 | BIT11, GPIO_SLEWCTL_ULTRA_HIGH);
+
+    /* Enable SPI_MUX I/O ultra higher slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_ULTRA_HIGH);
+#endif
 }
 
 void TMR0_IRQHandler(void)
@@ -431,7 +460,7 @@ int main(void)
                 /* Erase SPI flash */
                 SpiFlash_ChipErase();
                 /* Wait ready */
-                if( SpiFlash_WaitReady() < 0 ) return -1;
+                if(SpiFlash_WaitReady() < 0) return -1;
                 printf("[OK]\n");
 
                 printf("Start to normal write data to Flash ...");
@@ -447,7 +476,7 @@ int main(void)
 
                     /* page program */
                     SpiFlash_NormalPageProgram(u32FlashAddress, s_au8SrcArray);
-                    if( SpiFlash_WaitReady() < 0 ) return -1;
+                    if(SpiFlash_WaitReady() < 0) return -1;
                     u32FlashAddress += 0x100;
                 }
                 printf("[OK]\n");
@@ -535,7 +564,7 @@ int main(void)
                 /* Erase SPI flash */
                 SpiFlash_ChipErase();
                 /* Wait ready */
-                if( SpiFlash_WaitReady() < 0 ) return -1;
+                if(SpiFlash_WaitReady() < 0) return -1;
                 printf("[OK]\n");
 
                 printf("Start to normal write data to Flash ...");
@@ -545,7 +574,7 @@ int main(void)
                 {
                     /* page program */
                     SpiFlash_NormalPageProgram(u32FlashAddress, s_au8SrcArray);
-                    if( SpiFlash_WaitReady() < 0 ) return -1;
+                    if(SpiFlash_WaitReady() < 0) return -1;
                     u32FlashAddress += 0x100;
                 }
                 printf("[OK]\n");
