@@ -46,7 +46,7 @@ void RS485_HANDLE()
 {
     volatile uint32_t addr = 0;
     volatile uint32_t regRX = 0xFF;
-    volatile uint32_t u32IntSts = UART1->INTSTS;;
+    volatile uint32_t u32IntSts = UART1->INTSTS;
 
     if(UART_GET_INT_FLAG(UART1, UART_INTSTS_RLSINT_Msk) && UART_GET_INT_FLAG(UART1, UART_INTSTS_RDAINT_Msk))      /* RLS INT & RDA INT */
     {

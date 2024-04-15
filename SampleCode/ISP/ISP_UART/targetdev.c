@@ -9,10 +9,10 @@
 #include "targetdev.h"
 #include "isp_user.h"
 
-// Supports 128K (APROM)
+// Supports 64K (APROM)
 uint32_t GetApromSize()
 {
-    uint32_t size = 0x20000, data;
+    uint32_t size = 0x10000, data;
     int result;
 
     do {

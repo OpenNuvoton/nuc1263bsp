@@ -245,7 +245,7 @@ uint32_t CLK_SetCoreClock(uint32_t u32Hclk)
   * @param[in]  u32ClkSrc is HCLK clock source. Including :
   *             - \ref CLK_CLKSEL0_HCLKSEL_HXT
   *             - \ref CLK_CLKSEL0_HCLKSEL_LXT
-  *             - \ref CLK_CLKSEL0_HCLKSEL_PLL
+  *             - \ref CLK_CLKSEL0_HCLKSEL_PLL_DIV2
   *             - \ref CLK_CLKSEL0_HCLKSEL_LIRC
   *             - \ref CLK_CLKSEL0_HCLKSEL_HIRC
   *             - \ref CLK_CLKSEL0_HCLKSEL_HIRC_DIV2

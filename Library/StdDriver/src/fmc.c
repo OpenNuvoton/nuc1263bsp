@@ -103,13 +103,28 @@ void FMC_DisableConfigUpdate(void)
   * @param    None
   *
   * @return   None
-
+  *
   * @details  Disable LDROM update function will forbid LDROM programming.
   *           LDROM update is default to be disable.
   */
 void FMC_DisableLDUpdate(void)
 {
     FMC->ISPCTL &= ~FMC_ISPCTL_LDUEN_Msk;
+}
+
+/**
+  * @brief    Disable SPROM update function
+  *
+  * @param    None
+  *
+  * @return   None
+  *
+  * @details  Disable SPROM update function will forbid SPROM programming.
+  *           SPROM update is default to be disable.
+  */
+void FMC_DisableSPUpdate(void)
+{
+    FMC->ISPCTL &= ~FMC_ISPCTL_SPUEN_Msk;
 }
 
 
@@ -160,6 +175,20 @@ void FMC_EnableLDUpdate(void)
     FMC->ISPCTL |= FMC_ISPCTL_LDUEN_Msk;
 }
 
+/**
+  * @brief    Enable SPROM update function
+  *
+  * @param    None
+  *
+  * @return   None
+  *
+  * @details  Enable SPROM to be able to program.
+  *
+  */
+void FMC_EnableSPUpdate(void)
+{
+    FMC->ISPCTL |= FMC_ISPCTL_SPUEN_Msk;
+}
 
 /**
   * @brief    Get the current boot source
@@ -294,7 +323,6 @@ int32_t FMC_WriteConfig(uint32_t *u32Config, uint32_t u32Count)
  * @brief      Enable Flash Access Frequency  Optimization Mode
  *
  * @param[in]  u32Mode   Optimize flash access cycle mode
- *             - \ref FMC_FTCTL_OPTIMIZE_DISABLE
  *             - \ref FMC_FTCTL_OPTIMIZE_24MHZ
  *             - \ref FMC_FTCTL_OPTIMIZE_48MHZ
  *             - \ref FMC_FTCTL_OPTIMIZE_72MHZ

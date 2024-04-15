@@ -2,17 +2,17 @@
  * @file     targetdev.c
  * @brief    ISP support function source file
  * @version  0x31
- *              
+ *
  * @copyright SPDX-License-Identifier: Apache-2.0
  * @copyright Copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include "targetdev.h"
 #include "isp_user.h"
 
-// Supports 128K/256K (APROM)
+// Supports 64K (APROM)
 uint32_t GetApromSize()
 {
-    uint32_t size = 0x20000, data;
+    uint32_t size = 0x10000, data;
     int result;
 
     do {
