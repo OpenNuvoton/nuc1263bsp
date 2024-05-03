@@ -147,7 +147,7 @@ int32_t SpiFlash_WaitReady(void)
     {
         if(--u32TimeOutCnt == 0)
         {
-            printf("Wait for QSPI time-out!\n");
+            printf("Wait for SPI time-out!\n");
             return -1;
         }
 
@@ -437,7 +437,7 @@ int main(void)
                 for(u32ByteCount = 0; u32ByteCount < TEST_LENGTH; u32ByteCount++)
                 {
                     if(s_au8DestArray[u32ByteCount] != s_au8SrcArray[u32ByteCount])
-                        u32Error ++;
+                        u32Error++;
                 }
             }
 
@@ -505,7 +505,7 @@ int main(void)
                     for(u32ByteCount = 0; u32ByteCount < TEST_LENGTH; u32ByteCount++)
                     {
                         if(s_au8DestArray[u32ByteCount] != s_au8SrcArray[u32ByteCount])
-                            u32Error ++;
+                            u32Error++;
                     }
                 }
                 if(u32Error == 0)
@@ -548,7 +548,7 @@ int main(void)
                 for(u32ByteCount = 0; u32ByteCount < TEST_LENGTH; u32ByteCount++)
                 {
                     if(s_au8DestArray[u32ByteCount] != s_au8SrcArray[u32ByteCount])
-                        u32Error ++;
+                        u32Error++;
                 }
             }
 
@@ -597,7 +597,7 @@ int main(void)
                     for(u32ByteCount = 0; u32ByteCount < TEST_LENGTH; u32ByteCount++)
                     {
                         if(s_au8DestArray[u32ByteCount] != s_au8SrcArray[u32ByteCount])
-                            u32Error ++;
+                            u32Error++;
                     }
                 }
                 if(u32Error == 0)
