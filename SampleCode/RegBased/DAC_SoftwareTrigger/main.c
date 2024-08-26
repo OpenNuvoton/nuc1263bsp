@@ -16,13 +16,14 @@
 /* Define global variables and constants                                                                   */
 /*---------------------------------------------------------------------------------------------------------*/
 const uint16_t sine[] = {127, 139, 152, 164, 176, 187, 198, 208,
-                                    217, 225, 233, 239, 244, 249, 252, 253,
-                                    254, 253, 252, 249, 244, 239, 233, 225,
-                                    217, 208, 198, 187, 176, 164, 152, 139,
-                                    127, 115, 102, 90, 78, 67, 56, 46,
-                                    37, 29, 21, 15, 10, 5, 2, 1,
-                                    0, 1, 2, 5, 10, 15, 21, 29,
-                                    37, 46, 56, 67, 78, 90, 102, 115};
+                         217, 225, 233, 239, 244, 249, 252, 253,
+                         254, 253, 252, 249, 244, 239, 233, 225,
+                         217, 208, 198, 187, 176, 164, 152, 139,
+                         127, 115, 102, 90, 78, 67, 56, 46,
+                         37, 29, 21, 15, 10, 5, 2, 1,
+                         0, 1, 2, 5, 10, 15, 21, 29,
+                         37, 46, 56, 67, 78, 90, 102, 115
+                        };
 
 static uint32_t index = 0;
 const uint32_t array_size = sizeof(sine) / sizeof(uint16_t);
@@ -36,6 +37,8 @@ void DAC_FunctionTest(void);
 
 void SYS_Init(void)
 {
+	uint32_t u32TimeOutCnt;
+
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
@@ -45,7 +48,9 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk;
 
     /* Wait for HIRC clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as HIRC first */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
@@ -57,7 +62,9 @@ void SYS_Init(void)
     CLK->PLLCTL = CLK_PLLCTL_144MHz_HIRC_DIV2;
 
     /* Wait for PLL clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as PLL/2 and HCLK source divider as 1 */
     CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
@@ -88,7 +95,7 @@ void SYS_Init(void)
     SYS->GPB_MFPH = (SYS->GPB_MFPH & (~(UART0_TXD_PB13_Msk))) | UART0_TXD_PB13;//UART0_RXD_PB12 pin conflicts with DAC0_OUT pin
 
     /* Disable digital input path of analog pin DAC0_OUT to prevent leakage */
-    PB->DINOFF |= ((1ul << 12)<<16);
+    PB->DINOFF |= ((1ul << 12) << 16);
 
     /* Set multi-function pin for DAC voltage output */
     SYS->GPB_MFPH = (SYS->GPB_MFPH & ~SYS_GPB_MFPH_PB12MFP_Msk) | DAC0_OUT_PB12;
@@ -105,7 +112,7 @@ void UART0_Init()
     SYS->IPRST1 &= ~SYS_IPRST1_UART0RST_Msk;
 
     /* Configure UART0 and set UART0 baud rate */
-    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER((__HIRC>>1), 115200);
+    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER((__HIRC >> 1), 115200);
     UART0->LINE = UART_WORD_LEN_8 | UART_PARITY_NONE | UART_STOP_BIT_1;
 }
 
@@ -213,4 +220,3 @@ int32_t main(void)
     while(1);
 
 }
-

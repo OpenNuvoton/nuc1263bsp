@@ -104,7 +104,10 @@ typedef enum IRQn
 #define __MPU_PRESENT           0       /*!< armikcmu does not provide a MPU present or not       */
 #define __NVIC_PRIO_BITS        2       /*!< armikcmu Supports 2 Bits for the Priority Levels     */
 #define __Vendor_SysTickConfig  0       /*!< Set to 1 if different SysTick Config is used         */
-
+#define __FPU_PRESENT           0
+#ifndef __SOFTFP__
+# define __SOFTFP__             1
+#endif
 
 #include "core_cm23.h"                   /*!< Cortex-M23 processor and core peripherals           */
 #include "system_NUC1263.h"              /*!< NUC1263 System                                      */
@@ -293,23 +296,23 @@ extern void SystemInit(void);
 #define BPWM1               ((BPWM_T *) BPWM1_BASE)                     /*!< BPWM1 Configuration Struct                        */
 #define BPWM2               ((BPWM_T *) BPWM2_BASE)                     /*!< BPWM2 Configuration Struct                        */
 #define BPWM3               ((BPWM_T *) BPWM3_BASE)                     /*!< BPWM3 Configuration Struct                        */
-                                                                     
+
 #define CRC                 ((CRC_T *) CRC_BASE)                        /*!< CRC Configuration Struct                          */
-                                                                                                                        
+
 #define USBD                ((USBD_T *) USBD_BASE)                      /*!< USB Device Configuration Struct                   */
-                                                                                                                        
+
 #define PDMA                ((PDMA_T *) PDMA_BASE)                      /*!< PDMA Configuration Struct                         */
-                                                                                                                        
+
 #define LLSI0               ((LLSI_T *) LLSI0_BASE)                     /*!< LLSI0 Configuration Struct                        */
 #define LLSI1               ((LLSI_T *) LLSI1_BASE)                     /*!< LLSI1 Configuration Struct                        */
 #define LLSI2               ((LLSI_T *) LLSI2_BASE)                     /*!< LLSI2 Configuration Struct                        */
 #define LLSI3               ((LLSI_T *) LLSI3_BASE)                     /*!< LLSI3 Configuration Struct                        */
 #define LLSI4               ((LLSI_T *) LLSI4_BASE)                     /*!< LLSI4 Configuration Struct                        */
 #define LLSI5               ((LLSI_T *) LLSI5_BASE)                     /*!< LLSI5 Configuration Struct                        */
-                                                                                                                        
+
 #define ACMP01              ((ACMP_T *) ACMP01_BASE)                    /*!< ACMP01 Configuration Struct                       */
 #define ACMP23              ((ACMP_T *) ACMP23_BASE)                    /*!< ACMP23 Configuration Struct                       */
-                                                                     
+
 #define DAC0                ((DAC_T *) DAC0_BASE)                       /*!< DAC0 Configuration Struct                         */
 #define DAC1                ((DAC_T *) DAC1_BASE)                       /*!< DAC1 Configuration Struct                         */
 #define DAC2                ((DAC_T *) DAC2_BASE)                       /*!< DAC2 Configuration Struct                         */

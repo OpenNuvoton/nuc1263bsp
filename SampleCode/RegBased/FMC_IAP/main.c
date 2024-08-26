@@ -29,6 +29,8 @@ uint32_t *g_au32funcTable; /* The location of function table */
 
 void SYS_Init(void)
 {
+	uint32_t u32TimeOutCnt;
+
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
@@ -38,7 +40,9 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk;
 
     /* Wait for HIRC clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as HIRC first */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
@@ -50,7 +54,9 @@ void SYS_Init(void)
     CLK->PLLCTL = CLK_PLLCTL_144MHz_HIRC_DIV2;
 
     /* Wait for PLL clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as PLL/2 and HCLK source divider as 1 */
     CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
@@ -174,7 +180,7 @@ void ShowConfig(uint32_t u32Cfg)
         printf("GPIO Default to Quasi-bidirection\n");
     if((u32Cfg & 0x1000) == 0)
         printf("ICE Locked\n");
-    
+
 
 }
 
@@ -221,10 +227,10 @@ int32_t main(void)
 
     /* Check IAP mode */
     u32Cfg = FMC_Read(FMC_CONFIG_BASE);
-		
+
     printf("u32Cfg = 0x%08x\n", (uint32_t)u32Cfg);
     ShowConfig(u32Cfg);
-		
+
     if((u32Cfg & 0xc0) != 0x80)
     {
         printf("Do you want to set to new IAP mode (APROM boot + LDROM) (y/n)?\n");
@@ -287,15 +293,15 @@ int32_t main(void)
             break;
         }
     }
-    
+
     if(u32Addr == FMC_LDROM_BASE)
     {
         printf("Cannot find function table signature.\n");
         goto lexit;
     }
-    
+
     printf("Function table at 0x%08x\n", (uint32_t)g_au32funcTable);
-    
+
     for(i = 0; i < 4; i++)
     {
         /* Call the function of LDROM */
@@ -318,6 +324,3 @@ lexit:
     printf("\nDone\n");
     while(SYS->PDID);
 }
-
-
-

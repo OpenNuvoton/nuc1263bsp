@@ -16,13 +16,14 @@
 /* Define global variables and constants                                                                   */
 /*---------------------------------------------------------------------------------------------------------*/
 const uint16_t g_au16Sine[] = {127, 139, 152, 164, 176, 187, 198, 208,
-                                217, 225, 233, 239, 244, 249, 252, 253,
-                                254, 253, 252, 249, 244, 239, 233, 225,
-                                217, 208, 198, 187, 176, 164, 152, 139,
-                                127, 115, 102, 90, 78, 67, 56, 46,
-                                37, 29, 21, 15, 10, 5, 2, 1,
-                                0, 1, 2, 5, 10, 15, 21, 29,
-                                37, 46, 56, 67, 78, 90, 102, 115};
+                               217, 225, 233, 239, 244, 249, 252, 253,
+                               254, 253, 252, 249, 244, 239, 233, 225,
+                               217, 208, 198, 187, 176, 164, 152, 139,
+                               127, 115, 102, 90, 78, 67, 56, 46,
+                               37, 29, 21, 15, 10, 5, 2, 1,
+                               0, 1, 2, 5, 10, 15, 21, 29,
+                               37, 46, 56, 67, 78, 90, 102, 115
+                              };
 
 static uint32_t g_u32Index = 0;
 const uint32_t g_u32ArraySize = sizeof(g_au16Sine) / sizeof(uint16_t);
@@ -36,6 +37,8 @@ void DAC_FunctionTest(void);
 
 void SYS_Init(void)
 {
+	uint32_t u32TimeOutCnt;
+
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
@@ -45,7 +48,9 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk;
 
     /* Wait for HIRC clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as HIRC first */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
@@ -57,7 +62,9 @@ void SYS_Init(void)
     CLK->PLLCTL = CLK_PLLCTL_144MHz_HIRC_DIV2;
 
     /* Wait for PLL clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as PLL/2 and HCLK source divider as 1 */
     CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
@@ -114,7 +121,7 @@ void UART0_Init()
     SYS->IPRST1 &= ~SYS_IPRST1_UART0RST_Msk;
 
     /* Configure UART0 and set UART0 baud rate */
-    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER((__HIRC>>1), 115200);
+    UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER((__HIRC >> 1), 115200);
     UART0->LINE = UART_WORD_LEN_8 | UART_PARITY_NONE | UART_STOP_BIT_1;
 }
 
@@ -150,23 +157,23 @@ void DAC_FunctionTest(void)
     /* CH0 source request from DAC */
     PDMA->REQSEL0_3 = PDMA_DAC0_TX; //CH0_SEl=DAC
 
-    PDMA->DSCT[0].CTL=((g_u32ArraySize)<<16)//Transfer Count
-                       |(0x1<<12)//Transfer Width Selection(01=>16bit)
-                       |(0x3<<10)//Destination Address Increment(11=>No increment (fixed address))
-                       |(0x0<<8)//Source Address Increment(00=>Increment)
-                       |(0x0<<7)//Table Interrupt Disable
-                       |(0x0<<4)//Burst Size(128 Transfers)
-                       |(0x1<<2)//Transfer Type(1 = Single transfer type)
-                       |(0x1<<0);//PDMA Operation Mode Selection(01=>Basic Mode)
+    PDMA->DSCT[0].CTL = ((g_u32ArraySize) << 16) //Transfer Count
+                        | (0x1 << 12) //Transfer Width Selection(01=>16bit)
+                        | (0x3 << 10) //Destination Address Increment(11=>No increment (fixed address))
+                        | (0x0 << 8) //Source Address Increment(00=>Increment)
+                        | (0x0 << 7) //Table Interrupt Disable
+                        | (0x0 << 4) //Burst Size(128 Transfers)
+                        | (0x1 << 2) //Transfer Type(1 = Single transfer type)
+                        | (0x1 << 0); //PDMA Operation Mode Selection(01=>Basic Mode)
 
     /* Set source address */
-    PDMA->DSCT[0].SA=(uint32_t)&g_au16Sine[g_u32Index];
+    PDMA->DSCT[0].SA = (uint32_t)&g_au16Sine[g_u32Index];
 
     /* Set destination address */
-    PDMA->DSCT[0].DA=(uint32_t)&DAC0->DAT;
+    PDMA->DSCT[0].DA = (uint32_t)&DAC0->DAT;
 
     /* Enable PDMA channel 0 */
-    PDMA->CHCTL=0x1;
+    PDMA->CHCTL = 0x1;
 
     /* Set the timer 0 trigger,enable DAC even trigger mode and enable D/A converter */
     DAC0->CTL = DAC_TIMER0_TRIGGER | DAC_CTL_TRGEN_Msk | DAC_CTL_DMAEN_Msk | DAC_CTL_DACEN_Msk;
@@ -190,7 +197,7 @@ void DAC_FunctionTest(void)
 
     while(1)
     {
-        if (PDMA->TDSTS == 0x1)
+        if(PDMA->TDSTS == 0x1)
         {
             /* Clear CH0 transfer done flag */
             PDMA->TDSTS = 0x01;

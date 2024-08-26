@@ -90,9 +90,9 @@ void I2C_MasterRx(uint32_t u32Status)
     else if(u32Status == 0x28)                  /* DATA has been transmitted and ACK has been received */
     {
 #if (I2C_10Bit_MODE)
-        if (s_u8MstDataLen != 3)
+        if(s_u8MstDataLen != 3)
 #else
-        if (s_u8MstDataLen != 2)
+        if(s_u8MstDataLen != 2)
 #endif
         {
             I2C0->DAT = s_au8MstTxData[s_u8MstDataLen++];
@@ -182,9 +182,9 @@ void I2C_MasterTx(uint32_t u32Status)
     else if(u32Status == 0x28)                  /* DATA has been transmitted and ACK has been received */
     {
 #if (I2C_10Bit_MODE)
-        if (s_u8MstDataLen != 4)
+        if(s_u8MstDataLen != 4)
 #else
-        if (s_u8MstDataLen != 3)
+        if(s_u8MstDataLen != 3)
 #endif
         {
             I2C0->DAT = s_au8MstTxData[s_u8MstDataLen++];
@@ -244,6 +244,7 @@ void I2C_MasterTx(uint32_t u32Status)
 
 void SYS_Init(void)
 {
+    uint32_t u32TimeOutCnt;
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init System Clock                                                                                       */
@@ -253,7 +254,9 @@ void SYS_Init(void)
     CLK->PWRCTL |= CLK_PWRCTL_HIRCEN_Msk;
 
     /* Wait for HIRC clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_HIRCSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as HIRC first */
     CLK->CLKSEL0 = (CLK->CLKSEL0 & (~CLK_CLKSEL0_HCLKSEL_Msk)) | CLK_CLKSEL0_HCLKSEL_HIRC;
@@ -265,7 +268,9 @@ void SYS_Init(void)
     CLK->PLLCTL = CLK_PLLCTL_144MHz_HIRC_DIV2;
 
     /* Wait for PLL clock ready */
-    while (!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk));
+    u32TimeOutCnt = __HIRC;
+    while(!(CLK->STATUS & CLK_STATUS_PLLSTB_Msk))
+		if(--u32TimeOutCnt == 0) break;
 
     /* Select HCLK clock source as PLL/2 and HCLK source divider as 1 */
     CLK->CLKDIV0 = (CLK->CLKDIV0 & (~CLK_CLKDIV0_HCLKDIV_Msk)) | CLK_CLKDIV0_HCLK(1);
@@ -298,7 +303,7 @@ void SYS_Init(void)
 
     /* I2C pins enable schmitt trigger */
     PC->SMTEN |= GPIO_SMTEN_SMTEN0_Msk | GPIO_SMTEN_SMTEN1_Msk;
-    
+
 }
 
 void UART0_Init(void)
@@ -427,7 +432,8 @@ int32_t Read_Write_SLAVE(uint8_t slvaddr)
                     /* Set MasterTx abort flag */
                     s_u8MstTxAbortFlag = 1;
                 }
-            } while(s_u8MstEndFlag == 0 && s_u8MstTxAbortFlag == 0);
+            }
+            while(s_u8MstEndFlag == 0 && s_u8MstTxAbortFlag == 0);
 
             s_u8MstEndFlag = 0;
             if(s_u8MstTxAbortFlag)
@@ -452,7 +458,8 @@ int32_t Read_Write_SLAVE(uint8_t slvaddr)
             I2C_SET_CONTROL_REG(I2C0, I2C_CTL_STA);
 
             /* Wait I2C Rx Finish or Unexpected Abort */
-            do {
+            do
+            {
                 if(s_u8TimeoutFlag)
                 {
                     /* When I2C timeout, reset IP */
@@ -464,10 +471,11 @@ int32_t Read_Write_SLAVE(uint8_t slvaddr)
                     /* Set MasterRx abort flag */
                     s_u8MstRxAbortFlag = 1;
                 }
-            } while(s_u8MstEndFlag == 0 && s_u8MstRxAbortFlag == 0);
+            }
+            while(s_u8MstEndFlag == 0 && s_u8MstRxAbortFlag == 0);
             s_u8MstEndFlag = 0;
 
-            if(s_u8MstRxAbortFlag )
+            if(s_u8MstRxAbortFlag)
             {
                 /* Clear MasterRx abort flag */
                 s_u8MstRxAbortFlag = 0;
@@ -485,9 +493,10 @@ int32_t Read_Write_SLAVE(uint8_t slvaddr)
             {
                 printf("I2C Byte Write/Read Failed, Data 0x%x\n", s_u8MstRxData);
                 return -1;
-            }            
+            }
         }
-    } while(s_u8MstReStartFlag); /* If unexpected abort happens, re-start the transmition */
+    }
+    while(s_u8MstReStartFlag);   /* If unexpected abort happens, re-start the transmition */
 
     printf("Master Access Slave (0x%X) Test OK\n", slvaddr);
     return 0;
@@ -575,5 +584,3 @@ int32_t main(void)
 
     while(1);
 }
-
-
