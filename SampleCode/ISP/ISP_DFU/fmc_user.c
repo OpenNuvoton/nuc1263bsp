@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "fmc_user.h"
 
-int FMC_Proc(unsigned int u32Cmd, unsigned int addr_start, unsigned int addr_end, unsigned int *data)
+int FMC_Proc(uint32_t u32Cmd, uint32_t addr_start, uint32_t addr_end, uint32_t *data)
 {
     unsigned int u32Addr, Reg;
     uint32_t u32TimeOutCnt;
