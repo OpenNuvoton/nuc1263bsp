@@ -1,18 +1,23 @@
-LOAD_ROM  0x0
+FLASH 0x00000000
 {
-	FLASH  +0
-	{
-		startup_NUC1263.o (RESET, +FIRST)
-		*.o (+RO)
-	}
+    FLASH +0
+    {
+        startup_NUC1263.o(RESET, +First)
+        startup_NUC1263.o
+        system_NUC1263.o
+        anon$$obj.o
+        init.o
+        entry*.o
+        handlers.o
+    }
 
-	SRAM  0x20000000 0x10000
-	{
-		* (+RW, +ZI)
-	}
+	SRAM1 0x20000000
+    {  
+        * (+RO,+RW)
+    }
 
-	exeinsram.bin 0x20010000 0x4000
+	ZI +0
 	{
-		exeinsram.o (+RO)
+	    *(+ZI)
 	}
 }

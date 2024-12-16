@@ -18,7 +18,7 @@
 #elif defined (__CC_ARM) || defined (__ARMCC_VERSION)
 # define __RAMFUNC
 #elif defined (__GNUC__)
-# define __RAMFUNC __attribute__((long_call, section(".data.ramfunc")))
+# define __RAMFUNC __attribute__((long_call, section(".ramfunc")))
 #endif
 
 void SYS_Init(void)
@@ -143,6 +143,7 @@ int main()
     FMC_Open();
     FMC_ENABLE_AP_UPDATE();
     
+    printf("Will branch to address: 0x%x\n", (uint32_t)Flash_Test);
     
     Flash_Test();
 

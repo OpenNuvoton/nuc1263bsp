@@ -18,7 +18,7 @@
 #elif defined (__CC_ARM) || defined (__ARMCC_VERSION)
 # define __RAMFUNC
 #elif defined (__GNUC__)
-# define __RAMFUNC __attribute__((long_call, section(".data.ramfunc")))
+# define __RAMFUNC __attribute__((long_call, section(".ramfunc")))
 #endif
 
 int32_t g_FMC_i32ErrCode;
@@ -165,6 +165,8 @@ int main()
 
     */
 
+    printf("Will branch to address: 0x%x\n", (uint32_t)Flash_Test);
+    
     Flash_Test();
 
     printf("\nFMC Sample Code Completed.\n");
