@@ -25,13 +25,25 @@ int32_t IAP_Func1(int32_t n);
 int32_t IAP_Func2(int32_t n);
 int32_t IAP_Func3(int32_t n);
 
-
-#pragma location="FUNC_TBL"
-/* FUNCT_SIGN is used to seek the position of the function table */
+#if defined ( __ICCARM__ )
+#pragma location="FUNC_TBL"/* The location of FUNC_TBL is defined in FMC_IAP_LD.icf file. */ 
+__root const uint32_t g_funcTable[] =
+{
+    FUNCT_SIGN, (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
+} ;
+#else
+#if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
+const uint32_t __attribute__((section (".IAPFunTable"))) g_funcTable[] =
+{
+    FUNCT_SIGN, (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
+};
+#else
 const uint32_t g_funcTable[] =
 {
     FUNCT_SIGN, (uint32_t)IAP_Func0, (uint32_t)IAP_Func1, (uint32_t)IAP_Func2, (uint32_t)IAP_Func3
 };
+#endif
+#endif
 
 void SysTickDelay(uint32_t us)
 {
@@ -114,6 +126,9 @@ void UART0_Init(void)
 
 int32_t IAP_Func0(int32_t n)
 {
+#if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
+    return (n * 1);
+#else
     int32_t i;
 
     for(i = 0; i < n; i++)
@@ -122,10 +137,14 @@ int32_t IAP_Func0(int32_t n)
     }
 
     return n;
+#endif
 }
 
 int32_t IAP_Func1(int32_t n)
 {
+#if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
+    return (n * 1);
+#else
     int32_t i;
 
     for(i = 0; i < n; i++)
@@ -134,9 +153,13 @@ int32_t IAP_Func1(int32_t n)
     }
 
     return n;
+#endif
 }
 int32_t IAP_Func2(int32_t n)
 {
+#if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
+    return (n * 1);
+#else
     int32_t i;
 
     for(i = 0; i < n; i++)
@@ -145,9 +168,13 @@ int32_t IAP_Func2(int32_t n)
     }
 
     return n;
+#endif
 }
 int32_t IAP_Func3(int32_t n)
 {
+#if (defined(__GNUC__) && !defined(__ARMCC_VERSION))
+    return (n * 1);
+#else
     int32_t i;
 
     for(i = 0; i < n; i++)
@@ -156,6 +183,7 @@ int32_t IAP_Func3(int32_t n)
     }
 
     return n;
+#endif
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
