@@ -1,8 +1,8 @@
 /* Linker script to configure memory regions. */
 MEMORY
 {
-  FLASH (rx) : ORIGIN = 0x00006000, LENGTH = 0x10000   /* 64k */
-  RAM (rwx)  : ORIGIN = 0x20000000, LENGTH = 0x5000    /* 20k */
+  FLASH (rx) : ORIGIN = FLASH_BASE, LENGTH = 0x10000    /*64K */
+  RAM (rwx)  : ORIGIN = 0x20000000, LENGTH = 0x5000    /* 20K */
 }
 
 /* Library configurations */
@@ -64,11 +64,11 @@ SECTIONS
 		*(.ctors)
 
 		/* .dtors */
-		*crtbegin.o(.dtors)
-		*crtbegin?.o(.dtors)
-		*(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
-		*(SORT(.dtors.*))
-		*(.dtors)
+ 		*crtbegin.o(.dtors)
+ 		*crtbegin?.o(.dtors)
+ 		*(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ 		*(SORT(.dtors.*))
+ 		*(.dtors)
 
 		*(.rodata*)
 
@@ -120,6 +120,8 @@ SECTIONS
 		__zero_table_end__ = .;
 	} > FLASH
 	*/
+	
+	
 
 	__etext = .;
 
