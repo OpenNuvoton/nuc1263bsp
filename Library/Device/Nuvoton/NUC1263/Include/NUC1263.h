@@ -154,7 +154,6 @@ extern void SystemInit(void);
 #include "wwdt_reg.h"
 #include "crc_reg.h"
 #include "i3cs_reg.h"
-#include "spdh_reg.h"
 
 
 /******************************************************************************/
