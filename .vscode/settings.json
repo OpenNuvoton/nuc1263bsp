@@ -1,0 +1,6 @@
+{
+    "debug.hideSlowPreLaunchWarning": true,
+    "clangd.arguments": [
+        "--compile-commands-dir=c:\\git\\NUC1263_1118\\SampleCode\\RegBased\\CRC_CRC32\\VSCode\\out\\CRC_CRC32\\GNUC\\release"
+    ]
+}

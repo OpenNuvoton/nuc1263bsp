@@ -390,9 +390,9 @@
               <FilePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\system_NUC1263.c</FilePath>
             </File>
             <File>
-              <FileName>startup_NUC1263.s</FileName>
+              <FileName>startup_NUC1263.S</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.s</FilePath>
+              <FilePath>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.S</FilePath>
             </File>
           </Files>
         </Group>

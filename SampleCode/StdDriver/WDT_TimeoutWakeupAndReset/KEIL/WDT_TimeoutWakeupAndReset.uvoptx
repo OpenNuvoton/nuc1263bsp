@@ -182,8 +182,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.s</PathWithFileName>
-      <FilenameWithoutPath>startup_NUC1263.s</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\NUC1263\Source\ARM\startup_NUC1263.S</PathWithFileName>
+      <FilenameWithoutPath>startup_NUC1263.S</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
