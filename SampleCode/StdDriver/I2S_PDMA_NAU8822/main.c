@@ -200,8 +200,8 @@ void PDMA_Init(void)
     PDMA_SetTransferMode(2, PDMA_SPI0_RX, 1, (uint32_t)&g_asDescTable_RX[0]);
 
     /* Enable PDMA channel 1&2 interrupt */
-    PDMA_EnableInt(1, 0);
-    PDMA_EnableInt(2, 0);
+    PDMA_EnableInt(1, PDMA_INT_TRANS_DONE);
+    PDMA_EnableInt(2, PDMA_INT_TRANS_DONE);
 
     NVIC_EnableIRQ(PDMA_IRQn);
 }
