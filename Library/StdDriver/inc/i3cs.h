@@ -101,10 +101,10 @@ extern "C"
 #define I3CS_STS_SUCCESS                     (0L)       /*!< Return success */
 #define I3CS_STS_TX_FULL                     (-1L)      /*!< Return TX FIFO full */
 #define I3CS_STS_CMDQ_FULL                   (-3L)      /*!< Return Command Queue full */
-#define I3CS_STS_RESPQ_EMPTY                 (-4L)      /*!< Return Response Queue empty */  
-#define I3CS_STS_DMA_ERR                     (-5L)      /*!< Return DMA error */ 
-#define I3CS_STS_INVALID_INPUT               (-1000L)   /*!< Return invalid input parameter */ 
-#define I3CS_STS_INVALID_STATE               (-2000L)   /*!< Return invalid/unexpected state */ 
+#define I3CS_STS_RESPQ_EMPTY                 (-4L)      /*!< Return Response Queue empty */
+#define I3CS_STS_DMA_ERR                     (-5L)      /*!< Return DMA error */
+#define I3CS_STS_INVALID_INPUT               (-1000L)   /*!< Return invalid input parameter */
+#define I3CS_STS_INVALID_STATE               (-2000L)   /*!< Return invalid/unexpected state */
 
 #define I3CS_TIMEOUT_ERR                     (-1L)      /*!< I3CS operation abort due to timeout error */
 
@@ -194,7 +194,7 @@ extern "C"
   * @return     The Command Queue empty threshold value
   *
   * @details    This macro gets the Command Queue empty threshold value.
-  *             It affects the I3CS_INTSTS[3] CMDRDY (Command Queue Ready Status).  
+  *             It affects the I3CS_INTSTS[3] CMDRDY (Command Queue Ready Status).
   *             A value of 0 sets the threshold to generate a CMDRDY status when the queue is completely empty.
   *             A value of N sets the threshold to generate a CMDRDY status when at least N empty queues.
   */
@@ -230,7 +230,7 @@ extern "C"
   *
   * @retval     0       Command Queue is not full
   * @retval     1       Command Queue is full
-  * 
+  *
   * @details    This macro checks if the Command Queue is full determined by I3CS_QUESTSLV[7:0] CMDELOC (Command Queue Empty Locations).
   */
 #define I3CS_IS_CMDQ_FULL(i3cs)             ((((i3cs)->QUESTSLV&I3CS_QUESTSLV_CMDELOC_Msk)==0)? 1:0)
@@ -242,7 +242,7 @@ extern "C"
   *
   * @retval     0       TX FIFO is not full
   * @retval     1       TX FIFO is full
-  * 
+  *
   * @details    This macro checks if the TX FIFO is full determined by I3CS_DBSTSLV[7:0] TXELV (Transmit Buffer Empty Level Value).
   */
 #define I3CS_IS_TX_FULL(i3cs)               ((((i3cs)->DBSTSLV&I3CS_DBSTSLV_TXELV_Msk)==0)? 1:0)
@@ -317,7 +317,7 @@ extern "C"
   * @param[in]  i3cs    The pointer of the specified I3CS module
   *
   * @return     None
-  * 
+  *
   * @details    This macro clears CCC UPDATED status.
   */
 #define I3CS_CLEAR_CCC_UPDATED_STATUS(i3cs) ((i3cs)->INTSTS = I3CS_INTSTS_CCCUPD_Msk)
@@ -328,7 +328,7 @@ extern "C"
   * @param[in]  i3cs    The pointer of the specified I3CS module
   *
   * @return     None
-  * 
+  *
   * @details    This macro clears Dynamic Address Assigned status.
   */
 #define I3CS_CLEAR_DA_ASSIGNED_STATUS(i3cs) ((i3cs)->INTSTS = I3CS_INTSTS_DAA_Msk)
@@ -339,7 +339,7 @@ extern "C"
   * @param[in]  i3cs    The pointer of the specified I3CS module
   *
   * @return     None
-  * 
+  *
   * @details    This macro clears transfer error status.
   */
 #define I3CS_CLEAR_TRANSFER_ERR_STATUS(i3cs)    ((i3cs)->INTSTS = I3CS_INTSTS_TFRERR_Msk)
@@ -350,7 +350,7 @@ extern "C"
   * @param[in]  i3cs    The pointer of the specified I3CS module
   *
   * @return     None
-  * 
+  *
   * @details    This macro clears read request received status.
   */
 #define I3CS_CLEAR_READ_REQUEST_STATUS(i3cs)    ((i3cs)->INTSTS = I3CS_INTSTS_READREQ_Msk)
@@ -361,7 +361,7 @@ extern "C"
   * @param[in]  i3cs     The pointer of the specified I3CS module
   *
   * @return     None
-  * 
+  *
   * @details    This macro clears IBI request status.
   */
 #define I3CS_CLEAR_IBI_UPDATED_STATUS(i3cs)     ((i3cs)->INTSTS = I3CS_INTSTS_IBIUPD_Msk)
@@ -380,11 +380,11 @@ extern "C"
 /**
   * @brief      Check Response Status is No Error
   *
-  * @param[in]  i3cs    The pointer of the specified I3CS module
+  * @param[in]  resp    The received response data
   *
   * @retval     0       Response has error
   * @retval     1       Response has no error
-  * 
+  *
   * @details    This macro checks if response status is error free.
   */
 #define I3CS_IS_RESP_NO_ERR(resp)           ((((resp)&I3CS_RESPQUE_ERRSTS_Msk)==0)? 1:0)
@@ -392,11 +392,11 @@ extern "C"
 /**
   * @brief      Check Response Status is Receive or Transmit
   *
-  * @param[in]  i3cs    The pointer of the specified I3CS module
+  * @param[in]  resp    The received response data
   *
   * @retval     0       Transmit response status
   * @retval     1       Receive response status
-  * 
+  *
   * @details    This macro checks if receive response status.
   */
 #define I3CS_IS_RESP_RX(resp)               ((((resp)&I3CS_RESPQUE_RXRESP_Msk)==0)? 0:1)
@@ -404,7 +404,7 @@ extern "C"
 /**
   * @brief      Get Transmit Transaction ID
   *
-  * @param[in]  i3cs    The pointer of the specified I3CS module
+  * @param[in]  resp    The received response data
   *
   * @return     The Transmit Transaction ID
   *
@@ -415,7 +415,7 @@ extern "C"
 /**
   * @brief      Get HDR Command Code
   *
-  * @param[in]  i3cs    The pointer of the specified I3CS module
+  * @param[in]  resp    The received response data
   *
   * @return     The HDR Command Code
   *
@@ -426,7 +426,7 @@ extern "C"
 /**
   * @brief      Get Data Length
   *
-  * @param[in]  i3cs    The pointer of the specified I3CS module
+  * @param[in]  resp    The received response data
   *
   * @return     The data length in bytes
   *
@@ -463,7 +463,7 @@ extern "C"
   *
   * @return     The device operation status
   *
-  * @details    This macro gets the device operation status, 
+  * @details    This macro gets the device operation status,
   *             this data is also used for the I3CS Slave controller sends in response to GETSTATUS CCC by the Master.
   */
 #define I3CS_GET_DEVICE_STATUS(i3cs)        ((i3cs)->CCCDEVS)
@@ -475,7 +475,7 @@ extern "C"
   *
   * @return     The pending interrupt number
   *
-  * @details    This macro gets the pending interrupt number. 
+  * @details    This macro gets the pending interrupt number.
   */
 #define I3CS_GET_PENDING_INT(i3cs)          (((i3cs)->CCCDEVS&I3CS_CCCDEVS_PENDINT_Msk) >> I3CS_CCCDEVS_PENDINT_Pos)
 
@@ -486,11 +486,11 @@ extern "C"
   *
   * @retval     0       Protocol error did not occur
   * @retval     1       Protocol error occurred
-  * 
+  *
   * @details    This macro checks if protocol error occurred. This status can be cleared after receiving GETSTATUS CCC.
   */
 #define I3CS_IS_PROTOCOL_ERR(i3cs)          ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_PROTERR_Msk)==0)? 0:1)
-  
+
 /**
   * @brief      Check Underflow Error Occurred
   *
@@ -498,7 +498,7 @@ extern "C"
   *
   * @retval     0       Underflow error did not occur
   * @retval     1       Underflow error occurred
-  * 
+  *
   * @details    This macro checks if underflow error occurred. This status can be cleared after receiving GETSTATUS CCC.
   */
 #define I3CS_IS_UNDERFLOW_ERR(i3cs)         ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_UDFERR_Msk)==0)? 0:1)
@@ -510,7 +510,7 @@ extern "C"
   *
   * @retval     0       Slave busy status error did not occur
   * @retval     1       Slave busy status occurred
-  * 
+  *
   * @details    This macro checks if Slave busy status occurred. This status can be cleared after the RESUME operation is complete.
   */
 #define I3CS_IS_SLAVE_BUSY(i3cs)            ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_SLVBUSY_Msk)==0)? 0:1)
@@ -522,7 +522,7 @@ extern "C"
   *
   * @retval     0       Overflow error did not occur
   * @retval     1       Overflow error occurred
-  * 
+  *
   * @details    This macro checks if overflow error occurred. This status can be cleared after receiving GETSTATUS CCC.
   */
 #define I3CS_IS_OVERFLOW_ERR(i3cs)          ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_OVFERR_Msk)==0)? 0:1)
@@ -534,8 +534,8 @@ extern "C"
   *
   * @retval     0       Data not ready status did not occur
   * @retval     1       Data not ready status occurred
-  * 
-  * @details    This macro checks if data not ready status occurred. 
+  *
+  * @details    This macro checks if data not ready status occurred.
   *             This status can be cleared after receiving GETSTATUS CCC or successful the next Slave write transfer.
   */
 #define I3CS_IS_DATA_NOT_READY(i3cs)        ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_DATNRDY_Msk)==0)? 0:1)
@@ -547,8 +547,8 @@ extern "C"
   *
   * @retval     0       Buffer not available status did not occur
   * @retval     1       Buffer not available status occurred
-  * 
-  * @details    This macro checks if buffer not available status occurred. 
+  *
+  * @details    This macro checks if buffer not available status occurred.
   *             This status can be cleared after receiving GETSTATUS CCC or successful the next Slave read transfer.
   */
 #define I3CS_IS_BUFFER_NOT_AVAIL(i3cs)      ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_BFNAVAIL_Msk)==0)? 0:1)
@@ -560,7 +560,7 @@ extern "C"
   *
   * @retval     0       Frame error did not occur
   * @retval     1       Frame error occurred
-  * 
+  *
   * @details    This macro checks if frame error occurred. This status can be cleared after receiving GETSTATUS CCC.
   */
 #define I3CS_IS_FRAME_ERR(i3cs)             ((((i3cs)->CCCDEVS&I3CS_CCCDEVS_FRAMEERR_Msk)==0)? 0:1)
@@ -589,13 +589,13 @@ __STATIC_INLINE void    I3CS_DisableDMA(I3CS_T *i3cs);
 __STATIC_INLINE int32_t I3CS_Enable(I3CS_T *i3cs)
 {
     volatile uint32_t u32Timeout;
-    
+
     i3cs->DEVCTL |= I3CS_DEVCTL_ENABLE_Msk;
     u32Timeout = (SystemCoreClock / 1000);
     while(((i3cs->DEVCTL&I3CS_DEVCTL_SYNC_Msk) == I3CS_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
         return I3CS_TIMEOUT_ERR;
-        
+
     return I3CS_STS_NO_ERR;
 }
 
@@ -613,19 +613,19 @@ __STATIC_INLINE int32_t I3CS_Enable(I3CS_T *i3cs)
 __STATIC_INLINE int32_t I3CS_Disable(I3CS_T *i3cs)
 {
     volatile uint32_t u32Timeout;
-        
-    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;    
+
+    i3cs->DEVCTL &= ~I3CS_DEVCTL_ENABLE_Msk;
     u32Timeout = (SystemCoreClock / 1000);
     while(((i3cs->DEVCTL&I3CS_DEVCTL_SYNC_Msk) == I3CS_DEVCTL_SYNC_Msk) && (--u32Timeout)) {}
     if(u32Timeout == 0)
-        return I3CS_TIMEOUT_ERR;        
-    
-    /* Do not add time-out to check if disabled operation completed, 
+        return I3CS_TIMEOUT_ERR;
+
+    /* Do not add time-out to check if disabled operation completed,
        it needs at least two bus SCL to complete the disable operation. */
-    /* Waiting for the disabled operation completed can prevent the I3CS from accidentally pulling SDA low 
+    /* Waiting for the disabled operation completed can prevent the I3CS from accidentally pulling SDA low
        when executing the enable I3CS controller again */
     while(((i3cs->DEVCTL&I3CS_DEVCTL_ENABLE_Msk) == I3CS_DEVCTL_ENABLE_Msk)) {}
-        
+
     return I3CS_STS_NO_ERR;
 }
 
@@ -664,7 +664,7 @@ int32_t I3CS_ResetAndResume(I3CS_T *i3cs, uint32_t u32ResetMask, uint32_t u32Ena
 int32_t I3CS_ParseRespQueue(I3CS_T *i3cs, uint32_t *pu32RespQ);
 int32_t I3CS_SetCmdQueueAndData(I3CS_T *i3cs, uint8_t u8TID, uint32_t *pu32TxBuf, uint16_t u16WriteBytes);
 int32_t I3CS_SendIBIRequest(I3CS_T *i3cs, uint8_t u8MandatoryData, uint32_t u32PayloadData, uint8_t u8PayloadLen);
-int32_t I3CS_DisableHJRequest(I3CS_T *i3cs); 
+int32_t I3CS_DisableHJRequest(I3CS_T *i3cs);
 int32_t I3CS_RespErrorRecovery(I3CS_T *i3cs, uint32_t u32RespStatus);
 
 /*@}*/ /* end of group I3CS_EXPORTED_FUNCTIONS */
