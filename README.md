@@ -23,8 +23,8 @@ This BSP folder
 - Device<br>
 	CMSIS compliant device header file.
 
-- SpdhLib<br>
-	Library of SPD5 Hub.
+- LlsiYcableLib<br>
+	Control LED lighting effects header file.
 
 - StdDriver<br>
 	All peripheral driver header and source files.
